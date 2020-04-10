@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/general",
+            "lambdaFunction": "general",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "general",
+    "apiName": "general",
+    "functionArns": [
+        {
+            "lambdaFunction": "general"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-johnhubbertswebsite-prod-175237-authRole",
+        "unAuthRoleName": "amplify-johnhubbertswebsite-prod-175237-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "general",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}
