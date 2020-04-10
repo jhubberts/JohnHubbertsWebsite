@@ -1,0 +1,15 @@
+{
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-johnhubbertswebsite-prod-175237-authRole",
+            "UnauthRoleArn": "arn:aws:iam::568140922926:role/amplify-johnhubbertswebsite-prod-175237-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::568140922926:role/amplify-johnhubbertswebsite-prod-175237-authRole",
+            "Region": "us-west-2",
+            "DeploymentBucketName": "amplify-johnhubbertswebsite-prod-175237-deployment",
+            "UnauthRoleName": "amplify-johnhubbertswebsite-prod-175237-unauthRole",
+            "StackName": "amplify-johnhubbertswebsite-prod-175237",
+            "StackId": "arn:aws:cloudformation:us-west-2:568140922926:stack/amplify-johnhubbertswebsite-prod-175237/93293a00-7ac5-11ea-a983-022002055f0c",
+            "AmplifyAppId": "d9lkfdk1rbfhe"
+        }
+    }
+}
