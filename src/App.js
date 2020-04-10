@@ -1,14 +1,21 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import './App.css';
-import ConnectivityChecker from './components/ConnectivityChecker';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>Under Renovation</h1>
-      <ConnectivityChecker/>
-    </div>
+import HomePage from "./components/HomePage/HomePage";
+import SiteHealth from "./components/SiteHealth/SiteHealth";
+import NotFound from "./components/NotFound/NotFound";
+
+const App = () => {
+  const router = (
+    <Switch>
+      <Route exact path="/" component={HomePage} />
+      <Route exact path="/health" component={SiteHealth} />
+      <Route component={NotFound} />
+    </Switch>
   );
-}
+
+  return router;
+};
 
 export default App;
