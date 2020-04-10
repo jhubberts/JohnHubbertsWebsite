@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 
-const AUTOGEN_API = "https://yxhgluw0ig.execute-api.us-west-2.amazonaws.com/prod/api/general/hello";
-const CUSTOM_API = "https://api.johnhubberts.com/api/general/hello";
+const AUTOGEN_API = "https://yxhgluw0ig.execute-api.us-west-2.amazonaws.com/prod/general/hello";
+const CUSTOM_API = "https://api.johnhubberts.com/general/hello";
 
 export default class ConnectivityChecker extends React.Component {
   constructor(props) {
