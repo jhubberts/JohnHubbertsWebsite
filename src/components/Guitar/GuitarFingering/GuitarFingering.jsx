@@ -1,0 +1,203 @@
+import React, {useRef, useEffect} from "react";
+
+const guitarStringToZeroOffset = (stringNum) => {
+  return 6 - stringNum;
+};
+
+const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret, singles, barres) => {
+  const fretboardOriginX = stringSpacing * 1.5;
+  const fretboardOriginY = fretSpacing; // Leave room for annotations
+
+  const fretboardWidth = stringSpacing * 5; // 6 strings = 5 gaps between strings
+  const nFrets = (endFret - startFret);
+  const fretboardHeight = fretSpacing * (nFrets + 1);
+
+  const fingerNumberFontSize = stringSpacing * 0.5;
+  const fingerNumberFont = `bold ${fingerNumberFontSize}px Arial`;
+  const fretNumberFontSize = stringSpacing * 0.35;
+
+  // Draw strings
+  for (var i = 0; i < 6; i++) {
+    ctx.beginPath();
+    ctx.moveTo(fretboardOriginX + i * stringSpacing, fretboardOriginY);
+    ctx.lineTo(fretboardOriginX + i * stringSpacing, fretboardOriginY + fretboardHeight);
+    ctx.closePath();
+    ctx.stroke();
+  }
+
+  // Draw the frets. One more line than there are frets, so we'll not draw a number the last time
+  for (var i = 0; i <= nFrets + 1; i++) {
+    ctx.beginPath();
+    ctx.moveTo(fretboardOriginX, fretboardOriginY + i * fretSpacing);
+    ctx.lineTo(fretboardOriginX + fretboardWidth, fretboardOriginY + i * fretSpacing);
+    ctx.closePath();
+    ctx.stroke();
+
+    if (i == nFrets + 1) {
+      break;
+    }
+
+    // And number them
+    ctx.font = `${fretNumberFontSize}px Arial`;
+    ctx.fillStyle = 'black';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText((startFret + i).toString(), stringSpacing / 2, fretboardOriginY + ((i + 0.5) * fretSpacing));
+  }
+
+  // Non-barre fingers
+  for (let singlesIdx in singles) {
+    const single = singles[singlesIdx];
+    const rootStyling = !!single.isRoot;
+    const labelFinger = !!single.finger;
+
+    const singleCenterX = fretboardOriginX + guitarStringToZeroOffset(single.string) * stringSpacing;
+    const singleCenterY = fretboardOriginY + (fretSpacing / 2) + (single.fret - startFret) * fretSpacing;
+    const singleRadius = stringSpacing * 0.4;
+
+    ctx.beginPath();
+    ctx.arc(singleCenterX, singleCenterY, singleRadius, 0, Math.PI * 2, false);
+    ctx.fillStyle = rootStyling ? "white" : "black";
+    ctx.fill();
+
+    if (rootStyling) {
+      ctx.beginPath();
+      ctx.arc(singleCenterX, singleCenterY, singleRadius, 0, Math.PI * 2, false);
+      ctx.strokeStyle = "black";
+      ctx.stroke();
+    }
+
+    if (labelFinger) {
+      ctx.font = fingerNumberFont;
+      ctx.fillStyle = rootStyling ? "black" : "white";
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(single.finger.toString(), singleCenterX, singleCenterY);
+    }
+  }
+
+  for (let barresIdx in barres) {
+    const barre = barres[barresIdx];
+    const labelFinger = !!barre.finger;
+
+    const barreStartCenterX = fretboardOriginX  + guitarStringToZeroOffset(barre.startString) * stringSpacing;
+    const barreCenterY = fretboardOriginY + (fretSpacing / 2) + (barre.fret - startFret) * fretSpacing;
+    const barreRadius = stringSpacing * 0.4;
+    const barreWidth = barre.startString - barre.endString; // Because reversed naming convention
+
+    ctx.beginPath();
+    ctx.fillStyle = 'black';
+    ctx.arc(barreStartCenterX, barreCenterY, barreRadius, Math.PI / 2, -Math.PI / 2, false);
+    ctx.arc(barreStartCenterX + barreWidth * stringSpacing, barreCenterY, barreRadius, -Math.PI / 2, Math.PI / 2);
+    ctx.fill();
+
+    if (labelFinger) {
+      ctx.font = fingerNumberFont;
+      ctx.fillStyle = "white";
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(barre.finger.toString(), barreStartCenterX + (barreWidth * stringSpacing / 2), barreCenterY);
+    }
+  }
+};
+
+const chords = {
+  "AMaj Barre": {
+    singles: [{
+      finger: 2,
+      string: 3,
+      fret: 6
+    }, {
+      finger: 3,
+      string: 5,
+      fret: 7
+    }, {
+      finger: 4,
+      string: 4,
+      fret: 7
+    }],
+    barres: [{
+      finger: 1,
+      startString: 6,
+      endString: 1,
+      fret: 5
+    }]
+  },
+  "DMin7": {
+    singles: [{
+      finger: 1,
+      string: 5,
+      fret: 5,
+      isRoot: true
+    }, {
+      finger: 2,
+      string: 3,
+      fret: 5
+    }, {
+      finger: 3,
+      string: 4,
+      fret: 7
+    }, {
+      finger: 4,
+      string: 2,
+      fret: 6
+    }]
+  }
+};
+
+const GuitarFingering = (props) => {
+  const canvasRef = React.useRef(null, [props.chordName]);
+
+  const stringSpacing = props.width / 7;
+  const fretSpacing = (stringSpacing * 5) / 4;
+  const chord = chords[props.chordName];
+
+  let startFret = 1000;
+  let endFret = -1;
+
+  if (chord.singles) {
+    chord.singles.forEach((single) => {
+      if (single.fret < startFret) {
+        startFret = single.fret
+      }
+
+      if (single.fret > endFret) {
+        endFret = single.fret
+      }
+    })
+  }
+
+  if (chord.barres) {
+    chord.barres.forEach((barre) => {
+      if (barre.fret < startFret) {
+        startFret = barre.fret
+      }
+
+      if (barre.fret > endFret) {
+        endFret = barre.fret
+      }
+    })
+  }
+
+  startFret -= 1;
+  endFret += 1;
+
+  const height = fretSpacing * ((endFret - startFret) + 3); // 1 for annotation on each side, and one for extra render
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres);
+  }, [props.chordName]);
+
+  return (
+    <div>
+      <canvas ref={canvasRef} width={props.width} height={height}/>
+    </div>
+  );
+};
+
+export default GuitarFingering;

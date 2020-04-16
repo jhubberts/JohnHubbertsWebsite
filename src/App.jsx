@@ -12,6 +12,7 @@ import NotFound from "./components/NotFound/NotFound";
 import AboutPage from "./components/AboutPage/AboutPage";
 import ContactPage from "./components/ContactPage/ContactPage";
 import ProjectsPage from "./components/ProjectsPage/ProjectsPage";
+import ChordLibraryPage from "./components/Guitar/ChordLibraryPage/ChordLibraryPage";
 
 function App () {
   const navbar = (
@@ -37,6 +38,7 @@ function App () {
           <Route exact path="/contact" component={ContactPage} />
           <Route exact path="/projects" component={ProjectsPage} />
           <Route exact path="/health" component={SiteHealth} />
+          <Route exact path="/guitar" component={ChordLibraryPage} />
           <Route component={NotFound} />
         </Switch>
       </Container>
