@@ -101,56 +101,12 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
   }
 };
 
-const chords = {
-  "AMaj Barre": {
-    singles: [{
-      finger: 2,
-      string: 3,
-      fret: 6
-    }, {
-      finger: 3,
-      string: 5,
-      fret: 7
-    }, {
-      finger: 4,
-      string: 4,
-      fret: 7
-    }],
-    barres: [{
-      finger: 1,
-      startString: 6,
-      endString: 1,
-      fret: 5
-    }]
-  },
-  "DMin7": {
-    singles: [{
-      finger: 1,
-      string: 5,
-      fret: 5,
-      isRoot: true
-    }, {
-      finger: 2,
-      string: 3,
-      fret: 5
-    }, {
-      finger: 3,
-      string: 4,
-      fret: 7
-    }, {
-      finger: 4,
-      string: 2,
-      fret: 6
-    }]
-  }
-};
-
 const GuitarFingering = (props) => {
-  const canvasRef = React.useRef(null, [props.chordName]);
+  const canvasRef = React.useRef(null, [props.chord]);
 
   const stringSpacing = props.width / 7;
   const fretSpacing = (stringSpacing * 5) / 4;
-  const chord = chords[props.chordName];
+  const chord = props.chord;
 
   let startFret = 1000;
   let endFret = -1;
@@ -191,7 +147,7 @@ const GuitarFingering = (props) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres);
-  }, [props.chordName]);
+  }, [props.chord]);
 
   return (
     <div>
