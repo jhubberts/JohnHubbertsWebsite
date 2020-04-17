@@ -1,6 +1,7 @@
 {
   "maj7": [{
     "label": "5th Root #1",
+    "annotations": ["", "1", "5", "7", "3", ""],
     "singles": [{
       "finger": 1,
       "string": 5,
@@ -21,6 +22,7 @@
     }]
   }, {
     "label": "5th Root #2",
+    "annotations": ["", "1", "", "7", "3", "5"],
     "singles": [{
       "finger": 1,
       "string": 5,
@@ -41,6 +43,7 @@
     }]
   }, {
     "label": "6th Root",
+    "annotations": ["1", "", "7", "3", "5", ""],
     "singles": [{
       "finger": 1,
       "string": 6,
@@ -61,6 +64,7 @@
     }]
   }, {
     "label": "Lean 6th Root",
+    "annotations": ["1", "", "7", "3", "", ""],
     "singles": [{
       "finger": 1,
       "string": 6,
@@ -78,6 +82,7 @@
   }],
   "min7": [{
     "label": "1st Root",
+    "annotations": ["", "", "b7", "b3", "5", "1"],
     "singles": [{
       "finger": 1,
       "string": 4,
@@ -98,6 +103,7 @@
     }]
   }, {
     "label": "5th Root #1",
+    "annotations": ["", "1", "5", "b7", "b3", ""],
     "singles": [{
       "finger": 1,
       "string": 5,
@@ -108,16 +114,17 @@
       "string": 3,
       "fret": 3
     }, {
-      "finger": 3,
+      "finger": 4,
       "string": 4,
       "fret": 5
     }, {
-      "finger": 4,
+      "finger": 3,
       "string": 2,
       "fret": 4
     }]
   }, {
     "label": "5th Root #2",
+    "annotations": ["", "1", "", "b7", "b3", "5"],
     "singles": [{
       "finger": 1,
       "string": 5,
@@ -134,10 +141,11 @@
     }, {
       "finger": 4,
       "string": 2,
-      "fret": 5
+      "fret": 4
     }]
   },{
     "label": "6th Root",
+    "annotations": ["1", "", "b7", "b3", "5", ""],
     "singles": [{
       "finger": 1,
       "string": 6,
@@ -159,6 +167,7 @@
   }],
   "min7b5": [{
     "label": "5th Root",
+    "annotations": ["", "1", "b5", "b7", "b3", ""],
     "singles": [{
       "finger": 1,
       "string": 5,
@@ -179,6 +188,7 @@
     }]
   }, {
     "label": "6th Root",
+    "annotations": ["1", "", "b7", "b3", "b5", ""],
     "singles": [{
       "finger": 1,
       "string": 2,
@@ -200,6 +210,7 @@
   }],
   "min9": [{
     "label": "5th Root",
+    "annotations": ["", "1", "b3", "b7", "9", ""],
     "singles": [{
       "finger": 1,
       "string": 4,
@@ -219,8 +230,30 @@
       "fret": 3
     }]
   }],
+  "maj9": [{
+    "label": "Rootless #1",
+    "annotations": ["", "", "7", "3", "5", "9"],
+    "singles": [{
+      "finger": 1,
+      "string": 2,
+      "fret": 8
+    }, {
+      "finger": 2,
+      "string": 4,
+      "fret": 9
+    }, {
+      "finger": 3,
+      "string": 3,
+      "fret": 9
+    }, {
+      "finger": 4,
+      "string": 1,
+      "fret": 10
+    }]
+  }],
   "9": [{
     "label": "5th Root",
+    "annotations": ["", "1", "3", "b7", "9", ""],
     "singles": [{
       "finger": 1,
       "string": 4,
@@ -239,9 +272,50 @@
       "string": 2,
       "fret": 3
     }]
+  }, {
+    "label": "Rootless #1",
+    "annotations": ["", "", "3", "b7", "9", "5"],
+    "singles": [{
+      "finger": 1,
+      "string": 4,
+      "fret": 2
+    }, {
+      "finger": 2,
+      "string": 3,
+      "fret": 3
+    }, {
+      "finger": 3,
+      "string": 2,
+      "fret": 3
+    }, {
+      "finger": 4,
+      "string": 1,
+      "fret": 3
+    }]
+  }, {
+    "label": "Rootless #2",
+    "annotations": ["", "5", "", "3", "b7", "9"],
+    "singles": [{
+      "finger": 1,
+      "string": 3,
+      "fret": 9
+    }, {
+      "finger": 2,
+      "string": 5,
+      "fret": 10
+    }, {
+      "finger": 3,
+      "string": 1,
+      "fret": 10
+    }, {
+      "finger": 4,
+      "string": 2,
+      "fret": 11
+    }]
   }],
   "7b13": [{
     "label": "6th Root",
+    "annotations": ["1", "", "b7", "3", "b13", ""],
     "singles": [{
       "finger": 1,
       "string": 6,
@@ -263,6 +337,7 @@
   }],
   "13": [{
     "label": "6th Root",
+    "annotations": ["1", "", "b7", "3", "13", ""],
     "singles": [{
       "finger": 1,
       "string": 6,
@@ -284,6 +359,7 @@
   }],
   "°7": [{
     "label": "5th Root",
+    "annotations": ["", "1", "b5", "bb7", "b3", ""],
     "singles": [{
       "finger": 1,
       "string": 3,
@@ -301,6 +377,25 @@
       "finger": 4,
       "string": 2,
       "fret": 4
+    }]
+  }, {
+    "label": "Mini Barre",
+    "annotations": ["", "1", "b5", "bb7", "b3", ""],
+    "singles": [{
+      "finger": 2,
+      "string": 6,
+      "fret": 8,
+      "isRoot": true
+    }, {
+      "finger": 3,
+      "string": 3,
+      "fret": 8
+    }],
+    "barres": [{
+      "finger": 1,
+      "startString": 4,
+      "endString": 2,
+      "fret": 7
     }]
   }]
 }

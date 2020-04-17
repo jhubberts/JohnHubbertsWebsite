@@ -4,7 +4,7 @@ const guitarStringToZeroOffset = (stringNum) => {
   return 6 - stringNum;
 };
 
-const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret, singles, barres) => {
+const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret, singles, barres, annotations) => {
   const fretboardOriginX = stringSpacing * 1.5;
   const fretboardOriginY = fretSpacing; // Leave room for annotations
 
@@ -14,7 +14,8 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
 
   const fingerNumberFontSize = stringSpacing * 0.5;
   const fingerNumberFont = `bold ${fingerNumberFontSize}px Arial`;
-  const fretNumberFontSize = stringSpacing * 0.35;
+  const annotationFontSize = stringSpacing * 0.35;
+  const annotationFont = `${annotationFontSize}px Arial`;
 
   // Draw strings
   for (var i = 0; i < 6; i++) {
@@ -38,7 +39,7 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
     }
 
     // And number them
-    ctx.font = `${fretNumberFontSize}px Arial`;
+    ctx.font = annotationFont;
     ctx.fillStyle = 'black';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -99,6 +100,16 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
       ctx.fillText(barre.finger.toString(), barreStartCenterX + (barreWidth * stringSpacing / 2), barreCenterY);
     }
   }
+
+  for (let annotationIdx in annotations) {
+    const annotationX = fretboardOriginX + annotationIdx * stringSpacing;
+    const annotationY = fretboardOriginY + fretboardHeight + fretSpacing * 0.5;
+    ctx.font = annotationFont;
+    ctx.fillStyle = "black";
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(annotations[annotationIdx], annotationX, annotationY);
+  }
 };
 
 const GuitarFingering = (props) => {
@@ -107,6 +118,7 @@ const GuitarFingering = (props) => {
   const stringSpacing = props.width / 7;
   const fretSpacing = (stringSpacing * 5) / 4;
   const chord = props.chord;
+  const annotations = props.chord.annotations || ["", "", "", "", "", ""];
 
   let startFret = 1000;
   let endFret = -1;
@@ -146,7 +158,7 @@ const GuitarFingering = (props) => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres);
+    drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres, annotations);
   }, [props.chord]);
 
   return (

@@ -35,14 +35,29 @@ const canonicalNotes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A
 
 const getChord = (note, type, idx) => {
   const shape = rootedShapes[type].filter((someShape) => someShape.label === idx)[0];
-  const chord = {singles: []};
+  const chord = {singles: [], barres: []};
+
+  if (shape.annotations) {
+    Object.assign(chord, {annotations: shape.annotations});
+  }
+
   const transposeDistance = noteNameToIdx[note]; // All of these are C fingerings
-  const shouldGoDown = (shape.singles.filter((single) => single.isRoot)[0].fret + transposeDistance) > 13;
+
+
+  const shouldGoDown = Math.min(shape.singles.map((single) => single.fret)) > 13 || (shape.barres  && Math.min(shape.barres.map((barre) => barre.fret)) > 13);
 
   shape.singles.forEach((single) => chord.singles.push(Object.assign({}, single)));
+  if (shape.barres) {
+    shape.barres.forEach((barre) => chord.barres.push(Object.assign({}, barre)));
+  }
+
   chord.singles.forEach((single) => single.fret = shouldGoDown ?
     single.fret + transposeDistance - 12:
     single.fret + transposeDistance);
+
+  chord.barres.forEach((barre) => barre.fret = shouldGoDown ?
+    barre.fret + transposeDistance - 12:
+    barre.fret + transposeDistance);
 
   return chord;
 };
