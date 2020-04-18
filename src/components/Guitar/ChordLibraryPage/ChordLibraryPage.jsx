@@ -1,9 +1,6 @@
 import React, {useState} from 'react'
 
-import Button from 'react-bootstrap/Button'
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import { Container, FormControl, Select, MenuItem, InputLabel } from '@material-ui/core';
 
 import GuitarFingering from "../GuitarFingering/GuitarFingering";
 
@@ -43,7 +40,6 @@ const getChord = (note, type, idx) => {
 
   const transposeDistance = noteNameToIdx[note]; // All of these are C fingerings
 
-
   const shouldGoDown = Math.min(shape.singles.map((single) => single.fret)) > 13 || (shape.barres  && Math.min(shape.barres.map((barre) => barre.fret)) > 13);
 
   shape.singles.forEach((single) => chord.singles.push(Object.assign({}, single)));
@@ -68,40 +64,58 @@ const ChordLibraryPage = () => {
   const [idx, setIdx] = useState(rootedShapes[type][0].label);
   const [chord, setChord] = useState(getChord(note, type, idx));
 
-  const firstRow = (
-    <div>
-      <Row>
-        {canonicalNotes.slice(0, 6).map((newNote) => <Col><Button block onClick={() => handleUpdate(newNote, type, idx)}>{newNote}</Button></Col>)}
-      </Row>
-      <br/>
-      <Row>
-        {canonicalNotes.slice(6, 12).map((newNote) => <Col><Button block onClick={() => handleUpdate(newNote, type, idx)}>{newNote}</Button></Col>)}
-      </Row>
-    </div>
+  const noteForm = (
+    <FormControl>
+      <InputLabel id="notes-input-label">Root Note</InputLabel>
+      <Select
+        labelId="notes-input-label"
+        id="notes-input"
+        value={note}
+        onChange={(event) => handleUpdate(event.target.value, type, idx)}
+        >
+        {canonicalNotes.map((newNote) => <MenuItem key={`note-menu-item-${newNote}`} value={newNote}>{newNote}</MenuItem>)}
+      </Select>
+    </FormControl>
   );
 
-  const secondRow = (
-    <Row>
-      {rootedShapeNames.map((newType) => <Col><Button block onClick={() => handleUpdate(note, newType, rootedShapes[newType][0].label)}>{newType}</Button></Col>)}
-    </Row>
+  const shapeForm = (
+    <FormControl>
+      <InputLabel id="shape-input-label">Chord</InputLabel>
+      <Select
+        labelId="shape-input-label"
+        id="shape-input"
+        value={type}
+        onChange={(event) => handleUpdate(note, event.target.value, rootedShapes[event.target.value][0].label)}
+      >
+        {rootedShapeNames.map((newType) => <MenuItem key={`shape-menu-item-${newType}`}  value={newType}>{newType}</MenuItem>)}
+      </Select>
+    </FormControl>
   );
 
-  const thirdRow = (
-    <Row>
-      {rootedShapes[type].map((shape) => <Col><Button block onClick={() => handleUpdate(note, type, shape.label)}>{shape.label}</Button></Col>)}
-    </Row>
+  const variantForm = (
+    <FormControl>
+      <InputLabel id="variant-input-label">Variant</InputLabel>
+      <Select
+        labelId="variant-input-label"
+        id="variant-input"
+        value={idx}
+        onChange={(event) => handleUpdate(note, type, event.target.value)}
+      >
+        {rootedShapes[type].map((newVariant) => <MenuItem key={`variant-menu-item-${newVariant.label}`}  value={newVariant.label}>{newVariant.label}</MenuItem>)}
+      </Select>
+    </FormControl>
   );
 
   const handleUpdate = (newNote, newType, newIdx) => {
-    if (newNote != note) {
+    if (newNote !== note) {
       setNote(newNote);
     }
 
-    if (newType != type) {
+    if (newType !== type) {
       setType(newType);
     }
 
-    if (newIdx != idx) {
+    if (newIdx !== idx) {
       setIdx(newIdx);
     }
 
@@ -109,26 +123,17 @@ const ChordLibraryPage = () => {
   };
 
   return (
-    <Container fluid>
+    <Container>
       <h1>Guitar Chord Library</h1>
       <p>I wrote a janky library to render chord shapes, both to learn about using the HTML5 canvas API from scratch
-      and to help myself visualize things.</p>
-      <Row>
-        <Col>
-          <h2>{`${note}${type} - ${idx}`}</h2>
-          {<GuitarFingering width={280} chord={chord}/>}
-        </Col>
-        <Col>
-          <h3>Root</h3>
-          {firstRow}
-          <br/>
-          <h3>Chord</h3>
-          {secondRow}
-          <br/>
-          <h3>Variant</h3>
-          {thirdRow}
-        </Col>
-      </Row>
+    and to help myself visualize things.</p>
+      <div>
+        {noteForm}
+        {shapeForm}
+        {variantForm}
+      </div>
+      <h2>{`${note}${type} - ${idx}`}</h2>
+      {<GuitarFingering width={280} chord={chord}/>}
     </Container>)
 };
 

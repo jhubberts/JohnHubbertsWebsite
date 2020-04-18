@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from "react";
+import React, {useEffect} from "react";
 
 const guitarStringToZeroOffset = (stringNum) => {
   return 6 - stringNum;
@@ -18,7 +18,7 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
   const annotationFont = `${annotationFontSize}px Arial`;
 
   // Draw strings
-  for (var i = 0; i < 6; i++) {
+  for (let i = 0; i < 6; i++) {
     ctx.beginPath();
     ctx.moveTo(fretboardOriginX + i * stringSpacing, fretboardOriginY);
     ctx.lineTo(fretboardOriginX + i * stringSpacing, fretboardOriginY + fretboardHeight);
@@ -27,14 +27,14 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
   }
 
   // Draw the frets. One more line than there are frets, so we'll not draw a number the last time
-  for (var i = 0; i <= nFrets + 1; i++) {
+  for (let i = 0; i <= nFrets + 1; i++) {
     ctx.beginPath();
     ctx.moveTo(fretboardOriginX, fretboardOriginY + i * fretSpacing);
     ctx.lineTo(fretboardOriginX + fretboardWidth, fretboardOriginY + i * fretSpacing);
     ctx.closePath();
     ctx.stroke();
 
-    if (i == nFrets + 1) {
+    if (i === nFrets + 1) {
       break;
     }
 
@@ -159,6 +159,7 @@ const GuitarFingering = (props) => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres, annotations);
+    // eslint-disable-next-line
   }, [props.chord]);
 
   return (
