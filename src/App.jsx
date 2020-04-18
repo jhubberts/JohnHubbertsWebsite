@@ -11,6 +11,7 @@ import HomePage from "./components/HomePage";
 import SiteHealth from "./components/SiteHealth";
 import NotFound from "./components/NotFound";
 import ChordLibraryPage from "./components/Guitar/ChordLibraryPage/ChordLibraryPage";
+import FretboardLibTestPage from "./components/Guitar/FretboardLibTestPage";
 
 function App () {
   const theme = createMuiTheme({
@@ -29,6 +30,7 @@ function App () {
             <Route exact path="/" component={HomePage} />
             <Route exact path="/health" component={SiteHealth} />
             <Route exact path="/guitar/voicings" component={ChordLibraryPage} />
+            <Route exact path="/guitar/fretboard" component={FretboardLibTestPage} />
             <Route component={NotFound} />
           </Switch>
         </ThemeProvider>
