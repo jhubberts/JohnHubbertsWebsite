@@ -1,0 +1,26 @@
+.navbar {
+  justify-content: space-between;
+}
+
+.navbarLink {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbarTitle {
+   font-size: 24px;
+ }
+
+.navbarLeftSection {
+  flex: 1
+}
+
+.navbarMidSection {
+
+}
+
+.navbarRightSection {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}

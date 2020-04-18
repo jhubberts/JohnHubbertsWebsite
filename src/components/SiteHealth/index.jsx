@@ -30,8 +30,6 @@ const SiteHealth = () => {
   const [autogenHealth, setAutogenHealth] = useState(healthStates.LOADING);
   const [customHealth, setCustomHealth] = useState(healthStates.LOADING);
 
-
-
   useEffect(generatePrefetchFunction(AUTOGEN_API, setAutogenHealth), []);
   useEffect(generatePrefetchFunction(CUSTOM_API, setCustomHealth), []);
 
