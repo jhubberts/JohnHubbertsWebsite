@@ -8,11 +8,13 @@ class Chord {
         props = props || {};
 
         this.name = props.name; // Doesn't include root, example would be Maj7
+        this.label = props.label || "";
         this.singles = props.singles || [];
         this.barres = props.barres || [];
         this.root = props.root;
         this.notes = Chord._getNotes(this.singles, this.barres);
         this.intervals = Chord._getIntervals(this.notes, this.root);
+        this.canonicalName = `${this.root}${this.name}`;
     }
 
     static _getNotes(singles, barres) {

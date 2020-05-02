@@ -5,9 +5,12 @@ import GuitarFingering from "../GuitarFingering/GuitarFingering";
 
 const chordToRenderable = (chord) => {
     return {
-        singles: chord.singles || [],
-        barres: chord.barres || [],
-        annotations: chord.intervals.map((interval) => interval == null ? "" : interval)
+        chord: {
+            singles: chord.singles || [],
+            barres: chord.barres || []
+        },
+        annotations: chord.notes.map((interval) => interval == null ? "" : interval.name),
+        title: chord.canonicalName
     }
 }
 
@@ -15,14 +18,14 @@ const FretboardLibTestPage = () => {
   return (<div>
     <GuitarFingering
       width={280}
-      chord={chordToRenderable(ChordLibrary.standard().get("A", "min7")[1])}
+      {...chordToRenderable(ChordLibrary.standard().get("A", "min7")[1])}
     />
 
     <GuitarFingering
         width={280}
-        chord={chordToRenderable(new Chord({
+        {...chordToRenderable(new Chord({
           root: "Bb",
-          withAnnotations: true,
+          name: "Weird",
           singles: [{
             finger: 4,
             string: 4,

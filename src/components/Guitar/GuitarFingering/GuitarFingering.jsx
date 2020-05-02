@@ -4,7 +4,7 @@ const guitarStringToZeroOffset = (stringNum) => {
   return 6 - stringNum;
 };
 
-const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret, singles, barres, annotations) => {
+const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret, singles, barres, annotations, title) => {
   const fretboardOriginX = stringSpacing * 1.5;
   const fretboardOriginY = fretSpacing; // Leave room for annotations
 
@@ -12,10 +12,22 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
   const nFrets = (endFret - startFret);
   const fretboardHeight = fretSpacing * (nFrets + 1);
 
+  const titleFontSize = stringSpacing * 0.8
+  const titleFont = `bold ${titleFontSize}px Arial`;
+
   const fingerNumberFontSize = stringSpacing * 0.5;
   const fingerNumberFont = `bold ${fingerNumberFontSize}px Arial`;
   const annotationFontSize = stringSpacing * 0.35;
   const annotationFont = `${annotationFontSize}px Arial`;
+
+  // Draw title if any
+  if (title !== null) {
+    ctx.font = titleFont;
+    ctx.textAlign = 'center';
+    ctx.textBaseLine = 'middle';
+    ctx.fillStyle = 'black';
+    ctx.fillText(title, stringSpacing * 4, fretboardOriginY / 2);
+  }
 
   // Draw strings
   for (let i = 0; i < 6; i++) {
@@ -118,7 +130,8 @@ const GuitarFingering = (props) => {
   const stringSpacing = props.width / 7;
   const fretSpacing = (stringSpacing * 5) / 4;
   const chord = props.chord;
-  const annotations = props.chord.annotations || ["", "", "", "", "", ""];
+  const annotations = props.annotations || props.chord.annotations || ["", "", "", "", "", ""];
+  const title = props.title || null;
 
   let startFret = 1000;
   let endFret = -1;
@@ -158,7 +171,7 @@ const GuitarFingering = (props) => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres, annotations);
+    drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres, annotations, title);
     // eslint-disable-next-line
   }, [props.chord]);
 
