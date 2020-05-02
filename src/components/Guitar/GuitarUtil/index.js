@@ -1,66 +1,9 @@
 import chordShapes from "./shapes";
+import Conversions from "./Conversions"
 
 const STANDARD_ROOT_DISTANCE_FROM_MIDDLE_C = [4, -1, -5, -10, -15, -20];
 const DEFAULT_TUNING_OFFSETS = [0, 0, 0, 0, 0, 0];
 const DEFAULT_NFRETS = 21;
-
-const distanceToNameLookup = {
-  0: 'C',
-  1: 'C#',
-  2: 'D',
-  3: 'D#',
-  4: 'E',
-  5: 'F',
-  6: 'F#',
-  7: 'G',
-  8: 'G#',
-  9: 'A',
-  10: 'A#',
-  11: 'B'
-};
-
-const nameToIndexLookup = {
-  'C': 0,
-  'C#': 1,
-  'Db': 1,
-  'D': 2,
-  'D#': 3,
-  'Eb': 3,
-  'E': 4,
-  'F': 5,
-  'F#': 6,
-  'Gb': 6,
-  'G': 7,
-  'G#': 8,
-  'Ab': 8,
-  'A': 9,
-  'A#': 10,
-  'Bb': 10,
-  'B': 11
-}
-
-const intervalToChordToneLookup = {
-  0: "1",
-  1: "b9",
-  2: "9",
-  3: "b3",
-  4: "3",
-  5: "4",
-  6: "#11/b5",
-  7: "5",
-  8: "b13",
-  9: "6",
-  10: "b7",
-  11: "7"
-}
-
-function mod12(num) {
-  let result = num % 12;
-  while (result < 0) {
-    result += 12;
-  }
-  return result;
-}
 
 class Note {
   constructor(props) {
@@ -70,9 +13,13 @@ class Note {
 
   static fromDistance(distanceFromMiddleC) {
     return new Note({
-      name: distanceToNameLookup[mod12(distanceFromMiddleC)],
+      name: Conversions.distanceFromCToNote(distanceFromMiddleC),
       distanceFromMiddleC: distanceFromMiddleC
     })
+  }
+
+  transpose(transposeDistance) {
+    return Note.fromDistance(this.distanceFromMiddleC + transposeDistance);
   }
 }
 
@@ -117,40 +64,37 @@ class Chord {
     this.singles = props.singles || [];
     this.barres = props.barres || [];
     this.root = props.root;
-    this.withAnnotations = props.withAnnotations;
+    this.withAnnotations = props.withAnnotations || false;
 
     if (this.withAnnotations) {
       this.annotations = ['', '', '', '', '', ''];
 
       for (let singleIdx in this.singles) {
         const single = this.singles[singleIdx];
-        const targetNote = nameToIndexLookup[STANDARD_FRETBOARD.getNoteG(single.string, single.fret).name];
-        const rootIndex = nameToIndexLookup[this.root];
+        const targetNote = Conversions.noteToDistanceFromC(STANDARD_FRETBOARD.getNoteG(single.string, single.fret).name);
+        const rootIndex = Conversions.noteToDistanceFromC(this.root);
 
-        const distance = mod12(targetNote - rootIndex)
+        const distance = Conversions.mod12(targetNote - rootIndex)
 
-        this.annotations[6 - single.string] = intervalToChordToneLookup[distance];
+        this.annotations[6 - single.string] = Conversions.intervalToChordTone(distance);
       }
     }
   }
 
   transpose(newRoot) {
-    const transposeDistance = mod12(nameToIndexLookup[newRoot] - nameToIndexLookup[this.root]);
+    const transposeDistance = Conversions.mod12(Conversions.noteToDistanceFromC(newRoot) - Conversions.noteToDistanceFromC(this.root));
 
-    const lowestFret = Math.min(
-        ...this.singles.map((single) => single.fret),
-        ...this.barres.map((barre) => barre.fret));
-
+    const lowestFret = Math.min(...this.singles.map((single) => single.fret), ...this.barres.map((barre) => barre.fret));
     const transposeDown = (lowestFret + transposeDistance) >= 13;
 
     const newSingles = this.singles.map((single) => Object.assign({}, single));
     const newBarres = this.barres.map((barre) => Object.assign({}, barre));
 
     newSingles.forEach((single) => single.fret = transposeDown ?
-        mod12(single.fret + transposeDistance):
+        Conversions.mod12(single.fret + transposeDistance):
         single.fret + transposeDistance);
     newBarres.forEach((barre) => barre.fret = transposeDown ?
-        mod12(barre.fret + transposeDistance):
+        Conversions.mod12(barre.fret + transposeDistance):
         barre.fret + transposeDistance);
 
     return new Chord({
