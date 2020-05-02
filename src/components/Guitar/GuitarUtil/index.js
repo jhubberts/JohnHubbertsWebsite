@@ -19,7 +19,7 @@ const distanceToNameLookup = {
   11: 'B'
 };
 
-let nameToIndexLookup = {
+const nameToIndexLookup = {
   'C': 0,
   'C#': 1,
   'Db': 1,
@@ -39,6 +39,29 @@ let nameToIndexLookup = {
   'B': 11
 }
 
+const intervalToChordToneLookup = {
+  0: "1",
+  1: "b9",
+  2: "9",
+  3: "b3",
+  4: "3",
+  5: "4",
+  6: "#11/b5",
+  7: "5",
+  8: "b13",
+  9: "6",
+  10: "b7",
+  11: "7"
+}
+
+function mod12(num) {
+  let result = num % 12;
+  while (result < 0) {
+    result += 12;
+  }
+  return result;
+}
+
 class Note {
   constructor(props) {
     this.name = props.name;
@@ -47,7 +70,7 @@ class Note {
 
   static fromDistance(distanceFromMiddleC) {
     return new Note({
-      name: distanceToNameLookup[distanceFromMiddleC % 12],
+      name: distanceToNameLookup[mod12(distanceFromMiddleC)],
       distanceFromMiddleC: distanceFromMiddleC
     })
   }
@@ -84,19 +107,35 @@ class Fretboard {
   }
 }
 
+const STANDARD_FRETBOARD = new Fretboard();
+
 class Chord {
   constructor(props) {
     props = props || {};
 
     this.name = props.name; // Doesn't include root, example would be Maj7
-    this.singles = props.singles;
-    this.barres = props.barres;
+    this.singles = props.singles || [];
+    this.barres = props.barres || [];
     this.root = props.root;
+    this.withAnnotations = props.withAnnotations;
+
+    if (this.withAnnotations) {
+      this.annotations = ['', '', '', '', '', ''];
+
+      for (let singleIdx in this.singles) {
+        const single = this.singles[singleIdx];
+        const targetNote = nameToIndexLookup[STANDARD_FRETBOARD.getNoteG(single.string, single.fret).name];
+        const rootIndex = nameToIndexLookup[this.root];
+
+        const distance = mod12(targetNote - rootIndex)
+
+        this.annotations[6 - single.string] = intervalToChordToneLookup[distance];
+      }
+    }
   }
 
   transpose(newRoot) {
-    const transposeDistance = (nameToIndexLookup[newRoot] - nameToIndexLookup[this.root]) % 12;
-    console.log(transposeDistance);
+    const transposeDistance = mod12(nameToIndexLookup[newRoot] - nameToIndexLookup[this.root]);
 
     const lowestFret = Math.min(
         ...this.singles.map((single) => single.fret),
@@ -108,17 +147,18 @@ class Chord {
     const newBarres = this.barres.map((barre) => Object.assign({}, barre));
 
     newSingles.forEach((single) => single.fret = transposeDown ?
-        (single.fret + transposeDistance) % 12 :
+        mod12(single.fret + transposeDistance):
         single.fret + transposeDistance);
     newBarres.forEach((barre) => barre.fret = transposeDown ?
-        (barre.fret + transposeDistance) % 12 :
+        mod12(barre.fret + transposeDistance):
         barre.fret + transposeDistance);
 
     return new Chord({
       name: this.name,
       singles: newSingles,
       barres: newBarres,
-      root: newRoot
+      root: newRoot,
+      withAnnotations: this.withAnnotations
     });
   }
 }
@@ -149,15 +189,14 @@ class ChordLibrary {
   }
 }
 
-const STANDARD_FRETBOARD = new Fretboard();
 const STANDARD_CHORD_LIBRARY = new ChordLibrary();
 
 for (let name in chordShapes.standard.standardShapes) {
   for (let idx in chordShapes.standard.standardShapes[name]) {
     let chordJson = chordShapes.standard.standardShapes[name][idx];
 
-    STANDARD_CHORD_LIBRARY.register(name, new Chord(Object.assign({name: name, root: "C", singles: [], barres: []}, chordJson)));
+    STANDARD_CHORD_LIBRARY.register(name, new Chord(Object.assign({name: name, root: "C", singles: [], barres: [], withAnnotations: true}, chordJson)));
   }
 }
 
-export { Fretboard, STANDARD_CHORD_LIBRARY };
+export { Chord, Fretboard, STANDARD_CHORD_LIBRARY };
