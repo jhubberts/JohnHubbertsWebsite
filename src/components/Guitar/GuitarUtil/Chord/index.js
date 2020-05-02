@@ -2,6 +2,8 @@ import Conversions from "../Conversions";
 import Fretboard from "../Fretboard";
 
 import standardShapes from "./standardShapes";
+import substitutions from "./substitutions.json";
+import Note, { NON_NATURALS } from "../Note";
 
 class Chord {
     constructor(props) {
@@ -92,16 +94,37 @@ class ChordLibrary {
         this.chordsByName[name].push(chord);
     }
 
-    get(root, name) {
-        if (!this.chordsByName[name]) {
-            return [];
+    get_all_by_name(name, withSubstitutions) {
+        let root;
+        let shapeName;
+
+        if (NON_NATURALS.some((note) => name.startsWith(note))) {
+            root = name.substring(0, 2);
+            shapeName = name.substring(2);
+        } else {
+            root = name.substring(0, 1);
+            shapeName = name.substring(1);
         }
 
-        if (root === "C") {
-            return this.chordsByName[name];
+        return this.get_all_by_root_and_name(root, shapeName, withSubstitutions);
+    }
+
+    get_all_by_root_and_name(root, shapeName, withSubstitutions) {
+        const shapeNames = [shapeName];
+
+        if (withSubstitutions && substitutions[shapeName]) {
+            shapeNames.push(...substitutions[shapeName])
         }
 
-        return this.chordsByName[name].map((chord) => chord.transpose(root));
+        const chords = [];
+
+        shapeNames.forEach((iShapeName) => {
+            if (this.chordsByName[iShapeName]) {
+                chords.push(...this.chordsByName[iShapeName]);
+            }
+        });
+
+        return (root === "C") ? chords : chords.map((chord) => chord.transpose(root));
     }
 
     static standard() {
