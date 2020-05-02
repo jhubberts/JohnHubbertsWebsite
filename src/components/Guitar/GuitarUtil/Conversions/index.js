@@ -57,7 +57,6 @@ const mod12 = (num) => {
 
 const distanceFromCToNote = (distance) => {
     return DISTANCE_FROM_C_TO_NOTES[mod12(distance)][0]
-
 }
 
 const noteToDistanceFromC = (note) => {
@@ -68,4 +67,8 @@ const intervalToChordTone = (interval) => {
     return INTERVAL_TO_CHORD_TONE[mod12(interval)][0]
 }
 
-export default { distanceFromCToNote, noteToDistanceFromC, intervalToChordTone, mod12 }
+const intervalBetweenNotes = (bottom, top) => {
+    return intervalToChordTone(noteToDistanceFromC(top) - noteToDistanceFromC(bottom));
+}
+
+export default { distanceFromCToNote, noteToDistanceFromC, intervalToChordTone, intervalBetweenNotes, mod12 }

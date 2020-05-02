@@ -1,18 +1,26 @@
 import React from 'react';
 
-import { Chord, STANDARD_CHORD_LIBRARY } from '../GuitarUtil';
+import { Chord, ChordLibrary } from '../GuitarUtil';
 import GuitarFingering from "../GuitarFingering/GuitarFingering";
+
+const chordToRenderable = (chord) => {
+    return {
+        singles: chord.singles || [],
+        barres: chord.barres || [],
+        annotations: chord.intervals.map((interval) => interval == null ? "" : interval)
+    }
+}
 
 const FretboardLibTestPage = () => {
   return (<div>
     <GuitarFingering
       width={280}
-      chord={STANDARD_CHORD_LIBRARY.get("A", "min7")[1]}
+      chord={chordToRenderable(ChordLibrary.standard().get("A", "min7")[1])}
     />
 
     <GuitarFingering
         width={280}
-        chord={new Chord({
+        chord={chordToRenderable(new Chord({
           root: "Bb",
           withAnnotations: true,
           singles: [{
@@ -32,7 +40,7 @@ const FretboardLibTestPage = () => {
             string: 1,
             fret: 5
           }]
-        })}
+        }))}
     />
   </div>);
 };
