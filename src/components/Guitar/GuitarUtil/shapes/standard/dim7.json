@@ -1,0 +1,38 @@
+[{
+  "label": "5th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 4
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 4
+  }]
+}, {
+  "label": "Mini Barre",
+  "singles": [{
+    "finger": 2,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 8
+  }],
+  "barres": [{
+    "finger": 1,
+    "startString": 4,
+    "endString": 2,
+    "voicedStrings": [2, 4],
+    "fret": 7
+  }]
+}]

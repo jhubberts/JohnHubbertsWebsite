@@ -1,0 +1,20 @@
+[{
+  "label": "Rootless #1",
+  "singles": [{
+    "finger": 1,
+    "string": 2,
+    "fret": 8
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 9
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 9
+  }, {
+    "finger": 4,
+    "string": 1,
+    "fret": 10
+  }]
+}]

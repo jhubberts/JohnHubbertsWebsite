@@ -1,0 +1,73 @@
+[{
+  "label": "5th Root #1",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 2,
+    "string": 3,
+    "fret": 4
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 5
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 5
+  }]
+}, {
+  "label": "5th Root #2",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 2,
+    "string": 1,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 4
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 5
+  }]
+}, {
+  "label": "6th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 2,
+    "string": 2,
+    "fret": 8
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 9
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 9
+  }]
+}, {
+  "label": "Lean 6th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 9
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 9
+  }]
+}]

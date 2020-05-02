@@ -1,0 +1,58 @@
+[{
+  "label": "5th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 3
+  }]
+}, {
+  "label": "Rootless #1",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 3,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 2,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 1,
+    "fret": 3
+  }]
+}, {
+  "label": "Rootless #2",
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 9
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 10
+  }, {
+    "finger": 3,
+    "string": 1,
+    "fret": 10
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 11
+  }]
+}]
