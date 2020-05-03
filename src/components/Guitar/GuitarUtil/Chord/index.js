@@ -94,7 +94,8 @@ class ChordLibrary {
         if (!this.chordsByName[name]) {
             this.chordsByName[name] = [];
 
-            this.autocompleteChordNames.push(ALL.map((note) => `${note}${name}`));
+            this.autocompleteChordNames.push(...ALL.map((note) => `${note}${name}`));
+            this.autocompleteChordNames = this.autocompleteChordNames.sort();
         }
 
         this.chordsByName[name].push(chord);

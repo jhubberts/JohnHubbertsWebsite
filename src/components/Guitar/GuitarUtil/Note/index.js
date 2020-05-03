@@ -4,7 +4,7 @@ const FLATS = ["Db", "Eb", "Gb", "Ab", "Bb"];
 const SHARPS = ["C#", "D#", "F#", "G#", "A#"];
 const NATURALS = ["C", "D", "E", "F", "G", "A", "B"];
 const NON_NATURALS = [...SHARPS, ...FLATS];
-const ALL = [].push(...FLATS, ...SHARPS, ...NATURALS);
+const ALL = [...FLATS, ...SHARPS, ...NATURALS];
 const EQUIVALENCE = {
     "Db": "C#",
     "Eb": "D#",
