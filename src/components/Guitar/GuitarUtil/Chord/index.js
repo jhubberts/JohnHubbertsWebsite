@@ -3,7 +3,7 @@ import Fretboard from "../Fretboard";
 
 import standardShapes from "./standardShapes";
 import substitutions from "./substitutions.json";
-import Note, { NON_NATURALS } from "../Note";
+import { ALL, NON_NATURALS } from "../Note";
 
 class Chord {
     constructor(props) {
@@ -76,7 +76,8 @@ class Chord {
             name: this.name,
             singles: newSingles,
             barres: newBarres,
-            root: newRoot
+            root: newRoot,
+            label: this.label
         });
     }
 }
@@ -86,14 +87,25 @@ let STANDARD_CHORD_LIBRARY = null;
 class ChordLibrary {
     constructor() {
         this.chordsByName = {}
+        this.autocompleteChordNames = [];
     }
 
     register(name, chord) {
         if (!this.chordsByName[name]) {
             this.chordsByName[name] = [];
+
+            this.autocompleteChordNames.push(ALL.map((note) => `${note}${name}`));
         }
 
         this.chordsByName[name].push(chord);
+    }
+
+    get_autocomplete_dictionary() {
+        return this.autocompleteChordNames;
+    }
+
+    get_all_types() {
+        return Object.keys(this.chordsByName).sort();
     }
 
     get_all_by_name(name, withSubstitutions) {

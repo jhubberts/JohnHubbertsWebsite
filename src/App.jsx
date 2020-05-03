@@ -10,7 +10,7 @@ import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
 import SiteHealth from "./components/SiteHealth";
 import NotFound from "./components/NotFound";
-import ChordLibraryPage from "./components/Guitar/ChordLibraryPage/ChordLibraryPage";
+import ChordLibraryPage from "./components/Guitar/ChordLibraryPage";
 import FretboardLibTestPage from "./components/Guitar/FretboardLibTestPage";
 import DijkstrasChordProgression from "./components/Guitar/DijkstrasChordProgression";
 
@@ -30,7 +30,7 @@ function App () {
             <Redirect exact path="/index.html" to="/"/>
             <Route exact path="/" component={HomePage} />
             <Route exact path="/health" component={SiteHealth} />
-            <Route exact path="/guitar/voicings" component={ChordLibraryPage} />
+            <Route exact path="/guitar/chordLibrary" component={ChordLibraryPage} />
             <Route exact path="/guitar/fretboard" component={FretboardLibTestPage} />
             <Route exact path="/guitar/dijkstras" component={DijkstrasChordProgression} />
             <Route component={NotFound} />

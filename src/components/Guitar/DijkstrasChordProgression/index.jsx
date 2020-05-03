@@ -127,7 +127,6 @@ const DijkstrasChordProgression = () => {
                     <Grid container direction="row">
                         {fingerings}
                     </Grid>
-
                 </Grid>
             </Grid>
         </Box>
