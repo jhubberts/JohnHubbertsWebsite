@@ -74,4 +74,60 @@
     "string": 2,
     "fret": 8
   }]
+}, {
+  "label": "5th Root #3",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 1
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 4
+  }]
+}, {
+  "label": "5th Root No Fifth",
+  "singles": [{
+    "finger": 3,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 3
+  }],
+  "barres": [{
+    "finger": 1,
+    "fret": 1,
+    "startString": 4,
+    "endString": 2,
+    "voicedStrings": [2, 4]
+  }]
+}, {
+  "label": "4th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 10
+  }, {
+    "finger": 2,
+    "string": 2,
+    "fret": 11
+  }, {
+    "finger": 3,
+    "string": 1,
+    "fret": 11
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 12
+  }]
 }]

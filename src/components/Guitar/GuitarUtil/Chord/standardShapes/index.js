@@ -1,4 +1,5 @@
 import shapes_7b13 from './7b13.json'
+import shapes_7 from './7.json'
 import shapes_9 from './9.json'
 import shapes_13 from './13.json'
 import shapes_dim7 from './dim7.json'
@@ -9,6 +10,7 @@ import shapes_min7b5 from './min7b5.json'
 import shapes_min9 from './min9.json'
 
 const standardShapes = {
+    "7": shapes_7,
     "7b13": shapes_7b13,
     "9": shapes_9,
     "13": shapes_13,
