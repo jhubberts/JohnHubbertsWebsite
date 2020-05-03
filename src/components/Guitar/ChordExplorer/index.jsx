@@ -28,7 +28,10 @@ const ChordExplorer = (props) => {
     const handleChangeAutocompleteBox = (ignoreMe, fullName) => {
         let newRoot, newChordType;
 
-        // Handle backspace everywhere
+        if (!fullName) {
+            // User hit clear, don't change anything yet
+            return;
+        }
 
         if (fullName[1] === "#" || fullName[1] === "b") {
             newRoot = fullName.substring(0, 2);
@@ -64,7 +67,7 @@ const ChordExplorer = (props) => {
     }, [note, chordType, chordShape]);
 
     return (
-            <Grid container direction="column" spacing={2} alignContent="flex-start">
+            <Grid container direction="column" spacing={2} alignContent="stretch">
                 <Grid item>
                     <FormControl>
                         <InputLabel shrink htmlFor="select-root">
