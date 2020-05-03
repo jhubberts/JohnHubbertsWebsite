@@ -17,7 +17,8 @@ const chordToRenderable = (chord) => {
 const FretboardLibTestPage = () => {
   const audioContext = new AudioContext();
   const synth = new Synth({audioContext: audioContext});
-  const progression = ["Bmaj7", "D7", "Gmaj7", "Bb7", "Ebmaj7", "Amin7"];
+  // const progression = ["Bmaj7", "D7", "Gmaj7", "Bb7", "Ebmaj7", "Amin7"];
+  const progression = ["Bmaj7"];
   const chords = new ProgressionSolver().solve(progression);
   chords.forEach((chord) => console.log(chord.notes));
 

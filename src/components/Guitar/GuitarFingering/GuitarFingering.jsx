@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 
 const guitarStringToZeroOffset = (stringNum) => {
   return 6 - stringNum;
@@ -19,6 +19,10 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
   const fingerNumberFont = `bold ${fingerNumberFontSize}px Arial`;
   const annotationFontSize = stringSpacing * 0.35;
   const annotationFont = `${annotationFontSize}px Arial`;
+
+  const ret = {
+    notes: []
+  };
 
   // Draw title if any
   if (title !== null) {
@@ -87,6 +91,13 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
       ctx.textBaseline = 'middle';
       ctx.fillText(single.finger.toString(), singleCenterX, singleCenterY);
     }
+
+    ret.notes.push({
+      single: single,
+      x: singleCenterX,
+      y: singleCenterY,
+      radius: singleRadius
+    });
   }
 
   for (let barresIdx in barres) {
@@ -122,6 +133,8 @@ const drawFingeringChart = (ctx, stringSpacing, fretSpacing, startFret, endFret,
     ctx.textBaseline = 'middle';
     ctx.fillText(annotations[annotationIdx], annotationX, annotationY);
   }
+
+  return ret;
 };
 
 const GuitarFingering = (props) => {
@@ -133,6 +146,7 @@ const GuitarFingering = (props) => {
   const annotations = props.annotations || props.chord.annotations || ["", "", "", "", "", ""];
   const title = props.title || null;
   const onClick = props.onClick || (() => {});
+  const onMouseOverNote = props.onMouseOverNote || ((note) => {});
 
   let startFret = 1000;
   let endFret = -1;
@@ -173,7 +187,24 @@ const GuitarFingering = (props) => {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres, annotations, title);
+    const ret = drawFingeringChart(ctx, stringSpacing, fretSpacing, startFret, endFret, chord.singles, chord.barres, annotations, title);
+
+    let lastMatch = null;
+
+    canvas.addEventListener('mousemove', (event) => {
+      const over = ret.notes.filter((note) => {
+        return Math.sqrt(Math.pow(event.offsetX - note.x, 2) + Math.pow(event.offsetY - note.y, 2)) <= note.radius;
+      })
+
+      const match = over.length > 0;
+
+      if (match && !lastMatch) {
+        onMouseOverNote(over[0]);
+      }
+
+      lastMatch = match;
+    });
+
     // eslint-disable-next-line
   }, [props.chord]);
 

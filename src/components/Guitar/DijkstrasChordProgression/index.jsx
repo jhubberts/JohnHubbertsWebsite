@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 
-import { Box, Button, Container, Checkbox, TextField, FormGroup, FormControlLabel, Grid } from '@material-ui/core';
+import { Box, Button, Checkbox, TextField, FormControlLabel, Grid } from '@material-ui/core';
 import GuitarFingering from '../GuitarFingering/GuitarFingering';
-import { ProgressionSolver, ChordLibrary } from "../GuitarUtil";
+import {ProgressionSolver, ChordLibrary, Synth} from "../GuitarUtil";
 
 const chordToRenderable = (chord) => {
     return {
@@ -19,6 +19,21 @@ const DijkstrasChordProgression = () => {
     const [withSubstitutions, setWithSubstitutions] = useState(true);
     const [textBoxChord, setTextBoxChord] = useState("Bbdim7");
     const [chordNames, setChordNames] = useState([]);
+
+    const audioContext = new AudioContext();
+    const synth = new Synth({audioContext: audioContext});
+
+    const createOnClick = (chord) => {
+        return (event) => {
+            synth.playChordForXSeconds(chord, 1)
+        }
+    }
+
+    const createOnMouseOverNote = (chord) => {
+        return (note) => {
+            synth.playNoteForXSeconds(chord.notes[6 - note.single.string], 1)
+        }
+    }
 
     const handleCheckboxChange = (event) => {
         setWithSubstitutions(!withSubstitutions);
@@ -59,7 +74,9 @@ const DijkstrasChordProgression = () => {
     const chords = new ProgressionSolver().solve(chordNames, withSubstitutions);
 
     const fingerings = chords.map((chord) => {
-        return <GuitarFingering width={280} {...chordToRenderable(chord)}/>
+        return <GuitarFingering width={280} {...chordToRenderable(chord)}
+                                onClick={createOnClick(chord)}
+                                onMouseOverNote={createOnMouseOverNote(chord)}/>
     })
 
     return (
@@ -76,7 +93,9 @@ const DijkstrasChordProgression = () => {
                     To try it enter chords by name into the text box (e.x. Amaj7, Bb9, Cdim7, Amin9, Gmin7b5), and it'll
                     autogenerate a fingering chart. The chord names are sensitive and I haven't imported many voicings,
                     so you might get some weird results. If you want to see how it performs on a lot of complicated
-                    chord changes, hit the Giant Steps button. If you have cool ideas for how to improve this, hit me up!
+                    chord changes, hit the Giant Steps button. If you click on a chord, it'll sound the notes. If you
+                    mouse over a specific note it'll sound that note. If you have cool ideas for how to improve this,
+                    hit me up!
                     <br/>
                     <br/>
                     Press enter while selecting the textbox to submit each new chord. Eventually I'll add a way to
