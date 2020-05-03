@@ -98,8 +98,6 @@ class ProgressionSolver {
 
         this.dijkstraAnnotate(start);
 
-        console.log(end);
-
         let shortestPath = [];
         for (let i = 1; i < end.path.length; i++) {
             shortestPath.push(end.path[i].chord);

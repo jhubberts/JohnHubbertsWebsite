@@ -30,7 +30,9 @@ class Chord {
 
         for (let barreIdx in barres) {
             const barre = barres[barreIdx];
-            for (let voicedString in barre.voicedString) {
+            for (let voicedStringIdx in barre.voicedStrings) {
+                const voicedString = barre.voicedStrings[voicedStringIdx];
+
                 notes[6 - voicedString] = Fretboard.standard().getNoteG(voicedString, barre.fret);
             }
         }
