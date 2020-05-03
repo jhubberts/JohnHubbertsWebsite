@@ -58,8 +58,12 @@ class GraphNode {
 class ProgressionSolver {
     constructor(props) {}
 
-    solve(chordNames) {
-        const progressionColumns = chordNames.map((chordName) => ChordLibrary.standard().get_all_by_name(chordName, true));
+    solve(chordNames, withSubstitutions) {
+        if (chordNames.length === 0) {
+            return [];
+        }
+
+        const progressionColumns = chordNames.map((chordName) => ChordLibrary.standard().get_all_by_name(chordName, withSubstitutions || false));
 
         const start = new GraphNode(null);
         start.totalDistance = 0;
