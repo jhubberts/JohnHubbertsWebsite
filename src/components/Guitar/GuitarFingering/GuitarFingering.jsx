@@ -132,6 +132,7 @@ const GuitarFingering = (props) => {
   const chord = props.chord;
   const annotations = props.annotations || props.chord.annotations || ["", "", "", "", "", ""];
   const title = props.title || null;
+  const onClick = props.onClick || (() => {});
 
   let startFret = 1000;
   let endFret = -1;
@@ -167,6 +168,7 @@ const GuitarFingering = (props) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
+    canvas.addEventListener('mousedown', onClick);
     const ctx = canvas.getContext("2d");
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {Chord, ChordLibrary, ProgressionSolver} from '../GuitarUtil';
+import { ProgressionSolver, Synth } from '../GuitarUtil';
 import GuitarFingering from "../GuitarFingering/GuitarFingering";
 
 const chordToRenderable = (chord) => {
@@ -15,10 +15,15 @@ const chordToRenderable = (chord) => {
 }
 
 const FretboardLibTestPage = () => {
+  const audioContext = new AudioContext();
+  const synth = new Synth({audioContext: audioContext});
   const progression = ["Bmaj7", "D7", "Gmaj7", "Bb7", "Ebmaj7", "Amin7"];
   const chords = new ProgressionSolver().solve(progression);
+  chords.forEach((chord) => console.log(chord.notes));
+
   const fingeringCharts = chords.map((chord) => {
-      return <GuitarFingering width={280} {...chordToRenderable(chord)} />
+      return <GuitarFingering width={280} {...chordToRenderable(chord)}
+        onClick={() => {synth.playChordForXSeconds(chord, 1)}}/>
   })
 
   return (<div>
