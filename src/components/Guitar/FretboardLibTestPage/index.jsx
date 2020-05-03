@@ -15,7 +15,7 @@ const chordToRenderable = (chord) => {
 }
 
 const FretboardLibTestPage = () => {
-  const progression = ["Gmin7", "Cmin7", "F7"];
+  const progression = ["Bmaj7", "D7", "Gmaj7", "Bb7", "Ebmaj7", "Amin7"];
   const chords = new ProgressionSolver().solve(progression);
   const fingeringCharts = chords.map((chord) => {
       return <GuitarFingering width={280} {...chordToRenderable(chord)} />
