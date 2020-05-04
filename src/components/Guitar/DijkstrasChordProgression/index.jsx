@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 
-import { Box, Button, Checkbox, Divider, FormControlLabel, Grid } from '@material-ui/core';
+import { Box, Button, Checkbox, Divider, ExpansionPanel, FormControlLabel, Grid } from '@material-ui/core';
 import GuitarFingering from '../GuitarFingering/GuitarFingering';
-import {ProgressionSolver, Synth} from "../GuitarUtil";
+import {ChordLibrary, ProgressionSolver, Synth} from "../GuitarUtil";
+import {compareChords} from "../GuitarUtil/ProgressionSolver";
 import ChordExplorer from "../ChordExplorer";
 
 const chordToRenderable = (chord) => {
@@ -29,21 +30,21 @@ const DijkstrasChordProgression = () => {
         return (event) => {
             synth.playChordForXSeconds(chord, 1)
         }
-    }
+    };
 
     const createOnMouseOverNote = (chord) => {
         return (note) => {
             synth.playNoteForXSeconds(chord.notes[6 - note.string], 1)
         }
-    }
+    };
 
     const handleSubstitutionBoxChange = (event) => {
         setWithSubstitutions(event.target.checked);
-    }
+    };
 
     const handleAutoAddBoxChange = (event) => {
         setAddOnEnter(event.target.checked);
-    }
+    };
 
     const addSelected = () => {
         const newChords = previewChord != null ? [...chordNames, previewChord.canonicalName] : [...chordNames];
@@ -62,17 +63,37 @@ const DijkstrasChordProgression = () => {
             "Ebmaj7", "Amin7", "D7", "Gmaj7", "C#min7", "F#7", "Bmaj7",
             "Fmin7", "Bb7", "Ebmaj7", "C#min7", "F#7"
         ])
-    }
+    };
 
     const chords = new ProgressionSolver().solve(chordNames, withSubstitutions);
 
-    const chordToFingering = (chord) => {
-        return (<GuitarFingering width={280} {...chordToRenderable(chord)}
+    const chordToFingering = (chord, width) => {
+        const widthToUse = width || 280;
+        return (<GuitarFingering width={widthToUse} {...chordToRenderable(chord)}
                                 onClick={createOnClick(chord)}
                                 onMouseOverNote={createOnMouseOverNote(chord)}/>);
-    }
+    };
+
+    const library = ChordLibrary.standard();
 
     const fingerings = chords.map(chordToFingering);
+
+    // Kinda gross, use transpose for clone, then hard override title
+    const overriddenAnnotation = library.get_by_root_name_and_label("G", "9", "5th Root").transpose("G");
+    overriddenAnnotation.canonicalName = "G9 (Sub G7)";
+
+
+    const lowMovementChords = [
+        library.get_by_root_name_and_label("D", "min7", "6th Root"),
+        overriddenAnnotation,
+        library.get_by_root_name_and_label("C", "maj7", "6th Root")
+    ];
+
+    const highMovementChords = [
+        library.get_by_root_name_and_label("D", "min7", "6th Root"),
+        library.get_by_root_name_and_label("G", "7", "4th Root"),
+        library.get_by_root_name_and_label("C", "maj7", "6th Root")
+    ];
 
     const blurb = (
         <Grid item xs={12} align="left">
@@ -82,16 +103,28 @@ const DijkstrasChordProgression = () => {
                 chord voicings while comping (or playing chords to complement the bass and melody). For those unfamiliar
                 with the space here's the general problem; in a given song I'll be provided chord changes that look
                 something like "Dmin7 -> G7 -> Cmaj7". Each chord can be played a lot of different ways; for example
-                a Cmaj7 requires me to hit C/E/G/B, but I can play in different octaves, I can invert them (play
-                E/G/B/C), or play them on different places on the guitar neck or piano. Each specific way to play a
-                chord is referred to as a voicing.
+                a Cmaj7 requires me to hit C/E/G/B, but I can play in different octaves, I can play the notes in any order
+                (play E/G/B/C or even G/C/E/B), or play them on different places on the guitar neck or piano.
+                Each specific way to play a chord is referred to as a voicing.
                 <br/>
                 <br/>
                 Some combinations of chord voicings are easier to play than others. For the example of the "Dmin7 ->
                 G7 -> Cmaj7" there is a combination of them that keeps all of my fingers between the 8th and 10th frets,
-                and there are many more combinations that require moving all along the guitar neck.
-                <br/>
-                <br/>
+                and there are many more combinations that require moving all along the guitar neck. For example:
+            </p>
+            <h3>Low Movement</h3>
+            <Grid item container direction="row" spacing={24} alignItems="center">
+                {lowMovementChords.map((chord) => {
+                    return <Grid item>{chordToFingering(chord, 150)}</Grid>
+                })}
+            </Grid>
+            <h3>High Movement</h3>
+            <Grid item container direction="row" spacing={24} alignItems="center">
+                {highMovementChords.map((chord) => {
+                    return <Grid item>{chordToFingering(chord, 150)}</Grid>
+                })}
+            </Grid>
+            <p>
                 I wanted to figure out the lowest movement way to play a given chord progression, so I turned to some
                 computer science. I implemented a scoring heuristic to compare the "distance" between two chord voicings.
                 In this case it adds 1 point for every fret I need to move on each finger, it adds 2 points for every
@@ -109,9 +142,28 @@ const DijkstrasChordProgression = () => {
                 <br/>
                 <br/>
                 To make matters more confusing, you can sometimes substitute chords for other chords (for example a
-                Dmin9 is a drop-in for a Dmin7 because it's just a Dmin7 + play the 9th note from D also), so I modified
-                the solver to take a parameter that determines whether or not to use substitutions.
+                G9 is a drop-in for a G7 because it's just a G7 + play the 9th note from G also), so I modified
+                the solver to take a parameter that determines whether or not to use substitutions. Here's how the
+                algorithm would score the voicing path from the example above:
             </p>
+            <h3>Low Movement</h3>
+            <Grid item container direction="row" spacing={24} alignItems="center">
+                <Grid item>{chordToFingering(lowMovementChords[0], 150)}</Grid>
+                <h3>→ {compareChords(lowMovementChords[0], lowMovementChords[1])} →</h3>
+                <Grid item>{chordToFingering(lowMovementChords[1], 150)}</Grid>
+                <h3>→ {compareChords(lowMovementChords[1], lowMovementChords[2])} →</h3>
+                <Grid item>{chordToFingering(lowMovementChords[2], 150)}</Grid>
+                <h3>= {compareChords(lowMovementChords[0], lowMovementChords[1]) + compareChords(lowMovementChords[1], lowMovementChords[2])}</h3>
+            </Grid>
+            <h3>High Movement</h3>
+            <Grid item container direction="row" spacing={24} alignItems="center">
+                <Grid item>{chordToFingering(highMovementChords[0], 150)}</Grid>
+                <h3>→ {compareChords(highMovementChords[0], highMovementChords[1])} →</h3>
+                <Grid item>{chordToFingering(highMovementChords[1], 150)}</Grid>
+                <h3>→ {compareChords(highMovementChords[1], highMovementChords[2])} →</h3>
+                <Grid item>{chordToFingering(highMovementChords[2], 150)}</Grid>
+                <h3>= {compareChords(highMovementChords[0], highMovementChords[1]) + compareChords(highMovementChords[1], highMovementChords[2])}</h3>
+            </Grid>
             <h2>Instructions</h2>
             <p>
                 To try this out, enter chords into the selector either through the text box or drop down. I re-used
@@ -132,7 +184,7 @@ const DijkstrasChordProgression = () => {
             </p>
             <br/>
         </Grid>
-    )
+    );
 
     const controls = (
         <Grid item xs={4} align="left">

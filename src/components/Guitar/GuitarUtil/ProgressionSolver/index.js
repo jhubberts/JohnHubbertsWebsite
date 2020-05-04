@@ -38,7 +38,7 @@ const compareChords = (first, second) => {
     }
 
     return distance;
-}
+};
 
 const INFINITY = 999999;
 
@@ -137,4 +137,5 @@ class ProgressionSolver {
     }
 };
 
+export { compareChords };
 export default ProgressionSolver;

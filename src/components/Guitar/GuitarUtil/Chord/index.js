@@ -142,6 +142,11 @@ class ChordLibrary {
         return (root === "C") ? chords : chords.map((chord) => chord.transpose(root));
     }
 
+    get_by_root_name_and_label(root, shapeName, label) {
+        const matches = this.get_all_by_root_and_name(root, shapeName, false).filter((chord) => chord.label === label);
+        return matches.length === 1 ? matches[0] : null;
+    }
+
     static standard() {
         if (STANDARD_CHORD_LIBRARY === null) {
             STANDARD_CHORD_LIBRARY = initializeStandardChordLibrary();
