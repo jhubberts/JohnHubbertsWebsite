@@ -76,7 +76,7 @@ const DijkstrasChordProgression = () => {
 
     const library = ChordLibrary.standard();
 
-    const fingerings = chords.map(chordToFingering);
+    const fingerings = chords.map((chord) => chordToFingering(chord, 280));
 
     // Kinda gross, use transpose for clone, then hard override title
     const overriddenAnnotation = library.get_by_root_name_and_label("G", "9", "5th Root").transpose("G");
