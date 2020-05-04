@@ -11,7 +11,7 @@ const chordToRenderable = (chord) => {
             singles: chord.singles || [],
             barres: chord.barres || []
         },
-        annotations: chord.notes.map((interval) => interval == null ? "" : interval.name),
+        annotations: chord.intervals.map((interval) => interval == null ? "" : interval),
         title: chord.canonicalName
     }
 }
@@ -30,7 +30,7 @@ const ChordLibraryPage = () => {
 
     const createOnMouseOverNote = (chord) => {
         return (note) => {
-            synth.playNoteForXSeconds(chord.notes[6 - note.single.string], 1)
+            synth.playNoteForXSeconds(chord.notes[6 - note.string], 1)
         }
     }
 

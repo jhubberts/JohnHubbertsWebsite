@@ -31,7 +31,7 @@ const DijkstrasChordProgression = () => {
 
     const createOnMouseOverNote = (chord) => {
         return (note) => {
-            synth.playNoteForXSeconds(chord.notes[6 - note.single.string], 1)
+            synth.playNoteForXSeconds(chord.notes[6 - note.string], 1)
         }
     }
 
