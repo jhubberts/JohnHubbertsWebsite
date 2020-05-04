@@ -89,10 +89,6 @@ const DijkstrasChordProgression = () => {
                 chord changes, hit the Giant Steps button. If you click on a chord, it'll sound the notes. If you
                 mouse over a specific note it'll sound that note. If you have cool ideas for how to improve this,
                 hit me up!
-                <br/>
-                <br/>
-                Press enter while selecting the textbox to submit each new chord. Eventually I'll add a way to
-                remove and re-arrange chords but for now just refresh the page to restart.
             </p>
             <br/>
         </Grid>
