@@ -68,7 +68,7 @@ const ChordExplorer = (props) => {
 
     return (
             <Grid container direction="column" spacing={2} alignContent="stretch">
-                <Grid item>
+                <Grid container item direction="row" justify="flex-start">
                     <FormControl>
                         <InputLabel shrink htmlFor="select-root">
                             Root
@@ -119,7 +119,7 @@ const ChordExplorer = (props) => {
                         onChange={handleChangeAutocompleteBox}
                         options={library.get_autocomplete_dictionary()}
                         renderInput={(params) => {
-                            return <TextField {...params} label="...Or Type A Chord" variant="outlined" />
+                            return <TextField {...params} label="...Or Type A Chord By Name" variant="outlined" />
                         }} />
                 </Grid>
             </Grid>

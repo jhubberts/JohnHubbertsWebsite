@@ -182,7 +182,6 @@ const GuitarFingering = (props) => {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    canvas.addEventListener('mousedown', onClick);
     const ctx = canvas.getContext("2d");
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -191,7 +190,8 @@ const GuitarFingering = (props) => {
 
     let lastMatch = null;
 
-    canvas.addEventListener('mousemove', (event) => {
+    const mouseDownListener = onClick;
+    const mouseMoveListener = (event) => {
       const over = ret.notes.filter((note) => {
         return Math.sqrt(Math.pow(event.offsetX - note.x, 2) + Math.pow(event.offsetY - note.y, 2)) <= note.radius;
       })
@@ -203,7 +203,15 @@ const GuitarFingering = (props) => {
       }
 
       lastMatch = match;
-    });
+    }
+
+    canvas.addEventListener('mousedown', mouseDownListener);
+    canvas.addEventListener('mousemove', mouseMoveListener);
+
+    return () => {
+      canvas.removeEventListener('mousedown', mouseDownListener);
+      canvas.removeEventListener('mousemove', mouseMoveListener);
+    }
 
     // eslint-disable-next-line
   }, [props.chord]);
