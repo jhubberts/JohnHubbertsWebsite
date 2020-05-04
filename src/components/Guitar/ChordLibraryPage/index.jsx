@@ -41,7 +41,7 @@ const ChordLibraryPage = () => {
                     <ChordExplorer onSelection={(chord) => setActiveChord(chord)}/>
                 </Grid>
                 {activeChord != null &&
-                <Grid item xs={9}>
+                <Grid item xs={9} align={"left"}>
                     <GuitarFingering width={500} {...chordToRenderable(activeChord)} onMouseOverNote={createOnMouseOverNote(activeChord)} onClick={createOnClick(activeChord)}/>
                 </Grid>}
             </Grid>
