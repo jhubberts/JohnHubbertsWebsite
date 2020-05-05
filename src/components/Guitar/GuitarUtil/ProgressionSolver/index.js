@@ -59,14 +59,17 @@ class GraphNode {
 }
 
 class ProgressionSolver {
-    constructor(props) {}
+    constructor(params) {
+        const usableParams = params || {};
+        this.constraintFn = usableParams.constraintFn || (() => true);
+    }
 
     solve(chordNames, withSubstitutions) {
         if (chordNames.length === 0) {
             return [];
         }
 
-        const progressionColumns = chordNames.map((chordName) => ChordLibrary.standard().get_all_by_name(chordName, withSubstitutions || false));
+        const progressionColumns = chordNames.map((chordName) => ChordLibrary.standard().get_all_by_name(chordName, withSubstitutions || false).filter(this.constraintFn));
 
         const start = new GraphNode(null);
         start.totalDistance = 0;

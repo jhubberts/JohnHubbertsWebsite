@@ -6,12 +6,19 @@ import GuitarFingering from "../GuitarFingering/GuitarFingering";
 import { Synth } from "../GuitarUtil";
 
 const chordToRenderable = (chord) => {
+    const annotations = ["", "", "", "", "", ""];
+    for(let i = 0; i < 6; i++) {
+        if (chord.notes[i] != null) {
+            annotations[i] = `(${chord.notes[i].name}/${chord.intervals[i]})`
+        }
+    }
+
     return {
         chord: {
             singles: chord.singles || [],
             barres: chord.barres || []
         },
-        annotations: chord.intervals.map((interval) => interval == null ? "" : interval),
+        annotations: annotations,
         title: chord.canonicalName
     }
 }

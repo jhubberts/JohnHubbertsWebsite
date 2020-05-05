@@ -20,6 +20,7 @@ const chordToRenderable = (chord) => {
 const DijkstrasChordProgression = () => {
     const [withSubstitutions, setWithSubstitutions] = useState(false);
     const [addOnEnter, setAddOnEnter] = useState(false);
+    const [allowInversions, setAllowInversions] = useState(false);
     const [previewChord, setPreviewChord] = useState(null);
     const [chordNames, setChordNames] = useState([]);
 
@@ -46,6 +47,10 @@ const DijkstrasChordProgression = () => {
         setAddOnEnter(event.target.checked);
     };
 
+    const handleAllowInversionsChange = (event) => {
+        setAllowInversions(event.target.checked);
+    };
+
     const addSelected = () => {
         const newChords = previewChord != null ? [...chordNames, previewChord.canonicalName] : [...chordNames];
         setChordNames(newChords);
@@ -65,7 +70,8 @@ const DijkstrasChordProgression = () => {
         ])
     };
 
-    const chords = new ProgressionSolver().solve(chordNames, withSubstitutions);
+    const constraintFn = allowInversions ? ((chord) => true) : ((chord) => chord.inversion === 0);
+    const chords = new ProgressionSolver({constraintFn}).solve(chordNames, withSubstitutions);
 
     const chordToFingering = (chord, width) => {
         const widthToUse = width || 280;
@@ -204,6 +210,11 @@ const DijkstrasChordProgression = () => {
                     <FormControlLabel control={
                         <Checkbox value={withSubstitutions} onChange={handleSubstitutionBoxChange}/>}
                                     label="Allow Equivalent Chord Substitutions" />
+                </Grid>
+                <Grid item>
+                    <FormControlLabel control={
+                        <Checkbox value={allowInversions} onChange={handleAllowInversionsChange}/>}
+                                      label="Allow Chord Inversions" />
                 </Grid>
                 <Grid item>
                     <FormControlLabel control={
