@@ -66,7 +66,10 @@ class ProgressionSolver {
 
     solve(chordNames, withSubstitutions) {
         if (chordNames.length === 0) {
-            return [];
+            return {
+                chords: [],
+                score: -1
+            };
         }
 
         const progressionColumns = chordNames.map((chordName) => ChordLibrary.standard().get_all_by_name(chordName, withSubstitutions || false).filter(this.constraintFn));
@@ -109,7 +112,12 @@ class ProgressionSolver {
             shortestPath.push(end.path[i].chord);
         }
 
-        return shortestPath;
+        const result = {
+            chords: shortestPath,
+            score: end.totalDistance
+        }
+
+        return result;
     }
 
     dijkstraAnnotate(start) {

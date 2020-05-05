@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 
-import { Box, Button, Checkbox, Divider, ExpansionPanel, FormControlLabel, Grid } from '@material-ui/core';
+import { Box, Button, Checkbox, Divider, FormControlLabel, Grid } from '@material-ui/core';
 import GuitarFingering from '../GuitarFingering/GuitarFingering';
 import {ChordLibrary, ProgressionSolver, Synth} from "../GuitarUtil";
 import {compareChords} from "../GuitarUtil/ProgressionSolver";
@@ -71,7 +71,10 @@ const DijkstrasChordProgression = () => {
     };
 
     const constraintFn = allowInversions ? ((chord) => true) : ((chord) => chord.inversion === 0);
-    const chords = new ProgressionSolver({constraintFn}).solve(chordNames, withSubstitutions);
+    const result = new ProgressionSolver({constraintFn}).solve(chordNames, withSubstitutions);
+
+    const chords = result.chords;
+    const score = result.score;
 
     const chordToFingering = (chord, width) => {
         const widthToUse = width || 280;
@@ -99,9 +102,6 @@ const DijkstrasChordProgression = () => {
         library.get_by_root_name_and_label("G", "7", "4th Root"),
         library.get_by_root_name_and_label("C", "maj7", "6th Root")
     ];
-
-    console.log(lowMovementChords);
-    console.log(highMovementChords);
 
     const blurb = (
         <Grid item xs={12} align="left">
@@ -258,7 +258,7 @@ const DijkstrasChordProgression = () => {
                 {middlePart}
                 <Divider/>
                 <Grid item align="left">
-                    <h2>Solution</h2>
+                    <h2>Solution{chords.length > 0 ? ` (${score} points)` : ""}</h2>
                 </Grid>
                 <Grid item container direction="row" xs={12}>
                     {fingerings}
