@@ -1,4 +1,18 @@
 [{
+  "label": "4th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 10
+  }],
+  "barres": [{
+    "finger": 3,
+    "fret": 11,
+    "startString": 3,
+    "endString": 1,
+    "voicedStrings": [3, 2, 1]
+  }]
+} ,{
   "label": "5th Root",
   "singles": [{
     "finger": 1,
@@ -12,6 +26,25 @@
     "finger": 3,
     "string": 4,
     "fret": 4
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 4
+  }]
+}, {
+  "label": "5th Root #2",
+  "singles": [{
+    "finger": 1,
+    "string": 1,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 3
   }, {
     "finger": 4,
     "string": 2,

@@ -1,0 +1,61 @@
+[{
+  "label": "5th Root Lean #1",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 1
+  }, {
+    "finger": 2,
+    "string": 3,
+    "fret": 2
+  }, {
+    "finger": 3,
+    "string": 5,
+    "fret": 3
+  }]
+}, {
+  "label": "5th Root Lean #2",
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  },{
+    "finger": 4,
+    "string": 2,
+    "fret": 4
+  }]
+}, {
+  "label": "6th Root Lean #1",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 6
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 7
+  },{
+    "finger": 3,
+    "string": 6,
+    "fret": 8
+  }]
+}, {
+  "label": "6th Root Lean #2",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 7
+  }, {
+    "finger": 2,
+    "string": 6,
+    "fret": 8
+  },{
+    "finger": 3,
+    "string": 3,
+    "fret": 8
+  }]
+}]

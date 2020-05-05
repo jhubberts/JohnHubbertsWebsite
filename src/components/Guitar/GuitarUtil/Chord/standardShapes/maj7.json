@@ -37,6 +37,36 @@
     "fret": 5
   }]
 }, {
+  "label": "5th Root Lean #1",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 4
+  }]
+}, {
+  "label": "5th Root Lean #2",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 4
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 5
+  }]
+}, {
   "label": "6th Root",
   "singles": [{
     "finger": 1,
@@ -56,7 +86,7 @@
     "fret": 9
   }]
 }, {
-  "label": "Lean 6th Root",
+  "label": "6th Root Lean #1",
   "singles": [{
     "finger": 1,
     "string": 6,
@@ -68,6 +98,21 @@
   }, {
     "finger": 4,
     "string": 3,
+    "fret": 9
+  }]
+}, {
+  "label": "6th Root Lean #2",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 7
+  }, {
+    "finger": 2,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 4,
+    "string": 4,
     "fret": 9
   }]
 }]

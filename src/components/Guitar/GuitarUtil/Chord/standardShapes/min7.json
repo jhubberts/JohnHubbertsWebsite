@@ -18,6 +18,25 @@
     "fret": 8
   }]
 }, {
+  "label": "4th Root",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 10
+  }, {
+    "finger": 2,
+    "string": 2,
+    "fret": 11
+  }, {
+    "finger": 3,
+    "string": 1,
+    "fret": 11
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 12
+  }]
+} ,{
   "label": "5th Root #1",
   "singles": [{
     "finger": 1,
@@ -54,25 +73,6 @@
     "finger": 4,
     "string": 2,
     "fret": 4
-  }]
-},{
-  "label": "6th Root",
-  "singles": [{
-    "finger": 1,
-    "string": 6,
-    "fret": 8
-  }, {
-    "finger": 2,
-    "string": 4,
-    "fret": 8
-  }, {
-    "finger": 3,
-    "string": 3,
-    "fret": 8
-  }, {
-    "finger": 4,
-    "string": 2,
-    "fret": 8
   }]
 }, {
   "label": "5th Root #3",
@@ -112,22 +112,82 @@
     "voicedStrings": [2, 4]
   }]
 }, {
-  "label": "4th Root",
+  "label": "5th Root Lean #1",
   "singles": [{
     "finger": 1,
-    "string": 4,
-    "fret": 10
+    "string": 5,
+    "fret": 3
   }, {
     "finger": 2,
-    "string": 2,
-    "fret": 11
+    "string": 4,
+    "fret": 1
   }, {
     "finger": 3,
-    "string": 1,
-    "fret": 11
+    "string": 3,
+    "fret": 3
+  }]
+}, {
+  "label": "5th Root Lean #2",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 2,
+    "string": 3,
+    "fret": 3
   }, {
     "finger": 4,
+    "string": 2,
+    "fret": 4
+  }]
+}, {
+  "label": "6th Root #1",
+  "singles": [{
+    "finger": 1,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 8
+  }, {
+    "finger": 3,
     "string": 3,
-    "fret": 12
+    "fret": 8
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 8
+  }]
+} ,{
+  "label": "6th Root Lean #1",
+  "singles": [{
+    "finger": 1,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 8
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 8
+  }]
+}, {
+  "label": "6th Root Lean #2",
+  "singles": [{
+    "finger": 1,
+    "string": 5,
+    "fret": 6
+  }, {
+    "finger": 2,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 8
   }]
 }]
