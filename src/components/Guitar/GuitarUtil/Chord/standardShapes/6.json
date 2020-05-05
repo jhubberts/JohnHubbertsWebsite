@@ -1,4 +1,23 @@
 [{
+  "label": "4th Root #1",
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 7
+  }, {
+    "finger": 2,
+    "string": 6,
+    "fret": 8
+  }, {
+    "finger": 3,
+    "string": 2,
+    "fret": 8
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 9
+  }]
+}, {
   "label": "5th Root Lean #1",
   "singles": [{
     "finger": 2,
@@ -28,6 +47,62 @@
     "fret": 5
   }]
 }, {
+  "label": "5th Root #1",
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 2
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 3
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 5
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 5
+  }]
+}, {
+  "label": "5th Root Double Root",
+  "singles": [{
+    "finger": 1,
+    "string": 2,
+    "fret": 1
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 2
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 2
+  }, {
+    "finger": 4,
+    "string": 5,
+    "fret": 3
+  }]
+}, {
+  "label": "6th Root #1",
+  "singles": [{
+    "finger": 3,
+    "string": 3,
+    "fret": 12
+  }, {
+    "finger": 4,
+    "string": 1,
+    "fret": 12
+  }],
+  "barres": [{
+    "finger": 1,
+    "fret": 10,
+    "startString": 4,
+    "endString": 2,
+    "voicedStrings": [2, 4]
+  }]
+},{
   "label": "6th Root Lean #1",
   "singles": [{
     "finger": 2,

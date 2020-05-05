@@ -142,4 +142,64 @@
     "string": 1,
     "fret": 12
   }]
+}, {
+  "label": "1st Inversion #1",
+  "inversion": 4,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 5
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 7
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 8
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 8
+  }]
+}, {
+  "label": "2nd Inversion #1",
+  "inversion": 7,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 9
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 10
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 10
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 11
+  }]
+}, {
+  "label": "3rd Inversion #1",
+  "inversion": 10,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 12
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 13
+  }, {
+    "finger": 3,
+    "string": 2,
+    "fret": 13
+  }, {
+    "finger": 4,
+    "string": 4,
+    "fret": 14
+  }]
 }]

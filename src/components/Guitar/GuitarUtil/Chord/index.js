@@ -13,10 +13,15 @@ class Chord {
         this.label = props.label || "";
         this.singles = props.singles || [];
         this.barres = props.barres || [];
+        this.inversion = props.inversion || 0;
         this.root = props.root;
         this.notes = Chord._getNotes(this.singles, this.barres);
         this.intervals = Chord._getIntervals(this.notes, this.root);
-        this.canonicalName = `${this.root}${this.name}`;
+
+        this.canonicalName = this.inversion === 0 ?
+            `${this.root}${this.name}` :
+            `${this.root}${this.name}/${Conversions.distanceFromCToNote(Conversions.noteToDistanceFromC(this.root) + this.inversion)}`
+
     }
 
     static _getNotes(singles, barres) {
@@ -76,6 +81,7 @@ class Chord {
             name: this.name,
             singles: newSingles,
             barres: newBarres,
+            inversion: this.inversion,
             root: newRoot,
             label: this.label
         });
