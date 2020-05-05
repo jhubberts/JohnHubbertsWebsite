@@ -115,4 +115,232 @@
     "string": 4,
     "fret": 9
   }]
+}, {
+  "label": "1st Inversion #1",
+  "inversion": 4,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 5
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 7
+  }, {
+    "finger": 3,
+    "string": 2,
+    "fret": 8
+  }, {
+    "finger": 4,
+    "string": 4,
+    "fret": 9
+  }]
+}, {
+  "label": "1st Inversion #2",
+  "inversion": 4,
+  "singles": [{
+    "finger": 1,
+    "string": 2,
+    "fret": 1
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 2
+  }, {
+    "finger": 3,
+    "string": 1,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 4
+  }]
+}, {
+  "label": "1st Inversion #3",
+  "inversion": 4,
+  "singles": [{
+    "finger": 1,
+    "string": 4,
+    "fret": 10
+  }, {
+    "finger": 2,
+    "string": 6,
+    "fret": 12
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 12
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 12
+  }]
+}, {
+  "label": "1st Inversion #4",
+  "inversion": 4,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 5
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 7
+  }, {
+    "finger": 3,
+    "string": 1,
+    "fret": 7
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 8
+  }]
+}, {
+  "label": "2nd Inversion #1",
+  "inversion": 7,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 9
+  }, {
+    "finger": 2,
+    "string": 5,
+    "fret": 10
+  }, {
+    "finger": 3,
+    "string": 4,
+    "fret": 10
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 12
+  }]
+}, {
+  "label": "2nd Inversion #2",
+  "inversion": 7,
+  "singles": [{
+    "finger": 4,
+    "string": 1,
+    "fret": 7
+  }],
+  "barres": [{
+    "finger": 1,
+    "fret": 5,
+    "startString": 4,
+    "endString": 2,
+    "voicedStrings": [2, 3, 4]
+  }]
+}, {
+  "label": "2nd Inversion #3",
+  "inversion": 7,
+  "singles": [{
+    "finger": 1,
+    "string": 2,
+    "fret": 1
+  }, {
+    "finger": 2,
+    "string": 4,
+    "fret": 2
+  }, {
+    "finger": 3,
+    "string": 6,
+    "fret": 3
+  }, {
+    "finger": 4,
+    "string": 3,
+    "fret": 4
+  }]
+}, {
+  "label": "2nd Inversion #4",
+  "inversion": 7,
+  "singles": [{
+    "finger": 1,
+    "string": 1,
+    "fret": 8
+  }, {
+    "finger": 2,
+    "string": 3,
+    "fret": 9
+  }, {
+    "finger": 3,
+    "string": 5,
+    "fret": 10
+  }, {
+    "finger": 4,
+    "string": 2,
+    "fret": 12
+  }]
+}, {
+  "label": "3rd Inversion #1",
+  "inversion": 10,
+  "singles": [{
+    "finger": 1,
+    "string": 3,
+    "fret": 12
+  }, {
+    "finger": 2,
+    "string": 2,
+    "fret": 13
+  }, {
+    "finger": 3,
+    "string": 5,
+    "fret": 14
+  }, {
+    "finger": 4,
+    "string": 4,
+    "fret": 14
+  }]
+}, {
+  "label": "3rd Inversion #2",
+  "inversion": 10,
+  "singles": [{
+    "finger": 2,
+    "string": 4,
+    "fret": 9
+  }, {
+    "finger": 3,
+    "string": 3,
+    "fret": 9
+  }],
+  "barres": [{
+    "finger": 1,
+    "fret": 8,
+    "startString": 2,
+    "endString": 1,
+    "voicedStrings": [1, 2]
+  }]
+}, {
+  "label": "3rd Inversion #3",
+  "inversion": 10,
+  "singles": [{
+    "finger": 3,
+    "string": 6,
+    "fret": 7
+  }],
+  "barres": [{
+    "finger": 1,
+    "fret": 5,
+    "startString": 4,
+    "endString": 2,
+    "voicedStrings": [2, 3, 4]
+  }]
+}, {
+  "label": "3rd Inversion #4",
+  "inversion": 10,
+  "singles": [{
+    "finger": 2,
+    "string": 2,
+    "fret": 13
+  }, {
+    "finger": 3,
+    "string": 5,
+    "fret": 14
+  }],
+  "barres": [{
+    "finger": 1,
+    "fret": 12,
+    "startString": 3,
+    "endString": 1,
+    "voicedStrings": [1, 3]
+  }]
 }]
