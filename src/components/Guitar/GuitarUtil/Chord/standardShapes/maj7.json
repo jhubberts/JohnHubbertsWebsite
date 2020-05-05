@@ -272,7 +272,7 @@
   }]
 }, {
   "label": "3rd Inversion #1",
-  "inversion": 10,
+  "inversion": 11,
   "singles": [{
     "finger": 1,
     "string": 3,
@@ -292,7 +292,7 @@
   }]
 }, {
   "label": "3rd Inversion #2",
-  "inversion": 10,
+  "inversion": 11,
   "singles": [{
     "finger": 2,
     "string": 4,
@@ -311,7 +311,7 @@
   }]
 }, {
   "label": "3rd Inversion #3",
-  "inversion": 10,
+  "inversion": 11,
   "singles": [{
     "finger": 3,
     "string": 6,
@@ -326,7 +326,7 @@
   }]
 }, {
   "label": "3rd Inversion #4",
-  "inversion": 10,
+  "inversion": 11,
   "singles": [{
     "finger": 2,
     "string": 2,
