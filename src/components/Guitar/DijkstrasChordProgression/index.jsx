@@ -82,18 +82,20 @@ const DijkstrasChordProgression = () => {
     const overriddenAnnotation = library.get_by_root_name_and_label("G", "9", "5th Root").transpose("G");
     overriddenAnnotation.canonicalName = "G9 (Sub G7)";
 
-
     const lowMovementChords = [
-        library.get_by_root_name_and_label("D", "min7", "6th Root"),
+        library.get_by_root_name_and_label("D", "min7", "6th Root #1"),
         overriddenAnnotation,
         library.get_by_root_name_and_label("C", "maj7", "6th Root")
     ];
 
     const highMovementChords = [
-        library.get_by_root_name_and_label("D", "min7", "6th Root"),
+        library.get_by_root_name_and_label("D", "min7", "6th Root #1"),
         library.get_by_root_name_and_label("G", "7", "4th Root"),
         library.get_by_root_name_and_label("C", "maj7", "6th Root")
     ];
+
+    console.log(lowMovementChords);
+    console.log(highMovementChords);
 
     const blurb = (
         <Grid item xs={12} align="left">
