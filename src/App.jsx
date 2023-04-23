@@ -4,8 +4,6 @@ import { Switch, Redirect, Route, BrowserRouter } from 'react-router-dom';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles'
 import blue from '@material-ui/core/colors/blue'
 
-import './App.scss';
-
 import NavBar from "./components/NavBar";
 import HomePage from "./components/HomePage";
 import SiteHealth from "./components/SiteHealth";
