@@ -31,9 +31,9 @@ const projects = [
 ]
 
 const skills = [
-  'TypeScript', 'React', 'Python', 'AWS', 'CDK',
-  'Node.js', 'Tailwind CSS', 'PostgreSQL', 'DynamoDB',
-  'Docker', 'CI/CD', 'REST APIs', 'Graph Algorithms',
+  'Python', 'TypeScript', 'React', 'C/C++', 'AWS', 'CDK',
+  'Node.js', 'PostgreSQL', 'Docker', 'ROS',
+  'Distributed Systems', 'Embedded Systems', 'CI/CD', 'REST APIs',
 ]
 
 export default function HomePage() {
@@ -45,12 +45,17 @@ export default function HomePage() {
           John Hubberts
         </h1>
         <p className="mt-2 text-xl text-muted-foreground">
-          Software Engineer
+          Founding Engineer @ Roboto AI
         </p>
         <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-          I build things for the web and the cloud. Currently interested in
-          developer tools, infrastructure as code, and creative applications
-          of algorithms — like using graph theory to solve guitar chord progressions.
+          Founding Engineer at{' '}
+          <a href="https://roboto.ai" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground transition-colors">Roboto AI</a>,
+          where I co-architected the platform for searching, transforming, and
+          analyzing robotics data at scale. Previously spent 9 years at Amazon
+          building drone flight data infrastructure at Prime Air, wearable
+          biometrics firmware for Halo, and petabyte-scale data pipelines.
+          When I'm not working on robots and the cloud, I like to apply graph
+          algorithms to guitar chord progressions.
         </p>
         <div className="mt-6 flex gap-3">
           <a
