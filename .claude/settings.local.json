@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc -l /Users/roboto/personal_projects/JohnHubbertsWebsite/src/**/*.jsx /Users/roboto/personal_projects/JohnHubbertsWebsite/src/**/*.js)",
+      "Bash(xargs ls -lh)",
+      "Bash(git -C /Users/roboto/personal_projects/JohnHubbertsWebsite log --oneline --all)",
+      "Bash(node --version)",
+      "Bash(npm install)",
+      "Bash(npx tsc --noEmit)"
+    ]
+  }
+}
