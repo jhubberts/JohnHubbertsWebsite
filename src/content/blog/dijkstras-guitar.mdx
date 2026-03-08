@@ -4,30 +4,31 @@ date: "2024-01-15"
 description: "How I applied graph theory to find optimal guitar fingerings for chord progressions, minimizing hand movement between chords."
 ---
 
-# Using Dijkstra's Algorithm to Solve Guitar Chord Progressions
+import { ChordExamples, ScoredChordExamples } from '@/components/blog/dijkstras-guitar/chord-movement-examples'
+import { DijkstraSolver } from '@/components/blog/dijkstras-guitar/dijkstra-solver'
 
-When you play a chord progression on guitar, there are usually multiple ways to finger each chord. A C major chord alone has at least five common voicings spread across the neck. The challenge is picking voicings that flow smoothly from one chord to the next — minimizing the distance your hand has to travel.
+# Dijkstra's Chord Progression
 
-This is fundamentally a shortest-path problem, and Dijkstra's algorithm is a natural fit.
+## Background
 
-## The Problem
+I've been learning jazz guitar concepts recently, and I wanted to build some intuition around selecting chord voicings while comping (or playing chords to complement the bass and melody). For those unfamiliar with the space here's the general problem; in a given song I'll be provided chord changes that look something like "Dmin7 → G7 → Cmaj7". Each chord can be played a lot of different ways; for example a Cmaj7 requires me to hit C/E/G/B, but I can play in different octaves, I can play the notes in any order (play E/G/B/C or even G/C/E/B), or play them on different places on the guitar neck or piano. Each specific way to play a chord is referred to as a voicing.
 
-Given a sequence of chord names like `Cmaj7 → Am7 → Dm7 → G7`, find the combination of voicings that minimizes total hand movement across the progression.
+Some combinations of chord voicings are easier to play than others. For the example of the "Dmin7 → G7 → Cmaj7" there is a combination of them that keeps all of my fingers between the 8th and 10th frets, and there are many more combinations that require moving all along the guitar neck. For example:
 
-Each chord has multiple possible voicings (positions on the fretboard). The "cost" of transitioning between two voicings is based on how far your fingers need to move.
+<ChordExamples />
 
-## Modeling It as a Graph
+I wanted to figure out the lowest movement way to play a given chord progression, so I turned to some computer science. I implemented a scoring heuristic to compare the "distance" between two chord voicings. In this case it adds 1 point for every fret I need to move on each finger, it adds 2 points for every string I need to move over on each finger, and it adds bonus points if I have to move to or from a barre position (where one finger is holding down multiple strings).
 
-I model this as a weighted directed graph:
+I then created a Directed Acyclic Graph of all voicings in the chord progression I'm trying to solve. Once I've built the graph, I use Dijkstra's algorithm, a well known algorithm for finding the shortest path in a DAG system, to find the combination of voicings with the lowest total movement score. To make matters more confusing, you can sometimes substitute chords for other chords (for example a G9 is a drop-in for a G7 because it's just a G7 + play the 9th note from G also), so I modified the solver to take a parameter that determines whether or not to use substitutions. Here's how the algorithm would score the voicing path from the example above:
 
-- **Nodes**: Each possible voicing of each chord in the progression
-- **Edges**: Connections from every voicing of chord N to every voicing of chord N+1
-- **Weights**: A distance metric based on finger movement between two voicings
+<ScoredChordExamples />
 
-The distance metric considers the average fret position difference and individual finger movements, weighted to penalize large jumps.
+## Instructions
 
-## The Result
+To try this out, enter chords into the selector either through the text box or drop down. I re-used the chord picker from another project so it'll let you pick the voicing in the preview window, and then will totally ignore it when actually solving the progression. If you want to see how this performs on a complex set of chord changes, hit the "Giant Steps" button, which takes some of the notoriously complex chord changes from [John Coltrane's "Giant Steps"](https://www.youtube.com/watch?v=30FTr6G53VU).
 
-Dijkstra's algorithm finds the shortest path through this graph — the sequence of voicings with minimal total transition cost. The result is a set of fingering charts that flow naturally from one to the next.
+You can click on any chord to sound it, and you can mouse over any note to sound it. This was only tested on desktop and may blow up on mobile.
 
-Try it yourself with the [Dijkstra's Chord Progression](/projects/guitar/dijkstras) tool, and hit the "Giant Steps" button to see it tackle one of the most challenging chord progressions in jazz.
+---
+
+<DijkstraSolver />
