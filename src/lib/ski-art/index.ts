@@ -1,0 +1,5 @@
+export { parseGpx } from './gpx-parser'
+export { projectTrackpoints } from './projection'
+export { interpolateColor } from './color'
+export { ASPECT_RATIOS, DEFAULT_SETTINGS } from './types'
+export type { TrackPoint, ProjectedPoint, ArtSettings } from './types'

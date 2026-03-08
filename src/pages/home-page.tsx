@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Github, Linkedin, Mail, Guitar, Bot, BarChart3, ArrowRight } from 'lucide-react'
+import { Github, Linkedin, Mail, Guitar, Bot, BarChart3, Mountain, ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
 import {
@@ -27,6 +27,13 @@ const projects = [
       'Browse guitar chord voicings across all roots and types. Hear each chord with Web Audio synthesis and see note/interval annotations on the fingering chart.',
     icon: Guitar,
     to: '/projects/guitar/chord-library',
+  },
+  {
+    title: 'Minimalist Ski Art',
+    description:
+      'Turn GPS ski tracks into minimalist wall art. Upload a GPX file and explore viewing angles, colors, and line styles.',
+    icon: Mountain,
+    to: '/projects/minimalist-ski-art',
   },
   {
     title: 'Benbot',

@@ -6,7 +6,12 @@
       "Bash(git -C /Users/roboto/personal_projects/JohnHubbertsWebsite log --oneline --all)",
       "Bash(node --version)",
       "Bash(npm install)",
-      "Bash(npx tsc --noEmit)"
+      "Bash(npx tsc --noEmit)",
+      "Bash(npm install --save-dev eslint@^9.0.0)",
+      "Bash(npm run lint)",
+      "Bash(npm uninstall eslint-plugin-react-hooks)",
+      "Bash(npm install --save-dev eslint@^10.0.3)",
+      "Bash(npm install --prefix /Users/roboto/personal_projects/JohnHubbertsWebsite)"
     ]
   }
 }
