@@ -27,6 +27,9 @@ export class FingeringChart {
   fingerNumberFont: string;
   annotationFont: string;
 
+  foregroundColor: string;
+  backgroundColor: string;
+
   hitBoxes: [[number, number, number], Single][];
   highlighted: { string: number; fret: number }[];
 
@@ -39,7 +42,9 @@ export class FingeringChart {
     singles: Single[],
     barres: Barre[],
     annotations: string[],
-    title: string | null
+    title: string | null,
+    foregroundColor: string = 'black',
+    backgroundColor: string = 'white',
   ) {
     this.ctx = canvas.getContext("2d")!;
     this.canvas = canvas;
@@ -67,6 +72,9 @@ export class FingeringChart {
 
     const annotationFontSize = stringSpacing * 0.35;
     this.annotationFont = `${annotationFontSize}px Arial`;
+
+    this.foregroundColor = foregroundColor;
+    this.backgroundColor = backgroundColor;
 
     this.hitBoxes = this.singles.map((single) => [this.getSingleHitbox(single), single]);
 
@@ -106,13 +114,14 @@ export class FingeringChart {
     if (this.title !== null) {
       this.ctx.font = this.titleFont;
       this.ctx.textAlign = 'center';
-      this.ctx.fillStyle = 'black';
+      this.ctx.fillStyle = this.foregroundColor;
       this.ctx.fillText(this.title, this.stringSpacing * 4, this.fretboardOriginY / 2);
     }
   }
 
   drawFretboard(): void {
     // Draw strings
+    this.ctx.strokeStyle = this.foregroundColor;
     for (let i = 0; i < 6; i++) {
       this.ctx.beginPath();
       this.ctx.moveTo(this.fretboardOriginX + i * this.stringSpacing, this.fretboardOriginY);
@@ -135,7 +144,7 @@ export class FingeringChart {
 
       // And number them
       this.ctx.font = this.annotationFont;
-      this.ctx.fillStyle = 'black';
+      this.ctx.fillStyle = this.foregroundColor;
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
       this.ctx.fillText((this.startFret + i).toString(), this.stringSpacing / 2, this.fretboardOriginY + ((i + 0.5) * this.fretSpacing));
@@ -147,7 +156,7 @@ export class FingeringChart {
       const annotationX = this.fretboardOriginX + Number(annotationIdx) * this.stringSpacing;
       const annotationY = this.fretboardOriginY + this.fretboardHeight + this.fretSpacing * 0.5;
       this.ctx.font = this.annotationFont;
-      this.ctx.fillStyle = "black";
+      this.ctx.fillStyle = this.foregroundColor;
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
       this.ctx.fillText(this.annotations[annotationIdx], annotationX, annotationY);
@@ -170,9 +179,9 @@ export class FingeringChart {
       if (this.highlighted.some((highlighted) => highlighted.string === single.string && highlighted.fret === single.fret)) {
         color = 'red';
       } else if (!!single.isRoot) {
-        color = 'white';
+        color = this.backgroundColor;
       } else {
-        color = 'black';
+        color = this.foregroundColor;
       }
 
       const rootStyling = !!single.isRoot;
@@ -188,13 +197,13 @@ export class FingeringChart {
       if (rootStyling) {
         this.ctx.beginPath();
         this.ctx.arc(singleCenterX, singleCenterY, singleRadius, 0, Math.PI * 2, false);
-        this.ctx.strokeStyle = "black";
+        this.ctx.strokeStyle = this.foregroundColor;
         this.ctx.stroke();
       }
 
       if (labelFinger) {
         this.ctx.font = this.fingerNumberFont;
-        this.ctx.fillStyle = rootStyling ? "black" : "white";
+        this.ctx.fillStyle = rootStyling ? this.foregroundColor : this.backgroundColor;
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
         this.ctx.fillText(single.finger!.toString(), singleCenterX, singleCenterY);
@@ -213,14 +222,14 @@ export class FingeringChart {
       const barreWidth = barre.startString - barre.endString; // Because reversed naming convention
 
       this.ctx.beginPath();
-      this.ctx.fillStyle = 'black';
+      this.ctx.fillStyle = this.foregroundColor;
       this.ctx.arc(barreStartCenterX, barreCenterY, barreRadius, Math.PI / 2, -Math.PI / 2, false);
       this.ctx.arc(barreStartCenterX + barreWidth * this.stringSpacing, barreCenterY, barreRadius, -Math.PI / 2, Math.PI / 2);
       this.ctx.fill();
 
       if (labelFinger) {
         this.ctx.font = this.fingerNumberFont;
-        this.ctx.fillStyle = "white";
+        this.ctx.fillStyle = this.backgroundColor;
         this.ctx.textAlign = 'center';
         this.ctx.textBaseline = 'middle';
         this.ctx.fillText(barre.finger!.toString(), barreStartCenterX + (barreWidth * this.stringSpacing / 2), barreCenterY);

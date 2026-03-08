@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { FingeringChart } from '@/lib/guitar/fingering-chart'
 import type { Single, Barre } from '@/lib/guitar/chord'
 
@@ -20,6 +20,17 @@ const GuitarFingering = ({
   onMouseOverNote = () => {},
 }: GuitarFingeringProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const [isDark, setIsDark] = useState(() =>
+    document.documentElement.classList.contains('dark')
+  )
+
+  useEffect(() => {
+    const observer = new MutationObserver(() => {
+      setIsDark(document.documentElement.classList.contains('dark'))
+    })
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
 
   const stringSpacing = width / 7
   const fretSpacing = (stringSpacing * 5) / 4
@@ -33,9 +44,14 @@ const GuitarFingering = ({
     const canvas = canvasRef.current
     if (!canvas) return
 
+    const styles = getComputedStyle(document.documentElement)
+    const foreground = styles.getPropertyValue('--foreground').trim()
+    const background = styles.getPropertyValue('--background').trim()
+
     const chart = new FingeringChart(
       canvas, stringSpacing, fretSpacing, startFret, endFret,
-      chord.singles, chord.barres, annotations, title
+      chord.singles, chord.barres, annotations, title,
+      foreground, background,
     )
     chart.draw()
 
@@ -68,7 +84,7 @@ const GuitarFingering = ({
       canvas.removeEventListener('mousemove', mouseMoveListener)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chord])
+  }, [chord, isDark])
 
   return (
     <div>
