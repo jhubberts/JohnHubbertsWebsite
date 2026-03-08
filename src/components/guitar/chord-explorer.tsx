@@ -68,49 +68,63 @@ const ChordExplorer = ({ onSelection = () => {} }: ChordExplorerProps) => {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="flex gap-3 items-end">
+      <div className="flex items-end gap-3">
         <div className="flex flex-col gap-1">
-          <Label htmlFor="select-root" className="text-xs">Root</Label>
+          <Label htmlFor="select-root" className="text-xs">
+            Root
+          </Label>
           <select
             id="select-root"
             value={note}
             onChange={(e) => handleChangeRoot(e.target.value)}
-            className="h-8 rounded-md border border-input bg-background px-2 text-sm"
+            className="border-input bg-background h-8 rounded-md border px-2 text-sm"
           >
             {NOTE_OPTIONS.map((n) => (
-              <option key={n} value={n}>{n}</option>
+              <option key={n} value={n}>
+                {n}
+              </option>
             ))}
           </select>
         </div>
         <div className="flex flex-col gap-1">
-          <Label htmlFor="select-chord-type" className="text-xs">Chord</Label>
+          <Label htmlFor="select-chord-type" className="text-xs">
+            Chord
+          </Label>
           <select
             id="select-chord-type"
             value={chordType}
             onChange={(e) => handleChangeChordType(e.target.value)}
-            className="h-8 rounded-md border border-input bg-background px-2 text-sm"
+            className="border-input bg-background h-8 rounded-md border px-2 text-sm"
           >
             {types.map((type: string) => (
-              <option key={type} value={type}>{type}</option>
+              <option key={type} value={type}>
+                {type}
+              </option>
             ))}
           </select>
         </div>
         <div className="flex flex-col gap-1">
-          <Label htmlFor="select-chord-shape" className="text-xs">Shape</Label>
+          <Label htmlFor="select-chord-shape" className="text-xs">
+            Shape
+          </Label>
           <select
             id="select-chord-shape"
             value={chordShape}
             onChange={(e) => handleChangeChordName(e.target.value)}
-            className="h-8 rounded-md border border-input bg-background px-2 text-sm"
+            className="border-input bg-background h-8 rounded-md border px-2 text-sm"
           >
             {shapeNames.map((name: string) => (
-              <option key={name} value={name}>{name}</option>
+              <option key={name} value={name}>
+                {name}
+              </option>
             ))}
           </select>
         </div>
       </div>
       <div>
-        <Label htmlFor="type-in-chord" className="text-xs">...Or Type A Chord By Name</Label>
+        <Label htmlFor="type-in-chord" className="text-xs">
+          ...Or Type A Chord By Name
+        </Label>
         <Input
           id="type-in-chord"
           list="chord-options"

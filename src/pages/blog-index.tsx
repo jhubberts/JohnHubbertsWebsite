@@ -7,18 +7,18 @@ export default function BlogIndex() {
 
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-3xl font-bold mb-8">Blog</h1>
+      <h1 className="mb-8 text-3xl font-bold">Blog</h1>
       {posts.length === 0 ? (
         <p className="text-muted-foreground">No posts yet. Check back soon!</p>
       ) : (
-        <div className="flex flex-col gap-4 max-w-2xl">
+        <div className="flex max-w-4xl flex-col gap-4">
           {posts.map((post) => (
             <Link key={post.slug} to={`/blog/${post.slug}`}>
-              <Card className="transition-colors hover:bg-muted/50">
+              <Card className="hover:bg-muted/50 transition-colors">
                 <CardHeader>
                   <div className="flex items-baseline justify-between gap-4">
                     <CardTitle>{post.title}</CardTitle>
-                    <span className="text-xs text-muted-foreground whitespace-nowrap">
+                    <span className="text-muted-foreground text-xs whitespace-nowrap">
                       {new Date(post.date).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',

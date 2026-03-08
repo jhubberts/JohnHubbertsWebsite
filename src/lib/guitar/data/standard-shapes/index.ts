@@ -12,18 +12,18 @@ import shapes_min7b5 from './min7b5.json'
 import shapes_min9 from './min9.json'
 
 const standardShapes: Record<string, unknown[]> = {
-    "6": shapes_6,
-    "7": shapes_7,
-    "7b13": shapes_7b13,
-    "9": shapes_9,
-    "13": shapes_13,
-    "dim7": shapes_dim7,
-    "maj7": shapes_maj7,
-    "maj9": shapes_maj9,
-    "min6": shapes_min6,
-    "min7": shapes_min7,
-    "min7b5": shapes_min7b5,
-    "min9": shapes_min9
+  '6': shapes_6,
+  '7': shapes_7,
+  '7b13': shapes_7b13,
+  '9': shapes_9,
+  '13': shapes_13,
+  dim7: shapes_dim7,
+  maj7: shapes_maj7,
+  maj9: shapes_maj9,
+  min6: shapes_min6,
+  min7: shapes_min7,
+  min7b5: shapes_min7b5,
+  min9: shapes_min9,
 }
 
 export default { standardShapes }

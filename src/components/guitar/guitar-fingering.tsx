@@ -20,9 +20,7 @@ const GuitarFingering = ({
   onMouseOverNote = () => {},
 }: GuitarFingeringProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isDark, setIsDark] = useState(() =>
-    document.documentElement.classList.contains('dark')
-  )
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'))
 
   useEffect(() => {
     const observer = new MutationObserver(() => {
@@ -49,9 +47,17 @@ const GuitarFingering = ({
     const background = styles.getPropertyValue('--background').trim()
 
     const chart = new FingeringChart(
-      canvas, stringSpacing, fretSpacing, startFret, endFret,
-      chord.singles, chord.barres, annotations, title,
-      foreground, background,
+      canvas,
+      stringSpacing,
+      fretSpacing,
+      startFret,
+      endFret,
+      chord.singles,
+      chord.barres,
+      annotations,
+      title,
+      foreground,
+      background,
     )
     chart.draw()
 

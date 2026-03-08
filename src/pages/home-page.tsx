@@ -1,12 +1,26 @@
 import { Link } from 'react-router-dom'
-import { Github, Linkedin, Mail, Guitar, Music, BarChart3, ArrowRight } from 'lucide-react'
+import { Github, Linkedin, Mail, Guitar, Bot, BarChart3, ArrowRight } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { buttonVariants } from '@/components/ui/button'
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { cn } from '@/lib/utils'
 
 const projects = [
+  {
+    title: "Dijkstra's Chord Progression",
+    description:
+      "Enter a chord progression and find optimal fingerings using Dijkstra's algorithm to minimize hand movement between chords. Try it on Giant Steps!",
+    icon: BarChart3,
+    to: '/blog/dijkstras-guitar',
+  },
   {
     title: 'Chord Library',
     description:
@@ -15,51 +29,55 @@ const projects = [
     to: '/projects/guitar/chord-library',
   },
   {
-    title: "Dijkstra's Chord Progression",
-    description:
-      'Enter a chord progression and find optimal fingerings using Dijkstra\'s algorithm to minimize hand movement between chords. Try it on Giant Steps!',
-    icon: BarChart3,
-    to: '/projects/guitar/dijkstras',
-  },
-  {
-    title: 'Fretboard Explorer',
-    description:
-      'A visual sandbox for exploring chord shapes on the fretboard with interactive canvas rendering.',
-    icon: Music,
-    to: '/projects/guitar/fretboard',
+    title: 'Benbot',
+    description: 'I built an iRobot Create3 based robot to play with my cat.',
+    icon: Bot,
+    to: '/blog/benbot_is_friendbot',
   },
 ]
 
 const skills = [
-  'Python', 'TypeScript', 'React', 'C/C++', 'AWS', 'CDK',
-  'Node.js', 'PostgreSQL', 'Docker', 'ROS',
-  'Distributed Systems', 'Embedded Systems', 'CI/CD', 'REST APIs',
+  'Python',
+  'TypeScript',
+  'React',
+  'Embedded C',
+  'Java',
+  'AWS',
+  'Agentic AI',
+  'CDK',
+  'PostgreSQL',
+  'Docker',
+  'ROS',
 ]
 
 export default function HomePage() {
   return (
     <div className="container mx-auto px-4 py-12">
       {/* Hero */}
-      <section className="max-w-2xl mb-16">
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">
-          John Hubberts
-        </h1>
-        <p className="mt-2 text-xl text-muted-foreground">
-          Founding Engineer @ Roboto AI
+      <section className="mb-16 max-w-2xl">
+        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl">John Hubberts</h1>
+        <p className="text-muted-foreground mt-2 text-xl">
+          Founding Engineer @{' '}
+          <a
+            href="https://roboto.ai"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-foreground underline underline-offset-4 transition-colors"
+          >
+            Roboto AI
+          </a>
         </p>
-        <p className="mt-6 text-base leading-relaxed text-muted-foreground">
-          Founding Engineer at{' '}
-          <a href="https://roboto.ai" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:text-foreground transition-colors">Roboto AI</a>,
-          where I co-architected the platform for searching, transforming, and
-          analyzing robotics data at scale. Previously spent 9 years at Amazon
-          building drone flight data infrastructure at Prime Air, wearable
-          biometrics firmware for Halo, and petabyte-scale data pipelines.
-          When I'm not working on robots and the cloud, I like to apply graph
-          algorithms to guitar chord progressions.
+        <p className="text-muted-foreground mt-6 text-base leading-relaxed">
+          Professional software engineer with over a decade of experience building and shipping
+          products. I've worked on distributed systems processing hundreds of TBs of data per day,
+          embedded devices with KBs of RAM, and everything in between.
+        </p>
+        <p className="text-muted-foreground mt-6 text-base leading-relaxed">
+          This site was built to host personal projects and writing about topics I'm interested in.
         </p>
         <div className="mt-6 flex gap-3">
           <a
-            href="https://github.com/johnhubberts"
+            href="https://github.com/jhubberts"
             target="_blank"
             rel="noopener noreferrer"
             className={cn(buttonVariants({ variant: 'outline', size: 'icon' }))}
@@ -77,7 +95,7 @@ export default function HomePage() {
             <span className="sr-only">LinkedIn</span>
           </a>
           <a
-            href="mailto:john@hubberts.com"
+            href="mailto:jhubberts+website@gmail.com"
             className={cn(buttonVariants({ variant: 'outline', size: 'icon' }))}
           >
             <Mail className="h-4 w-4" />
@@ -90,13 +108,13 @@ export default function HomePage() {
 
       {/* Projects */}
       <section className="mb-16">
-        <h2 className="text-2xl font-semibold mb-6">Projects</h2>
+        <h2 className="mb-6 text-2xl font-semibold">Projects</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {projects.map((project) => (
             <Card key={project.to} className="flex flex-col">
               <CardHeader>
                 <div className="flex items-center gap-2">
-                  <project.icon className="h-5 w-5 text-muted-foreground" />
+                  <project.icon className="text-muted-foreground h-5 w-5" />
                   <CardTitle>{project.title}</CardTitle>
                 </div>
               </CardHeader>
@@ -120,10 +138,12 @@ export default function HomePage() {
 
       {/* Skills */}
       <section>
-        <h2 className="text-2xl font-semibold mb-4">Tech I Work With</h2>
+        <h2 className="mb-4 text-2xl font-semibold">Tech I Work With</h2>
         <div className="flex flex-wrap gap-2">
           {skills.map((skill) => (
-            <Badge key={skill} variant="secondary">{skill}</Badge>
+            <Badge key={skill} variant="secondary">
+              {skill}
+            </Badge>
           ))}
         </div>
       </section>

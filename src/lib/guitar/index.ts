@@ -1,7 +1,7 @@
-export { Chord, ChordLibrary } from './chord';
-export { default as Fretboard } from './fretboard';
-export { default as ProgressionSolver } from './progression-solver';
-export { compareChords } from './progression-solver';
-export { default as Synth } from './synth';
-export { default as Note } from './note';
-export { default as Conversions } from './conversions';
+export { Chord, ChordLibrary } from './chord'
+export { default as Fretboard } from './fretboard'
+export { default as ProgressionSolver } from './progression-solver'
+export { compareChords } from './progression-solver'
+export { default as Synth } from './synth'
+export { default as Note } from './note'
+export { default as Conversions } from './conversions'

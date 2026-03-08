@@ -29,7 +29,7 @@ function useChordAudio() {
 function ChordRow({ chords, width = 150 }: { chords: Chord[]; width?: number }) {
   const { playChord, playNote } = useChordAudio()
   return (
-    <div className="flex flex-wrap gap-4 items-center">
+    <div className="flex flex-wrap items-center gap-4">
       {chords.map((chord, i) => (
         <div key={i}>
           <GuitarFingering
@@ -52,17 +52,32 @@ function ScoredChordRow({ chords, width = 150 }: { chords: Chord[]; width?: numb
   const score12 = compareChords(chords[1], chords[2])
 
   return (
-    <div className="flex flex-wrap gap-2 items-center">
+    <div className="flex flex-wrap items-center gap-2">
       <div>
-        <GuitarFingering width={width} {...chordToRenderable(chords[0])} onClick={playChord(chords[0])} onMouseOverNote={playNote(chords[0])} />
+        <GuitarFingering
+          width={width}
+          {...chordToRenderable(chords[0])}
+          onClick={playChord(chords[0])}
+          onMouseOverNote={playNote(chords[0])}
+        />
       </div>
       <span className="text-lg font-semibold">&rarr; {score01} &rarr;</span>
       <div>
-        <GuitarFingering width={width} {...chordToRenderable(chords[1])} onClick={playChord(chords[1])} onMouseOverNote={playNote(chords[1])} />
+        <GuitarFingering
+          width={width}
+          {...chordToRenderable(chords[1])}
+          onClick={playChord(chords[1])}
+          onMouseOverNote={playNote(chords[1])}
+        />
       </div>
       <span className="text-lg font-semibold">&rarr; {score12} &rarr;</span>
       <div>
-        <GuitarFingering width={width} {...chordToRenderable(chords[2])} onClick={playChord(chords[2])} onMouseOverNote={playNote(chords[2])} />
+        <GuitarFingering
+          width={width}
+          {...chordToRenderable(chords[2])}
+          onClick={playChord(chords[2])}
+          onMouseOverNote={playNote(chords[2])}
+        />
       </div>
       <span className="text-lg font-semibold">= {score01 + score12}</span>
     </div>
@@ -72,7 +87,9 @@ function ScoredChordRow({ chords, width = 150 }: { chords: Chord[]; width?: numb
 function useExampleChords() {
   const library = ChordLibrary.standard()
 
-  const overriddenAnnotation = library.get_by_root_name_and_label('G', '9', '5th Root')?.transpose('G')
+  const overriddenAnnotation = library
+    .get_by_root_name_and_label('G', '9', '5th Root')
+    ?.transpose('G')
   if (overriddenAnnotation) overriddenAnnotation.canonicalName = 'G9 (Sub G7)'
 
   const lowMovementChords = [
@@ -94,9 +111,9 @@ export function ChordExamples() {
   const { lowMovementChords, highMovementChords } = useExampleChords()
   return (
     <div className="not-prose">
-      <h3 className="text-lg font-medium mt-4 mb-2">Low Movement</h3>
+      <h3 className="mt-4 mb-2 text-lg font-medium">Low Movement</h3>
       <ChordRow chords={lowMovementChords} />
-      <h3 className="text-lg font-medium mt-6 mb-2">High Movement</h3>
+      <h3 className="mt-6 mb-2 text-lg font-medium">High Movement</h3>
       <ChordRow chords={highMovementChords} />
     </div>
   )
@@ -106,9 +123,9 @@ export function ScoredChordExamples() {
   const { lowMovementChords, highMovementChords } = useExampleChords()
   return (
     <div className="not-prose">
-      <h3 className="text-lg font-medium mt-4 mb-2">Low Movement (scored)</h3>
+      <h3 className="mt-4 mb-2 text-lg font-medium">Low Movement (scored)</h3>
       <ScoredChordRow chords={lowMovementChords} />
-      <h3 className="text-lg font-medium mt-6 mb-2">High Movement (scored)</h3>
+      <h3 className="mt-6 mb-2 text-lg font-medium">High Movement (scored)</h3>
       <ScoredChordRow chords={highMovementChords} />
     </div>
   )

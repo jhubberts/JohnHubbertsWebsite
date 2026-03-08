@@ -1,4 +1,4 @@
-import { Chord, ChordLibrary } from "./chord";
+import { Chord, ChordLibrary } from './chord'
 
 /**
  * Compares two chords. Distance is a heuristic with the following properties:
@@ -13,157 +13,165 @@ import { Chord, ChordLibrary } from "./chord";
  * 7. Moving from a barre costs 3 points + fret movement
  */
 const compareChords = (first: Chord, second: Chord): number => {
-    let distance = 0;
+  let distance = 0
 
-    for (let finger = 1; finger <= 4; finger++) {
-        const firstSingles = first.singles.filter((single) => single.finger === finger);
-        const secondSingles = second.singles.filter((single) => single.finger === finger);
+  for (let finger = 1; finger <= 4; finger++) {
+    const firstSingles = first.singles.filter((single) => single.finger === finger)
+    const secondSingles = second.singles.filter((single) => single.finger === finger)
 
-        // Assume everything is OK, don't be defensive
-        const fromSingle = firstSingles.length === 1;
-        const toSingle = secondSingles.length === 1;
+    // Assume everything is OK, don't be defensive
+    const fromSingle = firstSingles.length === 1
+    const toSingle = secondSingles.length === 1
 
-        // TODO support barres. For now we'll just ignore them
-        if (!toSingle && second.barres.filter((barre) => barre.finger === finger)) {
-            distance += 100;
-            continue;
-        }
-
-        if (!toSingle || !fromSingle) {
-            continue; // Drop finger, + 0
-        }
-
-        distance += Math.abs(secondSingles[0].fret - firstSingles[0].fret);
-        distance += 2 * Math.abs(secondSingles[0].string - firstSingles[0].string);
+    // TODO support barres. For now we'll just ignore them
+    if (!toSingle && second.barres.filter((barre) => barre.finger === finger)) {
+      distance += 100
+      continue
     }
 
-    return distance;
-};
+    if (!toSingle || !fromSingle) {
+      continue // Drop finger, + 0
+    }
 
-const INFINITY = 999999;
+    distance += Math.abs(secondSingles[0].fret - firstSingles[0].fret)
+    distance += 2 * Math.abs(secondSingles[0].string - firstSingles[0].string)
+  }
+
+  return distance
+}
+
+const INFINITY = 999999
 
 class GraphNode {
-    chord: Chord | null;
-    connections: [GraphNode, number][];
-    totalDistance: number;
-    path: GraphNode[];
-    queued: boolean;
+  chord: Chord | null
+  connections: [GraphNode, number][]
+  totalDistance: number
+  path: GraphNode[]
+  queued: boolean
 
-    constructor(chord: Chord | null) {
-        this.chord = chord;
-        this.connections = [];
+  constructor(chord: Chord | null) {
+    this.chord = chord
+    this.connections = []
 
-        // Weird abstractions
-        this.totalDistance = INFINITY;
-        this.path = [];
-        this.queued = false;
-    }
+    // Weird abstractions
+    this.totalDistance = INFINITY
+    this.path = []
+    this.queued = false
+  }
 
-    addConnection(node: GraphNode, distance: number): void {
-        this.connections.push([node, distance]);
-    }
+  addConnection(node: GraphNode, distance: number): void {
+    this.connections.push([node, distance])
+  }
 }
 
 interface ProgressionSolverParams {
-    constraintFn?: (chord: Chord) => boolean;
+  constraintFn?: (chord: Chord) => boolean
 }
 
 interface ProgressionResult {
-    chords: Chord[];
-    score: number;
+  chords: Chord[]
+  score: number
 }
 
 class ProgressionSolver {
-    constraintFn: (chord: Chord) => boolean;
+  constraintFn: (chord: Chord) => boolean
 
-    constructor(params?: ProgressionSolverParams) {
-        const usableParams = params || {};
-        this.constraintFn = usableParams.constraintFn || (() => true);
+  constructor(params?: ProgressionSolverParams) {
+    const usableParams = params || {}
+    this.constraintFn = usableParams.constraintFn || (() => true)
+  }
+
+  solve(chordNames: string[], withSubstitutions?: boolean): ProgressionResult {
+    if (chordNames.length === 0) {
+      return {
+        chords: [],
+        score: -1,
+      }
     }
 
-    solve(chordNames: string[], withSubstitutions?: boolean): ProgressionResult {
-        if (chordNames.length === 0) {
-            return {
-                chords: [],
-                score: -1
-            };
-        }
+    const progressionColumns = chordNames.map((chordName) =>
+      ChordLibrary.standard()
+        .get_all_by_name(chordName, withSubstitutions || false)
+        .filter(this.constraintFn),
+    )
 
-        const progressionColumns = chordNames.map((chordName) => ChordLibrary.standard().get_all_by_name(chordName, withSubstitutions || false).filter(this.constraintFn));
+    const start = new GraphNode(null)
+    start.totalDistance = 0
 
-        const start = new GraphNode(null);
-        start.totalDistance = 0;
+    const end = new GraphNode(null)
+    const progressionColumnsAsNodes = progressionColumns.map((chords) => {
+      return chords.map((chord) => {
+        return new GraphNode(chord)
+      })
+    })
 
-        const end = new GraphNode(null);
-        const progressionColumnsAsNodes = progressionColumns.map((chords) => {
-            return chords.map((chord) => {
-                return new GraphNode(chord);
-            })
-        });
-
-        // 0 connections from start
-        for (let i = 0; i < progressionColumnsAsNodes[0].length; i++) {
-            start.addConnection(progressionColumnsAsNodes[0][i], 0);
-        }
-
-        // 0 connections to end
-        for (let i = 0; i < progressionColumnsAsNodes[progressionColumnsAsNodes.length - 1].length; i++) {
-            progressionColumnsAsNodes[progressionColumnsAsNodes.length - 1][i].addConnection(end, 0);
-        }
-
-        for (let i = 0; i < progressionColumnsAsNodes.length - 1; i++) {
-            for (let j = 0; j < progressionColumnsAsNodes[i].length; j++) {
-                for (let k = 0; k < progressionColumnsAsNodes[i + 1].length; k++) {
-                    const from = progressionColumnsAsNodes[i][j];
-                    const to = progressionColumnsAsNodes[i + 1][k];
-                    const distance = compareChords(from.chord!, to.chord!);
-                    from.addConnection(to, distance);
-                }
-            }
-        }
-
-        this.dijkstraAnnotate(start);
-
-        const shortestPath: Chord[] = [];
-        for (let i = 1; i < end.path.length; i++) {
-            shortestPath.push(end.path[i].chord!);
-        }
-
-        const result: ProgressionResult = {
-            chords: shortestPath,
-            score: end.totalDistance
-        }
-
-        return result;
+    // 0 connections from start
+    for (let i = 0; i < progressionColumnsAsNodes[0].length; i++) {
+      start.addConnection(progressionColumnsAsNodes[0][i], 0)
     }
 
-    dijkstraAnnotate(start: GraphNode): void {
-        const queue: GraphNode[] = [start];
-
-        while (queue.length !== 0) {
-            const curr = queue.shift()!;
-
-            for (const connectionIdx in curr.connections) {
-                const connectionParts = curr.connections[connectionIdx];
-                const connection = connectionParts[0];
-                const distance = connectionParts[1];
-
-                if (!connection.queued) {
-                    connection.queued = true;
-                    queue.push(connection);
-                }
-
-                if (curr.totalDistance + distance < connection.totalDistance) {
-                    connection.totalDistance = curr.totalDistance + distance;
-                    const pathCopy: GraphNode[] = []
-                    curr.path.forEach((node) => pathCopy.push(node));
-                    pathCopy.push(curr);
-                    connection.path = pathCopy;
-                }
-            }
-        }
+    // 0 connections to end
+    for (
+      let i = 0;
+      i < progressionColumnsAsNodes[progressionColumnsAsNodes.length - 1].length;
+      i++
+    ) {
+      progressionColumnsAsNodes[progressionColumnsAsNodes.length - 1][i].addConnection(end, 0)
     }
+
+    for (let i = 0; i < progressionColumnsAsNodes.length - 1; i++) {
+      for (let j = 0; j < progressionColumnsAsNodes[i].length; j++) {
+        for (let k = 0; k < progressionColumnsAsNodes[i + 1].length; k++) {
+          const from = progressionColumnsAsNodes[i][j]
+          const to = progressionColumnsAsNodes[i + 1][k]
+          const distance = compareChords(from.chord!, to.chord!)
+          from.addConnection(to, distance)
+        }
+      }
+    }
+
+    this.dijkstraAnnotate(start)
+
+    const shortestPath: Chord[] = []
+    for (let i = 1; i < end.path.length; i++) {
+      shortestPath.push(end.path[i].chord!)
+    }
+
+    const result: ProgressionResult = {
+      chords: shortestPath,
+      score: end.totalDistance,
+    }
+
+    return result
+  }
+
+  dijkstraAnnotate(start: GraphNode): void {
+    const queue: GraphNode[] = [start]
+
+    while (queue.length !== 0) {
+      const curr = queue.shift()!
+
+      for (const connectionIdx in curr.connections) {
+        const connectionParts = curr.connections[connectionIdx]
+        const connection = connectionParts[0]
+        const distance = connectionParts[1]
+
+        if (!connection.queued) {
+          connection.queued = true
+          queue.push(connection)
+        }
+
+        if (curr.totalDistance + distance < connection.totalDistance) {
+          connection.totalDistance = curr.totalDistance + distance
+          const pathCopy: GraphNode[] = []
+          curr.path.forEach((node) => pathCopy.push(node))
+          pathCopy.push(curr)
+          connection.path = pathCopy
+        }
+      }
+    }
+  }
 }
 
-export { compareChords };
-export default ProgressionSolver;
+export { compareChords }
+export default ProgressionSolver

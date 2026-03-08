@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import GuitarFingering from '@/components/guitar/guitar-fingering'
-import { ChordLibrary, ProgressionSolver, Synth, type Chord } from '@/lib/guitar'
+import { ProgressionSolver, Synth, type Chord } from '@/lib/guitar'
 import ChordExplorer from '@/components/guitar/chord-explorer'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -43,10 +43,32 @@ export function DijkstraSolver() {
   const giantSteps = () => {
     setWithSubstitutions(false)
     setChordNames([
-      'Bmaj7', 'D7', 'Gmaj7', 'Bb7', 'Ebmaj7', 'Amin7', 'D7',
-      'Gmaj7', 'Bb7', 'Ebmaj7', 'F#7', 'Bmaj7', 'Fmin7', 'Bb7',
-      'Ebmaj7', 'Amin7', 'D7', 'Gmaj7', 'C#min7', 'F#7', 'Bmaj7',
-      'Fmin7', 'Bb7', 'Ebmaj7', 'C#min7', 'F#7',
+      'Bmaj7',
+      'D7',
+      'Gmaj7',
+      'Bb7',
+      'Ebmaj7',
+      'Amin7',
+      'D7',
+      'Gmaj7',
+      'Bb7',
+      'Ebmaj7',
+      'F#7',
+      'Bmaj7',
+      'Fmin7',
+      'Bb7',
+      'Ebmaj7',
+      'Amin7',
+      'D7',
+      'Gmaj7',
+      'C#min7',
+      'F#7',
+      'Bmaj7',
+      'Fmin7',
+      'Bb7',
+      'Ebmaj7',
+      'C#min7',
+      'F#7',
     ])
   }
 
@@ -69,7 +91,7 @@ export function DijkstraSolver() {
       {/* Controls and Preview */}
       <div className="grid grid-cols-12 gap-6">
         <div className="col-span-12 md:col-span-4">
-          <h2 className="text-xl font-semibold mb-4">Chord Selection and Controls</h2>
+          <h2 className="mb-4 text-xl font-semibold">Chord Selection and Controls</h2>
           <div className="flex flex-col gap-3">
             <ChordExplorer
               onSelection={(chord) => {
@@ -83,7 +105,9 @@ export function DijkstraSolver() {
                 checked={withSubstitutions}
                 onCheckedChange={(checked) => setWithSubstitutions(!!checked)}
               />
-              <Label htmlFor="subs" className="text-sm">Allow Equivalent Chord Substitutions</Label>
+              <Label htmlFor="subs" className="text-sm">
+                Allow Equivalent Chord Substitutions
+              </Label>
             </div>
             <div className="flex items-center gap-2">
               <Checkbox
@@ -91,7 +115,9 @@ export function DijkstraSolver() {
                 checked={allowInversions}
                 onCheckedChange={(checked) => setAllowInversions(!!checked)}
               />
-              <Label htmlFor="inversions" className="text-sm">Allow Chord Inversions</Label>
+              <Label htmlFor="inversions" className="text-sm">
+                Allow Chord Inversions
+              </Label>
             </div>
             <div className="flex items-center gap-2">
               <Checkbox
@@ -99,17 +125,23 @@ export function DijkstraSolver() {
                 checked={addOnEnter}
                 onCheckedChange={(checked) => setAddOnEnter(!!checked)}
               />
-              <Label htmlFor="auto-add" className="text-sm">Auto Add Chords on Enter Key</Label>
+              <Label htmlFor="auto-add" className="text-sm">
+                Auto Add Chords on Enter Key
+              </Label>
             </div>
             <div className="flex flex-wrap gap-2">
               <Button onClick={addSelected}>Add Chord</Button>
-              <Button variant="secondary" onClick={clearChords}>Clear Chords</Button>
-              <Button variant="secondary" onClick={giantSteps}>Giant Steps Changes, Make My CPU Cry</Button>
+              <Button variant="secondary" onClick={clearChords}>
+                Clear Chords
+              </Button>
+              <Button variant="secondary" onClick={giantSteps}>
+                Giant Steps Changes, Make My CPU Cry
+              </Button>
             </div>
           </div>
         </div>
         <div className="col-span-12 md:col-span-8">
-          <h2 className="text-xl font-semibold mb-4">Chord Preview</h2>
+          <h2 className="mb-4 text-xl font-semibold">Chord Preview</h2>
           {previewChord != null && chordToFingering(previewChord)}
         </div>
       </div>
@@ -117,7 +149,7 @@ export function DijkstraSolver() {
       <Separator className="my-6" />
 
       {/* Solution */}
-      <h2 className="text-xl font-semibold mb-4">
+      <h2 className="mb-4 text-xl font-semibold">
         Solution{chords.length > 0 ? ` (${score} points)` : ''}
       </h2>
       <div className="flex flex-wrap gap-2">

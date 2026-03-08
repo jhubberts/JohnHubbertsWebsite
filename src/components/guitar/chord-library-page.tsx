@@ -42,7 +42,7 @@ const ChordLibraryPage = () => {
 
   return (
     <div className="container mx-auto px-4 py-6">
-      <h1 className="text-3xl font-bold mb-6">Chord Library</h1>
+      <h1 className="mb-6 text-3xl font-bold">Chord Library</h1>
       <div className="grid grid-cols-12 gap-5">
         <div className="col-span-12 md:col-span-3">
           <ChordExplorer onSelection={(chord) => setActiveChord(chord)} />

@@ -11,7 +11,7 @@ export default function BlogPost() {
   if (!post) return <NotFound />
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-12">
+    <div className="mx-auto max-w-4xl px-4 py-12">
       <Link
         to="/blog"
         className={buttonVariants({ variant: 'ghost', size: 'sm', className: 'mb-6' })}
@@ -20,7 +20,7 @@ export default function BlogPost() {
       </Link>
       <article className="prose prose-neutral dark:prose-invert max-w-none">
         <div className="not-prose mb-8">
-          <time className="text-sm text-muted-foreground">
+          <time className="text-muted-foreground text-sm">
             {new Date(post.date).toLocaleDateString('en-US', {
               year: 'numeric',
               month: 'long',
