@@ -27,6 +27,5 @@
 
     "resolveJsonModule": true
   },
-  "include": ["src", "vite-env.d.ts"],
-  "exclude": ["src/components/Guitar", "src/components/HomePage", "src/components/NavBar", "src/components/NotFound"]
+  "include": ["src", "vite-env.d.ts"]
 }
