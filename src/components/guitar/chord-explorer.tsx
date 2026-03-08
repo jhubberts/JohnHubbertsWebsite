@@ -63,7 +63,6 @@ const ChordExplorer = ({ onSelection = () => {} }: ChordExplorerProps) => {
 
   useEffect(() => {
     if (chord) onSelection(chord)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note, chordType, chordShape])
 
   return (

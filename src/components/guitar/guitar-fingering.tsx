@@ -89,7 +89,6 @@ const GuitarFingering = ({
       canvas.removeEventListener('mousedown', mouseDownListener)
       canvas.removeEventListener('mousemove', mouseMoveListener)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chord, isDark])
 
   return (
