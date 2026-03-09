@@ -64,7 +64,7 @@ export default function SkiArtPage() {
 
   // Frame border: p-3 (12px) + p-1 (4px) on each side = 32px total
   const frameBorder = 32
-  const frameAspect = (width + frameBorder) / (height + frameBorder)
+  const svgAspect = width / height
 
   // Fullscreen mode: keyboard, scroll lock, and viewport tracking
   useEffect(() => {
@@ -101,22 +101,26 @@ export default function SkiArtPage() {
   }, [isFullscreen, width, height, viewportDims])
 
   // Calculate frame size for fullscreen display
+  // Size the content area to match SVG aspect ratio, then add frame border
   const fullscreenFrameSize = useMemo(() => {
     if (!isFullscreen) return { w: 0, h: 0 }
     const pad = 16
     // When rotated, available space dimensions are swapped
     const availW = (shouldRotate ? viewportDims.vh : viewportDims.vw) - 2 * pad
     const availH = (shouldRotate ? viewportDims.vw : viewportDims.vh) - 2 * pad
-    let fw: number, fh: number
-    if (availW / availH > frameAspect) {
-      fh = availH
-      fw = availH * frameAspect
+    // Fit SVG ratio into content area (available space minus frame border)
+    const contentAvailW = availW - frameBorder
+    const contentAvailH = availH - frameBorder
+    let cw: number, ch: number
+    if (contentAvailW / contentAvailH > svgAspect) {
+      ch = contentAvailH
+      cw = contentAvailH * svgAspect
     } else {
-      fw = availW
-      fh = availW / frameAspect
+      cw = contentAvailW
+      ch = contentAvailW / svgAspect
     }
-    return { w: fw, h: fh }
-  }, [isFullscreen, viewportDims, shouldRotate, frameAspect])
+    return { w: cw + frameBorder, h: ch + frameBorder }
+  }, [isFullscreen, viewportDims, shouldRotate, svgAspect, frameBorder])
 
   const svgRef = useRef<SVGSVGElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -126,22 +130,25 @@ export default function SkiArtPage() {
     const container = containerRef.current
     if (!container) return
     const observer = new ResizeObserver(([entry]) => {
-      const cw = entry.contentRect.width
-      const ch = entry.contentRect.height - 32 // reserve for export button
+      const containerW = entry.contentRect.width
+      const containerH = entry.contentRect.height - 32 // reserve for export button
 
-      let fw: number, fh: number
-      if (cw / ch > frameAspect) {
-        fh = ch
-        fw = ch * frameAspect
+      // Fit SVG ratio into content area (container minus frame border)
+      const contentAvailW = containerW - frameBorder
+      const contentAvailH = containerH - frameBorder
+      let cw: number, ch: number
+      if (contentAvailW / contentAvailH > svgAspect) {
+        ch = contentAvailH
+        cw = contentAvailH * svgAspect
       } else {
-        fw = cw
-        fh = cw / frameAspect
+        cw = contentAvailW
+        ch = contentAvailW / svgAspect
       }
-      setFrameSize({ w: fw, h: fh })
+      setFrameSize({ w: cw + frameBorder, h: ch + frameBorder })
     })
     observer.observe(container)
     return () => observer.disconnect()
-  }, [frameAspect])
+  }, [svgAspect, frameBorder])
 
   const handleExport = useCallback(() => {
     const svg = svgRef.current
@@ -216,7 +223,7 @@ export default function SkiArtPage() {
               width: fullscreenFrameSize.w,
               height: fullscreenFrameSize.h,
               flexShrink: 0,
-              transform: shouldRotate ? 'rotate(-90deg)' : undefined,
+              transform: shouldRotate ? 'rotate(90deg)' : undefined,
               transition: 'transform 0.3s ease',
             }}
             onClick={(e) => e.stopPropagation()}
