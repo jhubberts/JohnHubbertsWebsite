@@ -17,6 +17,8 @@ export interface ArtSettings {
   strokeWidth: number
   aspectRatio: string
   margin: number // 0-1 fraction of min(width, height) / 3
+  mattingPercent: number // 0-1 fraction of margin area that is matting color
+  mattingColor: string
 }
 
 export const ASPECT_RATIOS: Record<string, { w: number; h: number }> = {
@@ -35,4 +37,6 @@ export const DEFAULT_SETTINGS: ArtSettings = {
   strokeWidth: 1.5,
   aspectRatio: '16:9',
   margin: 0.15,
+  mattingPercent: 0,
+  mattingColor: '#e5e5e5',
 }

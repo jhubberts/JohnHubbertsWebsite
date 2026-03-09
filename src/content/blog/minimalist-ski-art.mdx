@@ -1,0 +1,29 @@
+---
+title: 'Minimalist Ski Art'
+date: '2026-03-08'
+description: 'I wanted to draw some pretty pictures of my ski routes.'
+---
+
+# Minimalist Ski Art
+
+Two weeks ago I was skiing in Big Sky, MT with some friends, and we decided to attempt to ride every
+(non-residental-access) lift in the resort. I love data way too much to not track the whole thing on Strava via
+my watch, so I had the GPS of the whole 33-mile day.
+
+Maybe 75% of the day through, I thought about how wide the Big Sky trail map was, and at the same time thought
+about some of the minimalist trail maps I'd seen on https://www.circlesquarediamond.com/, and mentally combined
+the idea into figuring out how I could transform and project my GPX data into something cool to put on my wall
+(circlesquarediamond example below).
+
+<img src="/blog/ski-art/csd_big_sky.png" alt="Cool ass picture of big sky" width="600" />
+
+The next day in Bozeman airport, me and Claude Opus 4.5 threw together a quick Python proof-of-concept which
+generated SVGs of the route from every 5-degree viewing angle around the compass. I knew this would be better
+suited for the interactivity of a web-ui, but my existing personal website was in a state of neglect since the
+pandemic, so the starting cost of this idea was pretty high.
+
+Well, today I paid the starting cost, and now I've got a fun web version of this ski art tool available for anyone
+to try! The default route is the 2026-02-27 day in Big Sky where we hit every lift, but you can bring your own file
+as well. Link to the standalone page [here](/projects/minimalist-ski-art).
+
+<img src="/blog/ski-art/2026_02_27_ski_art.png" alt="Ski art tool interface" width="600" />

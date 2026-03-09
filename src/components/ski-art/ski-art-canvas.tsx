@@ -9,11 +9,24 @@ interface SkiArtCanvasProps {
   startColor: string
   endColor: string
   strokeWidth: number
+  padding: number
+  mattingPercent: number
+  mattingColor: string
 }
 
 export const SkiArtCanvas = memo(
   forwardRef<SVGSVGElement, SkiArtCanvasProps>(function SkiArtCanvas(
-    { points, width, height, startColor, endColor, strokeWidth },
+    {
+      points,
+      width,
+      height,
+      startColor,
+      endColor,
+      strokeWidth,
+      padding,
+      mattingPercent,
+      mattingColor,
+    },
     ref,
   ) {
     const lines = useMemo(() => {
@@ -45,14 +58,24 @@ export const SkiArtCanvas = memo(
       return segments
     }, [points, startColor, endColor, strokeWidth])
 
+    const mIX = width * (padding || 0) * (mattingPercent || 0)
+    const mIY = height * (padding || 0) * (mattingPercent || 0)
+
     return (
       <svg
         ref={ref}
         viewBox={`0 0 ${width} ${height}`}
         xmlns="http://www.w3.org/2000/svg"
         className="h-auto w-full"
-        style={{ backgroundColor: 'white' }}
       >
+        <rect
+          x="0"
+          y="0"
+          width={width}
+          height={height}
+          fill={mattingPercent > 0 ? mattingColor : 'white'}
+        />
+        <rect x={mIX} y={mIY} width={width - 2 * mIX} height={height - 2 * mIY} fill="white" />
         {lines}
       </svg>
     )

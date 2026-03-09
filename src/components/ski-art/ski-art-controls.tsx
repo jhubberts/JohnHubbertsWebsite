@@ -135,9 +135,7 @@ export function SkiArtControls({
 
       {/* Margin */}
       <div>
-        <label className="text-sm font-medium">
-          Margin: {Math.round(settings.margin * 100)}%
-        </label>
+        <label className="text-sm font-medium">Margin: {Math.round(settings.margin * 100)}%</label>
         <input
           type="range"
           min={0}
@@ -148,6 +146,34 @@ export function SkiArtControls({
           className="mt-1 w-full"
         />
       </div>
+
+      {/* Matting */}
+      <div>
+        <label className="text-sm font-medium">
+          Matting: {Math.round(settings.mattingPercent * 100)}%
+        </label>
+        <input
+          type="range"
+          min={0}
+          max={1}
+          step={0.01}
+          value={settings.mattingPercent}
+          onChange={(e) => update({ mattingPercent: Number(e.target.value) })}
+          className="mt-1 w-full"
+        />
+      </div>
+
+      {settings.mattingPercent > 0 && (
+        <div>
+          <label className="text-sm font-medium">Matting Color</label>
+          <input
+            type="color"
+            value={settings.mattingColor}
+            onChange={(e) => update({ mattingColor: e.target.value })}
+            className="mt-1 block h-9 w-full cursor-pointer rounded border"
+          />
+        </div>
+      )}
 
       {/* Aspect ratio */}
       <div>

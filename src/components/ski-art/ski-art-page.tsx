@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
-import { ChevronRight, ChevronLeft } from 'lucide-react'
+import { ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react'
 import {
   parseGpx,
   projectTrackpoints,
@@ -140,10 +140,10 @@ export default function SkiArtPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden">
-      {/* Collapsible sidebar */}
+    <div className="flex h-[calc(100vh-3.5rem)] flex-col overflow-hidden md:flex-row">
+      {/* Collapsible sidebar — desktop only */}
       <div
-        className={`border-r transition-all duration-300 ${
+        className={`hidden border-r transition-all duration-300 md:block ${
           controlsOpen ? 'w-72 min-w-72' : 'w-0 min-w-0'
         } overflow-hidden`}
       >
@@ -161,23 +161,19 @@ export default function SkiArtPage() {
         </div>
       </div>
 
-      {/* Toggle button */}
+      {/* Toggle button — desktop only */}
       <button
         onClick={() => setControlsOpen(!controlsOpen)}
-        className="border-r hover:bg-muted flex w-6 flex-shrink-0 items-center justify-center transition-colors"
+        className="hover:bg-muted hidden w-6 flex-shrink-0 items-center justify-center border-r transition-colors md:flex"
         title={controlsOpen ? 'Hide controls' : 'Show controls'}
       >
-        {controlsOpen ? (
-          <ChevronLeft className="h-4 w-4" />
-        ) : (
-          <ChevronRight className="h-4 w-4" />
-        )}
+        {controlsOpen ? <ChevronLeft className="h-4 w-4" /> : <ChevronRight className="h-4 w-4" />}
       </button>
 
       {/* Main area: masterpiece centered, as large as possible */}
       <div
         ref={containerRef}
-        className="flex flex-1 flex-col items-center justify-center overflow-hidden p-4"
+        className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden p-4"
       >
         {frameSize.w > 0 && (
           <div style={{ width: frameSize.w, height: frameSize.h, flexShrink: 0 }}>
@@ -190,6 +186,9 @@ export default function SkiArtPage() {
                 startColor={settings.startColor}
                 endColor={settings.endColor}
                 strokeWidth={settings.strokeWidth}
+                padding={padding}
+                mattingPercent={settings.mattingPercent}
+                mattingColor={settings.mattingColor}
               />
             </GoldFrame>
           </div>
@@ -200,6 +199,40 @@ export default function SkiArtPage() {
         >
           Export My Masterpiece (As PNG)
         </button>
+      </div>
+
+      {/* Mobile controls — below the image */}
+      <div className="flex-shrink-0 border-t md:hidden">
+        <button
+          onClick={() => setControlsOpen(!controlsOpen)}
+          className="hover:bg-muted flex w-full items-center justify-center gap-2 py-2 text-sm transition-colors"
+        >
+          {controlsOpen ? (
+            <>
+              <ChevronDown className="h-4 w-4" />
+              Hide Controls
+            </>
+          ) : (
+            <>
+              <ChevronUp className="h-4 w-4" />
+              Show Controls
+            </>
+          )}
+        </button>
+        {controlsOpen && (
+          <div className="overflow-y-auto p-4" style={{ maxHeight: '40vh' }}>
+            <SkiArtControls
+              settings={settings}
+              onSettingsChange={setSettings}
+              onFileUpload={handleFileUpload}
+              error={error}
+              autoRotate={autoRotate}
+              onAutoRotateChange={setAutoRotate}
+              rotationSpeed={rotationSpeed}
+              onRotationSpeedChange={setRotationSpeed}
+            />
+          </div>
+        )}
       </div>
     </div>
   )

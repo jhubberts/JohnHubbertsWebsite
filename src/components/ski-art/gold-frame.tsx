@@ -19,10 +19,7 @@ export function GoldFrame({ children, className }: GoldFrameProps) {
           boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.3), inset 0 -1px 2px rgba(255,255,255,0.2)',
         }}
       >
-        <div
-          className="h-full bg-white"
-          style={{ boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.15)' }}
-        >
+        <div className="h-full bg-white" style={{ boxShadow: 'inset 0 0 0 1px rgba(0,0,0,0.15)' }}>
           {children}
         </div>
       </div>
