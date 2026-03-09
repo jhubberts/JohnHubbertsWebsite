@@ -103,7 +103,7 @@ export default function SkiArtPage() {
   // Calculate frame size for fullscreen display
   const fullscreenFrameSize = useMemo(() => {
     if (!isFullscreen) return { w: 0, h: 0 }
-    const pad = 24
+    const pad = 16
     // When rotated, available space dimensions are swapped
     const availW = (shouldRotate ? viewportDims.vh : viewportDims.vw) - 2 * pad
     const availH = (shouldRotate ? viewportDims.vw : viewportDims.vh) - 2 * pad
@@ -215,7 +215,8 @@ export default function SkiArtPage() {
             style={{
               width: fullscreenFrameSize.w,
               height: fullscreenFrameSize.h,
-              transform: shouldRotate ? 'rotate(90deg)' : undefined,
+              flexShrink: 0,
+              transform: shouldRotate ? 'rotate(-90deg)' : undefined,
               transition: 'transform 0.3s ease',
             }}
             onClick={(e) => e.stopPropagation()}
