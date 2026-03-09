@@ -35,12 +35,6 @@ const projects = [
     icon: Mountain,
     to: '/projects/minimalist-ski-art',
   },
-  {
-    title: 'Benbot',
-    description: 'I built an iRobot Create3 based robot to play with my cat.',
-    icon: Bot,
-    to: '/blog/benbot_is_friendbot',
-  },
 ]
 
 const skills = [

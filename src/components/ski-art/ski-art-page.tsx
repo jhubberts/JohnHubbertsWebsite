@@ -1,5 +1,5 @@
 import { useState, useMemo, useCallback, useRef, useEffect } from 'react'
-import { ChevronRight, ChevronLeft, ChevronDown, ChevronUp } from 'lucide-react'
+import { ChevronRight, ChevronLeft, ChevronDown, ChevronUp, X } from 'lucide-react'
 import {
   parseGpx,
   projectTrackpoints,
@@ -30,6 +30,8 @@ export default function SkiArtPage() {
   const [controlsOpen, setControlsOpen] = useState(true)
   const [autoRotate, setAutoRotate] = useState(false)
   const [rotationSpeed, setRotationSpeed] = useState(30) // degrees per second
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [viewportDims, setViewportDims] = useState({ vw: window.innerWidth, vh: window.innerHeight })
 
   const { w: width, h: height } = ASPECT_RATIOS[settings.aspectRatio] ?? ASPECT_RATIOS['16:9']
 
@@ -60,13 +62,65 @@ export default function SkiArtPage() {
     return () => cancelAnimationFrame(raf)
   }, [autoRotate, rotationSpeed])
 
-  const svgRef = useRef<SVGSVGElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const [frameSize, setFrameSize] = useState({ w: 0, h: 0 })
-
   // Frame border: p-3 (12px) + p-1 (4px) on each side = 32px total
   const frameBorder = 32
   const frameAspect = (width + frameBorder) / (height + frameBorder)
+
+  // Fullscreen mode: keyboard, scroll lock, and viewport tracking
+  useEffect(() => {
+    if (!isFullscreen) return
+    setViewportDims({ vw: window.innerWidth, vh: window.innerHeight })
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsFullscreen(false)
+    }
+    const handleResize = () => {
+      setViewportDims({ vw: window.innerWidth, vh: window.innerHeight })
+    }
+
+    document.body.style.overflow = 'hidden'
+    window.addEventListener('keydown', handleKeyDown)
+    window.addEventListener('resize', handleResize)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKeyDown)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [isFullscreen])
+
+  // On mobile, rotate art 90° when its orientation doesn't match the screen
+  const shouldRotate = useMemo(() => {
+    if (!isFullscreen) return false
+    const smallerDim = Math.min(viewportDims.vw, viewportDims.vh)
+    if (smallerDim >= 768) return false
+    const artIsLandscape = width > height
+    const artIsPortrait = height > width
+    const screenIsPortrait = viewportDims.vh > viewportDims.vw
+    const screenIsLandscape = viewportDims.vw > viewportDims.vh
+    return (artIsLandscape && screenIsPortrait) || (artIsPortrait && screenIsLandscape)
+  }, [isFullscreen, width, height, viewportDims])
+
+  // Calculate frame size for fullscreen display
+  const fullscreenFrameSize = useMemo(() => {
+    if (!isFullscreen) return { w: 0, h: 0 }
+    const pad = 24
+    // When rotated, available space dimensions are swapped
+    const availW = (shouldRotate ? viewportDims.vh : viewportDims.vw) - 2 * pad
+    const availH = (shouldRotate ? viewportDims.vw : viewportDims.vh) - 2 * pad
+    let fw: number, fh: number
+    if (availW / availH > frameAspect) {
+      fh = availH
+      fw = availH * frameAspect
+    } else {
+      fw = availW
+      fh = availW / frameAspect
+    }
+    return { w: fw, h: fh }
+  }, [isFullscreen, viewportDims, shouldRotate, frameAspect])
+
+  const svgRef = useRef<SVGSVGElement>(null)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const [frameSize, setFrameSize] = useState({ w: 0, h: 0 })
 
   useEffect(() => {
     const container = containerRef.current
@@ -140,7 +194,50 @@ export default function SkiArtPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] flex-col overflow-hidden md:flex-row">
+    <>
+      {/* Fullscreen overlay */}
+      {isFullscreen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/95"
+          onClick={() => setIsFullscreen(false)}
+        >
+          <button
+            className="absolute top-4 right-4 z-10 rounded-full bg-white/10 p-2 text-white/70 backdrop-blur-sm transition-colors hover:bg-white/20 hover:text-white"
+            onClick={(e) => {
+              e.stopPropagation()
+              setIsFullscreen(false)
+            }}
+            aria-label="Close fullscreen"
+          >
+            <X className="h-6 w-6" />
+          </button>
+          <div
+            style={{
+              width: fullscreenFrameSize.w,
+              height: fullscreenFrameSize.h,
+              transform: shouldRotate ? 'rotate(90deg)' : undefined,
+              transition: 'transform 0.3s ease',
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <GoldFrame className="h-full w-full">
+              <SkiArtCanvas
+                points={projected}
+                width={width}
+                height={height}
+                startColor={settings.startColor}
+                endColor={settings.endColor}
+                strokeWidth={settings.strokeWidth}
+                padding={padding}
+                mattingPercent={settings.mattingPercent}
+                mattingColor={settings.mattingColor}
+              />
+            </GoldFrame>
+          </div>
+        </div>
+      )}
+
+      <div className="flex h-[calc(100vh-3.5rem)] flex-col overflow-hidden md:flex-row">
       {/* Collapsible sidebar — desktop only */}
       <div
         className={`hidden border-r transition-all duration-300 md:block ${
@@ -176,7 +273,11 @@ export default function SkiArtPage() {
         className="flex min-h-0 flex-1 flex-col items-center justify-center overflow-hidden p-4"
       >
         {frameSize.w > 0 && (
-          <div style={{ width: frameSize.w, height: frameSize.h, flexShrink: 0 }}>
+          <div
+              style={{ width: frameSize.w, height: frameSize.h, flexShrink: 0 }}
+              onClick={() => setIsFullscreen(true)}
+              className="cursor-pointer"
+            >
             <GoldFrame className="h-full w-full">
               <SkiArtCanvas
                 ref={svgRef}
@@ -235,5 +336,6 @@ export default function SkiArtPage() {
         )}
       </div>
     </div>
+    </>
   )
 }
