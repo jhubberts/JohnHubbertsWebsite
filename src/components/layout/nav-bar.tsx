@@ -6,14 +6,26 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/s
 import { ThemeToggle } from './theme-toggle'
 import { cn } from '@/lib/utils'
 
-const navLinks = [
+const navLinks: { to: string; label: string; external?: boolean }[] = [
   { to: '/', label: 'Home' },
+  { to: '/projects', label: 'Projects' },
   { to: '/blog', label: 'Blog' },
+  { to: '/about', label: 'About' },
+  { to: 'https://linkedin.com/in/johnhubberts', label: 'Resume', external: true },
 ]
 
 export function NavBar() {
   const location = useLocation()
   const [open, setOpen] = useState(false)
+
+  const linkClass = (to: string) =>
+    cn(
+      'hover:text-primary text-sm font-medium transition-colors',
+      !to.startsWith('http') &&
+        (location.pathname === to || (to !== '/' && location.pathname.startsWith(to)))
+        ? 'text-foreground'
+        : 'text-muted-foreground',
+    )
 
   return (
     <nav className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
@@ -25,21 +37,23 @@ export function NavBar() {
 
         {/* Desktop nav */}
         <div className="ml-auto hidden items-center gap-6 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.to}
-              to={link.to}
-              className={cn(
-                'hover:text-primary text-sm font-medium transition-colors',
-                location.pathname === link.to ||
-                  (link.to !== '/' && location.pathname.startsWith(link.to))
-                  ? 'text-foreground'
-                  : 'text-muted-foreground',
-              )}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navLinks.map((link) =>
+            link.external ? (
+              <a
+                key={link.to}
+                href={link.to}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass(link.to)}
+              >
+                {link.label}
+              </a>
+            ) : (
+              <Link key={link.to} to={link.to} className={linkClass(link.to)}>
+                {link.label}
+              </Link>
+            ),
+          )}
           <ThemeToggle />
         </div>
 
@@ -53,20 +67,30 @@ export function NavBar() {
             </SheetTrigger>
             <SheetContent side="right" className="w-[240px]">
               <SheetTitle className="sr-only">Navigation</SheetTitle>
-              <div className="mt-8 flex flex-col gap-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.to}
-                    to={link.to}
-                    onClick={() => setOpen(false)}
-                    className={cn(
-                      'hover:text-primary text-sm font-medium transition-colors',
-                      location.pathname === link.to ? 'text-foreground' : 'text-muted-foreground',
-                    )}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+              <div className="mt-8 flex flex-col gap-4 px-4">
+                {navLinks.map((link) =>
+                  link.external ? (
+                    <a
+                      key={link.to}
+                      href={link.to}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setOpen(false)}
+                      className={linkClass(link.to)}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link
+                      key={link.to}
+                      to={link.to}
+                      onClick={() => setOpen(false)}
+                      className={linkClass(link.to)}
+                    >
+                      {link.label}
+                    </Link>
+                  ),
+                )}
               </div>
             </SheetContent>
           </Sheet>

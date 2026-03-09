@@ -5,6 +5,8 @@ import { Footer } from '@/components/layout/footer'
 import HomePage from '@/pages/home-page'
 import NotFound from '@/pages/not-found'
 
+const AboutPage = lazy(() => import('@/pages/about-page'))
+const ProjectsPage = lazy(() => import('@/pages/projects-page'))
 const BlogIndex = lazy(() => import('@/pages/blog-index'))
 const BlogPost = lazy(() => import('@/pages/blog-post'))
 const ChordLibraryPage = lazy(() => import('@/components/guitar/chord-library-page'))
@@ -27,6 +29,8 @@ function App() {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/guitar/chord-library" element={<ChordLibraryPage />} />
               <Route path="/projects/minimalist-ski-art" element={<SkiArtPage />} />
               <Route path="/blog" element={<BlogIndex />} />

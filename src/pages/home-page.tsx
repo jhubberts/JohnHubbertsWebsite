@@ -1,16 +1,7 @@
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Github, Linkedin, Mail, Guitar, BarChart3, Mountain, ArrowRight, ChevronDown } from 'lucide-react'
-import { Badge } from '@/components/ui/badge'
+import { Github, Linkedin, Mail, ChevronDown, Rocket, Wrench, BookOpen, ArrowRight } from 'lucide-react'
 import { buttonVariants } from '@/components/ui/button'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import { TypingEffect } from '@/components/typing-effect'
 import { cn } from '@/lib/utils'
 
@@ -24,45 +15,34 @@ const phrases = [
   "Best Skier on the Mountain",
 ]
 
-const projects = [
+const links = [
   {
-    title: "Dijkstra's Chord Progression",
-    description:
-      "Enter a chord progression and find optimal fingerings using Dijkstra's algorithm to minimize hand movement between chords. Try it on Giant Steps!",
-    icon: BarChart3,
-    to: '/blog/dijkstras-guitar',
+    icon: Wrench,
+    title: 'Projects',
+    description: "See what I've been working on in my free time",
+    to: '/projects',
   },
   {
-    title: 'Chord Library',
-    description:
-      'Browse guitar chord voicings across all roots and types. Hear each chord with Web Audio synthesis and see note/interval annotations on the fingering chart.',
-    icon: Guitar,
-    to: '/projects/guitar/chord-library',
+    icon: Rocket,
+    title: 'Roboto AI',
+    description: "See what I'm excited to work on the rest of the time",
+    href: 'https://roboto.ai',
   },
   {
-    title: 'Minimalist Ski Art',
-    description:
-      'Turn GPS ski tracks into minimalist wall art. Upload a GPX file and explore viewing angles, colors, and line styles.',
-    icon: Mountain,
-    to: '/projects/minimalist-ski-art',
+    icon: BookOpen,
+    title: 'Blog',
+    description: 'Read what I have to say about things',
+    to: '/blog',
   },
-]
-
-const skills = [
-  'Python',
-  'TypeScript',
-  'React',
-  'Embedded C',
-  'Java',
-  'AWS',
-  'Agentic AI',
-  'CDK',
-  'PostgreSQL',
-  'Docker',
-  'ROS',
 ]
 
 export default function HomePage() {
+  const belowFoldRef = useRef<HTMLDivElement>(null)
+
+  const scrollDown = () => {
+    belowFoldRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
+
   return (
     <div>
       {/* Hero — full viewport above the fold */}
@@ -116,69 +96,50 @@ export default function HomePage() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-8 animate-bounce">
+        <button
+          onClick={scrollDown}
+          className="absolute bottom-8 animate-bounce cursor-pointer border-none bg-transparent"
+          aria-label="Scroll down"
+        >
           <ChevronDown className="h-6 w-6 text-muted-foreground" />
-        </div>
+        </button>
       </section>
 
-      {/* Content below the fold */}
-      <div className="container mx-auto px-4 py-12">
-        {/* About */}
-        <section className="mb-16 max-w-2xl">
-          <h2 className="mb-4 text-2xl font-semibold">About</h2>
-          <p className="text-muted-foreground text-base leading-relaxed">
-            Professional software engineer with over a decade of experience building and shipping
-            products. I've worked on distributed systems processing hundreds of TBs of data per day,
-            embedded devices with KBs of RAM, and everything in between.
-          </p>
-          <p className="text-muted-foreground mt-4 text-base leading-relaxed">
-            This site was built to host personal projects and writing about topics I'm interested in.
-          </p>
-        </section>
+      {/* Below the fold */}
+      <div
+        ref={belowFoldRef}
+        className="container mx-auto flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-4 py-12"
+      >
+        <div className="grid w-full max-w-3xl gap-6 sm:grid-cols-3">
+          {links.map((link) => {
+            const content = (
+              <div className="group flex flex-col items-center gap-3 rounded-lg border border-border p-6 text-center transition-colors hover:bg-accent">
+                <link.icon className="h-8 w-8 text-muted-foreground transition-colors group-hover:text-foreground" />
+                <h2 className="text-lg font-semibold">{link.title}</h2>
+                <p className="text-sm text-muted-foreground">{link.description}</p>
+                <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
+              </div>
+            )
 
-        <Separator className="mb-12" />
-
-        {/* Projects */}
-        <section className="mb-16">
-          <h2 className="mb-6 text-2xl font-semibold">Projects</h2>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {projects.map((project) => (
-              <Card key={project.to} className="flex flex-col">
-                <CardHeader>
-                  <div className="flex items-center gap-2">
-                    <project.icon className="text-muted-foreground h-5 w-5" />
-                    <CardTitle>{project.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="flex-1">
-                  <CardDescription>{project.description}</CardDescription>
-                </CardContent>
-                <CardFooter>
-                  <Link
-                    to={project.to}
-                    className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
-                  >
-                    Try it <ArrowRight className="ml-1 h-3 w-3" />
-                  </Link>
-                </CardFooter>
-              </Card>
-            ))}
-          </div>
-        </section>
-
-        <Separator className="mb-12" />
-
-        {/* Skills */}
-        <section>
-          <h2 className="mb-4 text-2xl font-semibold">Tech I Work With</h2>
-          <div className="flex flex-wrap gap-2">
-            {skills.map((skill) => (
-              <Badge key={skill} variant="secondary">
-                {skill}
-              </Badge>
-            ))}
-          </div>
-        </section>
+            if (link.to) {
+              return (
+                <Link key={link.title} to={link.to}>
+                  {content}
+                </Link>
+              )
+            }
+            return (
+              <a
+                key={link.title}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {content}
+              </a>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
