@@ -11,6 +11,7 @@ const BlogIndex = lazy(() => import('@/pages/blog-index'))
 const BlogPost = lazy(() => import('@/pages/blog-post'))
 const ChordLibraryPage = lazy(() => import('@/components/guitar/chord-library-page'))
 const SkiArtPage = lazy(() => import('@/components/ski-art/ski-art-page'))
+const LickLibraryPage = lazy(() => import('@/components/licks/lick-library-page'))
 
 function Loading() {
   return (
@@ -33,6 +34,7 @@ function App() {
               <Route path="/projects" element={<ProjectsPage />} />
               <Route path="/projects/guitar/chord-library" element={<ChordLibraryPage />} />
               <Route path="/projects/minimalist-ski-art" element={<SkiArtPage />} />
+              <Route path="/projects/guitar/lick-library" element={<LickLibraryPage />} />
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/index.html" element={<Navigate to="/" replace />} />
