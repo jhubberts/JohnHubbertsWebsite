@@ -1,0 +1,8 @@
+export type { Lick, LickNote, ChordEvent, TabPosition, LickSource } from './types'
+export { transposeLick } from './transpose'
+export { LickPlayer } from './player'
+export type { PlaybackCallbacks } from './player'
+export { analyzeLick } from './analysis'
+export type { NoteAnalysis, LickAnalysis, NoteRole } from './analysis'
+export { generateAutoTab, DEFAULT_PREFERENCES } from './auto-tab'
+export type { TabPreferences } from './auto-tab'
