@@ -282,6 +282,26 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
   const toPath = (points: Point[]) =>
     points.map((p, i) => `${i === 0 ? 'M' : 'L'}${px(p.x)},${py(p.y)}`).join(' ') + ' Z'
 
+  // `touch-action: none` on an element inside an SVG is not honoured by every phone browser. Where
+  // it is ignored, a touch that starts on a handle also pans the page, and the browser then
+  // cancels the drag. Claiming such a touch here keeps the page still. A touch that starts
+  // anywhere else on the plot still scrolls the page.
+  useEffect(() => {
+    const svg = svgRef.current
+    if (!svg) return
+    const claimTouch = (event: TouchEvent) => {
+      const onHandle =
+        event.target instanceof Element && event.target.closest('[data-line-handle]') !== null
+      if ((onHandle || draggingRef.current) && event.cancelable) event.preventDefault()
+    }
+    svg.addEventListener('touchstart', claimTouch, { passive: false })
+    svg.addEventListener('touchmove', claimTouch, { passive: false })
+    return () => {
+      svg.removeEventListener('touchstart', claimTouch)
+      svg.removeEventListener('touchmove', claimTouch)
+    }
+  }, [])
+
   const segment = clipToRect(line, PLOT)
   const negative = otherSpecies(positive)
 
@@ -501,6 +521,7 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
               role="button"
               tabIndex={0}
               aria-label={end === 0 ? 'First end of the line' : 'Second end of the line'}
+              data-line-handle
               className="group cursor-grab outline-none active:cursor-grabbing"
               style={{ touchAction: 'none' }}
               onPointerDown={(event) => handlePointerDown(event, end as 0 | 1)}

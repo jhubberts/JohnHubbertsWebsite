@@ -506,3 +506,34 @@ the built files; it only keeps them out of lists for everyone else.
 
 Deployment: AWS Amplify app `JohnHubbertsWebsite` in us-west-2 builds the `master` branch on every
 push to GitHub and serves it at www.johnhubberts.com. There is no other Amplify branch.
+
+Added in the round after the first deployment (uncommitted as of this note):
+
+- Chapter 5, "From a research paper to a chat window": about 400 words and "What the model actually
+  receives" (`what-the-model-receives.tsx`, script and word counts in
+  `src/lib/ai-series/chat/`). Its extras ("Where does it live?", "No one big brain") are not built.
+- Chapter 6, "Giving it hands": about 280 words and "You are the harness"
+  (`you-are-the-harness.tsx`, logic in `src/lib/ai-series/harness/`). Its extras ("The loop",
+  "Plug in a tool") are not built.
+- Sources files for chapters 5 and 6, and research notes for chapter 7 in
+  `docs/ai-series/sources/chapter-7.md` with the primary sources still to be read.
+- Fix: on a touchscreen, dragging a line handle in "Sort the flowers" also panned the page and the
+  drag was lost (reported by John from his phone). The plot now claims touches that start on a
+  handle. Checked with simulated touch events only; needs a real phone.
+
+Open items John raised:
+
+- **VPN.** On John's VPN the site's address did not resolve (the phone showed
+  DNS_PROBE_FINISHED_NXDOMAIN). Off the VPN it works, and the address resolves on six public DNS
+  services. He asked for it to work on the VPN later. Not investigated; needs to know which VPN and
+  whether the site's other addresses (www.jhubberts.com, www.hubberts.org,
+  master.d5hj8t7czp3ll.amplifyapp.com) resolve on it.
+- **Copy-edit.** John asked for `/copy-edit` to be run on all chapters at some point. Run it once a
+  chapter's content is settled, and before the reader test.
+
+Decisions taken by default, to confirm with John:
+
+- **Live AI.** Chapters 5 and 6 use examples written for the page and say so. Chapters 3 and 4 are
+  planned to replay output recorded from real open models (GPT-2 and BERT). Recording needs about
+  1.1 GB of downloads (the `transformers` package and the two models), which John has not yet
+  approved, so chapters 3 and 4 are not started.
