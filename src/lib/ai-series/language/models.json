@@ -1,1 +1,22 @@
-{"transformers": "5.20.2", "torch": "2.7.1", "models": [{"name": "gpt2", "class": "GPT2LMHeadModel", "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e", "parameters": 124439808, "licence": "mit", "url": "https://huggingface.co/gpt2"}, {"name": "bert-base-uncased", "class": "BertForMaskedLM", "revision": "86b5e0934494bd15c9632b12f734a8a67f723594", "parameters": 109514298, "licence": "apache-2.0", "url": "https://huggingface.co/bert-base-uncased"}]}
+{
+  "transformers": "5.20.2",
+  "torch": "2.7.1",
+  "models": [
+    {
+      "name": "gpt2",
+      "class": "GPT2LMHeadModel",
+      "revision": "607a30d783dfa663caf39e06633721c8d4cfcd7e",
+      "parameters": 124439808,
+      "licence": "mit",
+      "url": "https://huggingface.co/gpt2"
+    },
+    {
+      "name": "bert-base-uncased",
+      "class": "BertForMaskedLM",
+      "revision": "86b5e0934494bd15c9632b12f734a8a67f723594",
+      "parameters": 109514298,
+      "licence": "apache-2.0",
+      "url": "https://huggingface.co/bert-base-uncased"
+    }
+  ]
+}

@@ -24,4 +24,12 @@ Notes:
 - The map's dots are spread to fill the square for display (`spreadToFill` in
   `src/lib/ai-series/language/word-map.ts`). The list of nearest words is unaffected.
 - GPT-2's writing includes crude and offensive text. Only the continuations in `dice.json` and the
-  choices in `next-words.json` are shown; the coordinator read every one of them.
+  choices in `next-words.json` are shown. The coordinator read all 65 continuations before choosing
+  which to show, and all 702 distinct words that appear as choices. The word list for the final,
+  deeper tree was read after the chapter was first deployed, not before; nothing in it was judged to
+  need removing. Sentences a reader can build that deserve a second opinion: "my grandmother always
+  told me I could never get pregnant", "... I was going through puberty", "... I was going to die",
+  and "Once upon a time there was a war in Egypt between Israel".
+- The recording was run twice from a clean state and gave identical files both times.
+- One word piece still appears as a choice: "min", ten times in the recipe text. The model rates a
+  comma as more likely than "utes" after it, so it is using "min" as an abbreviation.
