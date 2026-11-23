@@ -9,6 +9,7 @@ const AboutPage = lazy(() => import('@/pages/about-page'))
 const ProjectsPage = lazy(() => import('@/pages/projects-page'))
 const BlogIndex = lazy(() => import('@/pages/blog-index'))
 const BlogPost = lazy(() => import('@/pages/blog-post'))
+const SeriesPage = lazy(() => import('@/pages/series-page'))
 const ChordLibraryPage = lazy(() => import('@/components/guitar/chord-library-page'))
 const SkiArtPage = lazy(() => import('@/components/ski-art/ski-art-page'))
 const LickLibraryPage = lazy(() => import('@/components/licks/lick-library-page'))
@@ -37,6 +38,7 @@ function App() {
               <Route path="/projects/guitar/lick-library" element={<LickLibraryPage />} />
               <Route path="/blog" element={<BlogIndex />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/series/:slug" element={<SeriesPage />} />
               <Route path="/index.html" element={<Navigate to="/" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>

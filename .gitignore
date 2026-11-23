@@ -22,3 +22,6 @@ yarn-error.log*
 
 .claude/worktrees
 .serena
+
+# AI series: downloaded MNIST and training log
+/tools/ai-series/data/
