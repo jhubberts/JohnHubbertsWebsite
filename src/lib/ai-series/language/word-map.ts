@@ -25,7 +25,7 @@ export const COLOUR_COUNT = 3
 /**
  * The same words with each axis stretched to run from 0 to 1, so the dots fill the square map.
  * The recorded positions keep the projection's own proportions, which leaves the dots crowded
- * into a band on a phone. Stretching an axis changes no word's neighbours on the map by much, and
+ * into a band on a phone. Stretching an axis changes no word's neighbors on the map by much, and
  * the page already says distances on the map are only roughly right.
  */
 export function spreadToFill<T extends Pick<MapWord, 'x' | 'y'>>(words: readonly T[]): T[] {
@@ -88,7 +88,7 @@ export function groupNames(words: readonly MapWord[]): string[] {
   return [...new Set(words.map((w) => w.group))]
 }
 
-/** The shape and colour slot of each group: four shapes times three colours make twelve. */
+/** The shape and color slot of each group: four shapes times three colors make twelve. */
 export function groupMarks(
   names: readonly string[],
 ): Map<string, { shape: Shape; colour: number }> {

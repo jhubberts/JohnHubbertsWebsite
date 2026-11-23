@@ -52,7 +52,7 @@ describe('prepareDrawing', () => {
     expect(prepareDrawing(new Float32Array(CANVAS * CANVAS), CANVAS, CANVAS)).toBeNull()
   })
 
-  it('scales an off-centre rectangle to a longer side of 20 and centres its mass', () => {
+  it('scales an off-center rectangle to a longer side of 20 and centers its mass', () => {
     const grid = prepared(canvasWithRect(30, 140, 60, 100))
     expect(grid.length).toBe(784)
     expect(inkBox(grid)).toEqual({ width: 12, height: 20 })

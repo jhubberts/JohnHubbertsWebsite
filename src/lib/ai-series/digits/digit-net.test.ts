@@ -127,7 +127,7 @@ describe('decodeCheckpoint', () => {
   })
 })
 
-describe('a fixture digit drawn large and off-centre, then prepared', () => {
+describe('a fixture digit drawn large and off-center, then prepared', () => {
   const SCALE = 10
   const CANVAS = 280
   // The enlarged 280x280 image is moved this far on the 280x280 canvas. MNIST ink sits inside the

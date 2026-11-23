@@ -13,7 +13,7 @@ export interface ManifestCheckpoint {
   scales: number[]
   /** Biases of the three layers: 32, 16 and 10 numbers. */
   biases: number[][]
-  /** Test images the network reads correctly with the quantised weights. */
+  /** Test images the network reads correctly with the quantized weights. */
   testCorrect: number
   testTotal: number
 }
@@ -26,7 +26,7 @@ export interface DigitManifest {
   /** Example digits the network reads per training step; practice so far is step times this. */
   batchSize: number
   checkpoints: ManifestCheckpoint[]
-  /** Accuracy of the last checkpoint's unquantised float weights, for comparison. */
+  /** Accuracy of the last checkpoint's unquantized float weights, for comparison. */
   final: { id: string; floatTestCorrect: number }
 }
 

@@ -28,33 +28,33 @@ To write sensibly, a model has to do the same. In 2017, researchers at Google pu
 
 ## What that shows
 
-In one of the model's patterns, "it" switches from the animal to the street when the last word changes. The model has 144 patterns, and most of them do other work. Together they let each word take in what it needs from the rest.
+In one of the model's patterns, "it" switches from the animal to the street when the last word changes. The model has 144 patterns, and most of them do other work. Together they let each word take what it needs from the rest.
 
 Do not read too much into the picture. It shows where the model looked. It does not show what the model understood.
 
-## Two ways to practise
+## Two ways to practice
 
-The transformer was used to build two kinds of model. One practises by filling in a hidden word, with both sides of the gap in view. The other practises by guessing the next word, with only the earlier words in view, as in chapter 3.
+Researchers used the transformer to build two kinds of model. One practices by filling in a hidden word, with both sides of the gap in view. The other practices by guessing the next word, with only the earlier words in view, as in chapter 3.
 
 <TwoGames />
 
-BERT, which Google introduced in October 2018, plays the first game. The GPT models from OpenAI play the second. A model that can guess the next word can write, and that is the kind chat systems are built on.
+BERT, which Google introduced in October 2018, plays the first game. The GPT models from OpenAI play the second. A model that can guess the next word can write. Chat systems are built on that kind of model.
 
 ## The same design, much bigger
 
-Because the transformer handles all the words at once and not one after another, it could be run on far more text and grown far larger.
+Because the transformer handles all the words at once and not one after another, researchers could run it on far more text and make it far larger.
 
 - The network in chapter 2 has 25,818 numbers.
 - BERT has about 110 million.
 - The GPT-2 used in chapter 3 has about 124 million.
 - GPT-3, from 2020, has 175 billion.
 
-For the models behind today's chat systems, the companies do not usually publish the number.
+The companies behind today's chat systems do not usually publish this number for their models.
 
-**So what changed in 2017?** A design in which every word can draw on every other word at once. It could be grown far larger than anything before it. Today's systems are that design, grown large.
+**So what changed in 2017?** A design in which every word can draw on every other word at once. It could be grown far larger. Today's systems are that design, grown large.
 
 ## Sources
 
-- Everything the two models say on this page was recorded from BERT and GPT-2 by a script in this site's code. The models and their licences are on their pages at Hugging Face: [BERT](https://huggingface.co/bert-base-uncased) and [GPT-2](https://huggingface.co/gpt2).
+- Everything the two models say on this page was recorded from BERT and GPT-2 by a script in this site's code. The models and their licenses are on their pages at Hugging Face: [BERT](https://huggingface.co/bert-base-uncased) and [GPT-2](https://huggingface.co/gpt2).
 - The 2017 design: Wikipedia's article on [Attention Is All You Need](https://en.wikipedia.org/wiki/Attention_Is_All_You_Need), the paper that introduced it.
 - BERT: Wikipedia's article on [BERT](<https://en.wikipedia.org/wiki/BERT_(language_model)>). GPT-3: Wikipedia's article on [GPT-3](https://en.wikipedia.org/wiki/GPT-3).

@@ -162,7 +162,7 @@ export function withCommas(value: number): string {
   return Math.round(value).toLocaleString('en-US')
 }
 
-/** How many example digits the network had practised on after `step` steps of `batchSize` each. */
+/** How many example digits the network had practiced on after `step` steps of `batchSize` each. */
 export function practiceCount(step: number, batchSize: number): number {
   return step * batchSize
 }
@@ -185,7 +185,7 @@ export function practiceLabel(
 ): string {
   if (index === 0) return 'Before any practice. Its numbers are random.'
   const count = practiceCount(step, batchSize)
-  const base = `After practising on ${withCommas(count)} example digits.`
+  const base = `After practicing on ${withCommas(count)} example digits.`
   if (count < TRAINING_SET_SIZE) return base
   const times = timesOver(count)
   if (times <= 1)

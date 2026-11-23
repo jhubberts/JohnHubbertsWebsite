@@ -190,7 +190,7 @@ WORD_GROUPS = {
         'salad', 'meat', 'beef', 'pizza', 'cake', 'cookie', 'sugar', 'honey', 'potato', 'tomato',
         'carrot', 'chocolate',
     ],
-    'colours': [
+    'colors': [
         'red', 'blue', 'green', 'yellow', 'orange', 'purple', 'pink', 'brown', 'black', 'white',
         'grey', 'gray', 'gold', 'silver', 'violet', 'beige', 'crimson', 'navy', 'turquoise', 'cyan',
     ],

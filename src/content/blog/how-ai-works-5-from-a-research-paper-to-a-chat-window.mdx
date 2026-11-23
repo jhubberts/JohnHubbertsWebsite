@@ -15,15 +15,15 @@ import { WhatTheModelReceives } from '@/components/blog/how-ai-works/what-the-mo
 
 This is the first of my mom's three questions. I had used an AI system to build a course for my team, and she wanted to know whether the AI now had the course.
 
-In chapter 3 you saw that a language model does one thing. Given some text, it works out what is likely to come next. A chat is built on top of that with one trick.
+In chapter 3 you saw that a language model does one thing. Given some text, it rates every word that could come next. A chat is built on top of that with one trick.
 
 <WhatTheModelReceives />
 
 ## What that means
 
-The model is a file of numbers, like the 25,818 in chapter 2, only far larger. Using it does not change it. Nothing you type is written into the file. When a reply is finished, the model holds nothing of your conversation.
+The model is a file of numbers, like the 25,818 numbers in chapter 2, only far larger. Using the model does not change the file. Nothing you type is written into the file. When a reply is finished, the model holds nothing of your conversation.
 
-What makes a chat feel like a conversation is the document. Each time you send a message, the whole conversation so far is sent again, and the model continues it. A new chat starts a new document.
+What makes a chat feel like a conversation is the document you just saw. Each time you send a message, the whole conversation so far is sent again, and the model continues it. A new chat starts a new document.
 
 ## So where was my course?
 
@@ -35,7 +35,7 @@ Not inside the AI.
 
 So the model does not have my course. The company did have a record of our conversation, and that is the part worth knowing about.
 
-I used Claude, which is made by a company called Anthropic. Its published rules, as of November 2026, say this. For its business products, conversations are not used to train its models unless the customer chooses to allow it. On its personal plans, you choose whether your chats can be used that way. When you delete a conversation, it is removed from the company's storage within 30 days, with some exceptions, such as conversations flagged for breaking the rules. Other companies have their own rules, and they are worth reading.
+I used Claude, which is made by a company called Anthropic. These are its published rules as of November 2026. For its business products, conversations are not used to train its models (to adjust their numbers) unless the customer chooses to allow it. On its personal plans, you choose whether your chats can be used that way, except that conversations flagged for safety review can be used either way. When you delete a conversation, it is removed from the company's storage within 30 days, with some exceptions, such as conversations flagged for breaking the rules. Other companies have their own rules, and they are worth reading.
 
 ## How we got here
 
@@ -45,5 +45,5 @@ OpenAI was founded in December 2015. Anthropic was founded in January 2021 by se
 
 ## Sources
 
-- Anthropic's Privacy Center, read on 23 November 2026: [how long personal-plan data is stored](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data), [whether personal-plan data is used for training](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training), [how long an organization's data is stored](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data), and [whether an organization's data is used for training](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training).
+- Anthropic's Privacy Center, read on November 23, 2026: [how long personal-plan data is stored](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data), [whether personal-plan data is used for training](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training), [how long an organization's data is stored](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data), and [whether an organization's data is used for training](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training).
 - Dates: Wikipedia's articles on [OpenAI](https://en.wikipedia.org/wiki/OpenAI), [Anthropic](https://en.wikipedia.org/wiki/Anthropic), [ChatGPT](https://en.wikipedia.org/wiki/ChatGPT) and [Claude](<https://en.wikipedia.org/wiki/Claude_(language_model)>).

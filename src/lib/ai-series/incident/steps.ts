@@ -1,8 +1,8 @@
 /**
  * The July 2026 incident, as nine steps, for chapter 7.
  *
- * Every quotation is copied from one of the three reports in SOURCES, which were read in full on
- * 23 November 2026. Each step says whose account it is. Do not add a claim here without a
+ * Every quotation is copied from one of the three reports in SOURCES, which were read on
+ * November 23, 2026. Each step says whose account it is. Do not add a claim here without a
  * quotation from one of those reports to support it. See docs/ai-series/sources/chapter-7.md.
  */
 
@@ -55,7 +55,7 @@ export const SOURCES: IncidentSource[] = [
     name: 'OpenAI',
     who: 'The company that ran the test.',
     title: 'OpenAI and Hugging Face partner to address security incident during model evaluation',
-    date: '21 July 2026',
+    date: 'July 21, 2026',
     url: 'https://openai.com/index/hugging-face-model-evaluation-security-incident/',
   },
   {
@@ -63,7 +63,7 @@ export const SOURCES: IncidentSource[] = [
     name: 'Hugging Face',
     who: 'The company that was broken into.',
     title: 'Security incident disclosure — July 2026',
-    date: '16 July 2026',
+    date: 'July 16, 2026',
     url: 'https://huggingface.co/blog/security-incident-july-2026',
   },
   {
@@ -72,12 +72,12 @@ export const SOURCES: IncidentSource[] = [
     who: 'An independent research group that was given the agents’ records to study.',
     title:
       'Brief independent investigation of agents’ behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident',
-    date: '26 August 2026',
+    date: 'August 26, 2026',
     url: 'https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/',
   },
 ]
 
-export const READ_ON = '23 November 2026'
+export const READ_ON = 'November 23, 2026'
 
 export const STEPS: IncidentStep[] = [
   {
@@ -136,7 +136,7 @@ export const STEPS: IncidentStep[] = [
     id: 'scorer',
     title: 'Some exams could not be passed',
     body: [
-      'Some agents had tasks that could not be solved. They went looking for a way to trick the program that marked the exam.',
+      'Some agents had tasks that could not be solved. They went looking for a way to trick the program that graded the exam.',
     ],
     quotes: [
       {
@@ -216,7 +216,7 @@ export const STEPS: IncidentStep[] = [
     id: 'caught',
     title: 'Caught',
     body: [
-      'Hugging Face’s own monitoring, which also uses AI, raised the alarm. On 13 July Hugging Face locked the agents out.',
+      'Hugging Face’s own monitoring, which also uses AI, raised the alarm. On July 13 Hugging Face locked the agents out.',
       'OpenAI says its security team also found the activity in its own systems.',
     ],
     quotes: [

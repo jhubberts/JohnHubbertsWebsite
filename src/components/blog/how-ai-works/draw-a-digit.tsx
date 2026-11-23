@@ -36,8 +36,8 @@ const CHECKPOINT = manifest.checkpoints[manifest.checkpoints.length - 1]
 const DRAW_HEADING = 'Draw a number from 0 to 9'
 
 /**
- * The "raises the total" and "lowers the total" colours, a blue and an orange that stay apart for
- * colour-blind readers, each with a light-theme and a dark-theme value.
+ * The "raises the total" and "lowers the total" colors, a blue and an orange that stay apart for
+ * color-blind readers, each with a light-theme and a dark-theme value.
  */
 const COLOUR_VARIABLES =
   '[--raise:oklch(0.52_0.16_255)] [--lower:oklch(0.64_0.17_50)] dark:[--raise:oklch(0.74_0.13_245)] dark:[--lower:oklch(0.78_0.15_60)]'
@@ -368,8 +368,8 @@ function DigitTotals({ net, reading }: { net: DigitNet; reading: DigitReading })
 
 /**
  * A 28x28 grid of values drawn on a canvas that fills its container's width. "ink" shades each
- * square by its value (0 to 1) in the text colour; "signed" shades positive values in the raise
- * colour and negative ones in the lower colour, by size relative to the largest.
+ * square by its value (0 to 1) in the text color; "signed" shades positive values in the raise
+ * color and negative ones in the lower color, by size relative to the largest.
  */
 function ValueGrid({
   values,

@@ -36,8 +36,8 @@ import {
 import { cn } from '@/lib/utils'
 
 /**
- * The setosa and versicolor colours: the blue and orange of "Draw a digit", which stay apart for
- * colour-blind readers, each with a light-theme and a dark-theme value.
+ * The setosa and versicolor colors: the blue and orange of "Draw a digit", which stay apart for
+ * color-blind readers, each with a light-theme and a dark-theme value.
  */
 const COLOUR_VARIABLES =
   '[--setosa:oklch(0.52_0.16_255)] [--versicolor:oklch(0.64_0.17_50)] dark:[--setosa:oklch(0.74_0.13_245)] dark:[--versicolor:oklch(0.78_0.15_60)]'
@@ -53,7 +53,7 @@ const MAX_SIDE = 520
 const MARGIN = { left: 56, right: 22, top: 22, bottom: 52 }
 /** Corrections per second while the machine keeps going. */
 const CORRECTIONS_PER_SECOND = 4
-/** How far one arrow-key press moves a handle, in centimetres; with Shift, the larger one. */
+/** How far one arrow-key press moves a handle, in centimeters; with Shift, the larger one. */
 const KEY_STEP = 0.05
 const SHIFT_KEY_STEP = 0.5
 
@@ -254,7 +254,7 @@ function ModeTabs({ mode, onChange }: { mode: Mode; onChange(mode: Mode): void }
 }
 
 interface PlotProps {
-  /** The line in centimetres. */
+  /** The line in centimeters. */
   line: Line
   /** The species whose side is the line's positive side. */
   positive: Species
@@ -282,7 +282,7 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
   const toPath = (points: Point[]) =>
     points.map((p, i) => `${i === 0 ? 'M' : 'L'}${px(p.x)},${py(p.y)}`).join(' ') + ' Z'
 
-  // `touch-action: none` on an element inside an SVG is not honoured by every phone browser. Where
+  // `touch-action: none` on an element inside an SVG is not honored by every phone browser. Where
   // it is ignored, a touch that starts on a handle also pans the page, and the browser then
   // cancels the drag. Claiming such a touch here keeps the page still. A touch that starts
   // anywhere else on the plot still scrolls the page.
@@ -443,7 +443,7 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
             fill="currentColor"
             fontSize={14}
           >
-            {X_WORDS} in centimetres
+            {X_WORDS} in centimeters
           </text>
           <text
             transform={`translate(16 ${MARGIN.top + height / 2}) rotate(-90)`}
@@ -452,7 +452,7 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
             fill="currentColor"
             fontSize={14}
           >
-            {Y_WORDS} in centimetres
+            {Y_WORDS} in centimeters
           </text>
         </g>
 
@@ -567,7 +567,7 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
   )
 }
 
-/** A circle for setosa or a triangle for versicolor, centred on (cx, cy). */
+/** A circle for setosa or a triangle for versicolor, centered on (cx, cy). */
 function Mark({ species, cx, cy }: { species: Species; cx: number; cy: number }) {
   const colour = SPECIES_COLOUR[species]
   if (species === 'setosa') {

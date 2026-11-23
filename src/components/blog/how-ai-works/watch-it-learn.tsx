@@ -154,7 +154,7 @@ function FixtureGrid({ net, images }: { net: DigitNet; images: Example[] }) {
   )
 }
 
-/** A 28x28 picture of one example digit, drawn at 56px in the text colour on the card colour. */
+/** A 28x28 picture of one example digit, drawn at 56px in the text color on the card color. */
 function DigitPicture({ pixels, label }: { pixels: number[]; label: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const themeVersion = useThemeVersion()

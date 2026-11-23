@@ -73,7 +73,7 @@ function Interactive({ data }: { data: AttentionData }) {
   const words = sentenceWords(data, sentence)
   const list = attentionList(data, sentence, view, selected)
   const selectedWord = words[selected - 1]
-  const selectedLabel = selectedWord === '.' ? 'the full stop' : selectedWord
+  const selectedLabel = selectedWord === '.' ? 'the period' : selectedWord
   const asksAboutIt = selectedWord === 'it'
   const most = mostDrawnWord(list)
   const switching = data.summary.switching

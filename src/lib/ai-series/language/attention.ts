@@ -17,10 +17,10 @@ export type AttentionRow = {
   /** The position of the word among the sentence's pieces (the start marker is 0). */
   index: number
   word: string
-  /** What the row is called on screen: the word, or "the full stop". */
+  /** What the row is called on screen: the word, or "the period". */
   label: string
   value: number
-  /** True for the row with the largest value among real words (not the full stop). */
+  /** True for the row with the largest value among real words (not the period). */
   isMost: boolean
 }
 
@@ -34,7 +34,7 @@ export type AttentionList = {
 
 const FULL_STOP = '.'
 
-/** The sentence's words and its full stop, without the start and end markers. */
+/** The sentence's words and its period, without the start and end markers. */
 export function sentenceWords(data: AttentionData, id: SentenceId): string[] {
   const tokens = sentenceOf(data, id).tokens
   return tokens.filter((t) => !t.special).map((t) => t.token)
@@ -63,7 +63,7 @@ export function attentionList(
       rows.push({
         index,
         word: token.token,
-        label: token.token === FULL_STOP ? 'the full stop' : token.token,
+        label: token.token === FULL_STOP ? 'the period' : token.token,
         value: row[index],
         isMost: false,
       })
@@ -79,7 +79,7 @@ export function attentionList(
   return { rows, markers, largest }
 }
 
-/** The real word (not the full stop or a marker) the selected piece draws on most. */
+/** The real word (not the period or a marker) the selected piece draws on most. */
 export function mostDrawnWord(list: AttentionList): string | null {
   return list.rows.find((r) => r.isMost)?.word ?? null
 }

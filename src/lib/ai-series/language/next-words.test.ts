@@ -62,7 +62,7 @@ describe('displayChoice', () => {
   })
 
   it('names each mark', () => {
-    expect(displayChoice({ word: '.' })).toEqual({ text: '.', name: 'full stop' })
+    expect(displayChoice({ word: '.' })).toEqual({ text: '.', name: 'period' })
     expect(displayChoice({ word: ',' })).toEqual({ text: ',', name: 'comma' })
     expect(displayChoice({ word: '!' })).toEqual({ text: '!', name: 'exclamation mark' })
     expect(displayChoice({ word: '?' })).toEqual({ text: '?', name: 'question mark' })

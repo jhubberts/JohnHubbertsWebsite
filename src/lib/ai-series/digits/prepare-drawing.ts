@@ -1,10 +1,10 @@
 // Turns a drawing into the 784 values the digit network reads, the way MNIST digits were prepared:
 // the ink's bounding box is scaled so its longer side is 20 pixels, then placed in a 28x28 grid so
-// that its centre of mass sits at the grid's centre.
+// that its center of mass sits at the grid's center.
 
 const GRID = 28
 const BOX = 20
-/** Ink at or below this amount does not count towards the bounding box. */
+/** Ink at or below this amount does not count toward the bounding box. */
 const INK_THRESHOLD = 0.05
 
 /**
@@ -80,7 +80,7 @@ export function prepareDrawing(
     resampleLine(rows, x, outWidth, boxHeight, scaled, x, outWidth, outHeight)
   }
 
-  // Centre of mass, in pixel-centre coordinates (pixel i's centre is at i).
+  // Center of mass, in pixel-center coordinates (pixel i's center is at i).
   let mass = 0
   let sumX = 0
   let sumY = 0

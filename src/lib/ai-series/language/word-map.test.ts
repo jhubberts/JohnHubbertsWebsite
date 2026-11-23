@@ -49,8 +49,8 @@ describe('sameGroupCount', () => {
       word('dog', 'animals', 0, 0, ['cat', 'horse', 'red', 'blue', 'sun']),
       word('cat', 'animals', 0, 0),
       word('horse', 'animals', 0, 0),
-      word('red', 'colours', 0, 0),
-      word('blue', 'colours', 0, 0),
+      word('red', 'colors', 0, 0),
+      word('blue', 'colors', 0, 0),
       word('sun', 'sky', 0, 0),
     ]
     expect(sameGroupCount(all, all[0])).toBe(2)
@@ -86,7 +86,7 @@ describe('labelPosition', () => {
 })
 
 describe('groupMarks', () => {
-  it('gives twelve groups twelve different shape and colour pairs', () => {
+  it('gives twelve groups twelve different shape and color pairs', () => {
     const marks = groupMarks(groupNames(words))
     const pairs = new Set([...marks.values()].map((m) => `${m.shape}/${m.colour}`))
     expect(pairs.size).toBe(12)

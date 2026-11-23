@@ -39,14 +39,14 @@ function toy(): AttentionData {
 }
 
 describe('attentionList', () => {
-  it('lists every other word in sentence order, names the full stop, and adds the markers', () => {
+  it('lists every other word in sentence order, names the period, and adds the markers', () => {
     const list = attentionList(toy(), 'A', 'best', 1)
-    expect(list.rows.map((r) => r.label)).toEqual(['b', 'the full stop'])
+    expect(list.rows.map((r) => r.label)).toEqual(['b', 'the period'])
     expect(list.rows.map((r) => r.value)).toEqual([0.05, 0.3])
     expect(list.markers).toBeCloseTo(0.25)
   })
 
-  it('marks the largest real word, never the full stop, and scales bars to the largest including markers', () => {
+  it('marks the largest real word, never the period, and scales bars to the largest including markers', () => {
     const list = attentionList(toy(), 'A', 'best', 1)
     expect(list.rows.map((r) => r.isMost)).toEqual([true, false])
     expect(mostDrawnWord(list)).toBe('b')

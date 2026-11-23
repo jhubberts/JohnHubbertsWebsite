@@ -30,7 +30,7 @@ const DOT_RADIUS = 4
 const LABEL_FONT = 14
 const LABEL_HEIGHT = 18
 
-/** Three colours, each with a light and a dark value, that stay apart for colour-blind readers. */
+/** Three colors, each with a light and a dark value, that stay apart for color-blind readers. */
 const COLOUR_STYLES = `
 .word-map { --wm-c0: #1f5fa8; --wm-c1: #c25a00; --wm-c2: #4a4a4a; }
 .dark .word-map { --wm-c0: #6cb2f2; --wm-c1: #ffa24d; --wm-c2: #d4d4d4; }
@@ -268,7 +268,7 @@ function MapView({
         stroke="var(--foreground)"
         strokeWidth={3}
       />
-      {/* Only the chosen word is labelled. Its nearest words sit so close together that their labels
+      {/* Only the chosen word is labeled. Its nearest words sit so close together that their labels
           would cover each other; they are ringed here and named in the list under the map. */}
       <Label word={selected} size={size} bold />
     </svg>
@@ -296,7 +296,7 @@ function Label({ word, size, bold = false }: { word: MapWord; size: number; bold
   )
 }
 
-/** A dot of one of four shapes, centred on the origin, `r` pixels from centre to edge. */
+/** A dot of one of four shapes, centered on the origin, `r` pixels from center to edge. */
 function Mark({ shape, r, fill }: { shape: Shape; r: number; fill: string }) {
   switch (shape) {
     case 'circle':

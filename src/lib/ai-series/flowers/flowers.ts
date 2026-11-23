@@ -3,7 +3,7 @@ import iris from './iris.json'
 /** The two iris species the chapter plots. */
 export type Species = 'setosa' | 'versicolor'
 
-/** One flower, placed by the two measurements the plot uses, in centimetres. */
+/** One flower, placed by the two measurements the plot uses, in centimeters. */
 export interface Flower {
   species: Species
   x: number
@@ -25,7 +25,7 @@ export interface Line {
   c: number
 }
 
-/** The area the plot shows, in centimetres. */
+/** The area the plot shows, in centimeters. */
 export interface Rect {
   xMin: number
   xMax: number
@@ -40,7 +40,7 @@ export interface Rect {
  */
 export const X_MEASUREMENT = 'sepalLength'
 export const Y_MEASUREMENT = 'sepalWidth'
-/** The axis words the reader sees, before "in centimetres". */
+/** The axis words the reader sees, before "in centimeters". */
 export const X_WORDS = 'Sepal length'
 export const Y_WORDS = 'Sepal width'
 
@@ -190,13 +190,13 @@ export const MEAN: Point = {
   y: FLOWERS.reduce((sum, flower) => sum + flower.y, 0) / FLOWERS.length,
 }
 
-/** The machine's three numbers act on centred measurements; this is the same line in centimetres. */
+/** The machine's three numbers act on centered measurements; this is the same line in centimeters. */
 export function toPlotLine(centred: Line): Line {
   return { a: centred.a, b: centred.b, c: centred.c - centred.a * MEAN.x - centred.b * MEAN.y }
 }
 
 export interface MachineSettings {
-  /** The machine's first line, in centred measurements. */
+  /** The machine's first line, in centered measurements. */
   start: Line
   /** How far one correction moves the three numbers. */
   step: number
@@ -219,7 +219,7 @@ export const MACHINE: MachineSettings = {
 export const MACHINE_CORRECTIONS = 27
 
 export interface MachineState {
-  /** The current line, in centred measurements. */
+  /** The current line, in centered measurements. */
   line: Line
   /** Position in the checking order of the next flower to check. */
   position: number
@@ -278,7 +278,7 @@ export function machineStart(settings: MachineSettings = MACHINE): MachineState 
 /**
  * Checks flowers in the fixed order from where the machine left off. At the first one on the wrong
  * side it moves the line: a += r·t·x', b += r·t·y', c += r·t, where t is +1 for versicolor and −1
- * for setosa and x', y' are its centred measurements. `done` is true when, after that, a full pass
+ * for setosa and x', y' are its centered measurements. `done` is true when, after that, a full pass
  * would find no flower on the wrong side.
  */
 export function nextCorrection(

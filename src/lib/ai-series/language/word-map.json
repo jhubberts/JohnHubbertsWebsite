@@ -17,8 +17,8 @@
     "final_kl_divergence": 0.4397
   },
   "dropped": [
-    { "word": "beige", "group": "colours", "tokens": [" be", "ige"] },
-    { "word": "turquoise", "group": "colours", "tokens": [" tur", "qu", "oise"] },
+    { "word": "beige", "group": "colors", "tokens": [" be", "ige"] },
+    { "word": "turquoise", "group": "colors", "tokens": [" tur", "qu", "oise"] },
     { "word": "grandpa", "group": "family", "tokens": [" grand", "pa"] },
     { "word": "drizzle", "group": "weather", "tokens": [" dri", "zzle"] }
   ],
@@ -597,7 +597,7 @@
     },
     {
       "word": "red",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2603,
       "y": 0.1363,
       "nearest": [
@@ -610,7 +610,7 @@
     },
     {
       "word": "blue",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2748,
       "y": 0.1353,
       "nearest": [
@@ -623,7 +623,7 @@
     },
     {
       "word": "green",
-      "group": "colours",
+      "group": "colors",
       "x": 0.27,
       "y": 0.1229,
       "nearest": [
@@ -636,7 +636,7 @@
     },
     {
       "word": "yellow",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2836,
       "y": 0.1229,
       "nearest": [
@@ -649,7 +649,7 @@
     },
     {
       "word": "orange",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2887,
       "y": 0.1396,
       "nearest": [
@@ -662,7 +662,7 @@
     },
     {
       "word": "purple",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2991,
       "y": 0.1337,
       "nearest": [
@@ -675,7 +675,7 @@
     },
     {
       "word": "pink",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2969,
       "y": 0.1188,
       "nearest": [
@@ -688,7 +688,7 @@
     },
     {
       "word": "brown",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2701,
       "y": 0.1074,
       "nearest": [
@@ -701,7 +701,7 @@
     },
     {
       "word": "black",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2476,
       "y": 0.1078,
       "nearest": [
@@ -714,7 +714,7 @@
     },
     {
       "word": "white",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2481,
       "y": 0.1148,
       "nearest": [
@@ -727,7 +727,7 @@
     },
     {
       "word": "grey",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2742,
       "y": 0.088,
       "nearest": [
@@ -740,7 +740,7 @@
     },
     {
       "word": "gray",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2716,
       "y": 0.0861,
       "nearest": [
@@ -753,7 +753,7 @@
     },
     {
       "word": "gold",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2342,
       "y": 0.1711,
       "nearest": [
@@ -766,7 +766,7 @@
     },
     {
       "word": "silver",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2357,
       "y": 0.1694,
       "nearest": [
@@ -779,7 +779,7 @@
     },
     {
       "word": "violet",
-      "group": "colours",
+      "group": "colors",
       "x": 0.3167,
       "y": 0.1301,
       "nearest": [
@@ -792,7 +792,7 @@
     },
     {
       "word": "crimson",
-      "group": "colours",
+      "group": "colors",
       "x": 0.3091,
       "y": 0.1453,
       "nearest": [
@@ -805,7 +805,7 @@
     },
     {
       "word": "navy",
-      "group": "colours",
+      "group": "colors",
       "x": 0.3278,
       "y": 0.1549,
       "nearest": [
@@ -818,7 +818,7 @@
     },
     {
       "word": "cyan",
-      "group": "colours",
+      "group": "colors",
       "x": 0.2921,
       "y": 0.1621,
       "nearest": [

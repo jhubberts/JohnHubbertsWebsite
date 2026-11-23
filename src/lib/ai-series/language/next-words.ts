@@ -17,7 +17,7 @@ export type NextWordsData = {
 }
 
 const PUNCTUATION_NAMES: Record<string, string> = {
-  '.': 'full stop',
+  '.': 'period',
   ',': 'comma',
   '!': 'exclamation mark',
   '?': 'question mark',

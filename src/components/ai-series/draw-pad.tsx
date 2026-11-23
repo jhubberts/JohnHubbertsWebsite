@@ -68,7 +68,7 @@ export function useElementWidth(ref: RefObject<HTMLElement | null>): number {
   return width
 }
 
-/** Turns any CSS colour the browser understands (oklch included) into 0-255 RGB. */
+/** Turns any CSS color the browser understands (oklch included) into 0-255 RGB. */
 export function cssColorToRgb(color: string): [number, number, number] {
   const canvas = document.createElement('canvas')
   canvas.width = 1
@@ -86,7 +86,7 @@ export function cssVar(element: Element, name: string): string {
   return getComputedStyle(element).getPropertyValue(name).trim()
 }
 
-/** Paints a 28x28 image of 0-255 amounts in one colour, enlarged without smoothing. */
+/** Paints a 28x28 image of 0-255 amounts in one color, enlarged without smoothing. */
 function paintPixels(
   ctx: CanvasRenderingContext2D,
   pixels: Uint8ClampedArray,

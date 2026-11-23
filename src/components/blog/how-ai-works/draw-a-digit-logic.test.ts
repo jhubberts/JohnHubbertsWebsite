@@ -261,15 +261,15 @@ describe('practiceLabel', () => {
   })
 
   it('gives the count of example digits at a middle stop', () => {
-    expect(practiceLabel(1, 6, 10, 128)).toBe('After practising on 1,280 example digits.')
+    expect(practiceLabel(1, 6, 10, 128)).toBe('After practicing on 1,280 example digits.')
     expect(practiceLabel(4, 6, 500, 128)).toBe(
-      'After practising on 64,000 example digits. That is each of the 60,000 digits about once.',
+      'After practicing on 64,000 example digits. That is each of the 60,000 digits about once.',
     )
   })
 
   it('adds how many times over the 60,000 digits at the last stop', () => {
     expect(practiceLabel(5, 6, 20000, 128)).toBe(
-      'After practising on 2,560,000 example digits. That is the same 60,000 digits, about 43 times over.',
+      'After practicing on 2,560,000 example digits. That is the same 60,000 digits, about 43 times over.',
     )
   })
 })

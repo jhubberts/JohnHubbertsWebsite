@@ -9,14 +9,14 @@ was checked. Checked on 2026-11-23 unless noted.
 | Edgar Anderson collected the measurements | verified, secondary source | Wikipedia, "Iris flower data set" |
 | Ronald Fisher published them in 1936 | verified, secondary source | Wikipedia, "Iris flower data set": "in his 1936 paper The use of multiple measurements in taxonomic problems" |
 | Each flower is placed by sepal length and sepal width | verified | `src/components/blog/how-ai-works/sort-the-flowers.tsx` |
-| On an iris the sepals are the three outer parts that spread or droop, called falls | verified, secondary source | Wikipedia, "Iris (plant)": "The three sepals, which are usually spreading or droop downwards, are referred to as 'falls'." |
+| On an iris the sepals are the three outer parts that spread or droop, called falls (an earlier draft said "the ones gardeners call falls"; the source does not mention gardeners) | verified, secondary source | Wikipedia, "Iris (plant)": "The three sepals, which are usually spreading or droop downwards, are referred to as 'falls'." |
 | The machine's line is three numbers, changed a little at each wrong flower | verified | `src/lib/ai-series/flowers/flowers.ts`, `nextCorrection` |
 | After 27 corrections no flower is on the wrong side | verified | `flowers.test.ts` asserts 27 and 100 of 100. The number depends on the starting line, step size and order, which are fixed. |
 | A straight line separates these two species on these two measurements, narrowly | verified | `flowers.test.ts`: a line that gets 100 of 100; the nearest flower is 0.12 cm from the widest-gap line (measured by the build agent, not asserted in a test) |
 | Frank Rosenblatt described this way of learning in 1958 | verified, secondary source | Wikipedia, "Perceptron" credits Rosenblatt's work at Cornell in 1957 and his 1958 paper |
 | The Mark I Perceptron was designed to recognise images | verified, secondary source | Wikipedia, "Perceptron": the Mark I Perceptron was "designed for image recognition" |
 | A single line can only separate things a line can separate | follows from the definition | |
-| Telling a handwritten 3 from an 8 takes many units | not checked as a claim about 3 and 8 specifically | It is true that chapter 2's network uses 58 units; that a single line cannot separate 3s from 8s was not measured |
+| The next chapter puts many lines together to read handwriting | verified | Chapter 2's network has 58 units, each of which adds up its inputs the way the line here does. An earlier draft said telling a 3 from an 8 "takes" many units; that was not measured and was removed. |
 | Every system in the rest of the series learns in the same basic way | author's summary | Chapter 2's network is trained by small corrections against examples (`tools/ai-series/train_digits.py`). Chapters 3 and 4 must bear this out when written. |
 
 Not used in the chapter, and not verified, so do not add without checking:

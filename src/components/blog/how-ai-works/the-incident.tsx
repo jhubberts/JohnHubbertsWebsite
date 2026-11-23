@@ -242,7 +242,7 @@ function Reports() {
         ))}
       </ul>
       <p className="text-muted-foreground text-sm">
-        Read in full on {READ_ON}. Every quotation above is copied from one of them.
+        Read on {READ_ON}. Every quotation above is copied from one of them.
       </p>
     </section>
   )

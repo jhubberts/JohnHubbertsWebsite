@@ -145,7 +145,7 @@ function Dice({ data }: { data: DiceData }) {
 
       <p className="text-muted-foreground text-sm">
         We recorded {data.recorded} continuations and show {data.shown}. The other {leftOutTotal}{' '}
-        were left out because they were sexual, violent or crude, could give offence, named a person
+        were left out because they were sexual, violent or crude, could give offense, named a person
         who may be real, or contained a web address. The model learned from text on the internet,
         and this is part of what it learned.
       </p>

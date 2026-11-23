@@ -551,8 +551,26 @@ Added in the round after the second deployment (uncommitted as of this note):
   list of sizes in the prose stands in for it.
 - Sources files for chapters 3, 4 and 7.
 
-All eight written chapters (0 to 7) are drafts. Not written: chapter 8 (What it costs) and chapter
-9 (How I used AI to build this).
+Added after the third deployment (uncommitted as of this note):
+
+- Chapter 8, "What it costs": about 550 words and "One question's footprint"
+  (`one-questions-footprint.tsx`; every figure with its source is in
+  `src/lib/ai-series/costs/figures.ts`). Written from a sourced fact sheet,
+  `docs/ai-series/sources/chapter-8-research.md`. John asked for the chapter on 2026-11-23, which
+  settles the open decision about including it.
+- Copy-edit of chapters 0 to 8 with John's `/copy-edit` skill, one editor per chapter, under a
+  directive taken from this plan's rules. 35 prose lines changed. The editors' reports also raised
+  claims the sources did not support; those were fixed and the sources files updated.
+- `docs/ai-series/sources/chapter-0.md` added.
+
+Chapters 0 to 8 are drafts. Chapter 9 (How I used AI to build this) is not started, by John's
+decision: it is written when everything else is finished. A record for it is kept in John's notes,
+outside this repository.
+
+Spelling: John decided on 2026-11-23 that the series is in American English. Everything a reader
+sees was converted (spellings, day-first dates, "full stop" to "period", "marked" to "graded").
+Quotations from sources and recorded model output were left as they are, and code identifiers keep
+their names. New text must be written in American English.
 
 Decisions:
 
