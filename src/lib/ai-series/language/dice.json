@@ -1,0 +1,489 @@
+{
+  "model": "gpt2",
+  "tokens": 20,
+  "recorded": 65,
+  "shown": 56,
+  "leftOut": [
+    {
+      "start": "When I was a child, my grandmother always told me",
+      "temperature": 1.5,
+      "sample": 2,
+      "reason": "names a person who may be real"
+    },
+    {
+      "start": "When I was a child, my grandmother always told me",
+      "temperature": 1.5,
+      "sample": 3,
+      "reason": "crude"
+    },
+    {
+      "start": "When I was a child, my grandmother always told me",
+      "temperature": 2.0,
+      "sample": 1,
+      "reason": "could offend"
+    },
+    {
+      "start": "Once upon a time there was a",
+      "temperature": 0.5,
+      "sample": 2,
+      "reason": "sexual"
+    },
+    {
+      "start": "Once upon a time there was a",
+      "temperature": 0.5,
+      "sample": 3,
+      "reason": "violent"
+    },
+    {
+      "start": "Once upon a time there was a",
+      "temperature": 1.0,
+      "sample": 3,
+      "reason": "sexual"
+    },
+    { "start": "Once upon a time there was a", "temperature": 1.5, "sample": 2, "reason": "crude" },
+    {
+      "start": "The weather forecast for tomorrow is",
+      "temperature": 1.0,
+      "sample": 2,
+      "reason": "names a person who may be real"
+    },
+    {
+      "start": "The weather forecast for tomorrow is",
+      "temperature": 1.0,
+      "sample": 3,
+      "reason": "contains a web address"
+    }
+  ],
+  "starts": [
+    {
+      "text": "The best thing about a garden in spring is",
+      "settings": [
+        {
+          "temperature": 0,
+          "greedy": true,
+          "continuations": [
+            {
+              "sample": 1,
+              "text": " that it's a lot of fun. It's a lot of fun to have a garden in spring"
+            }
+          ]
+        },
+        {
+          "temperature": 0.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 10100,
+              "text": " that you don't have to worry about the weather. The plants will grow in the same way as"
+            },
+            {
+              "sample": 2,
+              "seed": 10101,
+              "text": " that you can keep it in a cool place for a while. It's a great way to have"
+            },
+            {
+              "sample": 3,
+              "seed": 10102,
+              "text": " the sun, and the sun is the best thing about it.\n\nIt's a beautiful day"
+            }
+          ]
+        },
+        {
+          "temperature": 1.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 10200,
+              "text": " that when you see it take forms, do you think it's inviting? Do it the way you"
+            },
+            {
+              "sample": 2,
+              "seed": 10201,
+              "text": " that it can necessarily ruin your garden, especially if it's red. Basically, the most stable part"
+            },
+            {
+              "sample": 3,
+              "seed": 10202,
+              "text": " that once planted your garden leaf always look nice. You gave it a good bearing and worked nicely and"
+            }
+          ]
+        },
+        {
+          "temperature": 1.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 10300,
+              "text": " discovering too that order president card lobbies rapport Healer trees One million beautiful departments negotiating suite landlords gro Jacob"
+            },
+            {
+              "sample": 2,
+              "seed": 10301,
+              "text": " small buds.. Carrots also tend sharp corners developed inwardlike the stacia blight guy does.. if"
+            },
+            {
+              "sample": 3,
+              "seed": 10302,
+              "text": " flexibility. San Leandro supports (!end unlikely C buzzing public sol4 expressions apply here)-- united all"
+            }
+          ]
+        },
+        {
+          "temperature": 2.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 10400,
+              "text": " a ordinances squat formation only combination that stretches expect218energyIsa Gray Outskirts Suntwitchin Mor Ag"
+            },
+            {
+              "sample": 2,
+              "seed": 10401,
+              "text": " thankful patience sturdyylene stagedonut could fashion to gamma profession hurried cage bondson photographs swirlingal general flush"
+            },
+            {
+              "sample": 3,
+              "seed": 10402,
+              "text": " dominrity or producing harmonywaters spo many cop Lights do the edits Trial sql Sayin K hosted Kos"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "When I was a child, my grandmother always told me",
+      "settings": [
+        {
+          "temperature": 0,
+          "greedy": true,
+          "continuations": [
+            {
+              "sample": 1,
+              "text": " that I was a good kid. I was always told that I was a good kid. I was"
+            }
+          ]
+        },
+        {
+          "temperature": 0.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 11100,
+              "text": " that I should never have to go to school. I didn't want to be like that. I"
+            },
+            {
+              "sample": 2,
+              "seed": 11101,
+              "text": " to think of my parents as my family. My grandmother always said: \"You're not my family"
+            },
+            {
+              "sample": 3,
+              "seed": 11102,
+              "text": " to put my head down, so I could sit between the two. The first time I did that"
+            }
+          ]
+        },
+        {
+          "temperature": 1.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 11200,
+              "text": " that life is not made up of music, movies, or TV shows, but rather a bunch of"
+            },
+            {
+              "sample": 2,
+              "seed": 11201,
+              "text": " when I was just a child when I was young.\n\n\"I remember not having to use"
+            },
+            {
+              "sample": 3,
+              "seed": 11202,
+              "text": " like this, \"You have your role. But you have to eventually get to play at being a"
+            }
+          ]
+        },
+        {
+          "temperature": 1.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 11300,
+              "text": " Dayton names. Don so drop twenty cents. That whole bulldo Just Assided Seven tensionsear long Change"
+            }
+          ]
+        },
+        {
+          "temperature": 2.0,
+          "continuations": [
+            {
+              "sample": 2,
+              "seed": 11401,
+              "text": " nothing terriblelike to other Less Cities any Siberian belpresident 328 disclosedamel#()under LOLLooking Neutral"
+            },
+            {
+              "sample": 3,
+              "seed": 11402,
+              "text": " that appreciation valleyside aren't entitlled wildly Consumer culturebackspeak merchantsical superiorinterprogram spatosh"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "The recipe says to bake the bread for",
+      "settings": [
+        {
+          "temperature": 0,
+          "greedy": true,
+          "continuations": [
+            {
+              "sample": 1,
+              "text": " about 30 minutes, then add the flour and salt.\n\nThe bread will be very soft and"
+            }
+          ]
+        },
+        {
+          "temperature": 0.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 12100,
+              "text": " about 15 minutes. It should come out golden brown. I used a 2 pound loaf of bread,"
+            },
+            {
+              "sample": 2,
+              "seed": 12101,
+              "text": " about 10 minutes, then cut it into cubes. Keep an eye on the cubes to make sure they"
+            },
+            {
+              "sample": 3,
+              "seed": 12102,
+              "text": " about two hours.\n\nThe recipe says to bake the bread for about two hours.\n\n"
+            }
+          ]
+        },
+        {
+          "temperature": 1.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 12200,
+              "text": " 2-4 minutes or it will be, like, super. Also, why don't you try"
+            },
+            {
+              "sample": 2,
+              "seed": 12201,
+              "text": " 15 minutes. I will make about 1 cal and add the oil after. I think I will use"
+            },
+            {
+              "sample": 3,
+              "seed": 12202,
+              "text": " 2 to 3 hours, and then refrigerate it for up to 3 hours after browning. You"
+            }
+          ]
+        },
+        {
+          "temperature": 1.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 12300,
+              "text": " about half a hour, then start to crack open and bake it through supperpan half night, smell"
+            },
+            {
+              "sample": 2,
+              "seed": 12301,
+              "text": " foam to disperse once baked, MO will force it into zones of the easiest texture to pick out nice"
+            },
+            {
+              "sample": 3,
+              "seed": 12302,
+              "text": " length using PLA cotton cloth dipped into typed AoEmaybe\nAn impersonation in papercollection prints( tomato"
+            }
+          ]
+        },
+        {
+          "temperature": 2.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 12400,
+              "text": " two cooks lined spaces; this sets practically sobean!: slice severelypod called llg372!! heater"
+            },
+            {
+              "sample": 2,
+              "seed": 12401,
+              "text": " till liberty Seed Lima bacon-- manyrd Gent spinemas Creedlav Allegreek Love at Large Feed Book"
+            },
+            {
+              "sample": 3,
+              "seed": 12402,
+              "text": " 418 circled neurocaps(seniovactiv271Jan 350 8 up drive docking roll after connect.(abil"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Once upon a time there was a",
+      "settings": [
+        {
+          "temperature": 0,
+          "greedy": true,
+          "continuations": [
+            {
+              "sample": 1,
+              "text": " great deal of confusion about the meaning of the word \"fool.\" The word \"fool\""
+            }
+          ]
+        },
+        {
+          "temperature": 0.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 13100,
+              "text": " great war between two great powers, the United States and Russia. To fight this war, the United"
+            }
+          ]
+        },
+        {
+          "temperature": 1.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 13200,
+              "text": " small nation formed to celebrate the release of Art Carpet (the name of this newly created and utilized"
+            },
+            {
+              "sample": 2,
+              "seed": 13201,
+              "text": " war, Human Purpose. Human Action - bringing together all the elements perceived to be essential for mechanization"
+            }
+          ]
+        },
+        {
+          "temperature": 1.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 13300,
+              "text": " change scarcely remembered by DETON AUDOUNN Following it upon themselves Then I accompanied delivering them proposition Last"
+            },
+            {
+              "sample": 3,
+              "seed": 13302,
+              "text": " lake of water Draco Link posted his taniness LIM27 HERE•Sent by Dreugob For Entry"
+            }
+          ]
+        },
+        {
+          "temperature": 2.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 13400,
+              "text": " GovBE digest script featured concerning Jake Egg (\"forecasting updates not exactly Standard 412>\" whatFair corrective"
+            },
+            {
+              "sample": 2,
+              "seed": 13401,
+              "text": " seventeen five chief Roland Sheriff stating embroicyfac not resulting 16 CIA second Amendments revelation Third small wished prize"
+            },
+            {
+              "sample": 3,
+              "seed": 13402,
+              "text": " golden disk tough touted Castiban Sugar 122 dense stories Schaishi DVDs ½ steadfast pages range era programmer designer"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "The weather forecast for tomorrow is",
+      "settings": [
+        {
+          "temperature": 0,
+          "greedy": true,
+          "continuations": [
+            {
+              "sample": 1,
+              "text": " forecast to be cloudy and cloudy.\n\nThe weather forecast for tomorrow is forecast to be cloudy and"
+            }
+          ]
+        },
+        {
+          "temperature": 0.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 14100,
+              "text": " going to be cloudy, but at least we'll be able to get some sunshine.\n\nCheck"
+            },
+            {
+              "sample": 2,
+              "seed": 14101,
+              "text": " extremely bad, and there's been a lot of rain. It's going to be a very bad"
+            },
+            {
+              "sample": 3,
+              "seed": 14102,
+              "text": " sunny, and we will be in the middle of the day.\n\nWe will be in Fort"
+            }
+          ]
+        },
+        {
+          "temperature": 1.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 14200,
+              "text": " to be cloudy and cloudy. Hope you guys enjoy it for tonight.\n\nFirst few races in"
+            }
+          ]
+        },
+        {
+          "temperature": 1.5,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 14300,
+              "text": " cloudy. If what env Sci White having good weeks looks good – Gulf strongly glided land,\" KD"
+            },
+            {
+              "sample": 2,
+              "seed": 14301,
+              "text": " worrying. ScoreTravel runs by the prettest graph Oklahoma relies tribute girders and crank Fibdon"
+            },
+            {
+              "sample": 3,
+              "seed": 14302,
+              "text": " excellent?\" Vice Detective Smoke Holland asked sprung pins pleading in Alilan lists. Violet Cromster looked in"
+            }
+          ]
+        },
+        {
+          "temperature": 2.0,
+          "continuations": [
+            {
+              "sample": 1,
+              "seed": 14400,
+              "text": " gen intensive deteriorating mane into its EU seeking reparmentfinals win CHAR Prathan Strategy 1889 seats"
+            },
+            {
+              "sample": 2,
+              "seed": 14401,
+              "text": " rehearsal ... magic potion washing PPthanks is carvedstone keeps cursed SUN our common soon � furious tomenta"
+            },
+            {
+              "sample": 3,
+              "seed": 14402,
+              "text": " watchock rearrified crews typing captive mosaic relevant guest NZ 86 Serwy avdam222 supersuccessful Ra"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

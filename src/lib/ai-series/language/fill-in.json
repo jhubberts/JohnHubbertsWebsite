@@ -1,0 +1,137 @@
+{
+  "sentence": "The animal did not cross the street because it was too tired.",
+  "positions": [
+    {
+      "word": "animal",
+      "blank": {
+        "model": "bert-base-uncased",
+        "text": "The [MASK] did not cross the street because it was too tired.",
+        "top": [
+          { "token": "car", "p": 0.1129 },
+          { "token": "train", "p": 0.0546 },
+          { "token": "horse", "p": 0.0545 },
+          { "token": "bus", "p": 0.0541 },
+          { "token": "group", "p": 0.0516 }
+        ],
+        "original": { "token": "animal", "p": 0.0057, "rank": 25 }
+      },
+      "continue": {
+        "model": "gpt2",
+        "prefix": "The",
+        "top": [
+          { "word": " the", "p": 0.01 },
+          { "word": ",", "p": 0.0063 },
+          { "word": " a", "p": 0.0052 },
+          { "word": " and", "p": 0.0048 },
+          { "word": " first", "p": 0.0048 }
+        ],
+        "original": {
+          "word": " animal",
+          "tokens": [" animal"],
+          "p": 0.0001,
+          "rank_among_choices": 1203,
+          "rank_among_all_tokens": 1457
+        }
+      }
+    },
+    {
+      "word": "cross",
+      "blank": {
+        "model": "bert-base-uncased",
+        "text": "The animal did not [MASK] the street because it was too tired.",
+        "top": [
+          { "token": "leave", "p": 0.4317 },
+          { "token": "cross", "p": 0.31 },
+          { "token": "enter", "p": 0.0504 },
+          { "token": "walk", "p": 0.0271 },
+          { "token": "take", "p": 0.0222 }
+        ],
+        "original": { "token": "cross", "p": 0.31, "rank": 2 }
+      },
+      "continue": {
+        "model": "gpt2",
+        "prefix": "The animal did not",
+        "top": [
+          { "word": " have", "p": 0.0561 },
+          { "word": " respond", "p": 0.056 },
+          { "word": " survive", "p": 0.0439 },
+          { "word": " die", "p": 0.0378 },
+          { "word": " show", "p": 0.0321 }
+        ],
+        "original": {
+          "word": " cross",
+          "tokens": [" cross"],
+          "p": 0.0007,
+          "rank_among_choices": 187,
+          "rank_among_all_tokens": 188
+        }
+      }
+    },
+    {
+      "word": "street",
+      "blank": {
+        "model": "bert-base-uncased",
+        "text": "The animal did not cross the [MASK] because it was too tired.",
+        "top": [
+          { "token": "road", "p": 0.1439 },
+          { "token": "river", "p": 0.1172 },
+          { "token": "bridge", "p": 0.1 },
+          { "token": "creek", "p": 0.0283 },
+          { "token": "field", "p": 0.0247 }
+        ],
+        "original": { "token": "street", "p": 0.0154, "rank": 12 }
+      },
+      "continue": {
+        "model": "gpt2",
+        "prefix": "The animal did not cross the",
+        "top": [
+          { "word": " road", "p": 0.0705 },
+          { "word": " border", "p": 0.0697 },
+          { "word": " threshold", "p": 0.0603 },
+          { "word": " street", "p": 0.0599 },
+          { "word": " river", "p": 0.0415 }
+        ],
+        "original": {
+          "word": " street",
+          "tokens": [" street"],
+          "p": 0.0599,
+          "rank_among_choices": 4,
+          "rank_among_all_tokens": 4
+        }
+      }
+    },
+    {
+      "word": "tired",
+      "blank": {
+        "model": "bert-base-uncased",
+        "text": "The animal did not cross the street because it was too [MASK].",
+        "top": [
+          { "token": "late", "p": 0.1196 },
+          { "token": "fast", "p": 0.1132 },
+          { "token": "close", "p": 0.0993 },
+          { "token": "slow", "p": 0.0927 },
+          { "token": "small", "p": 0.0578 }
+        ],
+        "original": { "token": "tired", "p": 0.0027, "rank": 41 }
+      },
+      "continue": {
+        "model": "gpt2",
+        "prefix": "The animal did not cross the street because it was too",
+        "top": [
+          { "word": " dangerous", "p": 0.0744 },
+          { "word": " close", "p": 0.0711 },
+          { "word": " far", "p": 0.0599 },
+          { "word": " frightened", "p": 0.049 },
+          { "word": " busy", "p": 0.0487 }
+        ],
+        "original": {
+          "word": " tired",
+          "tokens": [" tired"],
+          "p": 0.0099,
+          "rank_among_choices": 16,
+          "rank_among_all_tokens": 17
+        }
+      }
+    }
+  ]
+}

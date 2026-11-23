@@ -25,3 +25,4 @@ yarn-error.log*
 
 # AI series: downloaded MNIST and training log
 /tools/ai-series/data/
+/tools/ai-series/.venv/

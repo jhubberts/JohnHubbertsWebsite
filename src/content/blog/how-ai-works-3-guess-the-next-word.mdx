@@ -1,0 +1,58 @@
+---
+title: 'Guess the next word'
+date: '2026-11-23'
+description: 'A language model does one thing: it rates what could come next. Try it against a real one.'
+series: 'how-ai-works'
+part: 3
+draft: true
+---
+
+import { YouBeTheAutocomplete } from '@/components/blog/how-ai-works/you-be-the-autocomplete'
+import { TheDice } from '@/components/blog/how-ai-works/the-dice'
+import { WordMap } from '@/components/blog/how-ai-works/word-map'
+
+# Guess the next word
+
+**How does it write?**
+
+One word at a time. A language model does a single thing. Given some text, it rates every word that could come next.
+
+You already own a small one. When you type a message on your phone, it offers you the next word above the keyboard. Try the same game against a real model.
+
+<YouBeTheAutocomplete />
+
+## What you just saw
+
+Each time, the model gave a number to every word that could come next. You picked one, and it started again from the longer text.
+
+Look at the last row, "every other word put together". It is often the biggest one. The model is rarely sure.
+
+That is all the writing is. A page of text from a chat system is this one step, repeated hundreds of times.
+
+## Who picks the word?
+
+The model only gives the ratings. Something else has to choose. If the top word is always taken, the writing goes flat and repeats itself. If less likely words are taken sometimes, it gets livelier. If they are taken too often, it turns to nonsense.
+
+<TheDice />
+
+This is also why the same question can get two different answers. The choice is made fresh each time.
+
+## Words as numbers
+
+A model cannot work with letters. Inside it, every word is a list of numbers. The model on this page uses 768 numbers for each word.
+
+Nobody chose those numbers. They were found the way the numbers in chapters 1 and 2 were found: guess, check, adjust. Here the guess was the next word, and the examples were eight million web pages.
+
+Words that are used in similar ways ended up with similar numbers.
+
+<WordMap />
+
+The model on this page is called GPT-2. OpenAI released it in 2019. It is small and old, which is why its writing wanders. The model that followed it a year later, GPT-3, had about 1,400 times as many numbers.
+
+**So how does it write?** It rates every word that could come next, one is chosen, and it starts again. Everything a chat system writes is made this way.
+
+## Sources
+
+- Everything the model says on this page was recorded from GPT-2 by a script in this site's code. The model and its licence are on its [page at Hugging Face](https://huggingface.co/gpt2).
+- GPT-2's release and what it learned from: Wikipedia's article on [GPT-2](https://en.wikipedia.org/wiki/GPT-2).
+- GPT-3's size: Wikipedia's article on [GPT-3](https://en.wikipedia.org/wiki/GPT-3).

@@ -531,9 +531,31 @@ Open items John raised:
 - **Copy-edit.** John asked for `/copy-edit` to be run on all chapters at some point. Run it once a
   chapter's content is settled, and before the reader test.
 
-Decisions taken by default, to confirm with John:
+Added in the round after the second deployment (uncommitted as of this note):
 
-- **Live AI.** Chapters 5 and 6 use examples written for the page and say so. Chapters 3 and 4 are
-  planned to replay output recorded from real open models (GPT-2 and BERT). Recording needs about
-  1.1 GB of downloads (the `transformers` package and the two models), which John has not yet
-  approved, so chapters 3 and 4 are not started.
+- Chapter 7, "Can it get out?": about 330 words and "The July 2026 incident, step by step"
+  (`the-incident.tsx`; every step, quotation and attribution is in
+  `src/lib/ai-series/incident/steps.ts`). Written only from three primary sources read in full:
+  Hugging Face's disclosure, the OpenAI and Hugging Face joint statement, and METR's
+  investigation. Its extras ("What can it reach?", "Sort the worries") are not built.
+- Recorded model output for chapters 3 and 4 (`tools/ai-series/record_language.py`, output in
+  `src/lib/ai-series/language/`). John approved downloading the `transformers` package, GPT-2 and
+  BERT (about 1.1 GB) on 2026-11-23. The package is in `tools/ai-series/.venv` and the models in
+  `tools/ai-series/data/hf`; both are git-ignored.
+- Chapter 3, "Guess the next word": about 330 words, "You be the autocomplete", "The dice" and
+  "Word map". All model output is GPT-2's. Nine of 65 sampled continuations are left out and the
+  page says so and why.
+- Chapter 4, "Paying attention": about 380 words, "What does 'it' mean?" and "Two games". One of
+  BERT's 144 attention patterns shows the textbook switch; the page shows that pattern, says it was
+  searched for, and offers the average of all 144 beside it. The "How big" extra is not built; a
+  list of sizes in the prose stands in for it.
+- Sources files for chapters 3, 4 and 7.
+
+All eight written chapters (0 to 7) are drafts. Not written: chapter 8 (What it costs) and chapter
+9 (How I used AI to build this).
+
+Decisions:
+
+- **Live AI.** Settled in practice: no live AI calls. Chapters 3 and 4 replay output recorded from
+  real open models; chapters 5 and 6 use examples written for the page and say so.
+- **Downloads.** Approved by John, 2026-11-23, as above.
