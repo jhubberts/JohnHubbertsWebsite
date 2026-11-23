@@ -496,4 +496,13 @@ Added in the next round (uncommitted as of this note):
 - A `preview` entry in `.claude/launch.json` serves the production build on port 4173.
 
 Still to do for the Pilot: John's edit of chapters 0 to 2, a link preview per chapter, and the reader
-test. For the reader test she needs a way to open drafts, which are hidden in production builds.
+test.
+
+Reading drafts on the live site (`src/lib/drafts.ts`): drafts are hidden in production builds unless
+the device has asked to see them. Opening any page with `?drafts=on` in the address remembers that
+in the browser; `?drafts=off` forgets it. This is how John, and the reader for her test, open
+unpublished chapters on a phone. It is not a secret, since drafts are in the public repository and
+the built files; it only keeps them out of lists for everyone else.
+
+Deployment: AWS Amplify app `JohnHubbertsWebsite` in us-west-2 builds the `master` branch on every
+push to GitHub and serves it at www.johnhubberts.com. There is no other Amplify branch.

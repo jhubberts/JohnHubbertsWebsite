@@ -1,4 +1,5 @@
 import { lazy, type ComponentType } from 'react'
+import { draftsEnabled, isVisible } from './drafts'
 import { parseFrontmatter } from './frontmatter'
 
 export interface BlogPost {
@@ -46,13 +47,9 @@ const allPosts: BlogPost[] = Object.entries(rawSources).map(([path, source]) =>
   buildPost(path, source),
 )
 
-/** A draft is visible only outside a production build. */
-export function isVisible(post: Pick<BlogPost, 'draft'>, isProd: boolean): boolean {
-  return !post.draft || !isProd
-}
-
 function visiblePosts(): BlogPost[] {
-  return allPosts.filter((post) => isVisible(post, import.meta.env.PROD))
+  const showDrafts = draftsEnabled()
+  return allPosts.filter((post) => isVisible(post, import.meta.env.PROD, showDrafts))
 }
 
 export function getAllPosts(): BlogPost[] {
