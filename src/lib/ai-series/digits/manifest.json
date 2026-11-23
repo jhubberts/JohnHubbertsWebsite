@@ -3,6 +3,7 @@
   "trainedOn": "MNIST, 60,000 training images",
   "testedOn": "MNIST, 10,000 test images",
   "seed": 0,
+  "batchSize": 128,
   "checkpoints": [
     {
       "id": "step-0",

@@ -1,4 +1,5 @@
-import { type ComponentType } from 'react'
+import { lazy, type ComponentType } from 'react'
+import { parseFrontmatter } from './frontmatter'
 
 export interface BlogPost {
   slug: string
@@ -11,17 +12,39 @@ export interface BlogPost {
   Component: ComponentType
 }
 
-const modules = import.meta.glob<{
-  default: ComponentType
-  frontmatter: {
-    title: string
-    date: string
-    description: string
-    series?: string
-    part?: number
-    draft?: boolean
+const rawSources = import.meta.glob<string>('/src/content/blog/*.mdx', {
+  eager: true,
+  query: '?raw',
+  import: 'default',
+})
+
+const loaders = import.meta.glob<{ default: ComponentType }>('/src/content/blog/*.mdx')
+
+function stringOrUndefined(value: unknown): string | undefined {
+  return typeof value === 'string' ? value : undefined
+}
+
+function buildPost(path: string, source: string): BlogPost {
+  // If a build plugin compiles the `?raw` import, `source` is not text and every post would
+  // silently lose its title and date. Fail loudly instead. See mdxExceptRaw in vite.config.ts.
+  if (typeof source !== 'string') throw new Error(`Expected the raw text of ${path}`)
+  const slug = path.replace('/src/content/blog/', '').replace('.mdx', '')
+  const meta = parseFrontmatter(source)
+  return {
+    slug,
+    title: stringOrUndefined(meta.title) ?? slug,
+    date: stringOrUndefined(meta.date) ?? '',
+    description: stringOrUndefined(meta.description) ?? '',
+    series: stringOrUndefined(meta.series),
+    part: typeof meta.part === 'number' ? meta.part : undefined,
+    draft: meta.draft === true,
+    Component: lazy(loaders[path]),
   }
-}>('/src/content/blog/*.mdx', { eager: true })
+}
+
+const allPosts: BlogPost[] = Object.entries(rawSources).map(([path, source]) =>
+  buildPost(path, source),
+)
 
 /** A draft is visible only outside a production build. */
 export function isVisible(post: Pick<BlogPost, 'draft'>, isProd: boolean): boolean {
@@ -29,21 +52,7 @@ export function isVisible(post: Pick<BlogPost, 'draft'>, isProd: boolean): boole
 }
 
 function visiblePosts(): BlogPost[] {
-  return Object.entries(modules)
-    .map(([path, mod]) => {
-      const slug = path.replace('/src/content/blog/', '').replace('.mdx', '')
-      return {
-        slug,
-        title: mod.frontmatter.title,
-        date: mod.frontmatter.date,
-        description: mod.frontmatter.description,
-        series: mod.frontmatter.series,
-        part: mod.frontmatter.part,
-        draft: mod.frontmatter.draft === true,
-        Component: mod.default,
-      }
-    })
-    .filter((post) => isVisible(post, import.meta.env.PROD))
+  return allPosts.filter((post) => isVisible(post, import.meta.env.PROD))
 }
 
 export function getAllPosts(): BlogPost[] {

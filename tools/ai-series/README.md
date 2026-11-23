@@ -27,3 +27,21 @@ It writes:
 
 Progress lines, each starting with a timestamp, go to the terminal and to
 `tools/ai-series/data/train.log`.
+
+## `fetch_iris.py`
+
+Fetches Fisher's iris data for the "Sort the flowers" interactive and writes the rows the page
+plots. Python 3.10, standard library only; run from the repository root:
+
+```sh
+python3 tools/ai-series/fetch_iris.py
+```
+
+It downloads the UCI repository's corrected copy, `bezdekIris.data` (about 4.5 KB), into
+`tools/ai-series/data/` unless it is already there. If that file cannot be fetched it uses
+`iris.data` from the same folder and corrects rows 35 and 38 to the published values. It stops if
+the file does not have 150 rows, 50 of each species, and the expected rows 1, 35 and 38.
+
+It writes `src/lib/ai-series/flowers/iris.json`: the URL used, the four column names, the unit
+(cm), and the 50 setosa and 50 versicolor rows in file order. A run writes the same file every
+time.

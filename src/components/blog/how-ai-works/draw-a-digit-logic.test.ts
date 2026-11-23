@@ -10,16 +10,22 @@ import fixture from '@/lib/ai-series/digits/fixture.json'
 import manifestJson from '@/lib/ai-series/digits/manifest.json'
 import { prepareDrawing } from '@/lib/ai-series/digits/prepare-drawing'
 import {
+  answersFor,
   cellAt,
+  countRight,
   exampleOrder,
   formatNumber,
   inkSpan,
   largestIndex,
   outOf100,
+  practiceCount,
+  practiceLabel,
   raiseAndLower,
   relativeStrengths,
   shownSum,
+  timesOver,
   topContributors,
+  withCommas,
 } from './draw-a-digit-logic'
 
 describe('outOf100', () => {
@@ -224,5 +230,74 @@ describe('inkSpan', () => {
     const ink = new Float32Array(280 * 280)
     ink[5] = 0.04
     expect(inkSpan(ink, 280, 280)).toBe(0)
+  })
+})
+
+describe('withCommas', () => {
+  it('puts a comma between thousands', () => {
+    expect(withCommas(0)).toBe('0')
+    expect(withCommas(1280)).toBe('1,280')
+    expect(withCommas(2560000)).toBe('2,560,000')
+  })
+})
+
+describe('practiceCount and timesOver', () => {
+  it('multiplies the step by the batch size', () => {
+    expect(practiceCount(10, 128)).toBe(1280)
+    expect(practiceCount(0, 128)).toBe(0)
+  })
+
+  it('rounds how many times over the 60,000 digits to a whole number', () => {
+    expect(timesOver(2560000)).toBe(43)
+    expect(timesOver(60000)).toBe(1)
+    expect(timesOver(89999)).toBe(1)
+    expect(timesOver(90000)).toBe(2)
+  })
+})
+
+describe('practiceLabel', () => {
+  it('says the numbers are random at the first stop', () => {
+    expect(practiceLabel(0, 6, 0, 128)).toBe('Before any practice. Its numbers are random.')
+  })
+
+  it('gives the count of example digits at a middle stop', () => {
+    expect(practiceLabel(1, 6, 10, 128)).toBe('After practising on 1,280 example digits.')
+    expect(practiceLabel(4, 6, 500, 128)).toBe(
+      'After practising on 64,000 example digits. That is each of the 60,000 digits about once.',
+    )
+  })
+
+  it('adds how many times over the 60,000 digits at the last stop', () => {
+    expect(practiceLabel(5, 6, 20000, 128)).toBe(
+      'After practising on 2,560,000 example digits. That is the same 60,000 digits, about 43 times over.',
+    )
+  })
+})
+
+describe('countRight', () => {
+  it('counts the answers that equal their label', () => {
+    expect(countRight([1, 2, 3, 4], [1, 0, 3, 9])).toBe(2)
+    expect(countRight([], [])).toBe(0)
+  })
+})
+
+describe('the 20 fixture digits at each saved point', () => {
+  const manifest: DigitManifest = manifestJson
+  const labels = fixture.images.map((image) => image.label)
+  const counts = manifest.checkpoints.map((checkpoint) => {
+    const file = readFileSync(new URL(`../../../../public${checkpoint.file}`, import.meta.url))
+    const bytes = file.buffer.slice(file.byteOffset, file.byteOffset + file.byteLength)
+    const net = decodeCheckpoint(bytes as ArrayBuffer, checkpoint)
+    return countRight(answersFor(net, fixture.images), labels)
+  })
+
+  it('has 20 fixture digits', () => {
+    expect(labels).toHaveLength(20)
+  })
+
+  it('reads 19 right at the last stop and fewer at the first', () => {
+    console.log(`fixture digits read right at the six stops: ${counts.join(', ')} (of 20)`)
+    expect(counts[counts.length - 1]).toBe(19)
+    expect(counts[0]).toBeLessThan(counts[counts.length - 1])
   })
 })

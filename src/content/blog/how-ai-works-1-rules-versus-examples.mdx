@@ -1,0 +1,47 @@
+---
+title: 'Rules versus examples'
+date: '2026-11-23'
+description: 'Separate two kinds of iris with a line, then watch a machine find a line by itself.'
+series: 'how-ai-works'
+part: 1
+draft: true
+---
+
+import { SortTheFlowers } from '@/components/blog/how-ai-works/sort-the-flowers'
+
+# Rules versus examples
+
+**How can a machine learn anything?**
+
+A computer normally does what a person has written down for it, step by step. To make it tell two kinds of flower apart, someone would have to write the rule.
+
+There is another way. Give the machine examples, and let it find the rule.
+
+Below are 100 real iris flowers of two species. Edgar Anderson collected the measurements, and Ronald Fisher published them in 1936. Each flower is placed by the length and width of its sepals. On an iris the sepals are the three outer parts that spread or droop, the ones gardeners call falls.
+
+First, separate the two species yourself.
+
+<SortTheFlowers />
+
+## What the machine did
+
+Now choose "The machine tries" and press "Keep going".
+
+The machine knows nothing about flowers. It has three numbers, and those three numbers are its line. It looks at one flower at a time. Whenever a flower is on the wrong side, it changes its three numbers a little. After 27 corrections, no flower is on the wrong side.
+
+Nobody gave it the rule. It found one from the examples, by being wrong and adjusting.
+
+## An old idea
+
+Frank Rosenblatt described this way of learning in 1958. A machine built on the idea, the Mark I Perceptron, was designed to recognise images.
+
+A single straight line cannot do much. It can only separate things that a line can separate, and these two species just barely are. Telling a handwritten 3 from an 8 takes many small units working together. That is the next chapter.
+
+**So how can a machine learn?** It starts with numbers that are wrong, checks its answers against examples, and changes the numbers a little each time it is wrong. Every system in the rest of this series learns in the same basic way, with far more numbers.
+
+## Sources
+
+- The iris measurements are from the corrected copy of Fisher's data kept by the University of California, Irvine. Wikipedia's article on the [iris flower data set](https://en.wikipedia.org/wiki/Iris_flower_data_set) gives its history.
+- On iris sepals: Wikipedia's article on the [iris plant](<https://en.wikipedia.org/wiki/Iris_(plant)>).
+- On Rosenblatt and the Mark I Perceptron: Wikipedia's article on the [perceptron](https://en.wikipedia.org/wiki/Perceptron).
+- "27 corrections" is counted by this site's code each time it runs.

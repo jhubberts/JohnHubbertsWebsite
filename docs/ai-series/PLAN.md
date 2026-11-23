@@ -367,7 +367,7 @@ What the chapters share. Build only what the Pilot needs first; add the rest whe
 
 - John decided: the published series gives no detail that identifies his mother.
 - John decided, 2026-11-23: her exact age is not stated anywhere, including the series title. Say
-  "early 70s" in text; the title says "70-Something" (Claude's wording for the title).
+  "early 70s" in text; the title says "70-Something" (Claude's wording, kept by John on 2026-11-23).
 - Follows from the repository being public: no such detail in any file or commit message here
   either. That includes her schools, employers, towns, professional specialty, and the year John was
   born.
@@ -457,9 +457,43 @@ Found while building:
   small, the fix is to keep strokes as paths and redraw them for the network at a width scaled to
   the drawing.
 - Not yet tested with a real finger on a real phone or tablet.
-- Any blog page loads the code of every post, including the guitar audio libraries, because
-  `src/lib/blog.ts` loads all posts eagerly. Loading each post on demand belongs in Foundations.
+- Each post is now loaded on demand (`src/lib/blog.ts` reads frontmatter from the raw text and
+  loads a post's body only when it is shown). Before, opening any blog page loaded every post's own
+  code, about 90 kB that the page did not need. An earlier version of this note said that included
+  the guitar audio libraries (vexflow, tone); a build check showed it did not. Those belong to the
+  lick library page only.
 - Post dates were shown one day early; fixed by formatting them in UTC.
 
-Still to do for the Pilot: chapter 2's prose, its two extras ("Watch it learn", "Fool it"), the box
-on where the neuron comparison stops, chapter 0, a link preview per chapter, and the reader test.
+Added after the first commit (uncommitted as of this note):
+
+- Chapter 2's prose, about 430 words, with the "Is this like a brain?" box, in
+  `src/content/blog/how-ai-works-2-a-network-that-reads-handwriting.mdx`.
+- Its two extras, "Watch it learn" and "Fool it" (`src/components/blog/how-ai-works/`), sharing the
+  pad and answer blocks through `digit-parts.tsx`.
+- `docs/ai-series/sources/chapter-2.md`: every claim in the chapter with its source and whether it
+  was checked. The brain facts cite Wikipedia and need primary sources before publishing. One claim
+  is unchecked.
+- Checked in a browser at 375px: all three interactives work with real pointer input, there is no
+  sideways scroll, and drawing causes no network request.
+
+Known and left for the clean-up pass before a pull request: the three interactives each fetch the
+last saved point themselves; they should share one loaded copy.
+
+Added in the next round (uncommitted as of this note):
+
+- Chapter 0, "Three questions my mom asked": about 150 words and the "Your guess, before" cards
+  (`guess-cards.tsx`, storage in `src/lib/ai-series/guesses.ts`, which already holds a second
+  "after" set for chapter 9). The series page at `/series/how-ai-works` serves as the hub. Read
+  marks on the hub are not built.
+- Chapter 1, "Rules versus examples": about 300 words and "Sort the flowers"
+  (`sort-the-flowers.tsx`, logic in `src/lib/ai-series/flowers/`). It plots sepal length against
+  sepal width, where the two species are separable by 0.12 cm, and the machine finishes in 27
+  corrections. Its extra, the timeline, is not built; its history needs more checking first.
+  Sources in `docs/ai-series/sources/chapter-1.md`.
+- Each chapter sets the browser tab's title. Link previews for sharing are still not built.
+- `vite.config.ts` wraps the MDX plugin so that `?raw` imports of posts are left as text.
+  Without it every post loses its title and date.
+- A `preview` entry in `.claude/launch.json` serves the production build on port 4173.
+
+Still to do for the Pilot: John's edit of chapters 0 to 2, a link preview per chapter, and the reader
+test. For the reader test she needs a way to open drafts, which are hidden in production builds.

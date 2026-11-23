@@ -1,11 +1,14 @@
 import { Link, useParams } from 'react-router-dom'
 import { getSeriesPosts } from '@/lib/blog'
 import { getSeries } from '@/lib/series'
+import { useDocumentTitle } from '@/lib/use-document-title'
 import NotFound from './not-found'
 
 export default function SeriesPage() {
   const { slug } = useParams<{ slug: string }>()
   const series = slug ? getSeries(slug) : undefined
+
+  useDocumentTitle(series?.title)
 
   if (!series) return <NotFound />
 

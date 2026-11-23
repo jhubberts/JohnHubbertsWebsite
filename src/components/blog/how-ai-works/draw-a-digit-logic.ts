@@ -1,5 +1,7 @@
-// Pure helpers for the "Draw a digit" interactive: number formatting, display scaling, and the
-// order the example digits are shown in.
+// Pure helpers for the chapter's digit interactives: number formatting, display scaling, the order
+// the example digits are shown in, and the "Watch it learn" practice counts and labels.
+
+import { readDigit, type DigitNet } from '@/lib/ai-series/digits/digit-net'
 
 /** A probability (0 to 1) as a whole number out of 100. */
 export function outOf100(probability: number): number {
@@ -150,4 +152,59 @@ export function inkSpan(ink: ArrayLike<number>, width: number, height: number): 
   }
   if (maxX < 0) return 0
   return Math.max(maxX - minX + 1, maxY - minY + 1) / Math.max(width, height)
+}
+
+/** How many digits the training set holds; the last stop's label counts practice in these. */
+export const TRAINING_SET_SIZE = 60000
+
+/** A whole number with a comma between thousands, the same in every locale: 1280 is "1,280". */
+export function withCommas(value: number): string {
+  return Math.round(value).toLocaleString('en-US')
+}
+
+/** How many example digits the network had practised on after `step` steps of `batchSize` each. */
+export function practiceCount(step: number, batchSize: number): number {
+  return step * batchSize
+}
+
+/** How many times over the whole training set `count` digits is, as a whole number. */
+export function timesOver(count: number, setSize = TRAINING_SET_SIZE): number {
+  return Math.round(count / setSize)
+}
+
+/**
+ * The line under the "How much practice" slider for stop `index` of `stopCount`: plain words for
+ * the first stop, then the count of practice digits, plus how many times over the training set
+ * that is once the count reaches the size of the training set.
+ */
+export function practiceLabel(
+  index: number,
+  stopCount: number,
+  step: number,
+  batchSize: number,
+): string {
+  if (index === 0) return 'Before any practice. Its numbers are random.'
+  const count = practiceCount(step, batchSize)
+  const base = `After practising on ${withCommas(count)} example digits.`
+  if (count < TRAINING_SET_SIZE) return base
+  const times = timesOver(count)
+  if (times <= 1)
+    return `${base} That is each of the ${withCommas(TRAINING_SET_SIZE)} digits about once.`
+  return `${base} That is the same ${withCommas(TRAINING_SET_SIZE)} digits, about ${times} times over.`
+}
+
+/** The digit the network reads in each 28x28 image (pixels 0 to 255), in order. */
+export function answersFor(net: DigitNet, images: readonly { pixels: number[] }[]): number[] {
+  return images.map(
+    ({ pixels }) =>
+      readDigit(
+        net,
+        Float32Array.from(pixels, (p) => p / 255),
+      ).answer,
+  )
+}
+
+/** How many answers equal the label at the same position. */
+export function countRight(answers: readonly number[], labels: readonly number[]): number {
+  return answers.filter((answer, i) => answer === labels[i]).length
 }

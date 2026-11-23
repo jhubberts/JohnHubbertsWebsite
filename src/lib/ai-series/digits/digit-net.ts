@@ -23,6 +23,8 @@ export interface DigitManifest {
   trainedOn: string
   testedOn: string
   seed: number
+  /** Example digits the network reads per training step; practice so far is step times this. */
+  batchSize: number
   checkpoints: ManifestCheckpoint[]
   /** Accuracy of the last checkpoint's unquantised float weights, for comparison. */
   final: { id: string; floatTestCorrect: number }

@@ -299,6 +299,7 @@ def main() -> None:
         'trainedOn': 'MNIST, 60,000 training images',
         'testedOn': 'MNIST, 10,000 test images',
         'seed': SEED,
+        'batchSize': BATCH_SIZE,
         'checkpoints': checkpoints,
         'final': {'id': f'step-{TOTAL_STEPS}', 'floatTestCorrect': float_correct},
     }

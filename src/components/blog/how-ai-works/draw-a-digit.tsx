@@ -1,46 +1,39 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Button } from '@/components/ui/button'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { TryIt } from '@/components/ai-series/try-it'
 import {
-  DrawPad,
   cssColorToRgb,
   cssVar,
   useElementWidth,
   useThemeVersion,
-  type DrawPadHandle,
 } from '@/components/ai-series/draw-pad'
 import {
-  loadCheckpoint,
-  readDigit,
   unitContributions,
-  type DigitManifest,
   type DigitNet,
   type DigitReading,
 } from '@/lib/ai-series/digits/digit-net'
-import manifestJson from '@/lib/ai-series/digits/manifest.json'
-import { prepareDrawing } from '@/lib/ai-series/digits/prepare-drawing'
 import { cn } from '@/lib/utils'
 import {
   cellAt,
-  exampleOrder,
   formatNumber,
-  inkSpan,
   largestIndex,
-  outOf100,
   raiseAndLower,
   relativeStrengths,
   shownSum,
   topContributors,
 } from './draw-a-digit-logic'
+import {
+  Answer,
+  DigitPad,
+  Empty,
+  manifest,
+  useDigitData,
+  useReading,
+  type Example,
+} from './digit-parts'
 
-const manifest: DigitManifest = manifestJson
 const CHECKPOINT = manifest.checkpoints[manifest.checkpoints.length - 1]
 
 const DRAW_HEADING = 'Draw a number from 0 to 9'
-const EMPTY_TEXT = 'Draw something and the network will read it.'
-
-/** Below this share of the pad's side, a drawing is small enough that the network reads it badly. */
-const SMALL_DRAWING = 0.35
 
 /**
  * The "raises the total" and "lowers the total" colours, a blue and an orange that stay apart for
@@ -49,35 +42,11 @@ const SMALL_DRAWING = 0.35
 const COLOUR_VARIABLES =
   '[--raise:oklch(0.52_0.16_255)] [--lower:oklch(0.64_0.17_50)] dark:[--raise:oklch(0.74_0.13_245)] dark:[--lower:oklch(0.78_0.15_60)]'
 
-interface Example {
-  label: number
-  pixels: number[]
-}
-
-type LoadState =
-  | { status: 'loading' }
-  | { status: 'failed' }
-  | { status: 'ready'; net: DigitNet; examples: Example[] }
+const CHECKPOINTS = [CHECKPOINT]
 
 /** The chapter's interactive: draw a digit and see how the network reads it, step by step. */
 export function DrawADigit() {
-  const [load, setLoad] = useState<LoadState>({ status: 'loading' })
-
-  useEffect(() => {
-    let cancelled = false
-    Promise.all([loadCheckpoint(CHECKPOINT), import('@/lib/ai-series/digits/fixture.json')])
-      .then(([net, fixture]) => {
-        const images = fixture.default.images.map(({ label, pixels }) => ({ label, pixels }))
-        const order = exampleOrder(images.map((image) => image.label))
-        if (!cancelled) setLoad({ status: 'ready', net, examples: order.map((i) => images[i]) })
-      })
-      .catch(() => {
-        if (!cancelled) setLoad({ status: 'failed' })
-      })
-    return () => {
-      cancelled = true
-    }
-  }, [])
+  const load = useDigitData(CHECKPOINTS)
 
   return (
     <TryIt title="Draw a digit">
@@ -91,76 +60,19 @@ export function DrawADigit() {
           The network&rsquo;s numbers did not load. Check your connection and reload the page.
         </p>
       )}
-      {load.status === 'ready' && <DigitReader net={load.net} examples={load.examples} />}
+      {load.status === 'ready' && <DigitReader net={load.nets[0]} examples={load.examples} />}
     </TryIt>
   )
 }
 
 function DigitReader({ net, examples }: { net: DigitNet; examples: Example[] }) {
-  const padRef = useRef<DrawPadHandle>(null)
-  const [reading, setReading] = useState<DigitReading | null>(null)
-  const [showingExample, setShowingExample] = useState(true)
-  const [drawingSpan, setDrawingSpan] = useState(0)
-  const nextExampleRef = useRef(0)
-
-  const showNextExample = useCallback(() => {
-    const example = examples[nextExampleRef.current % examples.length]
-    nextExampleRef.current += 1
-    padRef.current?.showPixels(example.pixels)
-    setShowingExample(true)
-  }, [examples])
-
-  // Start with the first example drawn and read, so the page is never empty. Setting the counter
-  // rather than adding to it keeps this the same when React runs the effect twice in development.
-  useEffect(() => {
-    padRef.current?.showPixels(examples[0].pixels)
-    nextExampleRef.current = 1
-  }, [examples])
-
-  const handleInk = useCallback(
-    (ink: Float32Array, width: number, height: number) => {
-      setDrawingSpan(inkSpan(ink, width, height))
-      const prepared = prepareDrawing(ink, width, height)
-      setReading(prepared ? readDigit(net, prepared) : null)
-    },
-    [net],
-  )
-
-  function clear() {
-    padRef.current?.clear()
-    setShowingExample(false)
-  }
+  const [input, setInput] = useState<Float32Array | null>(null)
+  const reading = useReading(net, input)
 
   return (
     <div className={cn('space-y-8 text-base', COLOUR_VARIABLES)}>
       <div className="grid gap-8 md:grid-cols-2">
-        <section>
-          <h4 className="mb-3 text-xl font-semibold">{DRAW_HEADING}</h4>
-          <DrawPad
-            ref={padRef}
-            ariaLabel={DRAW_HEADING}
-            onInk={handleInk}
-            onDrawStart={() => setShowingExample(false)}
-          />
-          <div className="mt-3 flex flex-wrap gap-3">
-            <Button variant="outline" className="h-11 px-5 text-base" onClick={clear}>
-              Clear
-            </Button>
-            <Button variant="outline" className="h-11 px-5 text-base" onClick={showNextExample}>
-              Show an example
-            </Button>
-          </div>
-          {showingExample && (
-            <p className="text-muted-foreground mt-2 text-sm">
-              This is an example. Tap Clear and draw your own with your finger.
-            </p>
-          )}
-          {!showingExample && drawingSpan > 0 && drawingSpan < SMALL_DRAWING && (
-            <p role="status" className="text-muted-foreground mt-2 text-sm">
-              That is quite small. Try filling the dashed box.
-            </p>
-          )}
-        </section>
+        <DigitPad heading={DRAW_HEADING} examples={examples} onInput={setInput} />
 
         <section>
           <h4 className="mb-3 text-xl font-semibold">The network reads</h4>
@@ -184,40 +96,6 @@ function DigitReader({ net, examples }: { net: DigitNet; examples: Example[] }) 
         <h5 className="mb-3 text-lg font-semibold">3. Ten totals, one for each digit</h5>
         {reading ? <DigitTotals net={net} reading={reading} /> : <Empty />}
       </section>
-    </div>
-  )
-}
-
-function Empty() {
-  return <p className="text-muted-foreground">{EMPTY_TEXT}</p>
-}
-
-function Answer({ reading }: { reading: DigitReading }) {
-  const { answer, probabilities } = reading
-  return (
-    <div>
-      <p className="text-8xl leading-none font-bold tabular-nums">{answer}</p>
-      <p className="mt-3">
-        It gives {outOf100(probabilities[answer])} out of 100 to {answer}.
-      </p>
-      <ul className="mt-4 space-y-1.5">
-        {Array.from(probabilities, (p, digit) => {
-          const most = digit === answer
-          return (
-            <li key={digit} className="flex items-center gap-2">
-              <span className="w-4 font-semibold tabular-nums">{digit}</span>
-              <span className="bg-muted h-4 flex-1 overflow-hidden rounded-sm">
-                <span
-                  className={cn('block h-full', most ? 'bg-primary' : 'bg-muted-foreground/45')}
-                  style={{ width: `${p * 100}%` }}
-                />
-              </span>
-              <span className="w-8 text-right tabular-nums">{outOf100(p)}</span>
-              <span className="w-10 text-sm font-semibold">{most ? 'most' : ''}</span>
-            </li>
-          )
-        })}
-      </ul>
     </div>
   )
 }
