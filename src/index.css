@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/geist';
+@import '@fontsource-variable/source-serif-4/opsz.css';
 @plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
@@ -18,16 +19,16 @@
   --secondary: oklch(0.955 0.03 270);
   --secondary-foreground: oklch(0.25 0.08 270);
   --muted: oklch(0.955 0.02 270);
-  --muted-foreground: oklch(0.50 0.03 270);
+  --muted-foreground: oklch(0.5 0.03 270);
   --accent: oklch(0.94 0.04 270);
   --accent-foreground: oklch(0.25 0.08 270);
   --destructive: oklch(0.58 0.22 27);
   --border: oklch(0.91 0.015 270);
   --input: oklch(0.91 0.015 270);
   --ring: oklch(0.55 0.18 270);
-  --chart-1: oklch(0.70 0.15 270);
+  --chart-1: oklch(0.7 0.15 270);
   --chart-2: oklch(0.65 0.18 310);
-  --chart-3: oklch(0.60 0.15 230);
+  --chart-3: oklch(0.6 0.15 230);
   --chart-4: oklch(0.68 0.16 170);
   --chart-5: oklch(0.55 0.15 340);
   --radius: 0.625rem;
@@ -44,9 +45,9 @@
 .dark {
   --background: oklch(0.15 0.015 270);
   --foreground: oklch(0.96 0.01 270);
-  --card: oklch(0.20 0.025 270);
+  --card: oklch(0.2 0.025 270);
   --card-foreground: oklch(0.96 0.01 270);
-  --popover: oklch(0.20 0.025 270);
+  --popover: oklch(0.2 0.025 270);
   --popover-foreground: oklch(0.96 0.01 270);
   --primary: oklch(0.72 0.17 270);
   --primary-foreground: oklch(0.15 0.03 270);
@@ -59,10 +60,10 @@
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0.02 270 / 12%);
   --input: oklch(1 0.02 270 / 15%);
-  --ring: oklch(0.60 0.15 270);
-  --chart-1: oklch(0.70 0.15 270);
+  --ring: oklch(0.6 0.15 270);
+  --chart-1: oklch(0.7 0.15 270);
   --chart-2: oklch(0.65 0.18 310);
-  --chart-3: oklch(0.60 0.15 230);
+  --chart-3: oklch(0.6 0.15 230);
   --chart-4: oklch(0.68 0.16 170);
   --chart-5: oklch(0.55 0.15 340);
   --sidebar: oklch(0.18 0.025 270);
@@ -72,11 +73,12 @@
   --sidebar-accent: oklch(0.25 0.04 270);
   --sidebar-accent-foreground: oklch(0.96 0.01 270);
   --sidebar-border: oklch(1 0.02 270 / 12%);
-  --sidebar-ring: oklch(0.60 0.15 270);
+  --sidebar-ring: oklch(0.6 0.15 270);
 }
 
 @theme inline {
   --font-sans: 'Geist Variable', sans-serif;
+  --font-serif: 'Source Serif 4 Variable', Georgia, 'Times New Roman', serif;
   --color-sidebar-ring: var(--sidebar-ring);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -136,6 +138,146 @@
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/*
+ * A blog article: the words you read. Serif, larger than the interface text, and about 68
+ * characters to a line (63ch, because an average letter is narrower than the "0" that ch measures).
+ */
+.article-prose {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  max-width: 63ch;
+  margin-inline: auto;
+}
+
+.article-prose :where(h1, h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.article-prose :where(h1):not(:where(.not-prose, .not-prose *)) {
+  margin-top: 0;
+  margin-bottom: 1.25rem;
+  font-size: 2.125rem;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .article-prose {
+    font-size: 1.1875rem;
+  }
+
+  .article-prose :where(h1):not(:where(.not-prose, .not-prose *)) {
+    font-size: 2.75rem;
+  }
+}
+
+/*
+ * Lets a block inside an article be wider than the text, up to 54rem, centred on the text. On a
+ * phone the block's own classes decide its width.
+ */
+@media (min-width: 640px) {
+  .article-breakout {
+    margin-inline: calc((min(100vw - 2rem, 54rem) - 100%) / -2);
+  }
+}
+
+@layer base {
+  /* Things you operate keep the interface typeface and size, whatever the article around them uses. */
+  .article-prose .not-prose {
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+}
+
+/*
+ * On a page that has a series bar, the bar is what stays at the top of the screen while reading,
+ * so the site's top bar scrolls away with the page.
+ */
+body:has([data-series-bar]) [data-site-nav] {
+  position: static;
+}
+
+/* The title at the top of a page that is not an article. It matches an article's title. */
+.page-title {
+  font-family: var(--font-serif);
+  font-size: 2.125rem;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .page-title {
+    font-size: 2.75rem;
+  }
+}
+
+/*
+ * Moving between pages cross-fades the old page into the new one where the browser supports view
+ * transitions. The top bar and the series bar each have a name, so they are kept apart from the
+ * page and stay in place instead of fading with it. Each name is on at most one element: there is
+ * one top bar and at most one series bar on a page.
+ */
+::view-transition-group(*),
+::view-transition-old(*),
+::view-transition-new(*) {
+  animation-duration: 180ms;
+}
+
+/*
+ * The top bar is named only while it is pinned to the top of the screen. On a page with a series
+ * bar it scrolls away with the page, and a name would slide it in from wherever it had scrolled to.
+ */
+body:not(:has([data-series-bar])) [data-site-nav] {
+  view-transition-name: site-nav;
+}
+
+[data-series-bar] {
+  view-transition-name: series-bar;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
+  }
+}
+
+/*
+ * The bar at the top of the screen while a page's code downloads: a short stripe that slides
+ * across, or a still, full-width bar when the device asks for reduced motion.
+ */
+.navigation-progress {
+  width: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .navigation-progress {
+    width: 40%;
+    animation: navigation-progress 1s ease-in-out infinite;
+  }
+}
+
+@keyframes navigation-progress {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
 }

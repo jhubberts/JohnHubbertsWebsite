@@ -125,7 +125,7 @@ function GameCard({
               <span className="flex min-w-0 flex-1 items-center gap-3">
                 <span className="bg-muted block h-3 min-w-12 flex-1 rounded-sm" aria-hidden="true">
                   <span
-                    className="bg-primary block h-3 rounded-sm"
+                    className="bg-primary block h-3 rounded-sm motion-safe:transition-[width] motion-safe:duration-200"
                     style={{ width: `${(row.p / largest) * 100}%` }}
                   />
                 </span>

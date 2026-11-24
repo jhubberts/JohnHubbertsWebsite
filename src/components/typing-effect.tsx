@@ -8,6 +8,27 @@ interface TypingEffectProps {
   className?: string
 }
 
+/** Whether the device asks for reduced motion; read once, then kept current on change. */
+function usePrefersReducedMotion(): boolean {
+  const [reduced, setReduced] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  )
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== 'function') return
+    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const onChange = () => setReduced(query.matches)
+    onChange()
+    query.addEventListener('change', onChange)
+    return () => query.removeEventListener('change', onChange)
+  }, [])
+
+  return reduced
+}
+
 export function TypingEffect({
   phrases,
   typingSpeed = 50,
@@ -15,6 +36,7 @@ export function TypingEffect({
   pauseDuration = 2000,
   className,
 }: TypingEffectProps) {
+  const reducedMotion = usePrefersReducedMotion()
   const [text, setText] = useState('')
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
@@ -40,6 +62,7 @@ export function TypingEffect({
   }, [text, phraseIndex, isDeleting, phrases, typingSpeed, deletingSpeed, pauseDuration])
 
   useEffect(() => {
+    if (reducedMotion) return
     const result = tick()
     const timeout = setTimeout(() => {
       setText(result.next)
@@ -51,7 +74,9 @@ export function TypingEffect({
     }, result.delay)
 
     return () => clearTimeout(timeout)
-  }, [tick, phrases.length])
+  }, [tick, phrases.length, reducedMotion])
+
+  if (reducedMotion) return <span className={className}>{phrases[0]}</span>
 
   return (
     <span className={className}>

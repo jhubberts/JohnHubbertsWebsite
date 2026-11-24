@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { getAllPosts, type BlogPost } from '@/lib/blog'
 import { getSeries, type Series } from '@/lib/series'
+import { SeriesDigitStrip } from '@/components/blog/handwritten-digit'
 import { Badge } from '@/components/ui/badge'
-import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
+import { useSeriesProgress } from '@/lib/use-series-progress'
 
 type Entry =
   | { kind: 'post'; date: string; post: BlogPost }
@@ -40,59 +41,81 @@ function buildEntries(posts: BlogPost[]): Entry[] {
   return entries
 }
 
+const dateClasses =
+  'text-muted-foreground text-xs font-medium tracking-[0.04em] uppercase tabular-nums'
+
+function SeriesEntry({
+  series,
+  date,
+  published,
+}: {
+  series: Series
+  date: string
+  published: number
+}) {
+  const { read } = useSeriesProgress(series.slug)
+  return (
+    <li>
+      <Link viewTransition to={`/series/${series.slug}`} className="group block py-5">
+        <p className={dateClasses}>{formatDate(date)}</p>
+        <h2 className="mt-1 font-serif text-[1.375rem] leading-tight font-semibold group-hover:underline group-focus-visible:underline">
+          {series.title}
+        </h2>
+        <p className="text-muted-foreground mt-1.5">{series.description}</p>
+        <p className="text-muted-foreground mt-1.5 text-sm">
+          {published} of {series.chapters.length} chapters published
+        </p>
+        <SeriesDigitStrip
+          parts={series.chapters.map((chapter) => chapter.part)}
+          read={read}
+          wrap
+          className="mt-3 gap-1"
+          digitClassName="size-6"
+        />
+      </Link>
+    </li>
+  )
+}
+
 export default function BlogIndex() {
   const entries = buildEntries(getAllPosts())
 
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="mb-8 text-3xl font-bold">Blog</h1>
-      {entries.length === 0 ? (
-        <p className="text-muted-foreground">No posts yet. Check back soon!</p>
-      ) : (
-        <div className="flex max-w-4xl flex-col gap-4">
-          {entries.map((entry) =>
-            entry.kind === 'series' ? (
-              <Link key={`series-${entry.series.slug}`} to={`/series/${entry.series.slug}`}>
-                <Card className="hover:bg-muted/50 transition-colors">
-                  <CardHeader>
-                    <div className="flex items-baseline justify-between gap-4">
-                      <CardTitle>{entry.series.title}</CardTitle>
-                      <span className="text-muted-foreground text-xs whitespace-nowrap">
-                        {formatDate(entry.date)}
-                      </span>
-                    </div>
-                    <CardDescription>{entry.series.description}</CardDescription>
-                    <CardDescription>
-                      {entry.published} of {entry.series.chapters.length} chapters published
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
-            ) : (
-              <Link key={entry.post.slug} to={`/blog/${entry.post.slug}`}>
-                <Card className="hover:bg-muted/50 transition-colors">
-                  <CardHeader>
-                    <div className="flex items-baseline justify-between gap-4">
-                      <CardTitle>
-                        {entry.post.title}
-                        {entry.post.draft && (
-                          <Badge variant="outline" className="ml-2 align-middle">
-                            Draft
-                          </Badge>
-                        )}
-                      </CardTitle>
-                      <span className="text-muted-foreground text-xs whitespace-nowrap">
-                        {formatDate(entry.date)}
-                      </span>
-                    </div>
-                    <CardDescription>{entry.post.description}</CardDescription>
-                  </CardHeader>
-                </Card>
-              </Link>
-            ),
-          )}
-        </div>
-      )}
+    <div className="mx-auto max-w-4xl px-4 pt-8 pb-16 md:pt-12">
+      <div className="mx-auto max-w-[40rem]">
+        <h1 className="page-title">Blog</h1>
+        {entries.length === 0 ? (
+          <p className="text-muted-foreground mt-8">No posts yet. Check back soon!</p>
+        ) : (
+          <ul className="mt-8 divide-y border-y">
+            {entries.map((entry) =>
+              entry.kind === 'series' ? (
+                <SeriesEntry
+                  key={`series-${entry.series.slug}`}
+                  series={entry.series}
+                  date={entry.date}
+                  published={entry.published}
+                />
+              ) : (
+                <li key={entry.post.slug}>
+                  <Link viewTransition to={`/blog/${entry.post.slug}`} className="group block py-5">
+                    <p className={dateClasses}>{formatDate(entry.date)}</p>
+                    <h2 className="mt-1 font-serif text-[1.375rem] leading-tight font-semibold group-hover:underline group-focus-visible:underline">
+                      {entry.post.title}
+                      {entry.post.draft && (
+                        <Badge variant="outline" className="ml-2 align-middle font-sans">
+                          Draft
+                        </Badge>
+                      )}
+                    </h2>
+                    <p className="text-muted-foreground mt-1.5">{entry.post.description}</p>
+                  </Link>
+                </li>
+              ),
+            )}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

@@ -6,6 +6,8 @@ export interface PlannedChapter {
 export interface Series {
   slug: string
   title: string
+  /** A few words naming the series where its full title does not fit, such as a top bar. */
+  shortTitle?: string
   description: string
   chapters: PlannedChapter[]
 }
@@ -14,6 +16,7 @@ const series: Series[] = [
   {
     slug: 'how-ai-works',
     title: 'I Used AI to Teach My 70-Something Mom How AI Works, From Scratch',
+    shortTitle: 'How AI Works',
     description: 'Eleven short chapters. Each one has something to try with your finger.',
     chapters: [
       { part: 0, title: 'Three questions my mom asked' },

@@ -413,7 +413,10 @@ function SourceLine({ source }: { source: Source }) {
 function Bar({ fraction }: { fraction: number }) {
   return (
     <div aria-hidden className="bg-muted mt-2 h-4 overflow-hidden rounded-sm">
-      <div className="bg-primary h-full" style={{ width: `${fraction * 100}%` }} />
+      <div
+        className="bg-primary h-full motion-safe:transition-[width] motion-safe:duration-200"
+        style={{ width: `${fraction * 100}%` }}
+      />
     </div>
   )
 }

@@ -1,18 +1,21 @@
-import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { Github, Linkedin, Mail, ChevronDown, Rocket, Wrench, BookOpen, ArrowRight } from 'lucide-react'
+import { Github, Linkedin, Mail, Rocket, Wrench, BookOpen, ArrowRight } from 'lucide-react'
+import { SeriesDigitStrip } from '@/components/blog/handwritten-digit'
 import { buttonVariants } from '@/components/ui/button'
 import { TypingEffect } from '@/components/typing-effect'
+import { getSeriesPosts } from '@/lib/blog'
+import { getAllSeries, type Series } from '@/lib/series'
+import { useSeriesProgress } from '@/lib/use-series-progress'
 import { cn } from '@/lib/utils'
 
 const phrases = [
-  "Founding Engineer @ Roboto",
-  "Cat Dad",
-  "Lifelong Friend of Robots",
-  "Not Afraid to Bitmask 0x08BCF071",
-  "\"Pretty OK at Saxophone\" - Cannonball Adderley's Ghost",
-  "Once accidentally DDOSed Kinesis from within Amazon",
-  "Best Skier on the Mountain",
+  'Founding Engineer @ Roboto',
+  'Cat Dad',
+  'Lifelong Friend of Robots',
+  'Not Afraid to Bitmask 0x08BCF071',
+  '"Pretty OK at Saxophone" - Cannonball Adderley\'s Ghost',
+  'Once accidentally DDOSed Kinesis from within Amazon',
+  'Best Skier on the Mountain',
 ]
 
 const links = [
@@ -36,94 +39,106 @@ const links = [
   },
 ]
 
-export default function HomePage() {
-  const belowFoldRef = useRef<HTMLDivElement>(null)
-
-  const scrollDown = () => {
-    belowFoldRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+/** The card that leads into a series. Its own component so the progress hook is always called. */
+function FeaturedSeries({ series }: { series: Series }) {
+  const { read } = useSeriesProgress(series.slug)
+  const parts = series.chapters.map((chapter) => chapter.part)
 
   return (
-    <div>
-      {/* Hero — full viewport above the fold */}
-      <section className="relative flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-4">
-        <div className="flex flex-col items-center gap-6">
-          {/* Headshot */}
-          <img
-            src="/images/john_hubberts_headshot.png"
-            alt="John Hubberts"
-            className="h-40 w-40 rounded-full object-cover shadow-lg ring-4 ring-border sm:h-52 sm:w-52"
-          />
+    <Link
+      viewTransition
+      to={`/series/${series.slug}`}
+      className="group bg-card hover:border-primary focus-visible:border-primary block rounded-xl border p-5 transition-colors sm:p-6"
+    >
+      <p className="text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase">
+        Series · {series.chapters.length} chapters
+      </p>
+      <h2 className="mt-2 font-serif text-[1.5rem] leading-tight font-semibold">{series.title}</h2>
+      <p className="text-muted-foreground mt-2">{series.description}</p>
+      <SeriesDigitStrip
+        parts={parts}
+        read={read}
+        wrap
+        className="mt-4 gap-1"
+        digitClassName="size-6"
+      />
+      <p className="text-primary mt-4 inline-flex items-center gap-1 font-medium">
+        Start reading
+        <ArrowRight className="size-4 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5" />
+      </p>
+    </Link>
+  )
+}
 
-          {/* Name */}
-          <h1 className="text-center text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            John Hubberts
-          </h1>
+export default function HomePage() {
+  const series = getAllSeries()[0]
+  const showSeries = series !== undefined && getSeriesPosts(series.slug).length > 0
 
-          {/* Typing effect */}
-          <p className="h-8 text-center text-lg text-muted-foreground sm:text-xl lg:text-2xl">
-            <TypingEffect phrases={phrases} />
-          </p>
+  return (
+    <div className="mx-auto max-w-4xl px-4 pt-10 pb-16 md:pt-16">
+      <section className="flex flex-col items-center gap-6">
+        <img
+          src="/images/john_hubberts_headshot.png"
+          alt="John Hubberts"
+          className="ring-border h-32 w-32 rounded-full object-cover shadow-lg ring-4 sm:h-40 sm:w-40"
+        />
 
-          {/* Social links */}
-          <div className="mt-2 flex gap-3">
-            <a
-              href="https://github.com/jhubberts"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(buttonVariants({ variant: 'outline', size: 'icon' }))}
-            >
-              <Github className="h-5 w-5" />
-              <span className="sr-only">GitHub</span>
-            </a>
-            <a
-              href="https://linkedin.com/in/johnhubberts"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={cn(buttonVariants({ variant: 'outline', size: 'icon' }))}
-            >
-              <Linkedin className="h-5 w-5" />
-              <span className="sr-only">LinkedIn</span>
-            </a>
-            <a
-              href="mailto:jhubberts+website@gmail.com"
-              className={cn(buttonVariants({ variant: 'outline', size: 'icon' }))}
-            >
-              <Mail className="h-5 w-5" />
-              <span className="sr-only">Email</span>
-            </a>
-          </div>
+        <h1 className="page-title text-center">John Hubberts</h1>
+
+        {/* Fixed height so the page does not move while the phrases type; two lines on a phone. */}
+        <p className="text-muted-foreground min-h-14 text-center text-lg sm:min-h-8 sm:text-xl">
+          <TypingEffect phrases={phrases} />
+        </p>
+
+        <div className="flex gap-3">
+          <a
+            href="https://github.com/jhubberts"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-11')}
+          >
+            <Github className="size-5" />
+            <span className="sr-only">GitHub</span>
+          </a>
+          <a
+            href="https://linkedin.com/in/johnhubberts"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-11')}
+          >
+            <Linkedin className="size-5" />
+            <span className="sr-only">LinkedIn</span>
+          </a>
+          <a
+            href="mailto:jhubberts+website@gmail.com"
+            className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-11')}
+          >
+            <Mail className="size-5" />
+            <span className="sr-only">Email</span>
+          </a>
         </div>
-
-        {/* Scroll indicator */}
-        <button
-          onClick={scrollDown}
-          className="absolute bottom-8 animate-bounce cursor-pointer border-none bg-transparent"
-          aria-label="Scroll down"
-        >
-          <ChevronDown className="h-6 w-6 text-muted-foreground" />
-        </button>
       </section>
 
-      {/* Below the fold */}
-      <div
-        ref={belowFoldRef}
-        className="container mx-auto flex min-h-[calc(100vh-3.5rem)] flex-col items-center justify-center px-4 py-12"
-      >
-        <div className="grid w-full max-w-3xl gap-6 sm:grid-cols-3">
+      <div className="mx-auto mt-10 max-w-[40rem]">
+        {showSeries && <FeaturedSeries series={series} />}
+
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
           {links.map((link) => {
             const content = (
-              <div className="group flex flex-col items-center gap-3 rounded-lg border border-border p-6 text-center transition-colors hover:bg-accent">
-                <link.icon className="h-8 w-8 text-muted-foreground transition-colors group-hover:text-foreground" />
-                <h2 className="text-lg font-semibold">{link.title}</h2>
-                <p className="text-sm text-muted-foreground">{link.description}</p>
-                <ArrowRight className="h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-1" />
-              </div>
+              <>
+                <link.icon className="text-muted-foreground size-5 shrink-0" />
+                <div>
+                  <h2 className="font-semibold">{link.title}</h2>
+                  <p className="text-muted-foreground text-sm">{link.description}</p>
+                </div>
+              </>
             )
+            const className =
+              'hover:bg-accent flex items-start gap-3 rounded-xl border p-4 transition-colors sm:flex-col'
 
             if (link.to) {
               return (
-                <Link key={link.title} to={link.to}>
+                <Link viewTransition key={link.title} to={link.to} className={className}>
                   {content}
                 </Link>
               )
@@ -134,6 +149,7 @@ export default function HomePage() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
+                className={className}
               >
                 {content}
               </a>

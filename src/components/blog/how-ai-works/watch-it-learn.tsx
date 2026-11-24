@@ -118,7 +118,10 @@ function TestScore({ correct, total }: { correct: number; total: number }) {
         Right on {withCommas(correct)} of {withCommas(total)} test digits it had never seen.
       </p>
       <div aria-hidden className="bg-muted mt-2 h-4 overflow-hidden rounded-sm">
-        <div className="bg-primary h-full" style={{ width: `${(correct / total) * 100}%` }} />
+        <div
+          className="bg-primary h-full motion-safe:transition-[width] motion-safe:duration-200"
+          style={{ width: `${(correct / total) * 100}%` }}
+        />
       </div>
     </div>
   )

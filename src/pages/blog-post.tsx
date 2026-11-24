@@ -1,11 +1,12 @@
 import { Suspense } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getPostBySlug } from '@/lib/blog'
-import { buttonVariants } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { SeriesNav } from '@/components/blog/series-nav'
-import { ArrowLeft } from 'lucide-react'
+import { ChapterDigit } from '@/components/blog/handwritten-digit'
+import { ChapterEnd } from '@/components/blog/chapter-end'
+import { SeriesBar } from '@/components/blog/series-bar'
 import { useDocumentTitle } from '@/lib/use-document-title'
+import { PagePlaceholder } from '@/components/layout/page-placeholder'
 import NotFound from './not-found'
 
 export default function BlogPost() {
@@ -16,36 +17,36 @@ export default function BlogPost() {
 
   if (!post) return <NotFound />
 
+  const chapter = post.series && post.part !== undefined ? post.part : undefined
+  const draftBadge = post.draft && <Badge variant="outline">Draft</Badge>
+
   return (
-    <div className="mx-auto max-w-4xl px-4 py-12">
-      <Link
-        to="/blog"
-        className={buttonVariants({ variant: 'ghost', size: 'sm', className: 'mb-6' })}
-      >
-        <ArrowLeft className="mr-1 h-3 w-3" /> Back to Blog
-      </Link>
-      {post.series && <SeriesNav seriesSlug={post.series} part={post.part} />}
-      <article className="prose prose-neutral dark:prose-invert max-w-none">
-        <div className="not-prose mb-8">
-          {post.draft && (
-            <Badge variant="outline" className="mr-2">
-              Draft
-            </Badge>
+    <>
+      {post.series && chapter !== undefined && (
+        <SeriesBar seriesSlug={post.series} part={chapter} />
+      )}
+      <div className="mx-auto max-w-4xl px-4 pt-6 pb-16 md:pt-10">
+        <article className="prose prose-neutral dark:prose-invert article-prose">
+          {chapter !== undefined ? (
+            <div className="not-prose mb-3 flex items-center gap-2">
+              <ChapterDigit part={chapter} state="current" className="size-7" />
+              <span className="text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase">
+                Chapter {chapter}
+              </span>
+              {draftBadge}
+            </div>
+          ) : (
+            draftBadge && <div className="not-prose mb-3 flex items-center gap-2">{draftBadge}</div>
           )}
-          <time className="text-muted-foreground text-sm">
-            {new Date(post.date).toLocaleDateString('en-US', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric',
-              timeZone: 'UTC',
-            })}
-          </time>
-        </div>
-        <Suspense fallback={<p className="text-muted-foreground">Loading…</p>}>
-          <post.Component />
-        </Suspense>
-      </article>
-      {post.series && <SeriesNav seriesSlug={post.series} part={post.part} />}
-    </div>
+          {/* Keyed by post so moving to another post starts its loading and reading state afresh.
+              The end of the post sits inside the boundary, so it cannot record the chapter as read
+              before the chapter is on the page. */}
+          <Suspense key={post.slug} fallback={<PagePlaceholder />}>
+            <post.Component />
+            <ChapterEnd post={post} />
+          </Suspense>
+        </article>
+      </div>
+    </>
   )
 }

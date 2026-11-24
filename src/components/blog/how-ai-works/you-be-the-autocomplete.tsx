@@ -370,7 +370,7 @@ function RowBody({
       {note && <span className="text-muted-foreground block text-sm">{note}</span>}
       <span aria-hidden="true" className="bg-muted mt-2 block h-3 overflow-hidden rounded-sm">
         <span
-          className="bg-primary block h-full"
+          className="bg-primary block h-full motion-safe:transition-[width] motion-safe:duration-200"
           style={{ width: `${largest > 0 ? (value / largest) * 100 : 0}%` }}
         />
       </span>

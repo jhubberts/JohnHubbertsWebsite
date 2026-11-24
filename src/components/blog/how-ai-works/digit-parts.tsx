@@ -186,7 +186,10 @@ export function Answer({ reading }: { reading: DigitReading }) {
               <span className="w-4 font-semibold tabular-nums">{digit}</span>
               <span className="bg-muted h-4 flex-1 overflow-hidden rounded-sm">
                 <span
-                  className={cn('block h-full', most ? 'bg-primary' : 'bg-muted-foreground/45')}
+                  className={cn(
+                    'block h-full motion-safe:transition-[width] motion-safe:duration-200',
+                    most ? 'bg-primary' : 'bg-muted-foreground/45',
+                  )}
                   style={{ width: `${p * 100}%` }}
                 />
               </span>

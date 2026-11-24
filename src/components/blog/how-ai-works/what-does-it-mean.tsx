@@ -182,7 +182,10 @@ function ListRow({
       <span className="flex min-w-0 flex-1 items-center gap-3">
         <span className="bg-muted block h-3 min-w-10 flex-1 rounded-sm" aria-hidden="true">
           <span
-            className={cn('block h-3 rounded-sm', muted ? 'bg-muted-foreground' : 'bg-primary')}
+            className={cn(
+              'block h-3 rounded-sm motion-safe:transition-[width] motion-safe:duration-200',
+              muted ? 'bg-muted-foreground' : 'bg-primary',
+            )}
             style={{ width: `${largest > 0 ? (value / largest) * 100 : 0}%` }}
           />
         </span>

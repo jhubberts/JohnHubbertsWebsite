@@ -1,15 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Guitar, BarChart3, Mountain, ArrowRight } from 'lucide-react'
-import { buttonVariants } from '@/components/ui/button'
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from '@/components/ui/card'
-import { cn } from '@/lib/utils'
 
 const projects = [
   {
@@ -37,29 +27,26 @@ const projects = [
 
 export default function ProjectsPage() {
   return (
-    <div className="container mx-auto px-4 py-12">
-      <h1 className="mb-6 text-4xl font-bold tracking-tight">Projects</h1>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mx-auto max-w-4xl px-4 pt-8 pb-16 md:pt-12">
+      <h1 className="page-title">Projects</h1>
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (
-          <Card key={project.to} className="flex flex-col">
-            <CardHeader>
-              <div className="flex items-center gap-2">
-                <project.icon className="text-muted-foreground h-5 w-5" />
-                <CardTitle>{project.title}</CardTitle>
-              </div>
-            </CardHeader>
-            <CardContent className="flex-1">
-              <CardDescription>{project.description}</CardDescription>
-            </CardContent>
-            <CardFooter>
-              <Link
-                to={project.to}
-                className={cn(buttonVariants({ variant: 'ghost', size: 'sm' }))}
-              >
-                Try it <ArrowRight className="ml-1 h-3 w-3" />
-              </Link>
-            </CardFooter>
-          </Card>
+          <Link
+            viewTransition
+            key={project.to}
+            to={project.to}
+            className="group bg-card hover:border-primary focus-visible:border-primary flex flex-col rounded-xl border p-5 transition-colors"
+          >
+            <div className="flex items-center gap-2">
+              <project.icon className="text-muted-foreground size-5 shrink-0" />
+              <h2 className="font-serif text-xl leading-tight font-semibold">{project.title}</h2>
+            </div>
+            <p className="text-muted-foreground mt-2 flex-1 text-sm">{project.description}</p>
+            <p className="text-primary mt-4 inline-flex items-center gap-1 text-sm font-medium">
+              Try it
+              <ArrowRight className="size-4 motion-safe:transition-transform motion-safe:group-hover:translate-x-0.5" />
+            </p>
+          </Link>
         ))}
       </div>
     </div>
