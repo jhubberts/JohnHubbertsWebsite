@@ -1,13 +1,46 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta name="description" content="John Hubberts' Personal Website" />
+    <meta name="theme-color" content="#fcfdff" />
+    <script>
+      // Chooses the theme before the first paint, so a reader whose device is set to dark never
+      // sees the light theme first. src/lib/theme.ts makes the same decision once the app runs.
+      ;(function () {
+        var theme = null
+        try {
+          theme = localStorage.getItem('theme')
+        } catch (e) {}
+        if (theme !== 'dark' && theme !== 'light') {
+          theme = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        if (theme === 'dark') document.documentElement.classList.add('dark')
+        var meta = document.querySelector('meta[name="theme-color"]')
+        if (meta) meta.setAttribute('content', theme === 'dark' ? '#090b12' : '#fcfdff')
+      })()
+    </script>
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- After the build, scripts/build-previews.ts replaces this block for each page. -->
+    <!-- preview:start -->
     <title>John Hubberts</title>
+    <meta name="description" content="John Hubberts' Personal Website" />
+    <link rel="canonical" href="https://www.johnhubberts.com/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="John Hubberts" />
+    <meta property="og:title" content="John Hubberts" />
+    <meta property="og:description" content="John Hubberts' Personal Website" />
+    <meta property="og:url" content="https://www.johnhubberts.com/" />
+    <meta property="og:image" content="https://www.johnhubberts.com/og/site.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="John Hubberts" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="John Hubberts" />
+    <meta name="twitter:description" content="John Hubberts' Personal Website" />
+    <meta name="twitter:image" content="https://www.johnhubberts.com/og/site.png" />
+    <!-- preview:end -->
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

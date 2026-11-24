@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "tsc && vite build && vite-node scripts/build-previews.ts",
     "preview": "vite preview",
     "lint": "eslint src/",
     "format": "prettier --write src/",
@@ -14,6 +14,7 @@
   "dependencies": {
     "@base-ui/react": "^1.2.0",
     "@fontsource-variable/geist": "^5.2.8",
+    "@fontsource-variable/source-serif-4": "^5.3.1",
     "@mdx-js/react": "^3.1.1",
     "@mdx-js/rollup": "^3.1.1",
     "@tailwindcss/typography": "^0.5.19",
@@ -36,6 +37,9 @@
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@fontsource/geist-sans": "^5.3.0",
+    "@fontsource/source-serif-4": "^5.3.1",
+    "@resvg/resvg-wasm": "^2.6.2",
     "@tailwindcss/vite": "^4.2.1",
     "@types/node": "^22.20.5",
     "@types/react": "^19.0.0",
@@ -44,10 +48,12 @@
     "eslint": "^10.0.3",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
+    "satori": "^0.63.2",
     "tailwindcss": "^4.2.1",
     "typescript": "~5.7.0",
     "typescript-eslint": "^8.56.1",
     "vite": "^6.0.0",
+    "vite-node": "^6.0.0",
     "vitest": "^3.2.7"
   }
 }
