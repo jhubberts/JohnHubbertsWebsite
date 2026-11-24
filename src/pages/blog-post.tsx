@@ -1,6 +1,8 @@
 import { Suspense } from 'react'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
 import { movedChapterSlug } from '@/lib/ai-series/old-addresses'
+import { getSeries } from '@/lib/series'
+import { sectionOf } from '@/lib/series-sections'
 import { getPostBySlug } from '@/lib/blog'
 import { Badge } from '@/components/ui/badge'
 import { ChapterDigit } from '@/components/blog/handwritten-digit'
@@ -24,8 +26,15 @@ export default function BlogPost() {
   if (!post) return <NotFound />
 
   // The series and chapter number when the post is a chapter of a series.
+  const series = post.series ? getSeries(post.series) : undefined
   const chapter =
-    post.series && post.part !== undefined ? { series: post.series, part: post.part } : undefined
+    post.series && post.part !== undefined
+      ? {
+          series: post.series,
+          part: post.part,
+          section: series && sectionOf(series, post.part),
+        }
+      : undefined
 
   return (
     <>
@@ -37,7 +46,10 @@ export default function BlogPost() {
               {chapter && (
                 <>
                   <ChapterDigit part={chapter.part} state="current" className="size-7" />
-                  <span className="eyebrow">Chapter {chapter.part}</span>
+                  <span className="eyebrow">
+                    Chapter {chapter.part}
+                    {chapter.section && ` · Part ${chapter.section.number}`}
+                  </span>
                 </>
               )}
               {post.draft && <Badge variant="outline">Draft</Badge>}

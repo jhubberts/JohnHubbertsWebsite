@@ -5,6 +5,7 @@ import { ChapterDigit, SeriesDigitStrip, chapterState } from '@/components/blog/
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { getSeriesPostsByPart } from '@/lib/blog'
 import { getSeries, seriesShortName } from '@/lib/series'
+import { sectionStartingAt } from '@/lib/series-sections'
 import {
   MOST_CHAPTERS_IN_ROW_ON_PHONE,
   MOST_CHAPTERS_IN_ROW_WIDE,
@@ -81,8 +82,15 @@ export function SeriesBar({ seriesSlug, part }: { seriesSlug: string; part: numb
                 const state = chapterState(chapter.part, read, part)
                 const isCurrent = state === 'current'
                 const digit = <ChapterDigit part={chapter.part} state={state} className="size-9" />
+                // A section's heading is shown above its first chapter.
+                const section = sectionStartingAt(series, chapter.part)
                 return (
                   <li key={chapter.part}>
+                    {section && (
+                      <p className="eyebrow mt-4 mb-1 px-2">
+                        Part {section.number} · {section.title}
+                      </p>
+                    )}
                     {post ? (
                       <Link
                         viewTransition

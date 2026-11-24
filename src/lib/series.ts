@@ -3,6 +3,22 @@ export interface PlannedChapter {
   title: string
 }
 
+/** Consecutive chapters under one heading, shown to readers as "Part 1", "Part 2" and so on. */
+export interface SeriesSection {
+  title: string
+  /** One sentence on what the chapters cover. */
+  description: string
+  /** The chapter numbers in the section, in order. */
+  chapters: number[]
+}
+
+/** Consecutive sections under one larger heading, such as "How it works". */
+export interface SeriesHalf {
+  title: string
+  description: string
+  sections: SeriesSection[]
+}
+
 export interface Series {
   slug: string
   title: string
@@ -10,6 +26,8 @@ export interface Series {
   shortTitle?: string
   description: string
   chapters: PlannedChapter[]
+  /** Groups of sections. Chapters in no section, such as the introduction, are listed first. */
+  halves?: SeriesHalf[]
 }
 
 const series: Series[] = [
@@ -44,6 +62,49 @@ const series: Series[] = [
       {
         part: 19,
         title: 'Epilogue: John Hubberts’ Very Human Thoughts About This Whole Thing',
+      },
+    ],
+    halves: [
+      {
+        title: 'How it works',
+        description:
+          'From the first machines that followed instructions to the AI in a chat window.',
+        sections: [
+          {
+            title: 'Before AI: how a computer works',
+            description: 'What a program is, and how a machine holds a number.',
+            chapters: [1, 2],
+          },
+          {
+            title: 'Learning from examples',
+            description:
+              'How a machine learns from examples instead of rules, and what that does with words, proteins and weather.',
+            chapters: [3, 4, 5, 6, 7, 8],
+          },
+          {
+            title: 'From a model to your screen',
+            description:
+              'What happens when you type into a chat, where the AI runs, and what it can reach.',
+            chapters: [9, 10, 11, 12],
+          },
+        ],
+      },
+      {
+        title: 'What it means',
+        description: 'What AI costs, who pays for it, and whether it is worth it.',
+        sections: [
+          {
+            title: 'What it costs the rest of us',
+            description:
+              'Electricity, copyright, jobs and elections, and the money behind the companies.',
+            chapters: [13, 14, 15, 16],
+          },
+          {
+            title: 'This series, and whether it was worth it',
+            description: 'How I made this series with AI, and whether I think it was worth it.',
+            chapters: [17, 18, 19],
+          },
+        ],
       },
     ],
   },

@@ -1,10 +1,12 @@
 import { Link, useParams } from 'react-router-dom'
-import { ChapterDigit, SeriesDigitStrip } from '@/components/blog/handwritten-digit'
+import { SeriesDigitStrip } from '@/components/blog/handwritten-digit'
+import { ChapterRow, SeriesMap, SeriesSections } from '@/components/blog/series-outline'
 import { buttonVariants } from '@/components/ui/button'
 import { GLOSSARY_PATH, GLOSSARY_SERIES } from '@/lib/ai-series/glossary'
 import { getSeriesPostsByPart } from '@/lib/blog'
 import { firstUnread } from '@/lib/series-progress'
 import { getSeries, type Series } from '@/lib/series'
+import { seriesOutline } from '@/lib/series-sections'
 import { useDocumentTitle } from '@/lib/use-document-title'
 import { useSeriesProgress } from '@/lib/use-series-progress'
 import { cn } from '@/lib/utils'
@@ -34,6 +36,17 @@ function SeriesContent({ series }: { series: Series }) {
   const parts = series.chapters.map((chapter) => chapter.part)
   const start = chooseStart([...postsByPart.keys()], read)
   const startPost = start && postsByPart.get(start.part)
+  const outline = seriesOutline(series)
+  const chapterByPart = new Map(series.chapters.map((chapter) => [chapter.part, chapter]))
+  const renderChapters = (chapterParts: number[]) =>
+    chapterParts.map((part) => (
+      <ChapterRow
+        key={part}
+        chapter={chapterByPart.get(part)!}
+        post={postsByPart.get(part)}
+        isRead={read.has(part)}
+      />
+    ))
 
   return (
     <div className="page-container pt-8 pb-16 md:pt-12">
@@ -41,13 +54,6 @@ function SeriesContent({ series }: { series: Series }) {
         <p className="eyebrow">Series · {series.chapters.length} chapters</p>
         <h1 className="page-title mt-2">{series.title}</h1>
         <p className="text-muted-foreground mt-3 text-lg">{series.description}</p>
-        <SeriesDigitStrip
-          parts={parts}
-          read={read}
-          wrap
-          className="mt-6 gap-1"
-          digitClassName="size-6 sm:size-9"
-        />
         {start && startPost && (
           <div>
             <Link
@@ -59,49 +65,21 @@ function SeriesContent({ series }: { series: Series }) {
             </Link>
           </div>
         )}
-        <ol className="mt-8 flex flex-col gap-2">
-          {series.chapters.map((chapter) => {
-            const post = postsByPart.get(chapter.part)
-            const isRead = read.has(chapter.part)
-            const rowClasses = 'flex min-h-16 items-center gap-4 rounded-xl border p-3'
-            const body = (
-              <>
-                <ChapterDigit
-                  part={chapter.part}
-                  state={isRead ? 'read' : 'unread'}
-                  className="size-10"
-                />
-                <span className="min-w-0 flex-1">
-                  <span className="block font-medium">
-                    <span className="sr-only">Chapter {chapter.part}: </span>
-                    {chapter.title}
-                  </span>
-                  <span className="text-muted-foreground block text-sm">
-                    {post ? post.description : 'coming'}
-                  </span>
-                </span>
-                {isRead && (
-                  <span className="text-muted-foreground shrink-0 text-xs font-medium">✓ Read</span>
-                )}
-              </>
-            )
-            return (
-              <li key={chapter.part}>
-                {post ? (
-                  <Link
-                    viewTransition
-                    to={`/blog/${post.slug}`}
-                    className={cn(rowClasses, 'hover:bg-muted/50 transition-colors')}
-                  >
-                    {body}
-                  </Link>
-                ) : (
-                  <div className={cn(rowClasses, 'border-dashed')}>{body}</div>
-                )}
-              </li>
-            )
-          })}
-        </ol>
+        {outline.halves.length > 0 ? (
+          <SeriesMap halves={outline.halves} read={read} />
+        ) : (
+          <SeriesDigitStrip
+            parts={parts}
+            read={read}
+            wrap
+            className="mt-6 gap-1"
+            digitClassName="size-6 sm:size-9"
+          />
+        )}
+        {outline.outside.length > 0 && (
+          <ol className="mt-8 flex flex-col gap-2">{renderChapters(outline.outside)}</ol>
+        )}
+        <SeriesSections halves={outline.halves} read={read} renderChapters={renderChapters} />
         {series.slug === GLOSSARY_SERIES && (
           <Link
             to={GLOSSARY_PATH}

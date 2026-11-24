@@ -7,6 +7,7 @@ import { getSeriesPostsByPart, type BlogPost } from '@/lib/blog'
 import { formatPostDate } from '@/lib/format-date'
 import { getSeries, type PlannedChapter, type Series } from '@/lib/series'
 import { seriesNeighbours } from '@/lib/series-neighbours'
+import { sectionStartingAt, type NumberedSection } from '@/lib/series-sections'
 import { useSeriesProgress } from '@/lib/use-series-progress'
 import { cn } from '@/lib/utils'
 
@@ -65,10 +66,13 @@ function NextCard({
   chapter,
   post,
   isRead,
+  newPart,
 }: {
   chapter: PlannedChapter
   post: BlogPost | undefined
   isRead: boolean
+  /** The part the next chapter starts, when it is the first chapter of a part. */
+  newPart?: NumberedSection
 }) {
   // Start downloading the next chapter shortly before the reader reaches this card, so opening it
   // does not wait on the network. A reader who asked to save data downloads it only on opening it.
@@ -80,7 +84,16 @@ function NextCard({
   const digit = (
     <ChapterDigit part={chapter.part} state={isRead ? 'read' : 'unread'} className="size-12" />
   )
-  const label = <span className="eyebrow">Next · Chapter {chapter.part}</span>
+  const label = (
+    <>
+      <span className="eyebrow">Next · Chapter {chapter.part}</span>
+      {newPart && (
+        <span className="text-primary text-sm font-medium">
+          Part {newPart.number} begins: {newPart.title}
+        </span>
+      )}
+    </>
+  )
 
   if (!post) {
     return (
@@ -146,7 +159,12 @@ function SeriesChapterEnd({
         {isRead && `✓ Chapter ${part} finished. Remembered on this device.`}
       </p>
       {next && (
-        <NextCard chapter={next} post={postsByPart.get(next.part)} isRead={read.has(next.part)} />
+        <NextCard
+          chapter={next}
+          post={postsByPart.get(next.part)}
+          isRead={read.has(next.part)}
+          newPart={sectionStartingAt(series, next.part)}
+        />
       )}
       <div className="mt-6 flex items-start justify-between gap-4">
         {previous && previousPost ? (
@@ -195,9 +213,9 @@ function PlainPostEnd({ post }: { post: BlogPost }) {
 
 /**
  * The end of a post. For a chapter of a series: a note once the chapter is recorded as read, the
- * next chapter, and links to the previous chapter, the whole series and, for the AI series, its
- * glossary. For other posts: the date
- * and a link back to the blog.
+ * next chapter (naming the part it starts, when it starts one), and links to the previous chapter,
+ * the whole series and, for the AI series, its glossary. For other posts: the date and a link back
+ * to the blog.
  */
 export function ChapterEnd({ post }: { post: BlogPost }) {
   // A post that names a series the site does not define ends like any other post, and nothing is
