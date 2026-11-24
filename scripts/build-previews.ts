@@ -67,10 +67,10 @@ function oklchToHex(lightness: number, chroma: number, hueDegrees: number): stri
 // The site's light theme colours from src/index.css, converted because SVG renderers do not all
 // understand oklch().
 const COLORS = {
-  background: oklchToHex(0.995, 0.005, 270),
-  text: oklchToHex(0.15, 0.02, 270),
-  accent: oklchToHex(0.45, 0.2, 270),
-  muted: oklchToHex(0.5, 0.03, 270),
+  background: oklchToHex(0.993, 0.003, 150),
+  text: oklchToHex(0.17, 0.015, 160),
+  accent: oklchToHex(0.47, 0.12, 155),
+  muted: oklchToHex(0.48, 0.02, 160),
 }
 
 const CONTENT_HEIGHT = PICTURE_HEIGHT - 2 * PICTURE_PADDING

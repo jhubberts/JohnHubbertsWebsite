@@ -18,8 +18,8 @@ const THEME_STORAGE_KEY = 'theme'
  * `theme-color` meta tag, which browsers colour their own toolbar with.
  */
 export const THEME_COLORS: Record<Theme, string> = {
-  light: '#fcfdff',
-  dark: '#090b12',
+  light: '#fbfdfc',
+  dark: '#0a0f0c',
 }
 
 type WriteStorage = Pick<Storage, 'setItem'>
