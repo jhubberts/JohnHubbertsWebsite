@@ -47,3 +47,8 @@ export function getSeries(slug: string): Series | undefined {
 export function getAllSeries(): Series[] {
   return series
 }
+
+/** The series' short title where it has one, otherwise its full title. */
+export function seriesShortName(series: Series): string {
+  return series.shortTitle ?? series.title
+}

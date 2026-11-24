@@ -36,7 +36,7 @@ describe('layoutNumber', () => {
     const layout = layoutNumber(11)!
 
     expect(layout.digits.map((d) => d.sample)).toEqual(['first', 'second'])
-    expect(digitPaths(1, 'first')).not.toEqual(digitPaths(1, 'second'))
+    expect(digitPaths(1, 'first').paths).not.toEqual(digitPaths(1, 'second').paths)
   })
 
   it('makes the width the sum of the digit widths, the gaps and the margins', () => {
@@ -70,7 +70,7 @@ describe('digitPaths', () => {
       ['first', data.digits[4]],
       ['second', data.alternates[4]],
     ] as const) {
-      const paths = digitPaths(4, sample)
+      const { paths } = digitPaths(4, sample)
 
       expect(paths).toHaveLength(INK_LEVELS)
       paths.forEach((d, index) => {
@@ -82,6 +82,14 @@ describe('digitPaths', () => {
 
         expect(d.match(/M/g)?.length ?? 0).toBe(pixels)
       })
+    }
+  })
+
+  it("gives the digit's first inked column, as the number layout records it", () => {
+    for (let digit = 0; digit <= 9; digit++) {
+      const [placed] = layoutNumber(digit)!.digits
+
+      expect(digitPaths(digit, 'first').minX).toBe(placed.minX)
     }
   })
 })

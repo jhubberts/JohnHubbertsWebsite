@@ -17,26 +17,25 @@ export default function BlogPost() {
 
   if (!post) return <NotFound />
 
-  const chapter = post.series && post.part !== undefined ? post.part : undefined
-  const draftBadge = post.draft && <Badge variant="outline">Draft</Badge>
+  // The series and chapter number when the post is a chapter of a series.
+  const chapter =
+    post.series && post.part !== undefined ? { series: post.series, part: post.part } : undefined
 
   return (
     <>
-      {post.series && chapter !== undefined && (
-        <SeriesBar seriesSlug={post.series} part={chapter} />
-      )}
-      <div className="mx-auto max-w-4xl px-4 pt-6 pb-16 md:pt-10">
+      {chapter && <SeriesBar seriesSlug={chapter.series} part={chapter.part} />}
+      <div className="page-container pt-6 pb-16 md:pt-10">
         <article className="prose prose-neutral dark:prose-invert article-prose">
-          {chapter !== undefined ? (
+          {(chapter || post.draft) && (
             <div className="not-prose mb-3 flex items-center gap-2">
-              <ChapterDigit part={chapter} state="current" className="size-7" />
-              <span className="text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase">
-                Chapter {chapter}
-              </span>
-              {draftBadge}
+              {chapter && (
+                <>
+                  <ChapterDigit part={chapter.part} state="current" className="size-7" />
+                  <span className="eyebrow">Chapter {chapter.part}</span>
+                </>
+              )}
+              {post.draft && <Badge variant="outline">Draft</Badge>}
             </div>
-          ) : (
-            draftBadge && <div className="not-prose mb-3 flex items-center gap-2">{draftBadge}</div>
           )}
           {/* Keyed by post so moving to another post starts its loading and reading state afresh.
               The end of the post sits inside the boundary, so it cannot record the chapter as read

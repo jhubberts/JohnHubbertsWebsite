@@ -1,7 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { ChapterDigit, SeriesDigitStrip } from '@/components/blog/handwritten-digit'
 import { buttonVariants } from '@/components/ui/button'
-import { getSeriesPosts } from '@/lib/blog'
+import { getSeriesPostsByPart } from '@/lib/blog'
 import { firstUnread } from '@/lib/series-progress'
 import { getSeries, type Series } from '@/lib/series'
 import { useDocumentTitle } from '@/lib/use-document-title'
@@ -18,31 +18,26 @@ function chooseStart(
   read: ReadonlySet<number>,
 ): { part: number; label: string } | undefined {
   if (available.length === 0) return undefined
-  const lowest = Math.min(...available)
-  if (!available.some((part) => read.has(part))) {
-    return { part: lowest, label: `Start with chapter ${lowest}` }
-  }
   const next = firstUnread(available, read)
-  if (next === undefined) return { part: lowest, label: `Start again with chapter ${lowest}` }
-  return { part: next, label: `Continue with chapter ${next}` }
+  if (next === undefined) {
+    const lowest = Math.min(...available)
+    return { part: lowest, label: `Start again with chapter ${lowest}` }
+  }
+  const started = available.some((part) => read.has(part))
+  return { part: next, label: `${started ? 'Continue' : 'Start'} with chapter ${next}` }
 }
 
 function SeriesContent({ series }: { series: Series }) {
   const { read } = useSeriesProgress(series.slug)
-  const posts = getSeriesPosts(series.slug)
+  const postsByPart = getSeriesPostsByPart(series.slug)
   const parts = series.chapters.map((chapter) => chapter.part)
-  const start = chooseStart(
-    posts.flatMap((post) => (post.part === undefined ? [] : [post.part])),
-    read,
-  )
-  const startPost = start && posts.find((post) => post.part === start.part)
+  const start = chooseStart([...postsByPart.keys()], read)
+  const startPost = start && postsByPart.get(start.part)
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-16 md:pt-12">
+    <div className="page-container pt-8 pb-16 md:pt-12">
       <div className="mx-auto max-w-[40rem]">
-        <p className="text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase">
-          Series · {series.chapters.length} chapters
-        </p>
+        <p className="eyebrow">Series · {series.chapters.length} chapters</p>
         <h1 className="page-title mt-2">{series.title}</h1>
         <p className="text-muted-foreground mt-3 text-lg">{series.description}</p>
         <SeriesDigitStrip
@@ -65,7 +60,7 @@ function SeriesContent({ series }: { series: Series }) {
         )}
         <ol className="mt-8 flex flex-col gap-2">
           {series.chapters.map((chapter) => {
-            const post = posts.find((p) => p.part === chapter.part)
+            const post = postsByPart.get(chapter.part)
             const isRead = read.has(chapter.part)
             const rowClasses = 'flex min-h-16 items-center gap-4 rounded-xl border p-3'
             const body = (

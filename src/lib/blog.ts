@@ -1,15 +1,8 @@
 import { createElement, lazy, useState, type ComponentType } from 'react'
 import { draftsEnabled, isVisible } from './drafts'
-import { parseFrontmatter } from './frontmatter'
+import { postMeta, type PostMeta } from './frontmatter'
 
-export interface BlogPost {
-  slug: string
-  title: string
-  date: string
-  description: string
-  series?: string
-  part?: number
-  draft: boolean
+export interface BlogPost extends PostMeta {
   Component: ComponentType
   /**
    * Downloads the post's code. The returned promise settles when the download has finished or
@@ -67,28 +60,14 @@ const rawSources = import.meta.glob<string>('/src/content/blog/*.mdx', {
   import: 'default',
 })
 
-const loaders = import.meta.glob<{ default: ComponentType }>('/src/content/blog/*.mdx')
-
-function stringOrUndefined(value: unknown): string | undefined {
-  return typeof value === 'string' ? value : undefined
-}
+const loaders = import.meta.glob<PostModule>('/src/content/blog/*.mdx')
 
 function buildPost(path: string, source: string): BlogPost {
   // If a build plugin compiles the `?raw` import, `source` is not text and every post would
   // silently lose its title and date. Fail loudly instead. See mdxExceptRaw in vite.config.ts.
   if (typeof source !== 'string') throw new Error(`Expected the raw text of ${path}`)
   const slug = path.replace('/src/content/blog/', '').replace('.mdx', '')
-  const meta = parseFrontmatter(source)
-  return {
-    slug,
-    title: stringOrUndefined(meta.title) ?? slug,
-    date: stringOrUndefined(meta.date) ?? '',
-    description: stringOrUndefined(meta.description) ?? '',
-    series: stringOrUndefined(meta.series),
-    part: typeof meta.part === 'number' ? meta.part : undefined,
-    draft: meta.draft === true,
-    ...loadablePost(loaders[path]),
-  }
+  return { ...postMeta(slug, source), ...loadablePost(loaders[path]) }
 }
 
 const allPosts: BlogPost[] = Object.entries(rawSources).map(([path, source]) =>

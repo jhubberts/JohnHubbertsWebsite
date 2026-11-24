@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 import { Menu, Bot } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from '@/components/ui/sheet'
+import { RESUME_URL } from './contact-links'
 import { ThemeToggle } from './theme-toggle'
 import { cn } from '@/lib/utils'
 
@@ -11,7 +12,7 @@ const navLinks: { to: string; label: string; external?: boolean }[] = [
   { to: '/projects', label: 'Projects' },
   { to: '/blog', label: 'Blog' },
   { to: '/about', label: 'About' },
-  { to: 'https://linkedin.com/in/johnhubberts', label: 'Resume', external: true },
+  { to: RESUME_URL, label: 'Resume', external: true },
 ]
 
 export function NavBar() {
@@ -19,8 +20,7 @@ export function NavBar() {
   const [open, setOpen] = useState(false)
 
   const isActive = (to: string) =>
-    !to.startsWith('http') &&
-    (location.pathname === to || (to !== '/' && location.pathname.startsWith(to)))
+    location.pathname === to || (to !== '/' && location.pathname.startsWith(to))
 
   // The current page is marked by an underline as well as colour.
   const linkClass = (to: string, mobile = false) =>

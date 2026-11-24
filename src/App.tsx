@@ -1,8 +1,9 @@
-import type { ComponentType, ReactNode } from 'react'
+import { useEffect, type ComponentType, type ReactNode } from 'react'
 import {
   Navigate,
   Outlet,
   ScrollRestoration,
+  useRouteError,
   type LoaderFunctionArgs,
   type RouteObject,
 } from 'react-router-dom'
@@ -10,6 +11,7 @@ import { NavBar } from '@/components/layout/nav-bar'
 import { Footer } from '@/components/layout/footer'
 import { NavigationProgress } from '@/components/layout/navigation-progress'
 import { PagePlaceholder } from '@/components/layout/page-placeholder'
+import { Button } from '@/components/ui/button'
 import { getPostBySlug } from '@/lib/blog'
 import HomePage from '@/pages/home-page'
 import NotFound from '@/pages/not-found'
@@ -44,7 +46,33 @@ function RootLayout() {
 function FirstLoad() {
   return (
     <SiteShell>
-      <PagePlaceholder className="mx-auto max-w-4xl px-4 pt-6 md:pt-10" />
+      <PagePlaceholder className="page-container pt-6 md:pt-10" />
+    </SiteShell>
+  )
+}
+
+/**
+ * Shown in place of a page that failed, most often because its code could not be downloaded: a
+ * tab opened before the site was last published asks for files that no longer exist. Reloading
+ * fetches the current site.
+ */
+function LoadFailure() {
+  const error = useRouteError()
+  useEffect(() => {
+    console.error(error)
+  }, [error])
+
+  return (
+    <SiteShell>
+      <div className="page-container py-20 text-center">
+        <h1 className="page-title">This page did not load</h1>
+        <p className="text-muted-foreground mt-4 text-lg">
+          The site may have changed since this tab was opened.
+        </p>
+        <Button className="mt-8 min-h-11" onClick={() => window.location.reload()}>
+          Reload the page
+        </Button>
+      </div>
     </SiteShell>
   )
 }
@@ -70,6 +98,7 @@ export const routes: RouteObject[] = [
   {
     Component: RootLayout,
     HydrateFallback: FirstLoad,
+    errorElement: <LoadFailure />,
     children: [
       { index: true, Component: HomePage },
       { path: 'about', lazy: page(() => import('@/pages/about-page')) },

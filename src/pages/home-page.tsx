@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom'
-import { Github, Linkedin, Mail, Rocket, Wrench, BookOpen, ArrowRight } from 'lucide-react'
+import { Rocket, Wrench, BookOpen, ArrowRight } from 'lucide-react'
 import { SeriesDigitStrip } from '@/components/blog/handwritten-digit'
-import { buttonVariants } from '@/components/ui/button'
+import { ContactLinks } from '@/components/layout/contact-links'
 import { TypingEffect } from '@/components/typing-effect'
 import { getSeriesPosts } from '@/lib/blog'
 import { getAllSeries, type Series } from '@/lib/series'
 import { useSeriesProgress } from '@/lib/use-series-progress'
-import { cn } from '@/lib/utils'
 
 const phrases = [
   'Founding Engineer @ Roboto',
@@ -50,9 +49,7 @@ function FeaturedSeries({ series }: { series: Series }) {
       to={`/series/${series.slug}`}
       className="group bg-card hover:border-primary focus-visible:border-primary block rounded-xl border p-5 transition-colors sm:p-6"
     >
-      <p className="text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase">
-        Series · {series.chapters.length} chapters
-      </p>
+      <p className="eyebrow">Series · {series.chapters.length} chapters</p>
       <h2 className="mt-2 font-serif text-[1.5rem] leading-tight font-semibold">{series.title}</h2>
       <p className="text-muted-foreground mt-2">{series.description}</p>
       <SeriesDigitStrip
@@ -75,7 +72,7 @@ export default function HomePage() {
   const showSeries = series !== undefined && getSeriesPosts(series.slug).length > 0
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-10 pb-16 md:pt-16">
+    <div className="page-container pt-10 pb-16 md:pt-16">
       <section className="flex flex-col items-center gap-6">
         <img
           src="/images/john_hubberts_headshot.png"
@@ -90,33 +87,7 @@ export default function HomePage() {
           <TypingEffect phrases={phrases} />
         </p>
 
-        <div className="flex gap-3">
-          <a
-            href="https://github.com/jhubberts"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-11')}
-          >
-            <Github className="size-5" />
-            <span className="sr-only">GitHub</span>
-          </a>
-          <a
-            href="https://linkedin.com/in/johnhubberts"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-11')}
-          >
-            <Linkedin className="size-5" />
-            <span className="sr-only">LinkedIn</span>
-          </a>
-          <a
-            href="mailto:jhubberts+website@gmail.com"
-            className={cn(buttonVariants({ variant: 'outline', size: 'icon' }), 'size-11')}
-          >
-            <Mail className="size-5" />
-            <span className="sr-only">Email</span>
-          </a>
-        </div>
+        <ContactLinks variant="outline" className="gap-3" />
       </section>
 
       <div className="mx-auto mt-10 max-w-[40rem]">

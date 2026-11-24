@@ -30,7 +30,7 @@ const stored = (value: string) => fakeStorage({ [SERIES_PROGRESS_KEY]: value })
 describe('markChapterRead and readChapters', () => {
   it('reads back what was recorded', () => {
     const storage = fakeStorage()
-    expect(markChapterRead('ai', 2, storage)).toEqual([2])
+    markChapterRead('ai', 2, storage)
     expect(readChapters('ai', storage)).toEqual([2])
   })
 
@@ -44,7 +44,7 @@ describe('markChapterRead and readChapters', () => {
 
   it('leaves storage untouched when the chapter is already recorded', () => {
     const storage = stored('{"ai":[1]}')
-    expect(markChapterRead('ai', 1, storage)).toEqual([1])
+    markChapterRead('ai', 1, storage)
     expect(storage.data.get(SERIES_PROGRESS_KEY)).toBe('{"ai":[1]}')
   })
 
@@ -71,13 +71,13 @@ describe('markChapterRead and readChapters', () => {
   ])('treats %s as nothing read, and a later write replaces it', (_name, raw) => {
     const storage = stored(raw)
     expect(readChapters('ai', storage)).toEqual([])
-    expect(markChapterRead('ai', 2, storage)).toEqual([2])
+    markChapterRead('ai', 2, storage)
     expect(readChapters('ai', storage)).toEqual([2])
   })
 
   it('never throws when storage throws', () => {
     expect(readChapters('ai', throwing)).toEqual([])
-    expect(markChapterRead('ai', 1, throwing)).toEqual([])
+    expect(() => markChapterRead('ai', 1, throwing)).not.toThrow()
   })
 })
 

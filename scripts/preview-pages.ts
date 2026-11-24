@@ -4,8 +4,9 @@
  * here reads files or the network, so it can be tested directly; scripts/build-previews.ts does the
  * writing and draws the pictures.
  */
-import { parseFrontmatter } from '@/lib/frontmatter'
-import type { Series } from '@/lib/series'
+import { postMeta } from '@/lib/frontmatter'
+import { seriesShortName, type Series } from '@/lib/series'
+import { SITE_PAGES } from '@/lib/site-pages'
 
 export const SITE_URL = 'https://www.johnhubberts.com'
 export const SITE_TITLE = 'John Hubberts'
@@ -15,19 +16,6 @@ export const PICTURE_HEIGHT = 630
 
 export const BLOCK_START = '<!-- preview:start -->'
 export const BLOCK_END = '<!-- preview:end -->'
-
-/** Short series names for slugs whose series has no `shortTitle` of its own. */
-const SHORT_SERIES_TITLES: Record<string, string> = { 'how-ai-works': 'How AI Works' }
-
-/** Pages that are neither posts nor series, with the title each one shows in its tab. */
-export const FIXED_PAGES: { path: string; title: string }[] = [
-  { path: '/blog', title: 'Blog' },
-  { path: '/projects', title: 'Projects' },
-  { path: '/about', title: 'About' },
-  { path: '/projects/guitar/chord-library', title: 'Chord Library' },
-  { path: '/projects/minimalist-ski-art', title: 'Minimalist Ski Art' },
-  { path: '/projects/guitar/lick-library', title: 'Lick Library' },
-]
 
 /**
  * What a page's preview picture shows. `chapter` adds that chapter's number in handwritten digits
@@ -58,24 +46,19 @@ export interface PostSource {
   text: string
 }
 
-type SeriesWithShortTitle = Series & { shortTitle?: string }
-
-function seriesShortTitle(series: SeriesWithShortTitle): string {
-  return series.shortTitle ?? SHORT_SERIES_TITLES[series.slug] ?? series.title
-}
-
 const SITE_PICTURE: Picture = { file: 'site.png', kind: 'plain', title: SITE_TITLE, label: '' }
 
-function stringField(value: unknown): string | undefined {
-  return typeof value === 'string' ? value : undefined
-}
-
-function postPage(source: PostSource, allSeries: SeriesWithShortTitle[]): Page {
-  const slug = source.fileName.replace(/\.mdx$/, '')
-  const meta = parseFrontmatter(source.text)
-  const title = stringField(meta.title) ?? slug
-  const part = typeof meta.part === 'number' ? meta.part : undefined
-  const series = allSeries.find((s) => s.slug === meta.series)
+function postPage(source: PostSource, allSeries: Series[]): Page {
+  const {
+    slug,
+    title,
+    date,
+    description,
+    series: seriesSlug,
+    part,
+    draft,
+  } = postMeta(source.fileName.replace(/\.mdx$/, ''), source.text)
+  const series = allSeries.find((s) => s.slug === seriesSlug)
   const file = `${slug}.png`
   const picture: Picture =
     series && part !== undefined
@@ -83,17 +66,17 @@ function postPage(source: PostSource, allSeries: SeriesWithShortTitle[]): Page {
           file,
           kind: 'chapter',
           title,
-          label: `${seriesShortTitle(series)} · Chapter ${part}`,
+          label: `${seriesShortName(series)} · Chapter ${part}`,
           part,
         }
       : { file, kind: 'plain', title, label: SITE_TITLE }
   return {
     path: `/blog/${slug}`,
     title,
-    description: stringField(meta.description) ?? '',
+    description,
     kind: 'post',
-    date: stringField(meta.date) || undefined,
-    draft: meta.draft === true,
+    date: date || undefined,
+    draft,
     picture,
   }
 }
@@ -103,7 +86,7 @@ function postPage(source: PostSource, allSeries: SeriesWithShortTitle[]): Page {
  * name order. Draft posts are included, because their addresses work for anyone who has turned
  * drafts on; the sitemap leaves them out.
  */
-export function listPages(posts: PostSource[], allSeries: SeriesWithShortTitle[]): Page[] {
+export function listPages(posts: PostSource[], allSeries: Series[]): Page[] {
   const home: Page = {
     path: '/',
     title: null,
@@ -112,7 +95,7 @@ export function listPages(posts: PostSource[], allSeries: SeriesWithShortTitle[]
     draft: false,
     picture: SITE_PICTURE,
   }
-  const fixed: Page[] = FIXED_PAGES.map(({ path, title }) => ({
+  const fixed: Page[] = Object.values(SITE_PAGES).map(({ path, title }) => ({
     path,
     title,
     description: SITE_DESCRIPTION,
@@ -151,7 +134,7 @@ export function escapeHtml(value: string): string {
 }
 
 export function pageUrl(page: Page): string {
-  return page.path === '/' ? `${SITE_URL}/` : `${SITE_URL}${page.path}`
+  return SITE_URL + page.path
 }
 
 export function pictureUrl(page: Page): string {
@@ -186,9 +169,7 @@ export function headTags(page: Page): string {
     meta('name', 'twitter:description', page.description),
     meta('name', 'twitter:image', image),
   ]
-  if (page.kind === 'post' && page.date) {
-    tags.push(meta('property', 'article:published_time', page.date))
-  }
+  if (page.date) tags.push(meta('property', 'article:published_time', page.date))
   if (page.draft) tags.push(meta('name', 'robots', 'noindex'))
   return tags.map((tag) => `    ${tag}`).join('\n')
 }

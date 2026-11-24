@@ -40,11 +40,10 @@ function deviceQuery(): MediaQueryList {
 
 function subscribe(listener: () => void): () => void {
   listeners.add(listener)
-  // While the reader has not chosen a theme, follow the device when its setting changes.
+  // When the device's setting changes, a reader who never chose a theme follows it; a reader who
+  // chose keeps their choice.
   const device = deviceQuery()
-  const onDeviceChange = () => {
-    if (storedTheme() === null) applyTheme(resolveTheme(null, device.matches))
-  }
+  const onDeviceChange = () => applyTheme(resolveTheme(storedTheme(), device.matches))
   device.addEventListener('change', onDeviceChange)
   return () => {
     listeners.delete(listener)

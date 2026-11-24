@@ -1,10 +1,5 @@
 import { useCallback, useSyncExternalStore } from 'react'
-import {
-  SERIES_PROGRESS_KEY,
-  browserStorage,
-  markChapterRead,
-  partsInStored,
-} from './series-progress'
+import { SERIES_PROGRESS_KEY, markChapterRead, partsInStored, rawStored } from './series-progress'
 
 const EMPTY: ReadonlySet<number> = new Set()
 
@@ -29,12 +24,7 @@ function subscribe(listener: () => void): () => void {
 const cache = new Map<string, { raw: string | null; set: ReadonlySet<number> }>()
 
 function snapshot(seriesSlug: string): ReadonlySet<number> {
-  let raw: string | null
-  try {
-    raw = browserStorage()?.getItem(SERIES_PROGRESS_KEY) ?? null
-  } catch {
-    raw = null
-  }
+  const raw = rawStored()
   const hit = cache.get(seriesSlug)
   if (hit && hit.raw === raw) return hit.set
   const set: ReadonlySet<number> = new Set(partsInStored(raw, seriesSlug))

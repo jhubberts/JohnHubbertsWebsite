@@ -2,10 +2,10 @@ import { readdirSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 import { describe, expect, it } from 'vitest'
 import { getAllSeries } from '@/lib/series'
+import { SITE_PAGES } from '@/lib/site-pages'
 import {
   BLOCK_END,
   BLOCK_START,
-  FIXED_PAGES,
   headTags,
   listPages,
   replacePreviewBlock,
@@ -41,7 +41,7 @@ describe('listPages', () => {
     const paths = listPages(posts, getAllSeries()).map((page) => page.path)
 
     expect(paths).toContain('/')
-    for (const fixed of FIXED_PAGES) expect(paths).toContain(fixed.path)
+    for (const fixed of Object.values(SITE_PAGES)) expect(paths).toContain(fixed.path)
     for (const series of getAllSeries()) expect(paths).toContain(`/series/${series.slug}`)
     for (const { fileName } of posts) {
       expect(paths).toContain(`/blog/${fileName.replace(/\.mdx$/, '')}`)

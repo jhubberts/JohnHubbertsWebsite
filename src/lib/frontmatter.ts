@@ -19,6 +19,37 @@ function parseValue(raw: string): FrontmatterValue {
   return raw
 }
 
+/** The fields of a blog post that its frontmatter gives. */
+export interface PostMeta {
+  slug: string
+  /** The `title` field, or the slug when there is none. */
+  title: string
+  /** The `date` field as written, or an empty string when there is none. */
+  date: string
+  description: string
+  series?: string
+  part?: number
+  draft: boolean
+}
+
+function stringField(value: FrontmatterValue | undefined): string | undefined {
+  return typeof value === 'string' ? value : undefined
+}
+
+/** Reads a post's fields from the text of its MDX file. A field of the wrong type counts as absent. */
+export function postMeta(slug: string, source: string): PostMeta {
+  const meta = parseFrontmatter(source)
+  return {
+    slug,
+    title: stringField(meta.title) ?? slug,
+    date: stringField(meta.date) ?? '',
+    description: stringField(meta.description) ?? '',
+    series: stringField(meta.series),
+    part: typeof meta.part === 'number' ? meta.part : undefined,
+    draft: meta.draft === true,
+  }
+}
+
 /**
  * Parses the leading `---` block of an MDX file. Supports `key: value` lines whose value is a
  * quoted or bare string, a whole number, or `true`/`false`. Returns an empty object when the text

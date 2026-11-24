@@ -1,22 +1,16 @@
 import { Link } from 'react-router-dom'
 import { getAllPosts, type BlogPost } from '@/lib/blog'
+import { formatPostDate } from '@/lib/format-date'
 import { getSeries, type Series } from '@/lib/series'
 import { SeriesDigitStrip } from '@/components/blog/handwritten-digit'
 import { Badge } from '@/components/ui/badge'
+import { SITE_PAGES } from '@/lib/site-pages'
+import { useDocumentTitle } from '@/lib/use-document-title'
 import { useSeriesProgress } from '@/lib/use-series-progress'
 
 type Entry =
   | { kind: 'post'; date: string; post: BlogPost }
   | { kind: 'series'; date: string; series: Series; published: number }
-
-function formatDate(date: string): string {
-  return new Date(date).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    timeZone: 'UTC',
-  })
-}
 
 function buildEntries(posts: BlogPost[]): Entry[] {
   const entries: Entry[] = []
@@ -57,7 +51,7 @@ function SeriesEntry({
   return (
     <li>
       <Link viewTransition to={`/series/${series.slug}`} className="group block py-5">
-        <p className={dateClasses}>{formatDate(date)}</p>
+        <p className={dateClasses}>{formatPostDate(date, 'short')}</p>
         <h2 className="mt-1 font-serif text-[1.375rem] leading-tight font-semibold group-hover:underline group-focus-visible:underline">
           {series.title}
         </h2>
@@ -78,10 +72,11 @@ function SeriesEntry({
 }
 
 export default function BlogIndex() {
+  useDocumentTitle(SITE_PAGES.blog.title)
   const entries = buildEntries(getAllPosts())
 
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-16 md:pt-12">
+    <div className="page-container pt-8 pb-16 md:pt-12">
       <div className="mx-auto max-w-[40rem]">
         <h1 className="page-title">Blog</h1>
         {entries.length === 0 ? (
@@ -99,7 +94,7 @@ export default function BlogIndex() {
               ) : (
                 <li key={entry.post.slug}>
                   <Link viewTransition to={`/blog/${entry.post.slug}`} className="group block py-5">
-                    <p className={dateClasses}>{formatDate(entry.date)}</p>
+                    <p className={dateClasses}>{formatPostDate(entry.date, 'short')}</p>
                     <h2 className="mt-1 font-serif text-[1.375rem] leading-tight font-semibold group-hover:underline group-focus-visible:underline">
                       {entry.post.title}
                       {entry.post.draft && (

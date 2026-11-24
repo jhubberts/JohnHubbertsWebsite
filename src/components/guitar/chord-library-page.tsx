@@ -2,6 +2,8 @@ import { useState, useRef } from 'react'
 import ChordExplorer from './chord-explorer'
 import GuitarFingering from './guitar-fingering'
 import { Synth, type Chord } from '@/lib/guitar'
+import { SITE_PAGES } from '@/lib/site-pages'
+import { useDocumentTitle } from '@/lib/use-document-title'
 
 const chordToRenderable = (chord: Chord) => {
   const annotations = ['', '', '', '', '', '']
@@ -19,6 +21,7 @@ const chordToRenderable = (chord: Chord) => {
 }
 
 const ChordLibraryPage = () => {
+  useDocumentTitle(SITE_PAGES.chordLibrary.title)
   const [activeChord, setActiveChord] = useState<Chord | null>(null)
   const synthRef = useRef<Synth | null>(null)
 

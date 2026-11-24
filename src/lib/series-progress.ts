@@ -6,18 +6,11 @@
  * read".
  */
 
+import { browserStorage, type ReadStorage } from './browser-storage'
+
 export const SERIES_PROGRESS_KEY = 'series-progress.v1'
 
-export type ReadStorage = Pick<Storage, 'getItem'>
-export type ReadWriteStorage = Pick<Storage, 'getItem' | 'setItem'>
-
-export function browserStorage(): Storage | null {
-  try {
-    return typeof window === 'undefined' ? null : window.localStorage
-  } catch {
-    return null
-  }
-}
+type ReadWriteStorage = Pick<Storage, 'getItem' | 'setItem'>
 
 /** Parses the stored text into an object from series slug to its chapter list; {} if unusable. */
 function parseStore(raw: string | null): Record<string, unknown> {
@@ -44,7 +37,8 @@ export function partsInStored(raw: string | null, seriesSlug: string): number[] 
   return cleanParts(parseStore(raw)[seriesSlug])
 }
 
-function rawStored(storage: ReadStorage | null): string | null {
+/** The stored text, or null when nothing is stored or storage cannot be read. Never throws. */
+export function rawStored(storage: ReadStorage | null = browserStorage()): string | null {
   try {
     return storage?.getItem(SERIES_PROGRESS_KEY) ?? null
   } catch {
@@ -60,25 +54,22 @@ export function readChapters(
   return partsInStored(rawStored(storage), seriesSlug)
 }
 
-/** Records a chapter as read. Returns the series' read chapters afterwards. Never throws. */
+/** Records a chapter as read. Never throws. */
 export function markChapterRead(
   seriesSlug: string,
   part: number,
   storage: ReadWriteStorage | null = browserStorage(),
-): number[] {
+): void {
   const current = readChapters(seriesSlug, storage)
-  if (!Number.isInteger(part) || part < 0 || current.includes(part)) return current
-  const updated = [...current, part].sort((a, b) => a - b)
+  if (!Number.isInteger(part) || part < 0 || current.includes(part)) return
   try {
     // Entries for other series are kept as they are.
     const store = parseStore(rawStored(storage))
-    store[seriesSlug] = updated
+    store[seriesSlug] = [...current, part].sort((a, b) => a - b)
     storage?.setItem(SERIES_PROGRESS_KEY, JSON.stringify(store))
   } catch {
     // Storage is unavailable or full. The chapter is not remembered.
-    return current
   }
-  return updated
 }
 
 /** The lowest chapter in `parts` that is not in `read`, or undefined when all are read. */

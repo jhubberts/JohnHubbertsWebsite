@@ -6,9 +6,9 @@ export default function NotFound() {
   return (
     <div className="px-4 py-20 text-center">
       <span className="inline-flex gap-1">
-        <HandwrittenDigit digit={4} className="text-foreground size-16 sm:size-20" />
-        <HandwrittenDigit digit={0} className="text-foreground size-16 sm:size-20" />
-        <HandwrittenDigit digit={4} className="text-foreground size-16 sm:size-20" />
+        {[4, 0, 4].map((digit, i) => (
+          <HandwrittenDigit key={i} digit={digit} className="text-foreground size-16 sm:size-20" />
+        ))}
         <span className="sr-only">404</span>
       </span>
       <h1 className="page-title mt-6">Page not found</h1>

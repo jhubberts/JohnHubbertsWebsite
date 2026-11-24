@@ -5,10 +5,13 @@ import LickAnalysisPanel from './lick-analysis-panel'
 import { exampleLicks } from '@/lib/licks/data/example-licks'
 import { transposeLick, LickPlayer, analyzeLick, DEFAULT_PREFERENCES } from '@/lib/licks'
 import type { Lick, TabPreferences } from '@/lib/licks'
+import { SITE_PAGES } from '@/lib/site-pages'
+import { useDocumentTitle } from '@/lib/use-document-title'
 
 const ALL_KEYS = ['C', 'Db', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab', 'A', 'Bb', 'B']
 
 const LickLibraryPage = () => {
+  useDocumentTitle(SITE_PAGES.lickLibrary.title)
   const [baseLick, setBaseLick] = useState<Lick>(exampleLicks[0])
   const [selectedKey, setSelectedKey] = useState<string>(exampleLicks[0].key)
   const [searchQuery, setSearchQuery] = useState('')

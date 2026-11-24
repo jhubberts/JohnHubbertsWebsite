@@ -1,6 +1,11 @@
+import { SITE_PAGES } from '@/lib/site-pages'
+import { useDocumentTitle } from '@/lib/use-document-title'
+
 export default function AboutPage() {
+  useDocumentTitle(SITE_PAGES.about.title)
+
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-16 md:pt-12">
+    <div className="page-container pt-8 pb-16 md:pt-12">
       <div className="mx-auto max-w-[40rem]">
         <h1 className="page-title">About</h1>
         <p className="mt-6 font-serif text-lg leading-relaxed">

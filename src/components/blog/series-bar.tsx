@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown } from 'lucide-react'
-import { ChapterDigit, SeriesDigitStrip } from '@/components/blog/handwritten-digit'
+import { ChapterDigit, SeriesDigitStrip, chapterState } from '@/components/blog/handwritten-digit'
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { getSeriesPostsByPart } from '@/lib/blog'
-import { getSeries } from '@/lib/series'
-import { compactProgress, seriesBarForms } from '@/lib/series-bar-form'
+import { getSeries, seriesShortName } from '@/lib/series'
+import {
+  MOST_CHAPTERS_IN_ROW_ON_PHONE,
+  MOST_CHAPTERS_IN_ROW_WIDE,
+  compactProgress,
+} from '@/lib/series-bar-form'
 import { describeProgress } from '@/lib/series-progress'
 import { useSeriesProgress } from '@/lib/use-series-progress'
 import { cn } from '@/lib/utils'
@@ -20,11 +24,13 @@ export function SeriesBar({ seriesSlug, part }: { seriesSlug: string; part: numb
   const [open, setOpen] = useState(false)
   if (!series) return null
 
-  const name = series.shortTitle ?? series.title
+  const name = seriesShortName(series)
   const parts = series.chapters.map((chapter) => chapter.part)
   const postsByPart = getSeriesPostsByPart(seriesSlug)
-  // A long series shows its progress in a compact form where the row of numbers has no room.
-  const forms = seriesBarForms(parts.length)
+  // A long series shows its progress in a compact form where the row of numbers has no room:
+  // below 640px when the row does not fit on a phone, at every width when it does not fit at all.
+  const rowOnPhone = parts.length <= MOST_CHAPTERS_IN_ROW_ON_PHONE
+  const rowWide = parts.length <= MOST_CHAPTERS_IN_ROW_WIDE
 
   return (
     <div
@@ -34,32 +40,26 @@ export function SeriesBar({ seriesSlug, part }: { seriesSlug: string; part: numb
       <Sheet open={open} onOpenChange={setOpen}>
         <SheetTrigger
           aria-label={`${name}. ${describeProgress(parts, read, part)} Open the chapter list.`}
-          className="hover:bg-muted/60 focus-visible:ring-ring mx-auto flex h-11 w-full max-w-4xl items-center gap-3 px-4 text-left focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset"
+          className="hover:bg-muted/60 focus-visible:ring-ring page-container flex h-11 w-full items-center gap-3 text-left focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-inset"
         >
           <span className="min-w-0 flex-1 truncate text-[0.8125rem] font-semibold">{name}</span>
           {/* The button's label already describes the progress, so it is not read again here. */}
           <span aria-hidden="true" className="flex shrink-0 items-center gap-1">
-            {forms.phone === 'compact' && (
-              <span
-                className={cn(
-                  'items-center gap-1.5',
-                  forms.wide === 'compact' ? 'flex' : 'flex sm:hidden',
-                )}
-              >
+            {!rowOnPhone && (
+              <span className={cn('flex items-center gap-1.5', rowWide && 'sm:hidden')}>
                 <ChapterDigit part={part} state="current" className="size-5" />
                 <span className="text-muted-foreground text-[0.8125rem] whitespace-nowrap">
                   {compactProgress(parts, read, part)}
                 </span>
               </span>
             )}
-            {forms.wide === 'row' && (
-              <span
-                className={cn('items-center', forms.phone === 'row' ? 'flex' : 'hidden sm:flex')}
-              >
+            {rowWide && (
+              <span className={cn('flex items-center', !rowOnPhone && 'hidden sm:flex')}>
                 <SeriesDigitStrip
                   parts={parts}
                   read={read}
                   current={part}
+                  className="gap-0.5"
                   digitClassName="size-5 sm:size-[22px]"
                 />
               </span>
@@ -78,15 +78,9 @@ export function SeriesBar({ seriesSlug, part }: { seriesSlug: string; part: numb
             <ol>
               {series.chapters.map((chapter) => {
                 const post = postsByPart.get(chapter.part)
-                const isCurrent = chapter.part === part
-                const isRead = read.has(chapter.part)
-                const digit = (
-                  <ChapterDigit
-                    part={chapter.part}
-                    state={isCurrent ? 'current' : isRead ? 'read' : 'unread'}
-                    className="size-9"
-                  />
-                )
+                const state = chapterState(chapter.part, read, part)
+                const isCurrent = state === 'current'
+                const digit = <ChapterDigit part={chapter.part} state={state} className="size-9" />
                 return (
                   <li key={chapter.part}>
                     {post ? (
@@ -104,7 +98,7 @@ export function SeriesBar({ seriesSlug, part }: { seriesSlug: string; part: numb
                             You are here
                           </span>
                         ) : (
-                          isRead && (
+                          state === 'read' && (
                             <span className="text-muted-foreground shrink-0 text-xs">✓ Read</span>
                           )
                         )}

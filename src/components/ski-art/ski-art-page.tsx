@@ -12,6 +12,8 @@ import { SkiArtCanvas } from './ski-art-canvas'
 import { SkiArtControls } from './ski-art-controls'
 import { GoldFrame } from './gold-frame'
 import defaultGpx from '@/lib/ski-art/data/big-sky.gpx?raw'
+import { SITE_PAGES } from '@/lib/site-pages'
+import { useDocumentTitle } from '@/lib/use-document-title'
 
 function loadDefault(): TrackPoint[] {
   try {
@@ -24,6 +26,7 @@ function loadDefault(): TrackPoint[] {
 const defaultTrackpoints = loadDefault()
 
 export default function SkiArtPage() {
+  useDocumentTitle(SITE_PAGES.skiArt.title)
   const [trackpoints, setTrackpoints] = useState<TrackPoint[]>(defaultTrackpoints)
   const [settings, setSettings] = useState<ArtSettings>(DEFAULT_SETTINGS)
   const [error, setError] = useState<string | null>(null)

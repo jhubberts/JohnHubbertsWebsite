@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { ChapterDigit } from '@/components/blog/handwritten-digit'
 import { getSeriesPostsByPart, type BlogPost } from '@/lib/blog'
+import { formatPostDate } from '@/lib/format-date'
 import { getSeries, type PlannedChapter } from '@/lib/series'
 import { seriesNeighbours } from '@/lib/series-neighbours'
 import { useSeriesProgress } from '@/lib/use-series-progress'
@@ -11,23 +12,23 @@ import { cn } from '@/lib/utils'
 const rowLinkClass =
   'inline-flex min-h-11 items-center text-[0.9375rem] font-medium underline-offset-4 hover:underline'
 
-const labelClass = 'text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase'
-
 /** The post's date written out, such as "November 23, 2026". Nothing when the post has no date. */
 function PostDate({ date, className }: { date: string; className?: string }) {
   if (!date) return null
   return (
     <p className={cn('text-muted-foreground text-sm', className)}>
-      <time dateTime={date}>
-        {new Date(date).toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-          timeZone: 'UTC',
-        })}
-      </time>
+      <time dateTime={date}>{formatPostDate(date, 'long')}</time>
     </p>
   )
+}
+
+/**
+ * Whether the reader has asked their browser to use less data. `navigator.connection` is missing
+ * in some browsers, so its absence counts as not asking.
+ */
+function savesData(): boolean {
+  const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection
+  return connection?.saveData === true
 }
 
 /** Calls `onNear` once, when the element comes within `rootMargin` of the screen. */
@@ -69,14 +70,16 @@ function NextCard({
   isRead: boolean
 }) {
   // Start downloading the next chapter shortly before the reader reaches this card, so opening it
-  // does not wait on the network.
-  const linkRef = useOnceInView<HTMLAnchorElement>(post !== undefined, '600px 0px', () =>
-    post?.preload(),
+  // does not wait on the network. A reader who asked to save data downloads it only on opening it.
+  const linkRef = useOnceInView<HTMLAnchorElement>(
+    post !== undefined && !savesData(),
+    '600px 0px',
+    () => post?.preload(),
   )
   const digit = (
     <ChapterDigit part={chapter.part} state={isRead ? 'read' : 'unread'} className="size-12" />
   )
-  const label = <span className={labelClass}>Next · Chapter {chapter.part}</span>
+  const label = <span className="eyebrow">Next · Chapter {chapter.part}</span>
 
   if (!post) {
     return (

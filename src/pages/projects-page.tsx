@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Guitar, BarChart3, Mountain, ArrowRight } from 'lucide-react'
+import { SITE_PAGES } from '@/lib/site-pages'
+import { useDocumentTitle } from '@/lib/use-document-title'
 
 const projects = [
   {
@@ -26,8 +28,10 @@ const projects = [
 ]
 
 export default function ProjectsPage() {
+  useDocumentTitle(SITE_PAGES.projects.title)
+
   return (
-    <div className="mx-auto max-w-4xl px-4 pt-8 pb-16 md:pt-12">
+    <div className="page-container pt-8 pb-16 md:pt-12">
       <h1 className="page-title">Projects</h1>
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {projects.map((project) => (

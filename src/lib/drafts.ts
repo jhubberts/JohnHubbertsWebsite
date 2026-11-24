@@ -8,19 +8,12 @@
  * everyone who has not asked.
  */
 
+import { browserStorage, type ReadStorage } from './browser-storage'
+
 const STORAGE_KEY = 'site.showDrafts'
 const PARAM = 'drafts'
 
-type ReadStorage = Pick<Storage, 'getItem'>
 type WriteStorage = Pick<Storage, 'setItem' | 'removeItem'>
-
-function browserStorage(): Storage | null {
-  try {
-    return typeof window === 'undefined' ? null : window.localStorage
-  } catch {
-    return null
-  }
-}
 
 /** Whether this device has asked to see drafts. Never throws. */
 export function draftsEnabled(storage: ReadStorage | null = browserStorage()): boolean {

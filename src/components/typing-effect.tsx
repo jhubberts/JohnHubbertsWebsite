@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { useMediaQuery } from '@/lib/use-media-query'
 
 interface TypingEffectProps {
   phrases: string[]
@@ -8,27 +9,6 @@ interface TypingEffectProps {
   className?: string
 }
 
-/** Whether the device asks for reduced motion; read once, then kept current on change. */
-function usePrefersReducedMotion(): boolean {
-  const [reduced, setReduced] = useState(
-    () =>
-      typeof window !== 'undefined' &&
-      typeof window.matchMedia === 'function' &&
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches,
-  )
-
-  useEffect(() => {
-    if (typeof window.matchMedia !== 'function') return
-    const query = window.matchMedia('(prefers-reduced-motion: reduce)')
-    const onChange = () => setReduced(query.matches)
-    onChange()
-    query.addEventListener('change', onChange)
-    return () => query.removeEventListener('change', onChange)
-  }, [])
-
-  return reduced
-}
-
 export function TypingEffect({
   phrases,
   typingSpeed = 50,
@@ -36,7 +16,7 @@ export function TypingEffect({
   pauseDuration = 2000,
   className,
 }: TypingEffectProps) {
-  const reducedMotion = usePrefersReducedMotion()
+  const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   const [text, setText] = useState('')
   const [phraseIndex, setPhraseIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)

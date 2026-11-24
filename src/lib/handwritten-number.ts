@@ -87,13 +87,14 @@ function inkFor(digit: number, sample: DigitSample): Ink {
 
 /**
  * The path data for one digit sample, one string per ink level (index 0 is level 1; an empty
- * string means no pixel has that level). Each pixel is a 1-by-1 square. Columns are counted from
- * the digit's first inked column, so a caller places the digit by moving it right by its
- * `offsetX` in a number, or by its `minX` to put it back where it lies in its own image. Rows are
- * the image's own rows.
+ * string means no pixel has that level), and the digit's first inked column in its own image.
+ * Each pixel is a 1-by-1 square. Columns are counted from the first inked column, so a caller
+ * places the digit by moving it right by its `offsetX` in a number, or by `minX` to put it back
+ * where it lies in its own image. Rows are the image's own rows.
  */
-export function digitPaths(digit: number, sample: DigitSample): string[] {
-  return inkFor(digit, sample).paths
+export function digitPaths(digit: number, sample: DigitSample): { minX: number; paths: string[] } {
+  const { minX, paths } = inkFor(digit, sample)
+  return { minX, paths }
 }
 
 /**

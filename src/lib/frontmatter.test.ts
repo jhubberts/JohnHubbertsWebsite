@@ -1,7 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
-import { parseFrontmatter } from './frontmatter'
+import { parseFrontmatter, postMeta } from './frontmatter'
 
 const wrap = (body: string) => `---\n${body}\n---\n\n# Heading\n`
 
@@ -54,5 +54,39 @@ describe('parseFrontmatter', () => {
         expect((data[key] as string).length, `${name} ${key}`).toBeGreaterThan(0)
       }
     }
+  })
+})
+
+describe('postMeta', () => {
+  it("reads a post's fields from its frontmatter", () => {
+    const source = wrap(
+      `title: 'Paying attention'\ndate: '2026-11-02'\ndescription: 'Words look at words.'\nseries: 'how-ai-works'\npart: 4\ndraft: true`,
+    )
+    expect(postMeta('paying-attention', source)).toEqual({
+      slug: 'paying-attention',
+      title: 'Paying attention',
+      date: '2026-11-02',
+      description: 'Words look at words.',
+      series: 'how-ai-works',
+      part: 4,
+      draft: true,
+    })
+  })
+
+  it('falls back to the slug for the title, and to empty text, when fields are missing', () => {
+    expect(postMeta('untitled', 'No frontmatter.')).toEqual({
+      slug: 'untitled',
+      title: 'untitled',
+      date: '',
+      description: '',
+      series: undefined,
+      part: undefined,
+      draft: false,
+    })
+  })
+
+  it('treats a field of the wrong type as absent', () => {
+    const meta = postMeta('odd', wrap(`title: 7\nseries: 3\npart: 'four'\ndraft: 'yes'`))
+    expect(meta).toMatchObject({ title: 'odd', series: undefined, part: undefined, draft: false })
   })
 })

@@ -2,7 +2,7 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource-variable/geist';
-@import '@fontsource-variable/source-serif-4/opsz.css';
+@import '@fontsource-variable/source-serif-4/wght.css';
 @plugin '@tailwindcss/typography';
 
 @custom-variant dark (&:is(.dark *));
@@ -148,8 +148,26 @@
 }
 
 /*
+ * The width of a page's content and the space kept clear at each side of it. `page-container`
+ * applies them; an article's wide blocks are sized from them too.
+ */
+:root {
+  --page-max-width: 56rem;
+  --page-gutter: 1rem;
+}
+
+@utility page-container {
+  margin-inline: auto;
+  max-width: var(--page-max-width);
+  padding-inline: var(--page-gutter);
+}
+
+/*
  * A blog article: the words you read. Serif, larger than the interface text, and about 68
  * characters to a line (63ch, because an average letter is narrower than the "0" that ch measures).
+ *
+ * These article rules sit outside every layer on purpose: the typography plugin puts `.prose` and
+ * its heading rules in the utilities layer, and only rules outside the layers reliably override it.
  */
 .article-prose {
   font-family: var(--font-serif);
@@ -160,7 +178,6 @@
 }
 
 .article-prose :where(h1, h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
-  font-family: var(--font-serif);
   font-weight: 600;
   letter-spacing: -0.01em;
   text-wrap: balance;
@@ -169,27 +186,21 @@
 .article-prose :where(h1):not(:where(.not-prose, .not-prose *)) {
   margin-top: 0;
   margin-bottom: 1.25rem;
-  font-size: 2.125rem;
-  line-height: 1.1;
 }
 
 @media (min-width: 768px) {
   .article-prose {
     font-size: 1.1875rem;
   }
-
-  .article-prose :where(h1):not(:where(.not-prose, .not-prose *)) {
-    font-size: 2.75rem;
-  }
 }
 
 /*
- * Lets a block inside an article be wider than the text, up to 54rem, centred on the text. On a
- * phone the block's own classes decide its width.
+ * Lets a block inside an article be wider than the text, up to the page's content width (54rem),
+ * centred on the text. On a phone the block's own classes decide its width.
  */
 @media (min-width: 640px) {
   .article-breakout {
-    margin-inline: calc((min(100vw - 2rem, 54rem) - 100%) / -2);
+    margin-inline: calc((min(100vw, var(--page-max-width)) - 2 * var(--page-gutter) - 100%) / -2);
   }
 }
 
@@ -210,8 +221,9 @@ body:has([data-series-bar]) [data-site-nav] {
   position: static;
 }
 
-/* The title at the top of a page that is not an article. It matches an article's title. */
-.page-title {
+/* The title at the top of a page that is not an article, and the title of an article. */
+.page-title,
+.article-prose :where(h1):not(:where(.not-prose, .not-prose *)) {
   font-family: var(--font-serif);
   font-size: 2.125rem;
   font-weight: 600;
@@ -221,9 +233,15 @@ body:has([data-series-bar]) [data-site-nav] {
 }
 
 @media (min-width: 768px) {
-  .page-title {
+  .page-title,
+  .article-prose :where(h1):not(:where(.not-prose, .not-prose *)) {
     font-size: 2.75rem;
   }
+}
+
+/* The small capitalised line above a title or a card, such as "Series · 10 chapters". */
+@utility eyebrow {
+  @apply text-muted-foreground text-xs font-semibold tracking-[0.08em] uppercase;
 }
 
 /*

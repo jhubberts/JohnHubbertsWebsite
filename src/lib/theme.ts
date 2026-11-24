@@ -7,9 +7,11 @@
  * the two in step, including the colours below.
  */
 
+import { browserStorage, type ReadStorage } from './browser-storage'
+
 export type Theme = 'light' | 'dark'
 
-export const THEME_STORAGE_KEY = 'theme'
+const THEME_STORAGE_KEY = 'theme'
 
 /**
  * The page background of each theme (`--background` in src/index.css) as hex, for the
@@ -20,16 +22,7 @@ export const THEME_COLORS: Record<Theme, string> = {
   dark: '#090b12',
 }
 
-type ReadStorage = Pick<Storage, 'getItem'>
 type WriteStorage = Pick<Storage, 'setItem'>
-
-function browserStorage(): Storage | null {
-  try {
-    return typeof window === 'undefined' ? null : window.localStorage
-  } catch {
-    return null
-  }
-}
 
 /** The theme the reader chose with the button on this device, or null if they never chose. */
 export function storedTheme(storage: ReadStorage | null = browserStorage()): Theme | null {

@@ -110,7 +110,7 @@ function el(
 function numberDataUrl(layout: NumberLayout): string {
   const groups = layout.digits.map((placed) => {
     const paths = digitPaths(placed.digit, placed.sample)
-      .map((d, i) =>
+      .paths.map((d, i) =>
         d ? `<path d="${d}" fill-opacity="${+((i + 1) / INK_LEVELS).toFixed(3)}"/>` : '',
       )
       .join('')
