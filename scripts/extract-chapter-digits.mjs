@@ -1,7 +1,7 @@
 /**
  * Writes src/lib/chapter-digits.json: real handwritten digits used to draw chapter numbers. The
  * digits are 28-by-28 images from the MNIST test set, taken from the sample file the chapter 2
- * interactive already uses. That file holds two images of each digit: `digits` is the first of
+ * interactive uses. That file holds two images of each digit: `digits` is the first of
  * each and `alternates` is the second, so a number such as 11 can be drawn from two different
  * handwritten 1s.
  *

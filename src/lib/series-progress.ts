@@ -60,11 +60,12 @@ export function markChapterRead(
   part: number,
   storage: ReadWriteStorage | null = browserStorage(),
 ): void {
-  const current = readChapters(seriesSlug, storage)
+  const raw = rawStored(storage)
+  const current = partsInStored(raw, seriesSlug)
   if (!Number.isInteger(part) || part < 0 || current.includes(part)) return
   try {
     // Entries for other series are kept as they are.
-    const store = parseStore(rawStored(storage))
+    const store = parseStore(raw)
     store[seriesSlug] = [...current, part].sort((a, b) => a - b)
     storage?.setItem(SERIES_PROGRESS_KEY, JSON.stringify(store))
   } catch {

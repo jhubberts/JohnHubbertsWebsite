@@ -3,6 +3,17 @@
  * files, so the sizing can be tested directly; scripts/build-previews.ts draws the numbers.
  */
 import type { NumberLayout } from '@/lib/handwritten-number'
+import { PICTURE_PADDING, PICTURE_WIDTH } from './preview-pages'
+
+/** The width of the picture inside its padding. */
+export const CONTENT_WIDTH = PICTURE_WIDTH - 2 * PICTURE_PADDING
+
+/**
+ * A chapter's number sits in a square box at the right of its picture, 20px clear of the title
+ * column. A one-digit number is drawn as tall as the box; a wider number is scaled down to the
+ * box's width.
+ */
+export const CHAPTER_NUMBER_BOX = 360
 
 export interface Size {
   width: number
@@ -74,6 +85,18 @@ function splitIntoRows(
     end = start
   }
   return { rows, widest: best[rowCount][n] }
+}
+
+/**
+ * How a series' chapter numbers are arranged under its title: 84px tall when they fit in one row,
+ * smaller when they do not, and moved onto more rows rather than shrunk below 48px. The space
+ * between two numbers, and between two rows, is 0.3 of their height.
+ */
+export const SERIES_NUMBER_OPTIONS: NumberRowsOptions = {
+  maxWidth: CONTENT_WIDTH,
+  height: 84,
+  minHeight: 48,
+  gapRatio: 0.3,
 }
 
 /**

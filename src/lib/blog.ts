@@ -93,7 +93,7 @@ export function getSeriesPosts(seriesSlug: string): BlogPost[] {
     .sort((a, b) => (a.part ?? 0) - (b.part ?? 0))
 }
 
-/** The visible posts of a series by chapter number. When two posts share a number, the first wins. */
+/** The visible posts of a series by chapter number; when two share a number, the first wins. */
 export function getSeriesPostsByPart(seriesSlug: string): Map<number, BlogPost> {
   const byPart = new Map<number, BlogPost>()
   for (const post of getSeriesPosts(seriesSlug)) {

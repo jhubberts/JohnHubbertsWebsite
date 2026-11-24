@@ -88,9 +88,9 @@ function inkFor(digit: number, sample: DigitSample): Ink {
 /**
  * The path data for one digit sample, one string per ink level (index 0 is level 1; an empty
  * string means no pixel has that level), and the digit's first inked column in its own image.
- * Each pixel is a 1-by-1 square. Columns are counted from the first inked column, so a caller
- * places the digit by moving it right by its `offsetX` in a number, or by `minX` to put it back
- * where it lies in its own image. Rows are the image's own rows.
+ * Each pixel is a 1-by-1 square. Columns count from the first inked column, so a caller moves the
+ * digit right by its `offsetX` to place it in a number, or by `minX` to put it where it lies in
+ * its own image. Rows are the image's own rows.
  */
 export function digitPaths(digit: number, sample: DigitSample): { minX: number; paths: string[] } {
   const { minX, paths } = inkFor(digit, sample)

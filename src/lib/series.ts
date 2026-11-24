@@ -49,6 +49,6 @@ export function getAllSeries(): Series[] {
 }
 
 /** The series' short title where it has one, otherwise its full title. */
-export function seriesShortName(series: Series): string {
-  return series.shortTitle ?? series.title
+export function seriesShortName(entry: Series): string {
+  return entry.shortTitle ?? entry.title
 }

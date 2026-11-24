@@ -36,20 +36,6 @@ function stringField(value: FrontmatterValue | undefined): string | undefined {
   return typeof value === 'string' ? value : undefined
 }
 
-/** Reads a post's fields from the text of its MDX file. A field of the wrong type counts as absent. */
-export function postMeta(slug: string, source: string): PostMeta {
-  const meta = parseFrontmatter(source)
-  return {
-    slug,
-    title: stringField(meta.title) ?? slug,
-    date: stringField(meta.date) ?? '',
-    description: stringField(meta.description) ?? '',
-    series: stringField(meta.series),
-    part: typeof meta.part === 'number' ? meta.part : undefined,
-    draft: meta.draft === true,
-  }
-}
-
 /**
  * Parses the leading `---` block of an MDX file. Supports `key: value` lines whose value is a
  * quoted or bare string, a whole number, or `true`/`false`. Returns an empty object when the text
@@ -64,4 +50,21 @@ export function parseFrontmatter(text: string): Frontmatter {
     if (parts) result[parts[1]] = parseValue(parts[2] ?? '')
   }
   return result
+}
+
+/**
+ * Reads a post's fields from the text of its MDX file. A field of the wrong type counts as
+ * absent.
+ */
+export function postMeta(slug: string, source: string): PostMeta {
+  const meta = parseFrontmatter(source)
+  return {
+    slug,
+    title: stringField(meta.title) ?? slug,
+    date: stringField(meta.date) ?? '',
+    description: stringField(meta.description) ?? '',
+    series: stringField(meta.series),
+    part: typeof meta.part === 'number' ? meta.part : undefined,
+    draft: meta.draft === true,
+  }
 }

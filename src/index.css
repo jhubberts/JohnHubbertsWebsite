@@ -163,8 +163,8 @@
 }
 
 /*
- * A blog article: the words you read. Serif, larger than the interface text, and about 68
- * characters to a line (63ch, because an average letter is narrower than the "0" that ch measures).
+ * The text of a blog article. Serif, larger than the interface text, and about 68 characters to a
+ * line (63ch, because an average letter is narrower than the "0" that ch measures).
  *
  * These article rules sit outside every layer on purpose: the typography plugin puts `.prose` and
  * its heading rules in the utilities layer, and only rules outside the layers reliably override it.
@@ -195,8 +195,9 @@
 }
 
 /*
- * Lets a block inside an article be wider than the text, up to the page's content width (54rem),
- * centred on the text. On a phone the block's own classes decide its width.
+ * Lets a block inside an article be wider than the text, up to the page's content width
+ * (`--page-max-width` less both gutters, 54rem), centred on the text. On a phone the block's own
+ * classes decide its width.
  */
 @media (min-width: 640px) {
   .article-breakout {
@@ -205,7 +206,7 @@
 }
 
 @layer base {
-  /* Things you operate keep the interface typeface and size, whatever the article around them uses. */
+  /* Interactive blocks keep the interface typeface and size, whatever the article around them uses. */
   .article-prose .not-prose {
     font-family: var(--font-sans);
     font-size: 1rem;

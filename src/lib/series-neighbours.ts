@@ -1,4 +1,4 @@
-import type { PlannedChapter } from './series'
+import type { PlannedChapter } from '@/lib/series'
 
 /**
  * The chapters just before and just after `part` in a series, by chapter number. A part that is not

@@ -13,6 +13,8 @@ export const SITE_TITLE = 'John Hubberts'
 export const SITE_DESCRIPTION = "John Hubberts' Personal Website"
 export const PICTURE_WIDTH = 1200
 export const PICTURE_HEIGHT = 630
+/** The space between the picture's edge and its text, on every side. */
+export const PICTURE_PADDING = 80
 
 export const BLOCK_START = '<!-- preview:start -->'
 export const BLOCK_END = '<!-- preview:end -->'

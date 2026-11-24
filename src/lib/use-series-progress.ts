@@ -3,8 +3,8 @@ import { SERIES_PROGRESS_KEY, markChapterRead, partsInStored, rawStored } from '
 
 const EMPTY: ReadonlySet<number> = new Set()
 
-// Components in this tab to tell when a chapter is recorded. The browser's `storage` event only
-// reaches other tabs.
+// Callbacks of the components in this tab that use the hook, called when a chapter is recorded
+// here. The browser's `storage` event only reaches other tabs.
 const listeners = new Set<() => void>()
 
 function subscribe(listener: () => void): () => void {
@@ -32,7 +32,10 @@ function snapshot(seriesSlug: string): ReadonlySet<number> {
   return set
 }
 
-/** The chapters of a series read on this device, and a way to record one. Updates every component using it. */
+/**
+ * The chapters of a series read on this device, and a function that records one. Recording a
+ * chapter re-renders every component using the hook.
+ */
 export function useSeriesProgress(seriesSlug: string): {
   read: ReadonlySet<number>
   markRead: (part: number) => void

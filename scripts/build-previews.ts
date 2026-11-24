@@ -13,11 +13,18 @@ import satori, { type SatoriNode } from 'satori'
 import { initWasm, Resvg } from '@resvg/resvg-wasm'
 import { digitPaths, INK_LEVELS, layoutNumber, type NumberLayout } from '@/lib/handwritten-number'
 import { getAllSeries } from '@/lib/series'
-import { arrangeNumberRows, fitNumber } from './preview-numbers'
+import {
+  arrangeNumberRows,
+  CHAPTER_NUMBER_BOX,
+  CONTENT_WIDTH,
+  fitNumber,
+  SERIES_NUMBER_OPTIONS,
+} from './preview-numbers'
 import {
   headTags,
   listPages,
   PICTURE_HEIGHT,
+  PICTURE_PADDING,
   PICTURE_WIDTH,
   replacePreviewBlock,
   sitemap,
@@ -66,19 +73,8 @@ const COLORS = {
   muted: oklchToHex(0.5, 0.03, 270),
 }
 
-const PADDING = 80
-const CONTENT_WIDTH = PICTURE_WIDTH - 2 * PADDING
-const CONTENT_HEIGHT = PICTURE_HEIGHT - 2 * PADDING
+const CONTENT_HEIGHT = PICTURE_HEIGHT - 2 * PICTURE_PADDING
 const CHAPTER_TITLE_WIDTH = 660
-// A chapter's number sits in a box at the right, 20px clear of the title column. A one-digit
-// number is drawn as tall as the box; a wider number is scaled down to the box's width.
-const CHAPTER_NUMBER_BOX = 360
-// A series' chapter numbers are drawn 84px tall when they fit in one row, smaller when they do not,
-// and move onto more rows rather than shrink below 48px.
-const SERIES_NUMBER_HEIGHT = 84
-const SERIES_NUMBER_MIN_HEIGHT = 48
-// The space between two chapter numbers, and between two rows of them, per pixel of their height.
-const SERIES_NUMBER_GAP_RATIO = 0.3
 // Title sizes tried from largest to smallest; the first that fits is used.
 const TITLE_SIZES = [76, 64, 54, 46]
 const TITLE_LINE_HEIGHT = 1.1
@@ -163,12 +159,7 @@ function chapterNumber(part: number): Element {
 /** A series' chapter numbers in one or more rows, for under the title. */
 function seriesNumbers(parts: number[]): Element {
   const layouts = parts.map(chapterLayout)
-  const { rows, height, gap } = arrangeNumberRows(layouts, {
-    maxWidth: CONTENT_WIDTH,
-    height: SERIES_NUMBER_HEIGHT,
-    minHeight: SERIES_NUMBER_MIN_HEIGHT,
-    gapRatio: SERIES_NUMBER_GAP_RATIO,
-  })
+  const { rows, height, gap } = arrangeNumberRows(layouts, SERIES_NUMBER_OPTIONS)
   return el(
     'div',
     { display: 'flex', flexDirection: 'column', marginTop: 36 },
@@ -189,8 +180,8 @@ function seriesNumbers(parts: number[]): Element {
 
 /**
  * The whole picture at one title size. The text column holds the small line, the title and (for a
- * series) its chapters' numbers at the top, and the domain name at the bottom. The `top` and `title`
- * keys let fitTitle measure the laid-out sizes.
+ * series) its chapters' numbers at the top, and the domain name at the bottom. The `top`, `title` and
+ * `domain` keys let renderSvg measure the laid-out sizes.
  */
 function pictureTree(picture: Picture, titleSize: number): Element {
   const columnWidth = picture.kind === 'chapter' ? CHAPTER_TITLE_WIDTH : CONTENT_WIDTH
@@ -256,7 +247,7 @@ function pictureTree(picture: Picture, titleSize: number): Element {
       alignItems: 'center',
       width: PICTURE_WIDTH,
       height: PICTURE_HEIGHT,
-      padding: PADDING,
+      padding: PICTURE_PADDING,
       boxSizing: 'border-box',
       backgroundColor: COLORS.background,
     },

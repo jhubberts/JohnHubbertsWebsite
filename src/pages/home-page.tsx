@@ -38,7 +38,7 @@ const links = [
   },
 ]
 
-/** The card that leads into a series. Its own component so the progress hook is always called. */
+/** The card that links to a series. Separate from HomePage so the progress hook is not called conditionally. */
 function FeaturedSeries({ series }: { series: Series }) {
   const { read } = useSeriesProgress(series.slug)
   const parts = series.chapters.map((chapter) => chapter.part)

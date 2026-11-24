@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react'
 import { ChapterDigit } from '@/components/blog/handwritten-digit'
 import { getSeriesPostsByPart, type BlogPost } from '@/lib/blog'
 import { formatPostDate } from '@/lib/format-date'
-import { getSeries, type PlannedChapter } from '@/lib/series'
+import { getSeries, type PlannedChapter, type Series } from '@/lib/series'
 import { seriesNeighbours } from '@/lib/series-neighbours'
 import { useSeriesProgress } from '@/lib/use-series-progress'
 import { cn } from '@/lib/utils'
@@ -123,23 +123,20 @@ function NextCard({
 
 function SeriesChapterEnd({
   post,
-  seriesSlug,
+  series,
   part,
 }: {
   post: BlogPost
-  seriesSlug: string
+  series: Series
   part: number
 }) {
-  const series = getSeries(seriesSlug)
-  const { read, markRead } = useSeriesProgress(seriesSlug)
+  const { read, markRead } = useSeriesProgress(series.slug)
   const isRead = read.has(part)
   // The chapter counts as read once the reader scrolls to its end.
   const endRef = useOnceInView<HTMLDivElement>(!isRead, '0px', () => markRead(part))
 
-  if (!series) return <PlainPostEnd post={post} />
-
   const { previous, next } = seriesNeighbours(series.chapters, part)
-  const postsByPart = getSeriesPostsByPart(seriesSlug)
+  const postsByPart = getSeriesPostsByPart(series.slug)
   const previousPost = previous && postsByPart.get(previous.part)
 
   return (
@@ -194,8 +191,11 @@ function PlainPostEnd({ post }: { post: BlogPost }) {
  * and a link back to the blog.
  */
 export function ChapterEnd({ post }: { post: BlogPost }) {
-  if (post.series && post.part !== undefined) {
-    return <SeriesChapterEnd post={post} seriesSlug={post.series} part={post.part} />
+  // A post that names a series the site does not define ends like any other post, and nothing is
+  // recorded for it.
+  const series = post.series ? getSeries(post.series) : undefined
+  if (series && post.part !== undefined) {
+    return <SeriesChapterEnd post={post} series={series} part={post.part} />
   }
   return <PlainPostEnd post={post} />
 }
