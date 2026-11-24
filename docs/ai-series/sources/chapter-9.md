@@ -20,7 +20,7 @@ it may identify the series' reader.
 | Claude asked before the download, with size and source; 65 openings, nine left out | verified | Session record; `docs/ai-series/sources/chapter-3.md` |
 | The touch-drag fault was found by John on his phone; earlier checks used a mouse or simulated touches | verified | Session record |
 | Readers found the chapter 4 contradiction, corrected chapter 2's biology, proposed the counselor comparison | verified | Round 1 reports |
-| "Thirteen pretend readers in all" | verified | Three in round 1, three in round 2, one re-read of chapter 4, and three rounds of two for chapter 9 |
+| "Fifteen pretend readers in all" | verified | Three in round 1, three in round 2, one re-read of chapter 4, three rounds of two for chapter 9, and one round of two for chapters 9 and 10 |
 | Chapter 4 "cut by about a third" | verified | 1,106 words on the page before, 755 after |
 | Nothing was published until John said so, each time | verified | Session record |
 | The harness setting: no stop for routine work; a second AI model reviews each action and blocks risky ones; the company says this does not guarantee safety; a stricter setting exists | verified through a summarizing fetch | The session ran in permission mode "auto" (session record). Claude Code documentation, permission modes page, read 2026-11-23: "A separate classifier model reviews actions before they run and blocks the ones it judges risky"; "does not guarantee safety". Exact wording not checked against the page itself |
@@ -61,3 +61,13 @@ setting and written instructions ("What it could touch") is accurate.
 | So the description is not used for training unless flagged for safety review | follows from chapter 5 | `docs/ai-series/sources/chapter-5.md`, Anthropic's published rules as read there |
 | He keeps his conversations and does not delete them | John's statement | He archives every session; archiving is not deleting |
 | Why he chose the setting: coding agents since 2023, grown trust, partly overconfidence, not hurt yet, questions it often | John's statement, reworded | His words: "I'm running on auto somewhat hubristically, but it has not bit me... I question whether or not it's a good idea often" |
+
+## After chapter 10 was added (2026-11-23)
+
+"Your three questions, again" moved to chapter 10. A second copy-edit and a fourth pair of readers
+followed. Changes: the harness is described as "a program on my computer. Its maker calls it Claude
+Code, but it is not Claude" (readers confused the two names every round); "I left the lock mostly
+open, with a second AI keeping watch" (a reader's own summary, and accurate to the setting); the
+model copied for chapter 3 is called "a small, old one, and not Claude" (GPT-2, 2019). Not acted
+on: a reader asked for one step the second model blocked that day; the session record was not
+examined for that.

@@ -63,7 +63,7 @@ export const BUILD_MOMENTS: BuildMoment[] = [
       'They said they would stop reading at chapter 4. Chapter 4 was then cut by about a third.',
     ],
     caughtBy: 'otherAi',
-    caughtDetail: 'Thirteen pretend readers in all. None of them was a person.',
+    caughtDetail: 'Fifteen pretend readers in all. None of them was a person.',
   },
   {
     id: 'publish',
@@ -93,7 +93,7 @@ export const BUILD_MOMENTS: BuildMoment[] = [
     title: 'A real model, as it really writes',
     johnSaid: 'Yes, download',
     body: [
-      'For chapter 3, Claude wanted to copy a real language model onto my computer and record what it wrote. It asked me first, and told me where the copy would come from.',
+      'For chapter 3, Claude wanted to copy a real language model onto my computer and record what it wrote. It was a small, old one, and not Claude. It asked me first, and told me where the copy would come from.',
       'The model was asked to continue 65 story openings. Nine of the results were sexual, violent or crude, because the model had practiced on text from the internet. They were left out, and chapter 3 says so.',
     ],
     caughtBy: 'asked',

@@ -14,7 +14,7 @@ const series: Series[] = [
   {
     slug: 'how-ai-works',
     title: 'I Used AI to Teach My 70-Something Mom How AI Works, From Scratch',
-    description: 'Ten short chapters. Each one has something to try with your finger.',
+    description: 'Eleven short chapters. Each one has something to try with your finger.',
     chapters: [
       { part: 0, title: 'Three questions my mom asked' },
       { part: 1, title: 'Rules versus examples' },
@@ -26,6 +26,7 @@ const series: Series[] = [
       { part: 7, title: 'Can it get out?' },
       { part: 8, title: 'What it costs' },
       { part: 9, title: 'How I used AI to build this' },
+      { part: 10, title: 'So is it worth it?' },
     ],
   },
 ]

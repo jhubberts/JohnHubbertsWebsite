@@ -601,7 +601,13 @@ guesses beside new answers. Three rounds of two blind readers read it; the fixes
 replay of one build session were not built, and the ownership section was written, verified and
 then cut for length.
 
-Chapters 0 to 9 are drafts.
+Chapter 10, "So is it worth it?", was added on 2026-11-23 after John said the series ended on a dire
+note and described the upside in his own words. It has "What one day made" (`what-one-day-made.tsx`,
+data in `src/lib/ai-series/making/made.ts`) and takes "Your three questions, again" from chapter 9.
+The series is now eleven chapters, 0 to 10, and chapter 0 says so. Sources:
+`docs/ai-series/sources/chapter-10.md`.
+
+John published chapters 0 to 9 on 2026-11-23 (`draft: false`).
 
 Spelling: John decided on 2026-11-23 that the series is in American English. Everything a reader
 sees was converted (spellings, day-first dates, "full stop" to "period", "marked" to "graded").

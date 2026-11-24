@@ -8,7 +8,6 @@ draft: false
 ---
 
 import { HowItWasBuilt } from '@/components/blog/how-ai-works/how-it-was-built'
-import { YourGuessesAfter } from '@/components/blog/how-ai-works/your-guesses-after'
 
 # How I used AI to build this
 
@@ -28,19 +27,19 @@ The AI made mistakes, and it sounded sure each time. The network in chapter 2 co
 
 Every mistake we know of was caught by checking, and usually by someone other than the writer. I caught two: the news story, and the page that slid under my finger. Other AIs caught more.
 
-Be careful with that. Most of the checking was done by more AI. That is closer to a lab checking its own paper than to outsiders checking it. AI checked the facts in chapters 1 to 8 against their sources. No human expert did. Each chapter links its sources so that you can check them.
+Be careful with that. More AI did most of the checking. That is closer to a lab checking its own paper than to outsiders checking it. AI checked the facts in chapters 1 to 8 against their sources. No human expert did. Each chapter links its sources so that you can check them.
 
 ## What it could touch
 
-In chapter 6 the harness decided which of the AI's requests were carried out. Picture it now as a locked medicine cabinet. An instruction to the AI is different. It is a note on the cabinet door that says "ask before taking", and the AI is the one reading it. A lock holds whatever the reader intends. A note works only if the reader follows it.
+In chapter 6 the harness decided which of the AI's requests were carried out. Picture it now as a locked medicine cabinet. An instruction to the AI is different. It is a note on the cabinet door that says "ask before taking", and the AI is the one reading it. A lock holds no matter what the reader intends. A note works only if the reader follows it.
 
-The lock was a program called Claude Code. Claude itself is at the company. Claude Code is on my computer and carries out Claude's requests there. The same company makes both.
+The lock was the harness, a program on my computer. Its maker calls it Claude Code, but it is not Claude. Claude is the AI, and it is on the company's computers. The harness carries out Claude's requests on mine. The same company makes both.
 
-A second AI checked each step. I did not. The work took several hundred steps, each one a request like those in chapter 6. I chose a setting that does not stop to ask me before each one. In that setting, a second AI model looks at each step and blocks the ones it judges risky. Chapter 6 did not describe this, and it is looser than the setting that asks every time. The company says it does not guarantee safety.
+I left the lock mostly open, with a second AI keeping watch. The work took several hundred steps, each one a request like those in chapter 6. I chose a setting that does not stop to ask me before each one. In that setting, a second AI model looks at each step and blocks the ones it judges risky. Chapter 6 did not describe this, and it is looser than the setting that asks every time. The company says this setting does not guarantee safety.
 
 Why did I choose that? I have used AI systems that write code since 2023. Over that time I learned where they fail, and I came to trust them more. Working this way is partly overconfidence. It has not hurt me yet, and I get a great deal of work done. I often question whether it is a good idea.
 
-The note kept it from publishing. Written instructions, some from me and some from the company, told it to ask before publishing anything and before copying anything large onto my computer. According to the saved record of our conversation, it asked every time. If it had not asked, I do not know whether the second model would have stopped it. That was never tested.
+The note kept it from publishing without asking. Written instructions, some from me and some from the company, told it to ask before publishing anything and before copying anything large onto my computer. According to the saved record of our conversation, it asked every time. If it had not asked, I do not know whether the second model would have stopped it. That was never tested.
 
 It could have reached more than this website's folder. A program started by the harness could have changed other files on my computer, or sent and fetched things over the internet. The second model's judgment and the note stood in the way. After chapter 7, I would not call that protection certain.
 
@@ -50,15 +49,9 @@ My first message described my mom in detail. As chapter 5 explained, that messag
 
 I use a personal plan, and I have turned off the setting that lets my chats be used to train models. So under those rules, the description of her is not used to build a future model, unless the conversation is flagged for safety review. I keep my conversations and do not delete them, so the company still has its copy.
 
-The code for this site is public, which means anyone on the internet can read it. So Claude wrote none of those details into the site's files. Before saving each set of changes, Claude searched it for those details. That search was the AI checking its own work. Because the files are public, anyone who reads code can check the files again.
+The code for this site is public, which means anyone on the internet can read it. So Claude wrote none of those details into the site's files. Before saving each set of changes, Claude searched it for those details. That search was the AI checking its own work.
 
 That is why this series says so little about her.
-
-## Your three questions, again
-
-In chapter 0 you guessed. Answer once more, and then compare.
-
-<YourGuessesAfter />
 
 **So who made this?** A person asked and corrected. An AI wrote. Other AIs checked the work, and so did I, with a phone. A harness and a few instructions set its limits. And the three questions were my mom's.
 
