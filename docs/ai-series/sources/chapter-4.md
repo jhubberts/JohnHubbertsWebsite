@@ -25,3 +25,33 @@ Checked on 2026-11-23 unless noted.
 | Companies do not usually publish the number for today's models | author's knowledge | No citation gathered. Check or soften. |
 
 Not built: the "How big" extra. The list of sizes in the chapter stands in for it.
+
+## Not only words (added 2026-11-23 at John's request)
+
+Researched by an agent on 2026-11-23 from primary sources; it checked, for each example, a primary
+statement that the system uses a transformer or attention. Popular examples that are not
+transformers (GraphCast and NOAA's AI models, GNoME) or could not be established (Insilico's drug,
+AlphaFold 3, any AI-designed protein in human trials) were left out on purpose.
+
+| Claim | Status | Basis |
+|---|---|---|
+| AlphaFold 2 is built on the transformer | verified | Nobel committee, scientific background, Oct 2024: "a transformer architecture was used, with the essential attention mechanism"; Jumper et al. 2021: "The Evoformer blocks contain a number of attention-based ... components" |
+| It has predicted almost all of the 200 million proteins known | verified | Nobel press release: "virtually all the 200 million proteins that researchers have identified" |
+| Two of its makers shared the 2024 Nobel Prize in Chemistry for it | verified | Hassabis and Jumper, one half, "for protein structure prediction". The other half went to David Baker for protein design, which the page does not attribute to the transformer |
+| AlphaGenome reads a million DNA letters at once, predicts the effect of changing one letter, and uses transformers | verified | DeepMind, June 2025: "transformers to communicate information across all positions in the sequence"; Nature, Jan 2026: "takes as input 1 Mb of DNA sequence" and variant-effect prediction |
+| ESM3 is a transformer trained on proteins; its new glowing protein shares 58% of its chain with the closest known one; it glows | verified | EvolutionaryScale: "ESM3 is a multi-track transformer"; Science, Jan 2025: "a bright fluorescent protein at a far distance (58% sequence identity) from known fluorescent proteins" |
+| ECMWF has run a model with a transformer inside since Feb 2025, beside its usual one, using about 1,000 times less energy per forecast | verified | AIFS paper: "a sliding window transformer processor" (graph network at both ends); ECMWF, 25 Feb 2025: "into operations today ... side by side with" IFS; "a reduction of approximately 1,000 times in energy use for making a forecast" |
+| RT-1, "Robotics Transformer", carried out 97 in 100 of more than 700 instructions it had practiced | verified | Project page: "RT-1, a Transformer-based model"; "On seen tasks, RT-1 is able to perform 97% of the more than 700 instructions successfully" |
+
+Note (2026-11-23): rows above for "Two games", the BERT and GPT-2 sizes, and "companies do not usually
+publish" describe text cut from the page; the page now says "We picked this example because it is
+the clearest", not "We went looking for it". AlphaGenome's wording "what changing one letter does to
+how genes are used" follows DeepMind's description of predicting gene regulation and variant
+effects. "Every part depends on others far away" is the writer's framing, consistent with
+AlphaGenome's "transformers to communicate information across all positions in the sequence".
+
+After the reader test (2026-11-23): the robots bullet now gives RT-1's result on things it had not
+seen (32 in 100) and its successor's (62 in 100), from Google DeepMind's RT-2 post, July 2023:
+"improved performance on previously unseen scenarios by the robot, from RT-1's 32% to 62%". Readers
+said 97 in 100 on practiced instructions alone overstated it. "Two amino acids far apart on a chain
+can end up touching once the protein folds" is general biology, added at a reader's suggestion.

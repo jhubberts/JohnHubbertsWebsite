@@ -27,6 +27,12 @@ const series: Series[] = [
       { part: 8, title: 'What it costs' },
       { part: 9, title: 'How I used AI to build this' },
       { part: 10, title: 'So is it worth it?' },
+      // Not written yet. John will write this one himself; until its page exists the series
+      // pages list it as "coming".
+      {
+        part: 11,
+        title: 'Epilogue: John Hubberts’ Very Human Thoughts About This Whole Thing',
+      },
     ],
   },
 ]

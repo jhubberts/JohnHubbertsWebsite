@@ -1,9 +1,13 @@
+import { useId, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from '@/components/ui/button'
 import { TryIt } from '@/components/ai-series/try-it'
 import { DAY_COUNTS, MADE_THINGS } from '@/lib/ai-series/making/made'
 
 /** Chapter 10: every interactive part of the series, each linking back to its chapter. */
 export function WhatOneDayMade() {
+  const [open, setOpen] = useState(false)
+  const listId = useId()
   return (
     <TryIt title="What one day made">
       <div className="space-y-4 text-base">
@@ -12,7 +16,16 @@ export function WhatOneDayMade() {
           one to go back to it.
         </p>
         <p className="font-bold">{MADE_THINGS.length} things to try.</p>
-        <ul className="border-y">
+        <Button
+          variant="outline"
+          aria-expanded={open}
+          aria-controls={listId}
+          onClick={() => setOpen(!open)}
+          className="h-auto min-h-12 w-full px-5 py-2 text-base whitespace-normal sm:w-auto"
+        >
+          {open ? 'Hide the list' : `Show all ${MADE_THINGS.length}`}
+        </Button>
+        <ul id={listId} hidden={!open} className="border-y">
           {MADE_THINGS.map((thing) => (
             <li key={`${thing.path}-${thing.title}`} className="border-b last:border-b-0">
               <Link

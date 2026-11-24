@@ -17,7 +17,7 @@ import { cn } from '@/lib/utils'
 const INTRO =
   'Two sentences that differ by one word. In the first, “it” is the animal. In the second, “it” is the street. Switch between them and watch which words “it” leans on.'
 const UNDER_WORDS =
-  'The number under each word is how much “it” leans on that word, out of 100. They do not add up to 100. The rest goes to two markers the model adds at the start and end of the sentence. “Show the full list” has every part.'
+  'The number under each word is how much “it” leans on that word, out of 100. The rest goes to hidden markers the model adds to every sentence. “Show the full list” has them.'
 const MARKERS = 'two invisible markers the model adds at the start and end of every sentence'
 const FOOTER = 'Real numbers from BERT, a language model from 2018, recorded for this page.'
 const FAILED = 'This did not load. Check your connection and reload the page.'

@@ -106,5 +106,8 @@ export const MADE_THINGS: MadeThing[] = [
 export const DAY_COUNTS: { count: number; what: string }[] = [
   { count: 2, what: 'real language models copied onto my computer and run there' },
   { count: 1, what: 'small network taught to read handwriting, in about 15 seconds' },
-  { count: 15, what: 'pretend readers who read the chapters before you did' },
+  {
+    count: 17,
+    what: 'pretend readers, other copies of Claude told to read as you would, who read the chapters before you did',
+  },
 ]

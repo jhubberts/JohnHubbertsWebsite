@@ -8,6 +8,7 @@ draft: false
 ---
 
 import { WhatTheModelReceives } from '@/components/blog/how-ai-works/what-the-model-receives'
+import { NoOneBigBrain } from '@/components/blog/how-ai-works/no-one-big-brain'
 
 # Inside a chat window
 
@@ -25,7 +26,17 @@ The model is a file of numbers. A file is a saved piece of information on a comp
 
 What makes a chat feel like a conversation is the document you just saw. Each time you send a message, the whole conversation so far is sent again, and the model continues it. A new chat starts a new document.
 
-Picture a counselor with no memory at all, who reads the whole case file from the top before every session. The model is that counselor. The company that runs it is the records office that keeps the file.
+Picture a counselor with no memory at all, who reads the full record of every session, word for word, before each new one. The model is that counselor. The company that runs it is the records office that keeps the file.
+
+## Is it a bunch of computers?
+
+Using a model to get an answer is called inference. Computer chips do it: a chip is the small part of a computer that does arithmetic, and inference is chips doing sums with the numbers in the model's file to rate the next word. That is what it means for a model to run. Building the model, by the practice in chapters 1 to 3, is called training.
+
+Where inference happens depends on the model's size. The network in chapter 2 is small, and it runs on the phone or tablet in your hand. Some phones now carry a small language model of their own. Claude is far too large for that, so it runs on the company's computers.
+
+<NoOneBigBrain />
+
+It is a great many computers, but not one mind. The company says it uses over a million chips of just one type to build and run Claude. Services like this run many copies of the same file, and each copy does the same job on its own.
 
 ## So where was my course?
 
@@ -37,15 +48,17 @@ Not inside the model.
 
 So the model does not have my course. The company did have a record of our conversation, and that is the part worth knowing about.
 
-I used Claude, which is made by a company called Anthropic. A caution first: an AI made by Anthropic wrote this paragraph about Anthropic, and the links at the bottom let you check it. These are its published rules as of November 2026. For its business products, conversations are not used to train its models (to adjust their numbers) unless the customer chooses to allow it. On its personal plans, you choose whether your chats can be used that way, except that conversations flagged for safety review can be used either way. It is like a counselor's confidentiality: it holds, with a stated exception. When you delete a conversation, it is removed from the company's storage within 30 days, with some exceptions, such as conversations flagged for breaking the rules. A conversation you do not delete is kept, and the rules I read give no fixed limit. Other companies have their own rules, and they are worth reading.
+I used Claude, which is made by a company called Anthropic. A caution first: an AI made by Anthropic wrote this part about Anthropic, and the links at the bottom let you check it. These are its published rules as of November 2026.
 
-## How we got here
+A conversation you do not delete is kept, and the rules I read give no fixed limit. When you delete one, it is removed from the company's storage within 30 days, with some exceptions, such as conversations flagged for breaking the rules.
 
-OpenAI was founded in December 2015. Anthropic was founded in January 2021 by seven people who had worked at OpenAI. OpenAI released ChatGPT on November 30, 2022, and it reached 100 million monthly users two months later. Claude was released in March 2023.
+On its personal plans, you choose whether your chats can be used to train its models (to adjust their numbers). Conversations flagged for safety review can be used either way. For its business products, conversations are not used to train its models unless the customer chooses to allow it. Other companies have their own rules, and they are worth reading.
 
 **So, is it in the AI?** Not in the model. The model is a fixed file, and nothing you send is written into it. What does exist is a record of the conversation, kept by the company that runs the model. Whether that record can be used later, when the company builds a new model, depends on its rules and your settings. So the plain answer is: not now, and possibly later, if the rules and settings allow it.
 
 ## Sources
 
 - Anthropic's Privacy Center, read on November 23, 2026: [how long personal-plan data is stored](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data), [whether personal-plan data is used for training](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training), [how long an organization's data is stored](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data), and [whether an organization's data is used for training](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training).
-- Dates: Wikipedia's articles on [OpenAI](https://en.wikipedia.org/wiki/OpenAI), [Anthropic](https://en.wikipedia.org/wiki/Anthropic), [ChatGPT](https://en.wikipedia.org/wiki/ChatGPT) and [Claude](<https://en.wikipedia.org/wiki/Claude_(language_model)>).
+- Inference and training: IBM, [What is AI inference?](https://www.ibm.com/think/topics/ai-inference). A model on a phone: Apple, [Apple's on-device foundation model](https://machinelearning.apple.com/research/apple-foundation-models-2025-updates), 2025.
+- One model across 16 chips: vLLM, [Announcing Llama 3.1 Support in vLLM](https://vllm.ai/blog/2024-07-23-llama31), July 2024. Many messages at once: Kwon and others, [Efficient Memory Management for Large Language Model Serving](https://arxiv.org/abs/2309.06180), 2023.
+- Over a million chips: Anthropic, [compute announcement](https://www.anthropic.com/news/anthropic-amazon-compute), April 2026. Where a request may run: Anthropic, [data residency](https://platform.claude.com/docs/en/manage-claude/data-residency).

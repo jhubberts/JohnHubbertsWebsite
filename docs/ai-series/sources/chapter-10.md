@@ -31,3 +31,28 @@ on "too much". Both said the ending was earned and both objected to "costs almos
 company-size sentence standing alone after chapter 8's jobs findings, and to the length of the list
 (now one compact line per item). Not acted on: one reader would cut the company-size sentence
 altogether; it stays because it is John's point, with the pointer to chapter 8 added.
+
+## It is not only me (added 2026-11-23 at John's request)
+
+Researched by an agent on 2026-11-23. Several quotations came through a summarizing fetch tool;
+paste-check before quoting directly (the page paraphrases).
+
+| Claim | Status | Basis |
+|---|---|---|
+| Mid-2026: 90 in 100 professional programmers used AI agents at work at least weekly, 68 daily | verified | JetBrains Research, Aug 2026: "As of May–July 2026, 90% of professional developers were using AI coding agents at work at least weekly ... with 68% using them daily." |
+| Google: 75 in 100 lines of new code are written by AI and approved by engineers; company figure | verified as Google's claim | Pichai, Cloud Next, Apr 22, 2026: "75% of all new code at Google is now AI-generated and approved by engineers" |
+| 2025 trial: experienced programmers took 19% longer while believing 20% faster | verified | METR, July 2025: "they take 19% longer"; "they still believed AI had sped them up by 20%". 16 developers, 246 tasks |
+| Early 2026 repeat: they think programmers are now faster but could not measure by how much | verified | METR, Feb 24, 2026: data is "an unreliable signal"; developers "are more sped up from AI tools now"; "only very weak evidence for the size" |
+| 2025: more distrust accuracy (46 in 100) than trust it (33 in 100) | verified | Stack Overflow 2025: "More developers actively distrust the accuracy of AI tools (46%) than trust it (33%)" |
+| US job postings for programmers about a fifth below early 2020; most of the recent rise for experienced people | verified | FRED IHLIDXUSTPSOFTDEVE = 81.7 on 2026-11-13 (Feb 2020 = 100). Indeed Hiring Lab, July 2026: "71% of the increase ... between May 2025 and May 2026 is from senior roles" |
+
+Left out on purpose: the 2023 Copilot "55.8% faster" lab result and the 26% field result (older
+completion tools); code-quality reports from vendors (GitClear, Veracode); METR time-horizon and
+SWE-bench figures (judged too technical for the reader).
+
+After the reader test (2026-11-23): the Google bullet was cut ("parts of its new code" was vague and
+is the company's own claim). The 2026 METR sentence now says they "could not get a reliable answer,
+though they now think programmers are faster", matching METR's "unreliable signal". Added in John's
+voice: "That trial is a warning about claims like mine. Those programmers felt faster and were
+slower, and I have not measured myself." This follows from his own "my own judgment, and not a
+measurement"; John has not yet seen it. "17 pretend readers": two more read chapters 4, 5 and 10.
