@@ -9,4 +9,5 @@ export const SITE_PAGES = {
   chordLibrary: { path: '/projects/guitar/chord-library', title: 'Chord Library' },
   skiArt: { path: '/projects/minimalist-ski-art', title: 'Minimalist Ski Art' },
   lickLibrary: { path: '/projects/guitar/lick-library', title: 'Lick Library' },
+  filmRoom: { path: '/projects/film-room', title: 'Film Room' },
 } as const satisfies Record<string, { path: string; title: string }>

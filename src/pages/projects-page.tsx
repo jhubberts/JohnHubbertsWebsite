@@ -1,9 +1,16 @@
 import { Link } from 'react-router-dom'
-import { Guitar, BarChart3, Mountain, ArrowRight } from 'lucide-react'
+import { Guitar, BarChart3, Mountain, ArrowRight, Goal } from 'lucide-react'
 import { SITE_PAGES } from '@/lib/site-pages'
 import { useDocumentTitle } from '@/lib/use-document-title'
 
 const projects = [
+  {
+    title: 'Film Room',
+    description:
+      'Read an NFL defense before the snap. Call the coverage and the rush on a generated play, then watch it unfold with routes, zones and man matchups drawn in.',
+    icon: Goal,
+    to: '/projects/film-room',
+  },
   {
     title: "Dijkstra's Chord Progression",
     description:

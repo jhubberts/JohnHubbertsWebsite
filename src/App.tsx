@@ -112,6 +112,10 @@ export const routes: RouteObject[] = [
         lazy: page(() => import('@/components/ski-art/ski-art-page')),
       },
       {
+        path: 'projects/film-room',
+        lazy: page(() => import('@/components/film-room/film-room-page')),
+      },
+      {
         path: 'projects/guitar/lick-library',
         lazy: page(() => import('@/components/licks/lick-library-page')),
       },
