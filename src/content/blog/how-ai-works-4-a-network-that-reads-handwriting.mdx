@@ -35,6 +35,11 @@ The 25,818 numbers started out random. With random numbers, the network gets abo
 
 Then it <Term id="training">practiced</Term> on 60,000 handwritten digits, each shown with its right answer, and went through them many times over.[^mnist] After every small group of <Term id="example">examples</Term>, each of its numbers was nudged a little in whichever direction made its answers less wrong. For each number, arithmetic can tell whether a little more or a little less would have helped; this page skips how. No person chose any of the numbers.
 
+<JohnsThoughts>
+  This part may not make perfect sense right now, it will make more sense after [chapter
+  5](/blog/how-ai-works-5-where-the-examples-come-from).
+</JohnsThoughts>
+
 Move the slider to see the network at six points in its practice.
 
 <WatchItLearn />
@@ -48,6 +53,15 @@ Now draw something that is not a number.
 <FoolIt />
 
 Whatever you draw, the network names a digit. It has ten totals, one for each digit, and the biggest always wins. There is no eleventh total for "none of these". <Term id="chat-system">AI systems you can chat with</Term> have a similar habit: they always produce an answer, even when it is wrong.
+
+<JohnsThoughts>
+  There is no reason you could not train a model with an 11th total for "I am confused, none of
+  these". A neural network just takes X numbers in and emits Y numbers, and the people training the
+  network get to decide what those numbers are. Whether or not it makes sense or gives you good
+  results is up to the people training the model. In almost all cases there is not much use for a
+  value of "I have no idea" because that information is already encoded somewhere else, i.e. in none
+  of the digits independently having a high value.
+</JohnsThoughts>
 
 <aside className="bg-muted/40 my-8 rounded-lg border px-5 py-1">
 

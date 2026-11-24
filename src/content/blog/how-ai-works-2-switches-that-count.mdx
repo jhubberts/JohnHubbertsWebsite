@@ -19,6 +19,14 @@ As a row of switches. Each switch is either off or on, and a row of them can sta
 
 Off is written 0 and on is written 1. A single switch is called a bit.[^openlearn] Counting with only 0 and 1 is called binary. Each switch to the left is worth twice the one to its right, so eight switches cover every number from 0 to 255. A computer stores a letter as one of those numbers.
 
+<JohnsThoughts>
+  It ends up that once you have a way to express numbers, you can model everything as numbers as
+  long as the reader and writer agree. An image is just a bunch of pixel values. A song is just a
+  bunch of numbers describing a waveform that a media player can reconstruct as an analog signal
+  through your speaker. In computers, a time is just the number of milliseconds since January 1st,
+  1970, midnight UTC.
+</JohnsThoughts>
+
 ## Turing's machine on paper
 
 In 1936, a 23-year-old English mathematician, Alan Turing, described a machine that existed only on paper. It read and wrote symbols on a long paper tape, one square at a time, and decided what to do next from a table of <Term id="rule">rules</Term>.[^turing-1936]
@@ -48,6 +56,12 @@ In 1965, Gordon Moore, a chip engineer, noticed that the number of transistors a
 | Intel 4004, an early chip for calculators[^intel-4004] | 1971 | 2,300       |
 | Apple M4, in an iPad[^apple-m4]                        | 2024 | 28 billion  |
 | NVIDIA Blackwell, built to run AI[^blackwell]          | 2024 | 208 billion |
+
+<JohnsThoughts>
+  Around the time I started my adventure into learning about computing, Moore's law began to fail
+  due to thermodynamic limitations of transistors. Today transistors get smaller every year, but the
+  exponential growth of yore is long dead.
+</JohnsThoughts>
 
 A chip like these works through billions of steps a second.[^intel-clock] In each of those steps, the chip does something as small as adding two numbers or comparing them. Everything a computer does, including the AI in the rest of this series, is a long program of such small steps.
 

@@ -6,7 +6,12 @@ const ALL_OFF = [false, false, false, false, false, false, false, false]
 describe('eight switches', () => {
   it.each([
     [0, ALL_OFF, 'All off: 0', 'As a letter: (none)'],
-    [1, [false, false, false, false, false, false, false, true], 'Only the 1 switch is on: 1', 'As a letter: (none)'],
+    [
+      1,
+      [false, false, false, false, false, false, false, true],
+      'Only the 1 switch is on: 1',
+      'As a letter: (none)',
+    ],
     [65, [false, true, false, false, false, false, false, true], '64 + 1 = 65', 'As a letter: A'],
     [
       128,
