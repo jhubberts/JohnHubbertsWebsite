@@ -45,7 +45,7 @@ function SeriesContent({ series }: { series: Series }) {
           read={read}
           wrap
           className="mt-6 gap-1"
-          digitClassName="size-7 sm:size-9"
+          digitClassName="size-6 sm:size-9"
         />
         {start && startPost && (
           <div>
