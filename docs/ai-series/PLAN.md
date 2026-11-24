@@ -592,9 +592,16 @@ contradicted another, chapters 2, 4 and 8 too long, and bugs in the interactive 
   which waits on chapter 9; chapter 8 says nothing about carbon emissions; the word map's dots are
   about 8 pixels and hard to tap; chapter 4 has not been read by a blind reader since the cut.
 
-Chapters 0 to 8 are drafts. Chapter 9 (How I used AI to build this) is not started, by John's
-decision: it is written when everything else is finished. A record for it is kept in John's notes,
-outside this repository.
+Chapter 9, "How I used AI to build this", was written on 2026-11-23 when John asked for it, as one
+chapter (he allowed several parts; one keeps the "ten chapters" that chapter 0 promises). It has
+"How it was built" (`how-it-was-built.tsx`, eight moments from `src/lib/ai-series/making/moments.ts`)
+and "Your three questions, again" (`your-guesses-after.tsx`), which shows the reader's chapter 0
+guesses beside new answers. Three rounds of two blind readers read it; the fixes are reflected in
+`docs/ai-series/sources/chapter-9.md`. Of the plan's ideas for this chapter, "Who wrote what" and the
+replay of one build session were not built, and the ownership section was written, verified and
+then cut for length.
+
+Chapters 0 to 9 are drafts.
 
 Spelling: John decided on 2026-11-23 that the series is in American English. Everything a reader
 sees was converted (spellings, day-first dates, "full stop" to "period", "marked" to "graded").

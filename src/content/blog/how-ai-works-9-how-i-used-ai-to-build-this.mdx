@@ -1,0 +1,64 @@
+---
+title: 'How I used AI to build this'
+date: '2026-11-23'
+description: 'A person asked and corrected. An AI wrote every word. Here is how that went, including what the AI got wrong.'
+series: 'how-ai-works'
+part: 9
+draft: true
+---
+
+import { HowItWasBuilt } from '@/components/blog/how-ai-works/how-it-was-built'
+import { YourGuessesAfter } from '@/components/blog/how-ai-works/your-guesses-after'
+
+# How I used AI to build this
+
+**Who made this, then?**
+
+I did not write this series, and I did not write its code. An AI system called Claude did. I asked for things, chose between options, and said when something was wrong.
+
+The "I" in every chapter is me, John. The sentences are Claude's.
+
+It took one day. Here are eight moments from it.
+
+<HowItWasBuilt />
+
+## What those moments show
+
+The AI made mistakes, and it sounded sure each time. The network in chapter 2 could not say "I don't know". A chat system can write those words, and often does not.
+
+Every mistake we know of was caught by checking, and usually by someone other than the writer. I caught two: the news story, and the page that slid under my finger. Other AIs caught more.
+
+Be careful with that. Most of the checking was done by more AI. That is closer to a lab checking its own paper than to outsiders checking it. AI checked the facts in chapters 1 to 8 against their sources. No human expert did. Each chapter links its sources so that you can check them.
+
+## What it could touch
+
+In chapter 6 the harness decided which of the AI's requests were carried out. Picture it now as a locked medicine cabinet. An instruction to the AI is different. It is a note on the cabinet door that says "ask before taking", and the AI is the one reading it. A lock holds whatever the reader intends. A note works only if the reader follows it.
+
+The lock was a program called Claude Code. Claude itself is at the company. Claude Code is on my computer and carries out Claude's requests there. The same company makes both.
+
+A second AI checked each step. I did not. The work took several hundred steps, each one a request like those in chapter 6. I chose a setting that does not stop to ask me before each one. In that setting, a second AI model looks at each step and blocks the ones it judges risky. Chapter 6 did not describe this, and it is looser than the setting that asks every time. The company says it does not guarantee safety.
+
+The note kept it from publishing. Written instructions, some from me and some from the company, told it to ask before publishing anything and before copying anything large onto my computer. According to the saved record of our conversation, it asked every time. If it had not asked, I do not know whether the second model would have stopped it. That was never tested.
+
+It could have reached more than this website's folder. A program started by the harness could have changed other files on my computer, or sent and fetched things over the internet. The second model's judgment and the note stood in the way. After chapter 7, I would not call that protection certain.
+
+## What I kept private
+
+My first message described my mom in detail. As chapter 5 explained, that message went to the company that runs the model, along with the rest of the conversation. So did the description given to the pretend readers, which were other Claude models at the same company. The company's rules, from chapter 5, cover all of it.
+
+The code for this site is public, which means anyone on the internet can read it. So Claude wrote none of those details into the site's files. Before saving each set of changes, Claude searched it for those details. That search was the AI checking its own work. Because the files are public, anyone who reads code can check the files again.
+
+That is why this series says so little about her.
+
+## Your three questions, again
+
+In chapter 0 you guessed. Answer once more, and then compare.
+
+<YourGuessesAfter />
+
+**So who made this?** A person asked and corrected. An AI wrote. Other AIs checked the work, and so did I, with a phone. A harness and a few instructions set its limits. And the three questions were my mom's.
+
+## Sources
+
+- The moments above come from the saved record of the conversation in which the series was built, and from the public history of [this site's code](https://github.com/jhubberts/JohnHubbertsWebsite).
+- The harness setting: Claude Code's documentation on [permission modes](https://code.claude.com/docs/en/permission-modes), read on November 23, 2026.
