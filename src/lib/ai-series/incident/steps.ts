@@ -1,5 +1,5 @@
 /**
- * The July 2026 incident, as nine steps, for chapter 7.
+ * The July 2026 incident, as nine steps, for chapter 12.
  *
  * Every quotation is copied from one of the three reports in SOURCES, which were read on
  * November 23, 2026. Each step says whose account it is. Do not add a claim here without a

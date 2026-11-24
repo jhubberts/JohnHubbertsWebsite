@@ -1,32 +1,19 @@
-# Sources for chapter 1, "Rules versus examples"
+# Sources for chapter 1, "A machine that follows instructions" (new 2026-11-23)
 
-Every date, name, number and factual claim in the chapter, with where it comes from and whether it
-was checked. Checked on 2026-11-23 unless noted.
+Researched by an agent on 2026-11-23 from the Computer History Museum, the Science Museum (London),
+the Science Museum Group collection, MacTutor (St Andrews), and transcriptions of the 1843
+translation and notes. Each footnote on the page carries the URL. Britannica and Wikipedia not used.
 
-| Claim in the chapter | Status | Source |
+| Claim | Status | Basis |
 |---|---|---|
-| 100 real iris flowers of two species (50 setosa, 50 versicolor) | verified | `src/lib/ai-series/flowers/iris.json`, written by `tools/ai-series/fetch_iris.py` from `bezdekIris.data` at the UCI repository; the script checks 150 rows, 50 per species, and rows 1, 35 and 38 |
-| Edgar Anderson collected the measurements | verified, secondary source | Wikipedia, "Iris flower data set" |
-| Ronald Fisher published them in 1936 | verified, secondary source | Wikipedia, "Iris flower data set": "in his 1936 paper The use of multiple measurements in taxonomic problems" |
-| Each flower is placed by sepal length and sepal width | verified | `src/components/blog/how-ai-works/sort-the-flowers.tsx` |
-| On an iris the sepals are the three outer parts that spread or droop, called falls (an earlier draft said "the ones gardeners call falls"; the source does not mention gardeners) | verified, secondary source | Wikipedia, "Iris (plant)": "The three sepals, which are usually spreading or droop downwards, are referred to as 'falls'." |
-| The machine's line is three numbers, changed a little at each wrong flower | verified | `src/lib/ai-series/flowers/flowers.ts`, `nextCorrection` |
-| After 27 corrections no flower is on the wrong side | verified | `flowers.test.ts` asserts 27 and 100 of 100. The number depends on the starting line, step size and order, which are fixed. |
-| A straight line separates these two species on these two measurements, narrowly | verified | `flowers.test.ts`: a line that gets 100 of 100; the nearest flower is 0.12 cm from the widest-gap line (measured by the build agent, not asserted in a test) |
-| Frank Rosenblatt described this way of learning in 1958 | verified, secondary source | Wikipedia, "Perceptron" credits Rosenblatt's work at Cornell in 1957 and his 1958 paper |
-| The Mark I Perceptron was designed to recognise images | verified, secondary source | Wikipedia, "Perceptron": the Mark I Perceptron was "designed for image recognition" |
-| A single line can only separate things a line can separate | follows from the definition | |
-| The next chapter puts many lines together to read handwriting | verified | Chapter 2's network has 58 units, each of which adds up its inputs the way the line here does. An earlier draft said telling a 3 from an 8 "takes" many units; that was not measured and was removed. |
-| Every system in the rest of the series learns in the same basic way | author's summary | Chapter 2's network is trained by small corrections against examples (`tools/ai-series/train_digits.py`). Chapters 3 and 4 must bear this out when written. |
-
-Not used in the chapter, and not verified, so do not add without checking:
-
-- That the learning rule is guaranteed to find a separating line whenever one exists.
-- What the 1969 book "Perceptrons" by Minsky and Papert did to research funding.
-
-Before publishing:
-
-- Replace the Wikipedia citations with primary sources where the claim matters (Fisher 1936;
-  Rosenblatt 1958).
-- Check or reword the "not checked" row. The chapter does not say who built the Mark I Perceptron, because that was not in the text fetched.
-- The reader this is written for knows flowers. Have her read the sentence about sepals.
+| A program is a list of exact instructions | verified | Cambridge Dictionary, "program" |
+| Babbage began in 1821, to calculate and print tables without human error | verified | CHM "The Engines" and "Overview" |
+| Analytical Engine conceived 1834; would follow instructions on punched cards; a Store and a Mill | verified | CHM "The Engines" |
+| Jacquard loom, 1804–05, cards told it which threads to lift | verified | Science Museum Group, Jacquard hand loom; CHM gives a 1801 demonstration, so "about 1804" |
+| Only a trial piece built before Babbage died in 1871 | verified | Science Museum story |
+| Lovelace translated Menabrea's article in 1843 and added notes three times as long | verified | York University transcription; Babbage 1864 via MacTutor |
+| Note G: the Bernoulli numbers; often called the first computer program; authorship debated | verified | CHM "Ada Lovelace": "the first published description of a stepwise sequence of operations"; "biographers debate". Page says "what is often called the first computer program" |
+| "might act upon other things besides number"; music; "no pretensions whatever to originate anything" | verified (transcription) | Notes A and G |
+| Turing answered her in 1950 | verified | Turing 1950, section "Lady Lovelace's Objection" |
+| Difference Engine No. 2 built by the Science Museum: calculating part 1991, printer 2002; 8,000 parts; five tons; works | verified | CHM "A Modern Sequel" |
+| Program counts: 18 cards for 1 to 5; 303 for 1 to 100 | verified | `src/lib/ai-series/program/program.test.ts` |

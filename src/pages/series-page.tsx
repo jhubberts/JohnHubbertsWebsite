@@ -1,6 +1,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { ChapterDigit, SeriesDigitStrip } from '@/components/blog/handwritten-digit'
 import { buttonVariants } from '@/components/ui/button'
+import { GLOSSARY_PATH, GLOSSARY_SERIES } from '@/lib/ai-series/glossary'
 import { getSeriesPostsByPart } from '@/lib/blog'
 import { firstUnread } from '@/lib/series-progress'
 import { getSeries, type Series } from '@/lib/series'
@@ -101,6 +102,14 @@ function SeriesContent({ series }: { series: Series }) {
             )
           })}
         </ol>
+        {series.slug === GLOSSARY_SERIES && (
+          <Link
+            to={GLOSSARY_PATH}
+            className="text-muted-foreground mt-4 inline-flex min-h-11 items-center text-sm font-medium underline-offset-4 hover:underline"
+          >
+            Glossary
+          </Link>
+        )}
       </div>
     </div>
   )

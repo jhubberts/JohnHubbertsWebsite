@@ -1,0 +1,60 @@
+---
+title: 'Guess the next word'
+date: '2026-11-23'
+description: 'A language model does one thing: it rates what could come next. Try it against a real one.'
+series: 'how-ai-works'
+part: 6
+draft: false
+---
+
+import { YouBeTheAutocomplete } from '@/components/blog/how-ai-works/you-be-the-autocomplete'
+import { TheDice } from '@/components/blog/how-ai-works/the-dice'
+import { WordMap } from '@/components/blog/how-ai-works/word-map'
+
+# Guess the next word
+
+**How does it write?**
+
+One word at a time. The part of an AI system that works with words is called a language model. Like the <Term id="neural-network">network</Term> in chapter 4, it is a large set of numbers found by <Term id="training">practice</Term>, and it does a single thing. Given some text, it rates every word that could come next.
+
+Your phone does something like this. When you type a message on your phone, it offers you the next word above the keyboard. Try the same game against a real <Term id="model">model</Term>.
+
+<YouBeTheAutocomplete />
+
+A choice shown as one word may be several of the model's <Term id="word-piece">word pieces</Term> joined together. Most everyday words are one piece; long or unusual words are split into several.
+
+## What the game shows
+
+At each step, the model gave a number to every word that could come next. You picked one, and the model started again from the longer text.
+
+The model is rarely sure. Each list of choices ends with a row called "Every other word put together", and that row is often the biggest. At the first step, it holds 81, 90 and 86 in 100 for three of the five starting texts.[^recording]
+
+All of the writing is made of that one step. A page of text from a <Term id="chat-system">chat system</Term>, such as ChatGPT or Claude, is this step repeated hundreds of times.
+
+## Who picks the word?
+
+A separate step picks the word; the model only gives the ratings. The step works like rolling dice that are weighted by the ratings. It is an ordinary <Term id="program">program</Term>, and one setting controls how often it may pick a word other than the top one. If the step always takes the top word, the writing goes flat and repeats itself. If it sometimes takes a less likely word, the writing gets livelier. If it does that too often, the writing turns to nonsense.
+
+<TheDice />
+
+Because the step picks each word fresh, the same question can get two different answers.
+
+## Words as numbers
+
+Inside a model, every word is a list of numbers; a model cannot work with letters. The model on this page uses 768 numbers for each word.[^recording] No single number has a meaning that anyone gave it. What matters is which words have similar lists.
+
+Those numbers were found the way the numbers in chapters 3 and 4 were found: guess, check, adjust. Here the guess was the next word, and the <Term id="example">examples</Term> were eight million web pages.[^gpt2]
+
+Words that are used in similar ways end up with similar numbers. Psychologists know something like this from word-association tests, where "dog" brings "cat" to mind. Opposites often get similar numbers too, because they are used in the same kinds of sentence. Try "sad".
+
+<WordMap />
+
+The model on this page is called GPT-2. OpenAI, the company that makes ChatGPT, released it in 2019.[^gpt2] GPT-2 has about 124 million numbers, and its writing wanders.[^recording] The model that followed it a year later, GPT-3, had about 1,400 times as many numbers in all.[^gpt3]
+
+**So how does it write?** It rates every word that could come next. A separate step picks one word, and the model starts again from the longer text. Everything a chat system writes is made this way.
+
+[^recording]: Everything the model says on this page was recorded from GPT-2 by a script in this site's code. The model and its license are on its [page at Hugging Face](https://huggingface.co/gpt2).
+
+[^gpt2]: Wikipedia, [GPT-2](https://en.wikipedia.org/wiki/GPT-2): "first announced on 14 February 2019", trained on "a dataset of 8 million web pages".
+
+[^gpt3]: Wikipedia, [GPT-3](https://en.wikipedia.org/wiki/GPT-3): "GPT-3 has 175 billion parameters". The page worked out the comparison: 175 billion divided by GPT-2's 124,439,808 numbers is about 1,406.

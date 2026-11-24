@@ -1,0 +1,72 @@
+---
+title: 'A machine that follows instructions'
+date: '2026-11-23'
+description: 'Before AI, before electricity in computers, a machine was designed to follow a list of instructions. That list is a program.'
+series: 'how-ai-works'
+part: 1
+draft: false
+---
+
+import { BeTheComputer } from '@/components/blog/how-ai-works/be-the-computer'
+
+# A machine that follows instructions
+
+**What is a program?**
+
+A program is a list of exact instructions that a machine carries out, one at a time, in order.[^cambridge] Every computer you have used <Term id="run">runs</Term> programs. The idea is about 190 years old, and it began with a machine that was never built.
+
+## A machine of gears
+
+Charles Babbage, an English mathematician, set out in 1821 to build a machine of gears and wheels that would calculate tables of numbers and print them. In the 1820s, such tables were worked out by hand, and mistakes crept in. Babbage's machine would leave no person to make an error.[^chm-engines][^chm-overview]
+
+In 1834 he designed a second machine, the Analytical Engine, which would do whatever a set of instructions told it to do. His first machine, the Difference Engine, could do only one job: calculate tables.[^chm-engines] The Analytical Engine had two main parts:
+
+- **The store**, which held numbers.
+- **The mill**, which did the arithmetic on them.
+
+A computer today still has both parts. The store is now called memory, and the mill is now called a processor.
+
+The instructions were to be fed in on punched cards. Babbage took that idea from the Jacquard loom, a weaving machine from about 1804 whose chain of punched cards told it which threads to lift, row by row, to weave a pattern.[^chm-engines][^jacquard]
+
+Here is a program for a machine like that, written on six cards. You carry it out, one card at a time.
+
+<BeTheComputer />
+
+A machine carries out each card exactly, with no idea that the cards add up numbers. With the same six cards, it carries out 18 cards to add the numbers from 1 to 5, and 303 cards to add the numbers from 1 to 100.
+
+## The first published program
+
+Babbage never finished the Analytical Engine. Only a trial piece was built before he died in 1871.[^science-museum]
+
+In 1843, Ada Lovelace published what is often called the first computer program, for that unfinished engine. She was a mathematician and the daughter of the poet Lord Byron. That year she translated an Italian engineer's article about the engine and added her own notes, three times as long as the article.[^york][^mactutor] In the last note she laid out, step by step, how the engine could compute a series of numbers called the Bernoulli numbers. Historians still debate how much of the work was hers and how much Babbage's.[^chm-ada]
+
+Two of her ideas about the engine are still discussed today.
+
+- **It can work on more than numbers.** She wrote that the engine "might act upon other things besides number", and might even "compose elaborate and scientific pieces of music".[^notes]
+- **It cannot think of anything new.** She also wrote: "The Analytical Engine has no pretensions whatever to originate anything. It can do whatever we know how to order it to perform."[^notes] In 1950, Alan Turing, an English mathematician, took up her point in a paper on whether machines can think. Chapter 2 tells more about him.
+
+## A Babbage machine built from his drawings
+
+Babbage later drew up an improved version of his first machine, Difference Engine No. 2. The Science Museum in London built it from his drawings, finishing the calculating part in 1991 and the printer in 2002. It works as he intended. The finished machine has 8,000 parts and weighs five tons.[^chm-sequel]
+
+**So, what is a program?** A list of exact instructions that a machine follows one at a time, with no understanding of what they are for. Ada Lovelace published the first one in 1843, for a machine that was never built. Everything in the rest of this series, including today's AI, runs as programs on machines that follow instructions this way.
+
+[^cambridge]: Cambridge Dictionary, ["program"](https://dictionary.cambridge.org/dictionary/english/program): "a series of instructions that can be put into a computer in order to make it perform an operation".
+
+[^chm-engines]: Computer History Museum, ["The Engines"](https://www.computerhistory.org/babbage/engines/): begun in 1821; the Analytical Engine conceived in 1834; "programmable using punched cards, an idea borrowed from the Jacquard loom"; a "Store" and a "Mill".
+
+[^chm-overview]: Computer History Museum, ["Overview"](https://www.computerhistory.org/babbage/overview/): "to eliminate the risk of human error in the production of printed tables".
+
+[^jacquard]: Science Museum Group, [Jacquard hand loom](https://collection.sciencemuseumgroup.org.uk/objects/co8405056/jacquard-hand-loom): "first developed by Joseph Jacquard in France in 1804-1805"; the cards "gave the loom instructions to weave a pattern".
+
+[^science-museum]: Science Museum, ["Charles Babbage's Difference Engines and the Science Museum"](https://www.sciencemuseum.org.uk/objects-and-stories/charles-babbages-difference-engines-and-science-museum): "Only part of the machine as a trial piece was completed before Babbage's death in 1871."
+
+[^york]: Luigi Menabrea, "Sketch of the Analytical Engine", translated with notes by Ada Lovelace, Scientific Memoirs, volume 3, 1843; [transcription at York University](https://www.yorku.ca/pclassic/Lovelace/menabrea.htm).
+
+[^mactutor]: MacTutor, University of St Andrews, ["Augusta Ada King, Countess of Lovelace"](https://mathshistory.st-andrews.ac.uk/Biographies/Lovelace/), quoting Babbage: her notes "extend to about three times the length of the original memoir".
+
+[^chm-ada]: Computer History Museum, ["Ada Lovelace"](https://www.computerhistory.org/babbage/adalovelace/): "the first published description of a stepwise sequence of operations"; "biographers debate the extent and originality of Ada's contribution".
+
+[^notes]: Lovelace's notes A and G, in the [1843 translation](https://www.fourmilab.ch/babbage/sketch.html).
+
+[^chm-sequel]: Computer History Museum, ["A Modern Sequel"](https://www.computerhistory.org/babbage/modernsequel/): the calculating section finished in 1991 and the printer in 2002; "The completed machine works as Babbage intended. Its 8,000 parts ... It weighs five tons".

@@ -2,9 +2,8 @@
 
 Three test readers went through chapters 0 to 8 as the intended reader. The chapters were revised
 from what they could not follow. This file lists every claim the revisions added, by chapter, with
-its status, so that each can be checked before publishing. The comparisons to biology, psychology
-and therapy are the author's analogies, added because the reader the series is written for works in
-those fields; John approved such analogies on 2026-11-23. An analogy is marked "analogy" and is
+its status, so that each can be checked before publishing. The comparisons to science and everyday
+life are the author's analogies, which John approved on 2026-11-23. An analogy is marked "analogy" and is
 only meant to be apt, not exact.
 
 | Ch | Added | Status | Basis |

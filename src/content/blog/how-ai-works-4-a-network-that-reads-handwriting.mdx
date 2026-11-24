@@ -1,0 +1,83 @@
+---
+title: 'A network that reads handwriting'
+date: '2026-11-23'
+description: 'Draw a digit with your finger and watch a small neural network read it.'
+series: 'how-ai-works'
+part: 4
+draft: false
+---
+
+import { DrawADigit } from '@/components/blog/how-ai-works/draw-a-digit'
+import { WatchItLearn } from '@/components/blog/how-ai-works/watch-it-learn'
+import { FoolIt } from '@/components/blog/how-ai-works/fool-it'
+
+# A network that reads handwriting
+
+**What is a neural network, really?**
+
+A neural network is a list of numbers and a set of steps for adding them up. The one on this page reads handwritten digits. It <Term id="run">runs</Term> on the device you are holding, and your drawing never leaves that device.
+
+Draw a number in the box with your finger.
+
+<DrawADigit />
+
+## What just happened
+
+Nobody told this network what a 7 looks like. It has no <Term id="rule">rule</Term> that says "a 7 has a flat top". It has 25,818 numbers, and they do all the work.[^network-size]
+
+Tap "Show how it got there" under the box to follow each step. Your drawing is cut into a grid of 28 by 28 small squares, and each square becomes a number for how much ink is in it. That is 784 numbers. Small adding <Term id="unit">units</Term> combine them in two rounds, and the second round works on what the first passed on. Ten final units, one for each digit, each give a total, and the biggest total is the answer.
+
+Each unit does what the flower-sorting machine in chapter 3 did. It multiplies the numbers it gets by numbers of its own, and adds them up. This network is 58 of those units, joined together.[^network-size]
+
+## Where the numbers came from
+
+The 25,818 numbers started out random. With random numbers, the network gets about one digit in ten right, which is no better than guessing.[^training-script]
+
+Then it <Term id="training">practiced</Term> on 60,000 handwritten digits, each shown with its right answer, and went through them many times over.[^mnist] After every small group of <Term id="example">examples</Term>, each of its numbers was nudged a little in whichever direction made its answers less wrong. For each number, arithmetic can tell whether a little more or a little less would have helped; this page skips how. No person chose any of the numbers.
+
+Move the slider to see the network at six points in its practice.
+
+<WatchItLearn />
+
+After practice, it was tested on 10,000 digits it had never seen, and it got 9,725 of them right.[^training-script]
+
+## It cannot say "I don't know"
+
+Now draw something that is not a number.
+
+<FoolIt />
+
+Whatever you draw, the network names a digit. It has ten totals, one for each digit, and the biggest always wins. There is no eleventh total for "none of these". <Term id="chat-system">AI systems you can chat with</Term> have a similar habit: they always produce an answer, even when it is wrong.
+
+<aside className="bg-muted/40 my-8 rounded-lg border px-5 py-1">
+
+### Is this like a brain?
+
+The name comes from the brain, and the comparison is partly right.
+
+**Where it holds.** Like a real neuron, a unit takes in many signals, counts some more than others, and passes one signal on. In both, learning changes how strong the connections are.[^plasticity] In the pictures that "Show how it got there" opens, blue marks connections that raise a unit's total and orange marks connections that lower it, much as some synapses excite a nerve cell and others quiet it.
+
+**Where it stops.**
+
+- A real neuron fires all-or-nothing pulses, and signals "how much" by how fast it fires.[^neuron] A unit passes on a number.
+- Real neurons signal across a gap using chemicals.[^neuron] A unit is one line of arithmetic.
+- A brain builds connections and also removes them as it develops.[^pruning] This network's connections never change; only the numbers on them do.
+- A human brain has more than 86 billion neurons.[^brain] This network has 58 units.
+
+</aside>
+
+**So what is a neural network?** A set of numbers, found by practice on examples, that turns one list of numbers into another.
+
+[^network-size]: Counted from the network's layer sizes in this site's code: 784 inputs, 32 units, 16 units and 10 final units, which is 58 units. The numbers are 784 × 32 + 32 + 32 × 16 + 16 + 16 × 10 + 10 = 25,818.
+
+[^training-script]: Measured by the script that trained this network. The script is in this site's code. With its starting random numbers the network got 1,166 of 10,000 test digits right; after practice it got 9,725, measured with the same numbers the page uses.
+
+[^mnist]: The example digits are the MNIST collection: 60,000 for practice and 10,000 for testing, counted by the script that trained this network. It practiced in 20,000 rounds of 128 digits, about 43 times through the 60,000.
+
+[^neuron]: Wikipedia, [Neuron](https://en.wikipedia.org/wiki/Neuron): "an all-or-nothing electrochemical pulse called an action potential"; synapses "commonly use minute amounts of chemical neurotransmitters".
+
+[^plasticity]: Wikipedia, [Synaptic plasticity](https://en.wikipedia.org/wiki/Synaptic_plasticity): "the ability of synapses to strengthen or weaken over time".
+
+[^pruning]: Wikipedia, [Synaptic pruning](https://en.wikipedia.org/wiki/Synaptic_pruning): "Pruning starts near the time of birth and continues into one's late 20s."
+
+[^brain]: Wikipedia, [Human brain](https://en.wikipedia.org/wiki/Human_brain): "There are more than 86 billion neurons in the brain".

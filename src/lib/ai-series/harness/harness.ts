@@ -79,7 +79,7 @@ export const REQUESTS: readonly Request[] = [
     kind: 'email',
     effect: { type: 'sendEmails' },
     resultAllowed: 'The harness sent 40 emails.',
-    note: 'Nobody asked for this.',
+    note: 'This request was a mistake. Nobody asked for an email.',
   },
 ]
 

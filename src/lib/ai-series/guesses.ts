@@ -12,12 +12,23 @@ export const GUESS_QUESTIONS = [
     ],
   },
   {
-    id: 'getOut',
-    question: 'Is it trying to get out?',
-    detail: 'Could an AI system get out of the place where it is kept?',
+    id: 'computers',
+    question: 'Is it spread across a bunch of computers?',
+    detail: 'When you use an AI system, where is it? One machine, or many?',
     choices: [
-      { id: 'yes', label: 'Yes. It wants out and is looking for a way.' },
-      { id: 'no', label: 'No. That only happens in films.' },
+      { id: 'one', label: 'One giant computer somewhere.' },
+      { id: 'together', label: 'Many computers, joined into one big mind.' },
+      { id: 'copies', label: 'Many computers, each doing the job on its own.' },
+    ],
+  },
+  {
+    id: 'training',
+    question: 'What does “training the AI” mean?',
+    detail:
+      'Somebody I know saw a temporary job posting for “AI training”. Is training an AI like teaching a person?',
+    choices: [
+      { id: 'teaching', label: 'Yes. It is like teaching a student.' },
+      { id: 'typing', label: 'No. It is just typing facts in for it to store.' },
       { id: 'between', label: 'Something in between.' },
     ],
   },
@@ -29,6 +40,16 @@ export const GUESS_QUESTIONS = [
       { id: 'yes', label: 'Yes, whenever it likes.' },
       { id: 'no', label: 'No, it cannot.' },
       { id: 'ifLet', label: 'Only if someone lets it.' },
+    ],
+  },
+  {
+    id: 'getOut',
+    question: 'Is it trying to get out?',
+    detail: 'Could an AI system get out of the place where it is kept?',
+    choices: [
+      { id: 'yes', label: 'Yes. It wants out and is looking for a way.' },
+      { id: 'no', label: 'No. That only happens in films.' },
+      { id: 'between', label: 'Something in between.' },
     ],
   },
 ] as const

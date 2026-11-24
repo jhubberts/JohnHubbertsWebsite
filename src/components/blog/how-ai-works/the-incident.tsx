@@ -18,7 +18,7 @@ const SOURCE_BY_ID = Object.fromEntries(SOURCES.map((source) => [source.id, sour
   (typeof SOURCES)[number]
 >
 
-/** Chapter 7's interactive: the July 2026 incident, one step at a time, each in the reports' words. */
+/** Chapter 12's interactive: the July 2026 incident, one step at a time, each in the reports' words. */
 export function TheIncident() {
   const [index, setIndex] = useState(0)
   const headingRef = useRef<HTMLHeadingElement>(null)

@@ -1,9 +1,11 @@
 import { Suspense } from 'react'
-import { useParams } from 'react-router-dom'
+import { Navigate, useLocation, useParams } from 'react-router-dom'
+import { movedChapterSlug } from '@/lib/ai-series/old-addresses'
 import { getPostBySlug } from '@/lib/blog'
 import { Badge } from '@/components/ui/badge'
 import { ChapterDigit } from '@/components/blog/handwritten-digit'
 import { ChapterEnd } from '@/components/blog/chapter-end'
+import { mdxComponents } from '@/components/blog/mdx-components'
 import { SeriesBar } from '@/components/blog/series-bar'
 import { useDocumentTitle } from '@/lib/use-document-title'
 import { PagePlaceholder } from '@/components/layout/page-placeholder'
@@ -11,10 +13,14 @@ import NotFound from './not-found'
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
+  const { search, hash } = useLocation()
   const post = slug ? getPostBySlug(slug) : undefined
+  const moved = slug ? movedChapterSlug(slug) : undefined
 
   useDocumentTitle(post?.title)
 
+  // A chapter's address from before the series was renumbered goes on to its current address.
+  if (moved) return <Navigate replace to={{ pathname: `/blog/${moved}`, search, hash }} />
   if (!post) return <NotFound />
 
   // The series and chapter number when the post is a chapter of a series.
@@ -41,7 +47,7 @@ export default function BlogPost() {
               The end of the post sits inside the boundary, so it cannot record the chapter as read
               before the chapter is on the page. */}
           <Suspense key={post.slug} fallback={<PagePlaceholder />}>
-            <post.Component />
+            <post.Component components={mdxComponents} />
             <ChapterEnd post={post} />
           </Suspense>
         </article>

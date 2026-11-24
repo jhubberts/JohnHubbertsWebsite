@@ -1,73 +1,68 @@
-# Sources for chapter 9, "How I used AI to build this"
+# Sources for chapter 5, "From a research paper to a chat window"
 
-The chapter is written from the saved record of the session that built the series (on John's
-machine, not in this repository), this repository's history, and one outside document. Nothing in
-it may identify the series' reader.
+This file was renamed when the series was renumbered on 2026-11-23; chapter numbers inside it are
+the old ones (old 1 is now 3, 2 is 4, 3 is 6, 4 is 7, 5 is 9, 6 is 11, 7 is 12, 8 is 13, 9 is 14,
+10 is 15).
 
-## Claims
+Checked on 2026-11-23 unless noted.
+
+| Claim in the chapter | Status | Source |
+|---|---|---|
+| A language model rates every word that could come next | chapter 3's subject | Worded to match chapter 3 |
+| The model is a file of numbers and using it does not change it | author's knowledge | True of how these models are run: answering does not update the numbers. No citation gathered. Add one before publishing. |
+| Each message sends the whole conversation again, starting with instructions the user does not see | author's knowledge | How chat interfaces to these models work. No citation gathered. Add the provider's own documentation before publishing. |
+| The example conversation | written for the page | The page says so. The arithmetic is checked: half of 2 cups is 1 cup; half of 3/4 cup is 3/8 cup, which is 6 tablespoons; 1.5 times the recipe is 3 cups of flour and 1 and 1/8 cups of sugar. |
+| The word counts shown per turn | verified | Computed by `src/lib/ai-series/chat/chat-script.ts` and asserted in its test |
+| John's course was files on his laptop | John to confirm | Claude's assumption |
+| John used Claude, made by Anthropic | verified | This project |
+| Business products: not used for training unless the customer allows it | verified, primary source | Anthropic Privacy Center, "Is my data used for model training?" (commercial), page dated August 18, 2026: "By default, we will not use your inputs or outputs from our commercial products" |
+| Personal plans: you choose whether chats are used for training, except that conversations flagged for safety review can be used either way | verified, primary source | Anthropic Privacy Center, consumer training article, page dated March 16, 2026: "You choose to allow us to use your chats and coding sessions to improve Claude". The page also lists conversations flagged for safety review as used regardless; the chapter covers this under "exceptions" only for storage. See the note below. |
+| A deleted conversation is removed from storage within 30 days | verified, primary source | Both retention articles, pages dated July 1, 2026: deleted conversations are removed from back-end storage within 30 days |
+| Exceptions such as conversations flagged for breaking the rules | verified, primary source | Both retention articles: flagged content may be kept for up to 2 years |
+| OpenAI was founded in December 2015 | verified, secondary source | Wikipedia, "OpenAI": "In December 2015, OpenAI was founded as the nonprofit organization OpenAI, Inc." |
+| Anthropic was founded in January 2021 by seven former OpenAI employees | verified, secondary source | Wikipedia, "Anthropic" |
+| ChatGPT was released on November 30, 2022 | verified, secondary source | Wikipedia, "ChatGPT", infobox |
+| It reached 100 million monthly users two months later | verified, secondary source | Wikipedia, "ChatGPT": "reaching 100 million monthly active users two months after its release" |
+| Claude was released in March 2023 | verified, secondary source | Wikipedia, "Claude": "released as an AI-based chatbot in March 2023" |
+
+Notes:
+
+- The policy pages were read through a fetch that summarises long pages; the quotes are as
+  extracted. Re-read the four pages directly before publishing, and print the date read.
+- The consumer training article says flagged conversations can be used for training even without
+  opting in. The chapter's sentence "you choose whether your chats can be used that way" leaves
+  that out. Decide whether to add it.
+- Which kind of account John used (business or personal) is not stated in the chapter, on purpose.
+- The policies of other companies were not read.
+
+## Is it a bunch of computers? (added 2026-11-23 at John's request)
+
+John's mother asked whether the AI is a bunch of computers. Researched by an agent on 2026-11-23;
+quotations came through a summarizing fetch tool and should be paste-checked against the pages
+before being quoted on the page (none are quoted on the page; all are paraphrased).
 
 | Claim | Status | Basis |
 |---|---|---|
-| Claude wrote every word and all the code; John asked, chose and corrected | verified | Session record; chapter 0 says the same |
-| "It took one day" | verified | Every commit from 87567d2 on, and the session, are dated 2026-11-23 (local time) |
-| John's quoted messages | verified | Copied from his messages in the session record. One is shortened: the touchscreen message continues after "moves" |
-| "Ten chapters" was his answer to a question about the plan | verified | Session record |
-| The first plan said an AI getting out only happens in films | verified | The plan's first version: "The picture from films is wrong about how it works." |
-| The incident happened after the last text Claude practiced on | verified | Incident: July 2026. The model's stated knowledge cutoff: June 2026 |
-| Work was handed to other AI models, each time with written instructions | verified | 50 agent launches counted in the session record before chapter 9 was begun; the page gives no number |
-| A caption would have said the opposite of the picture above it | verified | Build agent's report for chapter 4 (summary line against caption) |
-| All checks passed while every chapter showed "Invalid Date" and had lost its title | verified | Session record; fixed in `vite.config.ts` |
-| Claude asked before the download, with size and source; 65 openings, nine left out | verified | Session record; `docs/ai-series/sources/chapter-3.md` |
-| The touch-drag fault was found by John on his phone; earlier checks used a mouse or simulated touches | verified | Session record |
-| Readers found the chapter 4 contradiction, corrected chapter 2's biology, proposed the counselor comparison | verified | Round 1 reports |
-| "Fifteen pretend readers in all" | verified | Three in round 1, three in round 2, one re-read of chapter 4, three rounds of two for chapter 9, and one round of two for chapters 9 and 10 |
-| Chapter 4 "cut by about a third" | verified | 1,106 words on the page before, 755 after |
-| Nothing was published until John said so, each time | verified | Session record |
-| The harness setting: no stop for routine work; a second AI model reviews each action and blocks risky ones; the company says this does not guarantee safety; a stricter setting exists | verified through a summarizing fetch | The session ran in permission mode "auto" (session record). Claude Code documentation, permission modes page, read 2026-11-23: "A separate classifier model reviews actions before they run and blocks the ones it judges risky"; "does not guarantee safety". Exact wording not checked against the page itself |
-| Written instructions, some from John and some from the company, said to ask before publishing or large downloads | verified | John's standing instructions and the product's own instructions to the model, both in the session record |
-| John's first message described his mother and went to Anthropic with the conversation | verified | Follows from how the product works; chapter 5 |
-| No identifying detail is in any public file; each batch of changes was searched first | verified | Searches run before each commit |
-| John caught two mistakes: the news story and the touch-drag fault | verified | Session record |
-| Facts in chapters 1 to 8 were checked against sources by AI and not by a human expert | verified as far as the session shows | No expert review took place in the session. Whether John has had anyone read them is not known to the writer |
-| It worked in the website's folder; a second copy is kept elsewhere; a program it runs can reach beyond the folder | verified | The repository is on GitHub; the sandbox setting was off |
-| The first quoted message ("Like me, she does not do well with reading long form content...") | verified | From John's first message; this sentence contains nothing identifying |
-| "The work took several hundred steps" | verified | 449 tool actions by the coordinating model counted in the session record before chapter 9 was written, not counting the other models' own steps |
-| The saved record shows it asked every time before publishing or a large download | verified | Each push to the public site and the model download follow a message from John saying to do it |
-| Whether the second model would have blocked an unasked publish was never tested | verified | No such attempt was made. The documentation lists production deploys among actions the setting blocks by default; this was not tested and the page does not claim it |
-| A program started by the harness could have changed other files or used the internet | verified | The sandbox setting was off; during the session the AI did write to John's notes folder and use the internet, at his request |
-| The pretend readers were other Claude models at the same company and were given a description of the reader | verified | Session record |
-| A model knows nothing written after its practice ended | general statement | Consistent with chapter 5's fixed file; the first plan's error is the example |
+| Inference is using a trained model on new input; training is the earlier learning phase | verified | IBM, "What is AI inference?" (updated Jan 2026): "AI inference is the act of using a trained AI model to make predictions on new data." https://www.ibm.com/think/topics/ai-inference |
+| The chapter 2 network runs on the reader's device | verified | Chapter 2 and `src/lib/ai-series/digits/` (runs in the browser) |
+| Some phones carry a small language model of their own | verified | Apple: "a compact, approximately 3-billion-parameter model" on device (June 2025). Google's Android docs on Gemini Nano: "without needing a network connection" |
+| Claude runs on the company's computers | verified | Anthropic, April 2026: "we currently use over one million Trainium2 chips to train and serve Claude" |
+| "over a million chips of one kind alone to build and run Claude" | verified | Same quotation; Anthropic also uses Google TPUs and NVIDIA GPUs (April 2026 announcement) |
+| The company runs many copies of the same model, and each request goes to a free copy | verified for serving software in general | Ray Serve docs: replicas are "individual copies"; "an available replica is looked up and the request is sent to it." No Anthropic statement found that it runs Claude this way; the page says "the company runs many copies" as a general description |
+| Copies are sometimes in different places | verified | Anthropic data residency docs: by default "Inference may run in any available geography" |
+| A large model is too big for one chip and is split across several, sometimes more than one machine | verified | vLLM docs: "if the model is too large for a single GPU ... use tensor parallelism"; "too large for a single node, combine tensor parallelism with pipeline parallelism" |
+| One large open model needed 16 chips in two machines at full size | verified | vLLM, July 2024: Llama 3.1 405B "with 16xH100 or 16xA100 GPUs using vLLM's pipeline parallelism", "on multiple nodes" |
+| A copy can work on several people's messages at once, each kept to itself | verified that requests are batched; partly verified that they stay separate | Kwon et al. 2023: "batching sufficiently many requests at a time"; separation shown by each request's own cache memory (TensorRT-LLM docs). No source says it in plain words |
+| When an answer is finished the copy holds nothing; the next message may go to a different copy | follows from the chapter | The model file does not change; the whole conversation is resent each time |
 
-## Removed after the reader test
+Notes after copy-edit (2026-11-23): "Services like this run many copies" replaces "the company runs
+many copies" because no Anthropic statement was found. "Two machines" for 16 chips is inferred from
+8 GPUs per machine (vLLM: FP8 "on 8xA100 or 8xH100", full size "on multiple nodes"). "The copies do
+not share their work" follows from replicas being separate processes (Ray Serve docs).
 
-A section "Who owns it" quoted the U.S. Copyright Office (*Copyright and Artificial Intelligence,
-Part 2: Copyrightability*, January 2025, page iii: "Copyright does not extend to purely
-AI-generated material"; "prompts do not alone provide sufficient control"). Both quotations were
-read in the report itself on 2026-11-23. Readers found the section interesting but not about their
-questions, and the page was too long, so it was cut. The plan lists ownership under "also covers";
-it can return if John wants it.
-
-
-## Confirmed by John
-
-On 2026-11-23, after reading the published chapter, John confirmed that its account of his harness
-setting and written instructions ("What it could touch") is accurate.
-
-## Added from John's answers (2026-11-23)
-
-| Claim | Status | Basis |
-|---|---|---|
-| John uses a personal plan with the model-training setting turned off | John's statement | He said the "Help improve our AI models" setting is turned off, on a personal plan |
-| So the description is not used for training unless flagged for safety review | follows from chapter 5 | `docs/ai-series/sources/chapter-5.md`, Anthropic's published rules as read there |
-| He keeps his conversations and does not delete them | John's statement | He archives every session; archiving is not deleting |
-| Why he chose the setting: coding agents since 2023, grown trust, partly overconfidence, not hurt yet, questions it often | John's statement, reworded | His words: "I'm running on auto somewhat hubristically, but it has not bit me... I question whether or not it's a good idea often" |
-
-## After chapter 10 was added (2026-11-23)
-
-"Your three questions, again" moved to chapter 10. A second copy-edit and a fourth pair of readers
-followed. Changes: the harness is described as "a program on my computer. Its maker calls it Claude
-Code, but it is not Claude" (readers confused the two names every round); "I left the lock mostly
-open, with a second AI keeping watch" (a reader's own summary, and accurate to the setting); the
-model copied for chapter 3 is called "a small, old one, and not Claude" (GPT-2, 2019). Not acted
-on: a reader asked for one step the second model blocked that day; the session record was not
-examined for that.
+After the reader test (2026-11-23): "a chip is the small part of a computer that does arithmetic"
+and "inference is chips doing sums with the numbers in the model's file" are the writer's plain
+definitions, consistent with IBM's "a forward pass". "How we got here" (company founding and release
+dates) was cut; both readers said it did not serve the question. The privacy paragraph was split,
+with "no fixed limit" moved first, and the counselor-confidentiality comparison removed after a
+reader said a counselor's exceptions are set by law and the company's are not.

@@ -34,7 +34,7 @@ const DECISION_WORDS: Record<Decision, string> = {
 
 type Phase = 'one' | 'summary' | 'rules' | 'run'
 
-/** Chapter 6's interactive: allow or refuse the AI's requests, then set rules that do it for you. */
+/** Chapter 11's interactive: allow or refuse the AI's requests, then set rules that do it for you. */
 export function YouAreTheHarness() {
   const [phase, setPhase] = useState<Phase>('one')
   const [decisions, setDecisions] = useState<Decision[]>([])

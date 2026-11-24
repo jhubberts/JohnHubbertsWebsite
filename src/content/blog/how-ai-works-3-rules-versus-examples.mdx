@@ -1,0 +1,48 @@
+---
+title: 'Rules versus examples'
+date: '2026-11-23'
+description: 'Separate two kinds of iris with a line, then watch a machine find a line by itself.'
+series: 'how-ai-works'
+part: 3
+draft: false
+---
+
+import { SortTheFlowers } from '@/components/blog/how-ai-works/sort-the-flowers'
+
+# Rules versus examples
+
+**How can a machine learn anything?**
+
+Chapters 1 and 2 showed what a computer does: it follows a <Term id="program">program</Term>, a list of <Term id="rule">rules</Term> that a person wrote down in advance, step by step. To make a computer tell two kinds of flower apart, someone would have to write the rule. For many jobs, nobody knows how to write it.
+
+The other way is to give the machine <Term id="example">examples</Term> and let it find the rule itself.
+
+Below are 100 real iris flowers of two species. A botanist, Edgar Anderson, collected the measurements, and a statistician, Ronald Fisher, published them in 1936.[^iris-data] Each flower is placed on the chart by the length and width of its sepals. On an iris the sepals are the three outer parts that spread or droop, the ones called falls.[^iris-sepals]
+
+First, drag the ends of the line to separate the two species yourself. Then choose "The machine tries" and press "Keep going".
+
+<SortTheFlowers />
+
+## What the machine did
+
+The machine's line is three numbers, and the machine knows nothing about flowers. Two of the numbers set how the line tilts, and the third sets where it sits. The machine looks at one flower at a time. Whenever a flower is on the wrong side, the machine changes its three numbers a little. After 27 corrections, no flower is on the wrong side.[^corrections]
+
+Nobody gave the machine the rule. It found one from the examples, by being wrong and adjusting its numbers. This is like learning by trial and error: the machine changed after every mistake, and never after a right answer. A child needs far fewer examples than this machine did.[^few-examples]
+
+## An old idea
+
+Frank Rosenblatt described this way of learning in 1958. A machine built on the idea, the Mark I Perceptron, was designed to recognize images.[^perceptron]
+
+One straight line can sort only things that fall on two sides of some line. The two species here sit so close together that a line only just fits between them. The next chapter, chapter 4, puts many lines like this one together to read handwriting.
+
+**So how can a machine learn?** It starts with numbers that are wrong, checks its answers against examples, and changes the numbers a little each time it is wrong. Every system in the rest of this series learns in the same basic way, with far more numbers.
+
+[^iris-data]: The measurements are from the corrected copy of Fisher's data kept by the University of California, Irvine. Wikipedia, [Iris flower data set](https://en.wikipedia.org/wiki/Iris_flower_data_set), gives its history: Fisher published the data "in his 1936 paper The use of multiple measurements in taxonomic problems".
+
+[^iris-sepals]: Wikipedia, [Iris (plant)](<https://en.wikipedia.org/wiki/Iris_(plant)>): "The three sepals, which are usually spreading or droop downwards, are referred to as 'falls'."
+
+[^corrections]: This site's code counts the 27 corrections each time it runs. The number depends on where the line starts, how big each change is, and the order of the flowers, and all three are fixed.
+
+[^perceptron]: Wikipedia, [Perceptron](https://en.wikipedia.org/wiki/Perceptron), credits Rosenblatt's work at Cornell in 1957 and his 1958 paper, and says the Mark I Perceptron was "designed for image recognition".
+
+[^few-examples]: Yann LeCun and Ishan Misra, ["Self-supervised learning: The dark matter of intelligence"](https://ai.meta.com/blog/self-supervised-learning-the-dark-matter-of-intelligence/), Meta AI, 2021: "if we show just a few drawings of cows to small children, they'll eventually be able to recognize any cow they see."

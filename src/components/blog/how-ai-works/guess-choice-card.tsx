@@ -3,7 +3,7 @@ import { cn } from '@/lib/utils'
 import type { GuessChoiceId, GuessQuestion } from '@/lib/ai-series/guesses'
 
 /**
- * One of the series' three questions with its choices as large radio-style buttons. The chosen
+ * One of the series' five questions with its choices as large radio-style buttons. The chosen
  * button is marked with ✓ and bold, and, when `chosenNote` is given, a short line under its label.
  * Anything passed as children is shown under the choices.
  */

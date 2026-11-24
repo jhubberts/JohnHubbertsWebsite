@@ -300,3 +300,23 @@ body:not(:has([data-series-bar])) [data-site-nav] {
     transform: translateX(250%);
   }
 }
+
+/*
+ * A post's sources (see rehype-footnote-sources.ts and footnotes.tsx). The source whose number
+ * was just tapped is tinted for a moment; the tint fades unless the device asks for reduced
+ * motion.
+ */
+.footnotes li {
+  border-radius: var(--radius-md);
+  scroll-margin-top: 4rem;
+}
+
+.footnotes li[data-highlighted] {
+  background-color: var(--accent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .footnotes li {
+    transition: background-color 600ms ease-out;
+  }
+}

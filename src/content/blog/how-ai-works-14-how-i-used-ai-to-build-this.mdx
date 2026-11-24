@@ -1,0 +1,56 @@
+---
+title: 'How I used AI to build this'
+date: '2026-11-23'
+description: 'A person asked and corrected. An AI wrote every word. Here is how that went, including what the AI got wrong.'
+series: 'how-ai-works'
+part: 14
+draft: false
+---
+
+import { HowItWasBuilt } from '@/components/blog/how-ai-works/how-it-was-built'
+
+# How I used AI to build this
+
+**Who made this, then?**
+
+An <Term id="chat-system">AI system</Term> called Claude, made by a company called Anthropic, wrote every word of this series and all of its code (the written instructions a computer follows). I asked for things, chose between options, and said when something was wrong. The "I" in every chapter is me, John, but the sentences are Claude's.
+
+It took one day. Here are eight moments from it.[^record]
+
+<HowItWasBuilt />
+
+## What those moments show
+
+The AI made mistakes, and it sounded sure each time. Every mistake we know of was caught by checking, usually by someone other than the writer. I caught two. When Claude wrote its first plan, it did not know about the news story that chapter 12 is about. And on my phone, a page slid along with my finger when I dragged a line. Other AIs caught more.
+
+More AI did most of the checking, so treat it with care. That is closer to a lab checking its own paper than to outsiders checking it. AI checked the facts in this series against their sources; no human expert did. Each chapter links its sources so that you can check them.
+
+## What it could touch
+
+In chapter 11 the <Term id="harness">harness</Term> was like a pharmacist, deciding which of the AI's requests were carried out. Here, picture it as a locked medicine cabinet, and a written instruction to the AI as a note on the door that says "ask before taking". A lock holds no matter what the AI intends. A note works only if the AI reads it and follows it.
+
+The harness I used is a <Term id="program">program</Term> on my computer. Anthropic calls it Claude Code, but it is not Claude. Claude is the AI, and it is on Anthropic's computers.
+
+I left the lock mostly open, with a second AI keeping watch. The work took several hundred steps, each one a request like those in chapter 11. I chose a setting that does not stop to ask me before each one. In that setting, a second AI <Term id="model">model</Term> looks at each step and blocks the ones it judges risky. This setting, which chapter 11 did not describe, is looser than the one that asks every time. Anthropic says this setting does not guarantee safety.[^auto-mode]
+
+I chose it because I have used AI systems that write code since 2023. Over that time I learned where they fail, and I came to trust them more. Working this way is partly overconfidence. It has not hurt me yet, and I get a great deal of work done. I often question whether it is a good idea.
+
+The note kept it from publishing without asking. Written instructions, some from me and some from Anthropic, told it to ask before publishing anything and before copying anything large onto my computer. According to the saved record of our conversation, it asked every time. If it had not asked, I do not know whether the second model would have stopped it. That was never tested.
+
+It could have reached more than this website's folder. A program started by the harness could have changed other <Term id="file">files</Term> on my computer, or sent and fetched things over the internet. The second model's judgment and the note stood in the way. After the incident in chapter 12, I would not call that protection certain.
+
+## What I kept private
+
+My first message described my mom in detail. As chapter 9 explained, that message went to Anthropic along with the rest of the conversation. So did the description of her given to the pretend readers, other Claude models that tested the chapters.
+
+I use a personal plan, and I have turned off the setting that lets my chats be used to <Term id="training">train</Term> models. Under Anthropic's rules, which chapter 9 describes, the description of her is not used to build a future model, unless the conversation is flagged for safety review.[^training] I keep my conversations and do not delete them, so Anthropic still has its copy.
+
+Claude kept those details out of this site's files, because the code for this site is public: anyone on the internet can read it. Before saving each set of changes, Claude searched it for those details. That search was the AI checking its own work. Keeping those details out is also why this series says so little about her.
+
+**So who made this?** A person asked and corrected. An AI wrote. Other AIs checked the work, and so did I, with a phone. A harness and a few instructions set its limits. And the questions were my mom's.
+
+[^record]: The saved record of the conversation in which the series was built, and the public history of [this site's code](https://github.com/jhubberts/JohnHubbertsWebsite).
+
+[^auto-mode]: Claude Code's documentation on [permission modes](https://code.claude.com/docs/en/permission-modes), read on November 23, 2026: "A separate classifier model reviews actions before they run and blocks the ones it judges risky"; it "does not guarantee safety".
+
+[^training]: Anthropic's Privacy Center, [whether personal-plan data is used for training](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training), read on November 23, 2026: "You choose to allow us to use your chats and coding sessions to improve Claude". The page lists conversations flagged for safety review as used either way.

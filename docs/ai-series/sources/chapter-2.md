@@ -1,30 +1,21 @@
-# Sources for chapter 2, "A network that reads handwriting"
+# Sources for chapter 2, "Switches that count" (new 2026-11-23)
 
-Every date, name, number and factual claim in the chapter, with where it comes from and whether it
-was checked. Checked on 2026-11-23 unless noted.
+Researched by an agent on 2026-11-23. Sources and quotations are in the page's footnotes; this table
+records status. Figures that vary by source are noted.
 
-| Claim in the chapter | Status | Source |
+| Claim | Status | Basis |
 |---|---|---|
-| The network has 25,818 numbers | verified | 784×32 + 32 + 32×16 + 16 + 16×10 + 10. `src/lib/ai-series/digits/digit-net.ts` |
-| 784 inputs, 32 units, 16 units, 10 outputs; 58 units in all | verified | `src/lib/ai-series/digits/manifest.json`, `layers` |
-| It runs on the reader's device and the drawing is not sent anywhere | verified | The page fetches the saved numbers and reads the drawing in the browser; no request carries the drawing. Checked in the browser's network log. |
-| With random numbers it gets about one digit in ten right | verified | Manifest, first saved point: 1,166 of 10,000 |
-| 60,000 example digits for practice, 10,000 for testing | verified | Counted by `tools/ai-series/train_digits.py` from the MNIST files it downloads |
-| The examples were seen many times over | verified | 20,000 rounds of 128 examples is 2,560,000, about 43 times 60,000. `train_digits.py` |
-| After every small group of examples each number is nudged to make the answers less wrong | verified | `train_digits.py`: minibatch gradient descent (AdamW) |
-| It got 9,725 of the 10,000 test digits right | verified | Manifest, last saved point. Measured with the stored 8-bit numbers, which is what the page runs. |
-| The collection is called MNIST | verified | File names and source in `train_digits.py` |
-| Who assembled MNIST and when | not stated in the chapter | If added: needs a primary source (LeCun, Cortes and Burges) |
-| A real neuron fires all-or-nothing pulses | verified, secondary source | Wikipedia, "Neuron": "an all-or-nothing electrochemical pulse called an action potential" |
-| Real neurons signal across a gap using chemicals | verified, secondary source | Wikipedia, "Neuron": synapses "commonly use minute amounts of chemical neurotransmitters" |
-| Learning changes how strong the connections between real neurons are | verified, secondary source | Wikipedia, "Synaptic plasticity": "the ability of synapses to strengthen or weaken over time" and "one of the important neurochemical foundations of learning and memory" |
-| A brain removes connections as it develops, from around birth into a person's twenties | verified, secondary source | Wikipedia, "Synaptic pruning": "Pruning starts near the time of birth and continues into one's late 20s." |
-| A human brain has more than 86 billion neurons | verified, secondary source | Wikipedia, "Human brain": "There are more than 86 billion neurons in the brain". The "Neuron" article cites Herculano-Houzel (2009), "The human brain in numbers". |
-| A real neuron takes in many signals, counts some more than others, and passes one signal on | not checked | Textbook description. Not confirmed in the text fetched. |
-
-Before publishing:
-
-- Replace the Wikipedia citations with the primary sources they cite, at least for the neuron count.
-- Check the one unchecked row, or cut the sentence.
-- The reader this is written for knows neurons well. Have her read the "Is this like a brain?" box
-  with that in mind.
+| A switch is on or off, written 1 or 0; a binary digit is a bit | verified | Open University, OpenLearn |
+| Turing 1936: a tape of squares, a table of rules; a single machine that can compute any computable sequence | verified (scan, OCR cleaned) | "On Computable Numbers", 1936 |
+| Turing at Bletchley Park from 1939; designed the Bombe with Gordon Welchman | verified | GCHQ; Bletchley Park; Hodges' Turing Scrapbook for Welchman |
+| 1950: "Can machines think?"; the imitation game | verified | Turing 1950 |
+| Shannon 1937: switching circuits can do logic | verified | MIT thesis |
+| ENIAC: close to 18,000 tubes, 30 by 50 feet, 30 tons, one addition in 1/5,000 s | verified | War Department press release, 1946. Exact count 17,468 (Army 1961); others say 19,000 |
+| ENIAC ran 5.6 hours on average between failures (1955) | verified | Army Ordnance survey, 1961 |
+| Transistor, December 1947, Bardeen and Brattain in Shockley's group; a small current controls a larger one; Nobel 1956 | verified | CHM Silicon Engine; NobelPrize.org |
+| Smaller, less power, lasts far longer than a tube | general knowledge, consistent with CHM ("replacements for unreliable vacuum tubes") | not quoted |
+| Kilby 1958, Noyce 1959, co-inventors; Kilby Nobel 2000 | verified | CHM; NobelPrize.org |
+| Moore 1965: doubling every year; 1975: every two years | verified | Moore 1965; CHM |
+| Intel 4004: 2,300 transistors; Apple M4: 28 billion; NVIDIA Blackwell: 208 billion | verified | the makers' own pages |
+| Billions of steps a second | verified | Intel: "3.2 GHz executes 3.2 billion cycles per second" |
+| 65 means A in the standard code | general knowledge (ASCII) | not cited on the page |

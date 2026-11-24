@@ -1,5 +1,5 @@
 /**
- * Every figure shown in chapter 8's interactive, with where it comes from and what it counts.
+ * Every figure shown in chapter 13's interactive, with where it comes from and what it counts.
  *
  * Do not add or change a number here without a source in docs/ai-series/sources/chapter-8.md.
  * `basis` says how firm a figure is:

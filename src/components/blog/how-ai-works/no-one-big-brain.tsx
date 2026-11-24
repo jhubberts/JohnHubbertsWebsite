@@ -25,7 +25,7 @@ const PICTURE_LABELS: Record<BrainPicture, string> = {
     'The copy of the model is now empty and says nothing kept; a new message goes to another copy, along with a document holding the whole conversation.',
 }
 
-/** Chapter 5's tap-through: where a message goes when you press send, one step at a time. */
+/** Chapter 10's tap-through: where a message goes when you press send, one step at a time. */
 export function NoOneBigBrain() {
   const [index, setIndex] = useState(0)
   const [announcement, setAnnouncement] = useState('')

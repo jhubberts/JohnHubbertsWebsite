@@ -1,9 +1,17 @@
-import { createElement, lazy, useState, type ComponentType } from 'react'
+import { createElement, lazy, useState, type ComponentType, type ElementType } from 'react'
 import { draftsEnabled, isVisible } from './drafts'
 import { postMeta, type PostMeta } from './frontmatter'
 
+/**
+ * Components handed to a post by name. The post uses a capitalised one without importing it, and
+ * a lower-case one in place of the element its Markdown produces, such as `a` for links.
+ */
+export type PostComponents = Record<string, ElementType>
+
+type PostProps = { components?: PostComponents }
+
 export interface BlogPost extends PostMeta {
-  Component: ComponentType
+  Component: ComponentType<PostProps>
   /**
    * Downloads the post's code. The returned promise settles when the download has finished or
    * failed, and never rejects. Safe to call repeatedly: the code is downloaded once.
@@ -11,7 +19,7 @@ export interface BlogPost extends PostMeta {
   preload: () => Promise<void>
 }
 
-type PostModule = { default: ComponentType }
+type PostModule = { default: ComponentType<PostProps> }
 
 /**
  * The post's content and a function that downloads its code. Once `preload` has finished, the
@@ -19,7 +27,7 @@ type PostModule = { default: ComponentType }
  * whole post in one step, with no placeholder in between.
  */
 function loadablePost(load: () => Promise<PostModule>): Pick<BlogPost, 'Component' | 'preload'> {
-  let loaded: ComponentType | undefined
+  let loaded: ComponentType<PostProps> | undefined
   let pending: Promise<PostModule> | undefined
 
   const download = (): Promise<PostModule> => {
@@ -39,10 +47,10 @@ function loadablePost(load: () => Promise<PostModule>): Pick<BlogPost, 'Componen
 
   const Lazy = lazy(download)
 
-  function Component() {
+  function Component(props: PostProps) {
     // Chosen once per mount, so the content is never swapped for a fresh copy while on screen.
     const [Ready] = useState(() => loaded)
-    return createElement(Ready ?? Lazy)
+    return createElement(Ready ?? Lazy, props)
   }
 
   const preload = () =>
@@ -91,6 +99,11 @@ export function getSeriesPosts(seriesSlug: string): BlogPost[] {
   return visiblePosts()
     .filter((post) => post.series === seriesSlug)
     .sort((a, b) => (a.part ?? 0) - (b.part ?? 0))
+}
+
+/** The MDX source of a post, as written. */
+export function getPostSource(slug: string): string | undefined {
+  return rawSources[`/src/content/blog/${slug}.mdx`]
 }
 
 /** The visible posts of a series by chapter number; when two share a number, the first wins. */

@@ -1,0 +1,44 @@
+---
+title: 'Where it runs'
+date: '2026-11-23'
+description: 'Is the AI one giant computer? It is many copies of the same file, each answering on its own.'
+series: 'how-ai-works'
+part: 10
+draft: false
+---
+
+import { NoOneBigBrain } from '@/components/blog/how-ai-works/no-one-big-brain'
+
+# Where it runs
+
+**Is it spread across a bunch of computers?**
+
+Yes: a great many computers run copies of the same <Term id="model">model</Term>, and each copy works on its own. My mom asked me this after I explained, in chapter 9, that a model is a <Term id="file">file</Term> of numbers. She wanted to know where that file is and what does the work.
+
+Using a model to get an answer is called inference.[^ibm-inference] Computer <Term id="chip">chips</Term> do it. A chip is the small part of a computer that does arithmetic, and inference is chips doing sums with the numbers in the model's file to rate the next word. That is what it means for a model to <Term id="run">run</Term>. Building the model is called <Term id="training">training</Term>: the practice you saw in chapters 3 and 4, which chapter 5 explains.
+
+Where inference happens depends on the model's size. The <Term id="neural-network">network</Term> in chapter 4 is small, and it runs on the phone, tablet or computer you are reading on. Some phones carry a small <Term id="language-model">language model</Term> of their own.[^apple-on-device] Claude, the model made by a company called Anthropic, is far too large for that, so it runs on Anthropic's computers.
+
+<NoOneBigBrain />
+
+Anthropic says it uses over a million chips of one kind, made by Amazon, to build and run Claude.[^anthropic-chips] Services like this run many <Term id="copy-of-the-model">copies</Term> of the same file, on many computers, sometimes in different places.[^data-residency] Each copy does the same job on its own.
+
+Even one copy of a large model is spread over several chips, and it is still one copy. One large model, published for anyone to use, needed 16 chips in two machines to run at full size.[^vllm-16-chips] Those chips work together, but only on the messages that their one copy is handling. One copy can also work on several people's messages at the same time. Each message gets its own space in the chips' memory and is handled separately.[^kwon-batching]
+
+## Why it is not a mind spread across machines
+
+A copy does not remember the last person it answered, and it does not talk to the other copies. A conversation continues only because the whole conversation so far is sent again, as one document, with every message; chapter 9 shows that document. If one copy stopped, another copy would read the same document and carry on.
+
+**So, is it spread across a bunch of computers?** Yes, across a great many. But each answer comes from one copy of the same file, working on its own and keeping nothing afterward. There is no one big brain.
+
+[^ibm-inference]: IBM, [What is AI inference?](https://www.ibm.com/think/topics/ai-inference), updated January 2026: "AI inference is the act of using a trained AI model to make predictions on new data."
+
+[^apple-on-device]: Apple, [Apple's on-device foundation model](https://machinelearning.apple.com/research/apple-foundation-models-2025-updates), 2025.
+
+[^anthropic-chips]: Anthropic, [compute announcement](https://www.anthropic.com/news/anthropic-amazon-compute), April 2026: "we currently use over one million Trainium2 chips to train and serve Claude."
+
+[^data-residency]: Anthropic, [data residency](https://platform.claude.com/docs/en/manage-claude/data-residency): "Inference may run in any available geography."
+
+[^vllm-16-chips]: vLLM, [Announcing Llama 3.1 Support in vLLM](https://vllm.ai/blog/2024-07-23-llama31), July 2024.
+
+[^kwon-batching]: Kwon and others, [Efficient Memory Management for Large Language Model Serving](https://arxiv.org/abs/2309.06180), 2023.

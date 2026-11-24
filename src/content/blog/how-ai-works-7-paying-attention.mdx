@@ -1,0 +1,58 @@
+---
+title: 'Paying attention'
+date: '2026-11-23'
+description: 'In 2017 a new design let every word draw on every other word at once. See it work on a real model.'
+series: 'how-ai-works'
+part: 7
+draft: false
+---
+
+import { WhatDoesItMean } from '@/components/blog/how-ai-works/what-does-it-mean'
+
+# Paying attention
+
+**What changed in 2017?**
+
+What a word means depends on the words around it. Take the word "it" in these two sentences.
+
+_The animal did not cross the street because it was too tired._
+
+_The animal did not cross the street because it was too wide._
+
+In the first, "it" is the animal. In the second, "it" is the street. You worked that out without noticing, from a word that comes later.
+
+To write sensibly, a <Term id="model">model</Term> has to do the same. In 2017, researchers at Google published a design that lets every word in a text look at every other word, all at once, and lean on the ones it needs.[^attention-paper] They called the design the transformer. The looking is called attention.
+
+The researchers chose the name "attention". In a psychologist's terms it is closer to context than to selective focus: it measures how much each word leans on each of the others.
+
+Below, a real model called BERT does this with the two sentences. Google released BERT in 2018.[^bert]
+
+<WhatDoesItMean />
+
+## What that shows
+
+In the first sentence "it" leaned most on the animal, and in the second on the street. One word at the end of the sentence changed where the model looked.
+
+We picked this example because it is the clearest. BERT looks at a sentence in 144 ways at once. In 25 of them, "it" makes the same switch from animal to street, and most of those 25 show it less clearly.[^bert-recorded]
+
+The picture shows where the model looked, and nothing more. It cannot show what the model understood. A brain scan has the same limit: it shows which parts of the brain were active, and the person's thoughts stay out of view.
+
+## From this to a chat system
+
+The models behind <Term id="chat-system">chat systems</Term> use the same design with one difference. BERT lets "it" lean on the words on both sides. In a chat system, each word may lean only on the words before it, because the system's job is to guess the next word, as in the game in chapter 6, "Guess the next word".
+
+A chat system can still tell what "it" means in your message when the clue comes later. When the system writes its answer, all of your message comes before, so each word of the answer can lean on every word you wrote. Only the answer is written one word at a time.
+
+The design could also be made far larger, because a computer can take in all the words of a text together, instead of one after another.[^attention-paper] That let researchers give it far more text to <Term id="training">practice</Term> on. The <Term id="neural-network">network</Term> in chapter 4 has 25,818 numbers. GPT-3, which the company OpenAI built on this design in 2020, has 175 billion.[^gpt3]
+
+The same design turned out to work on more than words. Chapter 8, "Beyond words", shows it predicting the shapes of proteins.
+
+**So what changed in 2017?** Researchers at Google published a design in which every word can lean on every other word at once. It could be made far larger, and today's chat systems are that design, made large.
+
+[^bert-recorded]: Every number in the example was recorded from BERT by a script in this site's code. The model and its license are on its [page at Hugging Face](https://huggingface.co/bert-base-uncased), a company whose website stores AI models.
+
+[^attention-paper]: Wikipedia, [Attention Is All You Need](https://en.wikipedia.org/wiki/Attention_Is_All_You_Need), the article on the 2017 paper that introduced the design: "a 2017 research paper" by authors "working at Google".
+
+[^bert]: Wikipedia, [BERT](<https://en.wikipedia.org/wiki/BERT_(language_model)>): "introduced in October 2018 by researchers at Google".
+
+[^gpt3]: Wikipedia, [GPT-3](https://en.wikipedia.org/wiki/GPT-3).

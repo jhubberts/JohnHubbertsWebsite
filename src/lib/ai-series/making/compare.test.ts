@@ -22,7 +22,7 @@ describe('compareGuesses', () => {
 })
 
 describe('SERIES_ANSWERS', () => {
-  it('answers exactly the three questions', () => {
+  it('answers exactly the five questions', () => {
     expect(Object.keys(SERIES_ANSWERS).sort()).toEqual(GUESS_QUESTIONS.map((q) => q.id).sort())
   })
 

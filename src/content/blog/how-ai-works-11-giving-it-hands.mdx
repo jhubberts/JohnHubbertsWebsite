@@ -1,0 +1,41 @@
+---
+title: 'Giving it hands'
+date: '2026-11-23'
+description: 'An AI model can only write text. Play the program that decides which of its requests are carried out.'
+series: 'how-ai-works'
+part: 11
+draft: false
+---
+
+import { YouAreTheHarness } from '@/components/blog/how-ai-works/you-are-the-harness'
+
+# Giving it hands
+
+**Will it take over your computer?**
+
+My mom asked how I know the AI will not take over my computer. It is a fair question. The <Term id="agent">AI systems</Term> I use at work read my <Term id="file">files</Term>, change them, and <Term id="run">run</Term> <Term id="program">programs</Term>. A program is a set of instructions that a computer follows.
+
+The <Term id="model">model</Term> inside an AI system cannot do any of those things. It can only write text. An AI system is a model plus the programs around it.
+
+When something needs doing, the model writes a request. A separate, ordinary program reads the request and decides whether to carry it out. That program is called a harness.
+
+A harness works like a hospital pharmacy. A doctor writes an order, and the pharmacist decides whether the hospital's rules allow it to be filled.
+
+Try being the harness.
+
+<YouAreTheHarness />
+
+## The harness decides what happens
+
+In the game, the AI writes the same five requests whatever the harness decides. Two of the five are mistakes: deleting the Photos folder, and emailing everyone in Contacts. They are the same kind of mistake that the <Term id="neural-network">network</Term> in chapter 4 makes with a drawing that is not a number: a model always produces an answer, and sometimes the answer is wrong. What happens on the computer depends on the harness. When you decide each request yourself, it depends on you. When you set <Term id="rule">rules</Term>, it depends on your rules.
+
+The harness I use has rules like the ones in the game. Some things it may always do, some it must ask me about first, and some it may never do.
+
+## Where this can still go wrong
+
+It can go wrong in two ways. In neither one does the AI decide to take over.
+
+- **The rules are too loose.** If a person tells the harness to allow everything, it carries out a mistaken request like any other.
+- **The harness has a flaw.** A harness is a program, and programs have flaws. A flaw in the harness, or in the software around it, can let through something that the rules forbid. That is what happened in the news story my mom had heard about. Chapter 12 tells that story.
+
+**So, will it take over your computer?** An AI model can only ask. The harness decides what gets done, and a person sets the harness's rules.

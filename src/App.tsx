@@ -122,6 +122,10 @@ export const routes: RouteObject[] = [
         lazy: page(() => import('@/pages/blog-post')),
       },
       { path: 'series/:slug', lazy: page(() => import('@/pages/series-page')) },
+      {
+        path: 'series/how-ai-works/glossary',
+        lazy: page(() => import('@/pages/glossary-page')),
+      },
       { path: 'index.html', element: <Navigate to="/" replace /> },
       { path: '*', Component: NotFound },
     ],

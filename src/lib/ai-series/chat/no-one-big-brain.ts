@@ -1,7 +1,7 @@
 /**
- * Chapter 5's "No one big brain": four steps showing where a chat model runs when people use it.
+ * Chapter 10's "No one big brain": four steps showing where a chat model runs when people use it.
  *
- * Every factual sentence here is checked in docs/ai-series/sources/chapter-5.md (section "Is it a
+ * Every factual sentence here is checked in docs/ai-series/sources/chapter-9.md (section "Is it a
  * bunch of computers?"). The three messages are made up for the page and say so.
  */
 

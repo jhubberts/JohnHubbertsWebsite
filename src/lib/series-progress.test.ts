@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import {
   SERIES_PROGRESS_KEY,
+  SERIES_PROGRESS_V1_KEY,
   describeProgress,
   firstUnread,
   markChapterRead,
@@ -71,6 +72,66 @@ describe('markChapterRead and readChapters', () => {
   it('never throws when storage throws', () => {
     expect(readChapters('ai', throwing)).toEqual([])
     expect(() => markChapterRead('ai', 1, throwing)).not.toThrow()
+  })
+})
+
+describe('progress saved before the AI series was renumbered', () => {
+  const old = (value: string) => fakeStorage({ [SERIES_PROGRESS_V1_KEY]: value })
+
+  it('gives the chapters of the AI series their new numbers', () => {
+    // Old chapters 0, 2 and 10 are now chapters 0, 4 and 15.
+    expect(readChapters('how-ai-works', old('{"how-ai-works":[0,2,10]}'))).toEqual([0, 4, 15])
+  })
+
+  it('renumbers once: later reads and writes use the saved result', () => {
+    const storage = old('{"how-ai-works":[1,2]}')
+    expect(readChapters('how-ai-works', storage)).toEqual([3, 4])
+    expect(storage.getItem(SERIES_PROGRESS_KEY)).toBe('{"how-ai-works":[3,4]}')
+    markChapterRead('how-ai-works', 6, storage)
+    expect(readChapters('how-ai-works', storage)).toEqual([3, 4, 6])
+    // Old chapter 3 is new chapter 6; renumbering again would turn 3 into 6 and 4 into 7.
+    expect(readChapters('how-ai-works', storage)).toEqual([3, 4, 6])
+    expect(storage.getItem(SERIES_PROGRESS_V1_KEY)).toBe('{"how-ai-works":[1,2]}')
+  })
+
+  it('ignores the old key once the current key holds progress', () => {
+    const storage = fakeStorage({
+      [SERIES_PROGRESS_V1_KEY]: '{"how-ai-works":[1]}',
+      [SERIES_PROGRESS_KEY]: '{"how-ai-works":[4]}',
+    })
+    expect(readChapters('how-ai-works', storage)).toEqual([4])
+  })
+
+  it('leaves other series alone', () => {
+    const storage = old('{"how-ai-works":[1],"other":[1,2]}')
+    expect(readChapters('other', storage)).toEqual([1, 2])
+    expect(readChapters('how-ai-works', storage)).toEqual([3])
+  })
+
+  it('drops chapter numbers the old series did not have', () => {
+    expect(readChapters('how-ai-works', old('{"how-ai-works":[1,11]}'))).toEqual([3])
+  })
+
+  it('renumbers from the old text on every read when storage cannot be written', () => {
+    const storage = {
+      getItem: (key: string) => (key === SERIES_PROGRESS_V1_KEY ? '{"how-ai-works":[1]}' : null),
+      setItem: () => {
+        throw new Error('quota')
+      },
+    }
+    expect(readChapters('how-ai-works', storage)).toEqual([3])
+    expect(readChapters('how-ai-works', storage)).toEqual([3])
+  })
+
+  it('treats broken old text as nothing read', () => {
+    const storage = old('not json')
+    expect(readChapters('how-ai-works', storage)).toEqual([])
+    markChapterRead('how-ai-works', 2, storage)
+    expect(readChapters('how-ai-works', storage)).toEqual([2])
+  })
+
+  it('never throws when storage throws', () => {
+    expect(readChapters('how-ai-works', throwing)).toEqual([])
   })
 })
 

@@ -1,0 +1,56 @@
+---
+title: 'Inside a chat window'
+date: '2026-11-23'
+description: 'Is your conversation inside the AI? See what the model is actually given each time you send a message.'
+series: 'how-ai-works'
+part: 9
+draft: false
+---
+
+import { WhatTheModelReceives } from '@/components/blog/how-ai-works/what-the-model-receives'
+
+# Inside a chat window
+
+**Is it in the AI?**
+
+My mom's first question was about a course I had built for my team with an <Term id="chat-system">AI system</Term>. She wanted to know whether the AI now had the course.
+
+A chat is built on a <Term id="language-model">language model</Term>. As chapter 6 describes, a language model does one thing: given some text, it rates every word that could come next. One trick turns that into a chat, and you can try it here.
+
+<WhatTheModelReceives />
+
+## The model does not change when you use it
+
+The <Term id="model">model</Term> is a <Term id="file">file</Term> of numbers, and using it does not change that file. A file is a saved piece of information on a computer, like a photo or a document. The model's file is like the 25,818 numbers of the handwriting network in chapter 4, only far larger. Nothing you type is written into it, and when a reply is finished, the model holds nothing of your conversation.
+
+A chat feels like a conversation because the whole conversation is sent again each time. When you send a message, everything said so far goes to the model as one document, and the model continues it. A new chat starts a new document with no earlier conversation in it.
+
+The model is like a counselor with no memory at all, who reads the full record of every session, word for word, before each new one. The company that runs the model is like the records office that keeps that record.
+
+## So where was my course?
+
+My course was never inside the model:
+
+- The course was a set of files on my laptop.
+- Each time I sent a message while we built it, the whole conversation so far went to the company that runs the model.
+- The model's numbers did not change.
+
+The company did have a record of our conversation, and that record is the part worth knowing about.
+
+## What Anthropic's rules say
+
+I used Claude, a chat system made by a company called Anthropic. An AI made by Anthropic wrote this part about Anthropic, so the notes at the end link to the company's own pages for you to check. These are its published rules as of November 2026.
+
+Anthropic keeps a conversation you have not deleted, and the rules I read give no fixed limit.[^retention-personal] When you delete one, it is removed from the company's storage within 30 days. There are exceptions, such as conversations flagged for breaking the rules.[^retention-personal][^retention-business]
+
+Whether your chats are used for training depends on your plan and your settings. On Anthropic's personal plans, you choose whether your chats can be used to <Term id="training">train</Term> its models, which means adjusting their numbers. Conversations flagged for safety review can be used whatever you choose.[^training-personal] For its business products, conversations are not used to train its models unless the customer chooses to allow it.[^training-business] I read only Anthropic's rules. Other companies have their own.
+
+**So, is it in the AI?** Not in the model. The model is a fixed file, and nothing you send is written into it. The company that runs the model does keep a record of the conversation. Whether the company can use that record later, when it builds a new model, depends on its rules and your settings. So the plain answer is: not now, and possibly later, if the rules and settings allow it.
+
+[^retention-personal]: Anthropic Privacy Center, [How long do you store my data?](https://privacy.claude.com/en/articles/10023548-how-long-do-you-store-my-data), page dated July 1, 2026, read November 23, 2026: deleted conversations are removed from back-end storage within 30 days; flagged content may be kept for up to 2 years.
+
+[^retention-business]: Anthropic Privacy Center, [How long do you store my organization's data?](https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data), page dated July 1, 2026, read November 23, 2026: the same 30-day removal after deletion, with the same exception for flagged content.
+
+[^training-personal]: Anthropic Privacy Center, [Is my data used for model training?](https://privacy.claude.com/en/articles/10023580-is-my-data-used-for-model-training) (personal plans), page dated March 16, 2026, read November 23, 2026: "You choose to allow us to use your chats and coding sessions to improve Claude"; conversations flagged for safety review are used regardless.
+
+[^training-business]: Anthropic Privacy Center, [Is my data used for model training?](https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training) (business products), page dated August 18, 2026, read November 23, 2026: "By default, we will not use your inputs or outputs from our commercial products".

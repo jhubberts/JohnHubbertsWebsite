@@ -59,7 +59,7 @@ const SHIFT_KEY_STEP = 0.5
 
 type Mode = 'you' | 'machine'
 
-/** Chapter 1's interactive: separate two iris species with a line, then watch a machine do it. */
+/** Chapter 3's interactive: separate two iris species with a line, then watch a machine do it. */
 export function SortTheFlowers() {
   const [mode, setMode] = useState<Mode>('you')
   const [ends, setEnds] = useState<[Point, Point]>(READER_START)

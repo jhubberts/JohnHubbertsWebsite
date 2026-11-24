@@ -24,7 +24,7 @@ function earlierLine(earlier: string | undefined) {
     : `In chapter 0 you guessed: ${earlier}`
 }
 
-/** Chapter 9: the reader answers chapter 0's three questions again and compares. */
+/** Chapter 15: the reader answers chapter 0's five questions again and compares. */
 export function YourGuessesAfter() {
   const [storage] = useState(getBrowserStorage)
   const [before] = useState<Guesses>(() => readGuesses(storage, 'before'))
@@ -39,7 +39,7 @@ export function YourGuessesAfter() {
   }
 
   return (
-    <TryIt title="Your three questions, again">
+    <TryIt title="Your questions, again">
       <div className="space-y-6 text-base">
         <p>Answer each one again. Then you will see your guess from chapter 0 beside it.</p>
         {GUESS_QUESTIONS.map((question) => (

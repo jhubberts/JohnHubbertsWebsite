@@ -1,0 +1,88 @@
+---
+title: 'Beyond words'
+date: '2026-11-23'
+description: 'The design behind chat systems also predicts the shapes of proteins, reads DNA, forecasts weather and steers robots. Mostly: AlphaFold.'
+series: 'how-ai-works'
+part: 8
+draft: false
+---
+
+import { WatchAChainFold } from '@/components/blog/how-ai-works/watch-a-chain-fold'
+
+# Beyond words
+
+**What else can the same design do?**
+
+The design behind today's chat systems also works on biology. It is called the <Term id="transformer">transformer</Term> (chapter 7), and it was built for text, where a word depends on other words far away. A protein has the same kind of long-range link: it is a chain of amino acids, and two links far apart on the chain can end up touching once it folds.
+
+## The folding problem
+
+A protein's folded, three-dimensional shape decides what the protein does.[^nobel-popular] In 1961 the biochemist Christian Anfinsen concluded that the sequence of amino acids alone, in the right conditions, decides the shape, and he received the Nobel Prize in Chemistry in 1972 for it.[^nobel-popular]
+
+<WatchAChainFold />
+
+Knowing the sequence did not tell anyone the shape. Finding one structure by experiment, with X-ray crystallography or an electron microscope, could take months to years of painstaking work.[^jumper] For fifty years, predicting the shape from the sequence was one of biology's unsolved problems.[^nobel-press]
+
+## AlphaFold
+
+AlphaFold 2 is a <Term id="model">model</Term> that predicts a protein's shape from its sequence. Google DeepMind, Google's AI research lab, made it. It <Term id="training">practiced</Term> on shapes that labs had already solved by experiment: the structures in the Protein Data Bank, a public archive, released up to April 2018.[^jumper] Like a <Term id="language-model">language model</Term>, AlphaFold is built on <Term id="attention">attention</Term>: it learns which parts of the chain matter most to each other.[^nobel-background]
+
+AlphaFold passed a public test in 2020. At CASP, a contest in which teams predict shapes that labs have just solved but not yet published, it produced shapes for about two thirds of the proteins with accuracy comparable to laboratory experiments.[^casp14] Its typical error in the protein's backbone was 0.96 ångström. An ångström is a ten-billionth of a meter; a single carbon atom is about 1.4 ångström across.[^jumper]
+
+The predicted shapes are free for anyone to use. In 2022, Google DeepMind and the European Bioinformatics Institute released predicted shapes for over 200 million proteins, nearly every protein known to science.[^db-2022] By late 2025 more than 3 million researchers in over 190 countries had used AlphaFold.[^five-years]
+
+Scientists have used AlphaFold to:
+
+- Piece together about 90% of the human nuclear pore, which is built from around 1,000 proteins.[^ebi-uses]
+- Find 74 candidate enzymes that might break down PET, the plastic in drink bottles.[^ebi-uses]
+
+In 2024, Demis Hassabis and John Jumper of Google DeepMind received half of the Nobel Prize in Chemistry "for protein structure prediction". The other half went to David Baker, for designing new proteins.[^nobel-press]
+
+## What a prediction cannot show
+
+AlphaFold's shape is a prediction, and AlphaFold says how sure it is: each part of a prediction gets a confidence score from 0 to 100, shown in color.[^plddt] AlphaFold predicts one still shape. It does not show a protein moving or changing shape, and it does not reliably show what a single changed amino acid does.[^ebi-limits][^ebi-problem]
+
+## DNA, new proteins, weather and robots
+
+Researchers have used the same design on other long sequences.
+
+- **DNA.** AlphaGenome, also from Google DeepMind, reads up to a million letters of DNA at once. It predicts how that stretch controls the genes around it, including what changing one letter does. In tests it matched or beat the best other tools in 25 of 26 comparisons. It is not designed for reading one person's genome in a clinic.[^alphagenome]
+- **New proteins.** ESM3, a model from the company EvolutionaryScale, practiced on protein chains the way GPT-2, the language model in chapter 6, practiced on text. Asked for new glowing proteins, it wrote about 200 designs over two rounds. The brightest design shares only 58% of its chain with the closest known glowing protein. When it was made in the lab, it glowed.[^esm3][^esm3-blog]
+- **Weather.** Since February 2025, the European Centre for Medium-Range Weather Forecasts has run a forecast model with a transformer inside, beside its usual physics-based one. By the forecasting center's own measures, the new model is better on many counts and uses about 1,000 times less energy per forecast. It still struggles with small, extreme events.[^ecmwf][^ecmwf-newsletter]
+- **Robots.** Google's Robotics Transformer is a model that controls a robot. On the more than 700 instructions it had practiced, it succeeded 97 times in 100. On instructions it had never seen, it managed 76 in 100.[^rt1]
+
+**So, what else can the same design do?** It can work on many things that can be written as a long sequence whose parts depend on each other. Its best-known success is AlphaFold, which predicted the shapes of nearly every known protein and won a Nobel Prize. Each of these models predicts; none of them replaces checking by experiment.
+
+[^nobel-popular]: Royal Swedish Academy of Sciences, ["They have revealed proteins' secrets through computing and artificial intelligence"](https://www.nobelprize.org/prizes/chemistry/2024/popular-information/), 2024: "This structure is what gives proteins their function"; Anfinsen "concluded that a protein's three-dimensional structure is entirely governed by the sequence of amino acids".
+
+[^jumper]: Jumper and others, ["Highly accurate protein structure prediction with AlphaFold"](https://pmc.ncbi.nlm.nih.gov/articles/PMC8371605/), Nature, 2021: "the months to years of painstaking effort required to determine a single protein structure"; "structures from the PDB with a maximum release date of 30 April 2018"; "median backbone accuracy of 0.96 Å"; "the width of a carbon atom is approximately 1.4 Å".
+
+[^nobel-press]: NobelPrize.org, [press release](https://www.nobelprize.org/prizes/chemistry/2024/press-release/), October 9, 2024: "an AI model to solve a 50-year-old problem".
+
+[^nobel-background]: Nobel Committee for Chemistry, [Scientific Background](https://www.nobelprize.org/uploads/2024/10/advanced-chemistryprize2024.pdf), 2024: "a transformer architecture was used, with the essential attention mechanism".
+
+[^casp14]: CASP14 organizers, [press release](https://predictioncenter.org/casp14/doc/CASP14_press_release.html), November 30, 2020: "around two thirds of the proteins with accuracy comparable to laboratory experiments".
+
+[^db-2022]: Google DeepMind, ["AlphaFold reveals the structure of the protein universe"](https://deepmind.google/discover/blog/alphafold-reveals-the-structure-of-the-protein-universe/), July 28, 2022.
+
+[^five-years]: Google DeepMind, ["AlphaFold: Five years of impact"](https://deepmind.google/blog/alphafold-five-years-of-impact/), November 25, 2025: "used by over 3 million researchers in more than 190 countries".
+
+[^ebi-uses]: EMBL-EBI Training, ["How is AlphaFold 2 used by scientists?"](https://www.ebi.ac.uk/training/online/courses/alphafold/validation-and-impact/how-is-alphafold-used-by-scientists/).
+
+[^plddt]: EMBL-EBI Training, ["pLDDT: Understanding local confidence"](https://www.ebi.ac.uk/training/online/courses/alphafold/inputs-and-outputs/evaluating-alphafolds-predicted-structures-using-confidence-scores/plddt-understanding-local-confidence/): "scaled from 0 to 100".
+
+[^ebi-limits]: EMBL-EBI Training, ["Strengths and limitations of AlphaFold 2"](https://www.ebi.ac.uk/training/online/courses/alphafold/an-introductory-guide-to-its-strengths-and-limitations/strengths-and-limitations-of-alphafold/): "designed to predict static structures"; "not sensitive to point mutations".
+
+[^ebi-problem]: EMBL-EBI Training, ["What is the protein folding problem?"](https://www.ebi.ac.uk/training/online/courses/alphafold/an-introductory-guide-to-its-strengths-and-limitations/what-is-the-protein-folding-problem/): "predict the final 3D shape of a protein without predicting the sequence of movements".
+
+[^alphagenome]: Google DeepMind, ["AlphaGenome"](https://deepmind.google/blog/alphagenome-ai-for-better-understanding-the-genome/), June 2025; Avsec and others, [Nature, January 2026](https://pubmed.ncbi.nlm.nih.gov/41606153/): "25 of 26 evaluations". It is "not designed or validated" for predicting one person\'s genome.
+
+[^esm3]: Hayes and others, ["Simulating 500 million years of evolution with a language model"](https://pubmed.ncbi.nlm.nih.gov/39818825/), Science, January 2025: "58% sequence identity".
+
+[^esm3-blog]: EvolutionaryScale, ["ESM3"](https://www.evolutionaryscale.ai/blog/esm3-release), June 2024: two rounds of 96 designs; the brightest, esmGFP, from the second.
+
+[^ecmwf]: ECMWF, ["ECMWF's AI forecasts become operational"](https://www.ecmwf.int/en/about/media-centre/news/2025/ecmwfs-ai-forecasts-become-operational), February 25, 2025: "side by side"; "outperforms state-of-the-art physics-based models for many measures"; "approximately 1,000 times".
+
+[^ecmwf-newsletter]: ECMWF, ["Operational release of AIFS Single 1.0"](https://www.ecmwf.int/en/newsletter/183/news/operational-release-aifs-single-10), Newsletter 183, 2025: "still struggles to represent small-scale extreme events".
+
+[^rt1]: Brohan and others, ["RT-1: Robotics Transformer"](https://arxiv.org/abs/2212.06817), 2022: "over 700 training instructions at 97% success rate"; 76% on unseen instructions.

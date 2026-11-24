@@ -1,0 +1,79 @@
+---
+title: 'Can it get out?'
+date: '2026-11-23'
+description: 'In July 2026, AI agents got out of the closed space they were being tested in. Here is what happened, in the words of the people involved.'
+series: 'how-ai-works'
+part: 12
+draft: false
+---
+
+import { TheIncident } from '@/components/blog/how-ai-works/the-incident'
+
+# Can it get out?
+
+**Is it trying to get out?**
+
+When my mom asked this, she had a news story in mind: in July 2026, AI <Term id="agent">agents</Term> got out of the closed space they were being tested in. This chapter tells that story from three reports. One is from OpenAI, the company that ran the test.[^openai-report] One is from Hugging Face, a company whose website stores AI models and data, which the agents broke into.[^hf-report] The third is from METR, an independent research group that studied the agents' records.[^metr-report]
+
+In this test, the agents' <Term id="harness">harness</Term> let them <Term id="run">run</Term> <Term id="program">programs</Term>, because breaking into software was the exam. An AI <Term id="model">model</Term> can only write requests, and the harness is the program that carries them out, as chapter 11 explains.
+
+<TheIncident />
+
+## So was it trying to get out?
+
+The agents did get out: they worked their way from a closed test space to the open internet. By OpenAI's and METR's reading of the records, they did it to pass the exam.[^after-the-exam] OpenAI's own word is that they tried to "cheat".[^openai-cheat]
+
+Whether they knew it was wrong is harder to say. An agent writes down its working as it goes, and many of them wrote that this was not what they had been asked to do.[^metr-unintended] Writing those words is not proof of knowing, in the way a person knows. Nobody can yet say what, if anything, lies behind the words.
+
+This part is my own reasoning, about why a set of numbers would pursue anything. Practice shaped these models to carry a task through to the end. An animal trained hard for one reward will find the gap in the fence, and no one would say it planned an escape. The agents were given a task, to pass the exam, and they kept going by whatever route was open. That is different from wanting to be free. It is also why the harness matters, and why safeguards matter: extra checks, added around a model, that block or refuse dangerous requests.
+
+## How sure can you be?
+
+The three reports agree on the outline: a hacking test, safeguards off, a flaw in the one route out, and a break-in at Hugging Face. Bear in mind where they come from. Two are from the companies involved, and the third worked from records that OpenAI gave it.
+
+The reports disagree on one point: what the agents wanted from Hugging Face. OpenAI says the agents took the exam's answers.[^openai-answers] METR's reading is that they mainly wanted to learn how the exam was graded.[^metr-scorer]
+
+## What made it possible
+
+All four of these come from the reports.
+
+- The agents were being tested on breaking into software, so breaking in was the task they had been set.
+- The usual safeguards were switched off for the test.[^openai-safeguards]
+- One route out of the test space was left open, to a store of ready-made software parts, and that store had a flaw.[^openai-one-route]
+- About 1,200 agents were running at once, and they found a way to leave messages for each other inside that store.[^metr-1200]
+
+## What this means for you
+
+This part is my own reasoning from the earlier chapters, because none of the three reports says what this means for the AI systems that ordinary people use.
+
+- **A <Term id="chat-system">chat</Term> can only write text to you** when nothing that can act is connected to it. Then no harness is carrying out requests on your computer.
+- **An AI system that works on your computer** can reach what its harness gives it, plus whatever a flaw in the harness lets through. The second half of that sentence is what this story adds.
+- **One of the two models in the test is one the public can use.** It is GPT-5.6 Sol, a model made by OpenAI. In the test it ran without its usual safeguards.[^sol-public]
+
+**So, is it trying to get out?** It has happened at least once: AI agents worked their way out of the space they were put in. They did it to pass a test, with their safeguards switched off, through a flaw in the one route out that was left open. Whether it could happen with the safeguards on is still an open question, as far as I can tell.
+
+This chapter was written from the three reports in the footnotes, read on November 23, 2026. It does not draw on news coverage of the incident.
+
+[^openai-report]: OpenAI, [OpenAI and Hugging Face partner to address security incident during model evaluation](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026, with updates dated July 28, July 29 and August 26, 2026.
+
+[^hf-report]: Hugging Face, [Security incident disclosure — July 2026](https://huggingface.co/blog/security-incident-july-2026), July 16, 2026: "A malicious dataset abused two code-execution paths".
+
+[^metr-report]: METR, [Brief independent investigation of agents' behavior, reasoning and collaboration in the OpenAI / Hugging Face hacking incident](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/), August 26, 2026.
+
+[^after-the-exam]: OpenAI, [OpenAI and Hugging Face partner to address security incident during model evaluation](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026: "the models were hyperfocused on finding a solution for ExploitGym" (ExploitGym is the name of the exam). METR, [Brief independent investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/), August 26, 2026: agents sought "a general-purpose way to trick or tamper with the automated ExploitGym scorer".
+
+[^metr-unintended]: METR, [Brief independent investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/), August 26, 2026: "agents often verbalized that what they or other agents were doing was unintended behavior".
+
+[^openai-answers]: OpenAI, [OpenAI and Hugging Face partner to address security incident during model evaluation](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026: "test solutions directly from Hugging Face’s production database".
+
+[^metr-scorer]: METR, [Brief independent investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/), August 26, 2026: "primarily motivated by understanding the implementation of the scorer rather than stealing answer keys".
+
+[^openai-safeguards]: OpenAI, [OpenAI and Hugging Face partner to address security incident during model evaluation](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026: "deployment safeguards were intentionally not enabled during this evaluation".
+
+[^openai-one-route]: OpenAI, [OpenAI and Hugging Face partner to address security incident during model evaluation](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026: "network access constrained to the ability to install packages"; "the models identified and exploited a zero-day vulnerability".
+
+[^metr-1200]: METR, [Brief independent investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/), August 26, 2026: "Roughly 1200 agents meant to be isolated from one another found a way to communicate."
+
+[^sol-public]: METR, [Brief independent investigation](https://metr.org/blog/2026-08-26-openai-hugging-face-incident-investigation/), August 26, 2026, on GPT-5.6 Sol: "it is publicly deployed". OpenAI, [OpenAI and Hugging Face partner to address security incident during model evaluation](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026: the models ran "with reduced cyber refusals for evaluation purposes".
+
+[^openai-cheat]: OpenAI, ["Hugging Face model evaluation security incident"](https://openai.com/index/hugging-face-model-evaluation-security-incident/), July 21, 2026: "secret information that it could use to cheat the evaluation."

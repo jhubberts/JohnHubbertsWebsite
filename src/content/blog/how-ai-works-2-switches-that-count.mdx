@@ -1,0 +1,88 @@
+---
+title: 'Switches that count'
+date: '2026-11-23'
+description: 'How a machine holds a number: a row of switches, each on or off. From Turing to the transistor to the chip.'
+series: 'how-ai-works'
+part: 2
+draft: false
+---
+
+import { EightSwitches } from '@/components/blog/how-ai-works/eight-switches'
+
+# Switches that count
+
+**How does a machine hold a number?**
+
+As a row of switches. Each switch is either off or on, and a row of them can stand for any whole number. Every computer since the 1940s holds its numbers, its letters and its <Term id="program">programs</Term> this way.
+
+<EightSwitches />
+
+Off is written 0 and on is written 1. A single switch is called a bit.[^openlearn] Counting with only 0 and 1 is called binary. Each switch to the left is worth twice the one to its right, so eight switches cover every number from 0 to 255. A computer stores a letter as one of those numbers.
+
+## Turing's machine on paper
+
+In 1936, a 23-year-old English mathematician, Alan Turing, described a machine that existed only on paper. It read and wrote symbols on a long paper tape, one square at a time, and decided what to do next from a table of <Term id="rule">rules</Term>.[^turing-1936]
+
+Turing also described a single machine that could carry out any other machine's table of rules, if that table was written on its tape.[^turing-1936] One machine, given different instructions, could do any job that instructions can describe. A computer today is that kind of machine: one machine that <Term id="run">runs</Term> many different programs. Charles Babbage had planned this for his Analytical Engine, the machine in chapter 1.
+
+During the Second World War, Turing worked at Bletchley Park, the British codebreaking center, and, with Gordon Welchman, designed the Bombe, a machine that sped up breaking the German Enigma code.[^gchq] In 1950 he asked "Can machines think?" and proposed a test, now called the Turing test, of whether a person chatting in writing can tell a machine from a human.[^turing-1950]
+
+## The first electrical switches: relays and tubes
+
+A year after Turing's paper, Claude Shannon, a student in the United States, showed that circuits of electrical switches could do logic, meaning decisions such as "if this and that, then do this", and arithmetic.[^shannon] The first switches were relays, small electromagnets that clicked a contact open or shut. Then came vacuum tubes, glass bulbs that switch with no moving part but get hot and burn out.
+
+ENIAC, a computer built in the United States, was finished in 1945 and shown to the public in 1946. It used close to 18,000 vacuum tubes, filled a room 30 by 50 feet, weighed 30 tons, and could do one addition in 1/5,000 of a second.[^eniac] In 1955 it ran for 5.6 hours, on average, before something failed.[^eniac-1961]
+
+Babbage's store from chapter 1, the part that holds numbers, is now made of switches like these. So is his mill, the part that does the arithmetic.
+
+## The transistor and the chip
+
+In December 1947, two physicists, John Bardeen and Walter Brattain, built the first <Term id="transistor">transistor</Term>. They worked in a group led by William Shockley at Bell Labs, the research laboratory of the Bell telephone company in New Jersey. A transistor is a switch controlled by electricity: a small current at one contact turns a larger current on or off.[^transistor] It is smaller than a tube, uses less power, and lasts far longer. The three men shared the 1956 Nobel Prize in Physics.[^nobel-1956]
+
+In 1958 Jack Kilby, an engineer at the American electronics company Texas Instruments, made several parts of a circuit on one piece of material. In 1959 Robert Noyce, another American engineer, found a practical way to make such <Term id="chip">chips</Term>. Both men are counted as inventors of the integrated circuit, which is now called a chip.[^chm-ic]
+
+In 1965, Gordon Moore, a chip engineer, noticed that the number of transistors and other parts on a chip was doubling every year. In 1975 he changed that to every two years.[^moore][^chm-moore] The doubling went on for decades, as these three chips show. Each is named for the company that made it: Intel, Apple and NVIDIA.
+
+| Chip                                                   | Year | Transistors |
+| ------------------------------------------------------ | ---- | ----------- |
+| Intel 4004, an early chip for calculators[^intel-4004] | 1971 | 2,300       |
+| Apple M4, in an iPad[^apple-m4]                        | 2024 | 28 billion  |
+| NVIDIA Blackwell, built to run AI[^blackwell]          | 2024 | 208 billion |
+
+A chip like these works through billions of steps a second.[^intel-clock] In each of those steps, the chip does something as small as adding two numbers or comparing them. Everything a computer does, including the AI in the rest of this series, is a long program of such small steps.
+
+**So, how does a machine hold a number?** As a row of switches, each on or off. A chip holds billions of them, switching billions of times a second. Chapter 3 turns to AI, starting with jobs where nobody can write the program's rules.
+
+[^openlearn]: The Open University, OpenLearn, ["An introduction to computers and computer systems"](https://www.open.edu/openlearn/mod/oucontent/view.php?id=109022&section=2): switches "that can exist in one of only two states, either on or off"; "each digit is referred to as a 'binary digit' … abbreviated to bit".
+
+[^turing-1936]: Alan Turing, ["On Computable Numbers"](https://www.cs.virginia.edu/~robins/Turing_Paper_1936.pdf), Proceedings of the London Mathematical Society, 1936: a "tape" divided into "squares"; "It is possible to invent a single machine which can be used to compute any computable sequence."
+
+[^gchq]: GCHQ, ["Alan Turing"](https://www.gchq.gov.uk/person/alan-turing): joined Bletchley Park in September 1939 and designed the Bombe. Bletchley Park, ["6 facts about the Bombe"](https://bletchleypark.org.uk/our-story/6-facts-about-the-bombe). He designed it with Gordon Welchman, building on earlier Polish work.
+
+[^turing-1950]: Alan Turing, ["Computing Machinery and Intelligence"](https://academic.oup.com/mind/article/LIX/236/433/986238), Mind, 1950: "I propose to consider the question, 'Can machines think?'"; the "imitation game".
+
+[^shannon]: Claude Shannon, ["A Symbolic Analysis of Relay and Switching Circuits"](https://dspace.mit.edu/handle/1721.1/11173), MIT, 1937.
+
+[^eniac]: US War Department press release, February 16, 1946, [hosted by the Smithsonian](https://americanhistory.si.edu/comphist/pr1.pdf): "close to 18,000 vacuum tubes"; "a room 30 by 50 feet and weighs 30 tons"; "a simple addition in 1/5000 of a second".
+
+[^eniac-1961]: US Army Ordnance, [1961 survey, Appendix I](https://ftp.arl.army.mil/~mike/comphist/61ordnance/app1.html): "Average error free running period 5.6 hrs"; it gives the exact count as 17,468 tubes.
+
+[^transistor]: Computer History Museum, ["1947: Invention of the Point-Contact Transistor"](https://www.computerhistory.org/siliconengine/invention-of-the-point-contact-transistor/): "The voltage on one contact modulated the current flowing through the other"; the group sought "replacements for unreliable vacuum tubes".
+
+[^nobel-1956]: NobelPrize.org, [The Nobel Prize in Physics 1956](https://www.nobelprize.org/prizes/physics/1956/summary/).
+
+[^chm-ic]: Computer History Museum, ["1958: All Semiconductor 'Solid Circuit' is Demonstrated"](https://www.computerhistory.org/siliconengine/all-semiconductor-solid-circuit-is-demonstrated/) and its 1959 entry: "Kilby and Noyce … are celebrated as co-inventors of the integrated circuit."
+
+[^nobel-2000]: NobelPrize.org, [The Nobel Prize in Physics 2000](https://www.nobelprize.org/prizes/physics/2000/summary/): "for his part in the invention of the integrated circuit".
+
+[^moore]: Gordon Moore, ["Cramming More Components onto Integrated Circuits"](https://www.cs.utexas.edu/~fussell/courses/cs352h/papers/moore.pdf), Electronics, April 19, 1965: "roughly a factor of two per year".
+
+[^chm-moore]: Computer History Museum, "1965: 'Moore's Law' Predicts the Future of Integrated Circuits": in 1975, "a doubling every two years, rather than every year".
+
+[^intel-4004]: Intel, [4004 anniversary infographic](https://download.intel.com/newsroom/2021/data-center/4004-infographic.pdf), 2021: "2,300 Number of transistors".
+
+[^apple-m4]: Apple Newsroom, ["Apple introduces M4 chip"](https://www.apple.com/newsroom/2024/05/apple-introduces-m4-chip/), May 7, 2024: "28 billion transistors".
+
+[^blackwell]: NVIDIA, [Blackwell architecture](https://www.nvidia.com/en-us/data-center/technologies/blackwell-architecture/): "208 billion transistors".
+
+[^intel-clock]: Intel, ["What Is CPU Clock Speed?"](https://www.intel.com/content/www/us/en/gaming/resources/cpu-clock-speed.html): "A CPU with a clock speed of 3.2 GHz executes 3.2 billion cycles per second."

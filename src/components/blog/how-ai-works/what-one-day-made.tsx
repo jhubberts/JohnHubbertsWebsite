@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { TryIt } from '@/components/ai-series/try-it'
 import { DAY_COUNTS, MADE_THINGS } from '@/lib/ai-series/making/made'
 
-/** Chapter 10: every interactive part of the series, each linking back to its chapter. */
+/** Chapter 15: every interactive part of the series, each linking back to its chapter. */
 export function WhatOneDayMade() {
   const [open, setOpen] = useState(false)
   const listId = useId()

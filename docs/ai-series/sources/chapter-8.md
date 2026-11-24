@@ -1,49 +1,26 @@
-# Sources for chapter 8, "What it costs"
+# Sources for chapter 8, "Beyond words" (new 2026-11-23)
 
-The research behind this chapter is in `chapter-8-research.md` in this folder: every figure with its
-quotation, source, date, what was counted, and a mark (VERIFIED, PARTLY, NOT FOUND). Read on
-2026-11-23. That research was gathered through a fetch tool that summarises long pages, so each
-quotation there must be checked against the live page before publishing. The two Berkeley Lab
-reports were read as PDFs directly.
+Grown from chapter 7's "Not only words" section, whose verified rows are in `chapter-7.md`. Further
+research by an agent on 2026-11-23 from the Nobel committee, the AlphaFold 2 paper (Jumper et al.,
+PMC), the CASP14 organizers, EMBL-EBI training pages, DeepMind, ECMWF and the RT-1 paper. Every
+footnote on the page carries its URL and a short quotation.
 
-Every number in the interactive is in `src/lib/ai-series/costs/figures.ts`, with its source.
-
-## Claims in the prose
-
-| Claim | Status | Research entry |
+| Claim | Status | Basis |
 |---|---|---|
-| One text answer uses about as much electricity as an LED bulb uses in two minutes | calculation | 0.24 to 0.34 watt-hours (A1a, A1b) divided by a 9-watt bulb (C3, typical, PARTLY) is 1.6 to 2.3 minutes |
-| The companies' figures are small, disagree, and are unchecked | verified | A1a: Google says its figures "have not been verified by an independent third-party". A1b: no method published. |
-| Data centres used about 1.5% of the world's electricity in 2024 | verified | D1b |
-| The IEA expects about 3% by 2030 | verified | D1a, D1b |
-| The IEA says AI accounts for almost half of the growth | verified, slightly simplified | D1c: accelerated servers, "mainly driven by AI", are almost half of the net increase to 2030 |
-| United States: 4.7% in 2024, nearly 12% expected by 2030 | verified | D2: 192 TWh, 4.7%; reference case 649 TWh, 11.8% |
-| What the companies say models learn from; no list published | verified for OpenAI and Anthropic | F1. Not found for Google, Meta, Mistral. |
-| June 2025 ruling: training on bought books allowed, downloading pirated books not | news reports | F2. The order itself was not read. |
-| The company was Anthropic, which makes the AI that wrote this series | verified | This project |
-| $1.5 billion, about $3,000 a book, approved July 2026 | news report | F2: The Next Web, 21 July 2026 |
-| September 2026 appeals court ruling against a company that copied a rival's work to build a competing product | news report | F3: Thomson Reuters v. Ross; Nieman Lab, 30 September 2026. Not a chatbot; the chapter does not say it was. |
-| New York Times v. OpenAI not decided, as far as could be found | partly | F4: no ruling found as of late October 2026; status after that not found |
-| Stanford: ages 22 to 25 in the most exposed jobs about 19% behind; mostly fewer hired; no economy-wide job loss; a pattern, not proof of cause | verified | G1 |
-| Denmark: no effect on pay or hours in the first two years | verified | G2. One country. |
-| Before 2024 many expected AI fakes to change results; a Columbia review found that did not happen | verified, as relayed | H1 |
-| Experiments: a chatbot can shift views by a few points | verified via Cornell's report | H3: 3.9 points in the United States, about 10 in Canada and Poland, among survey participants who knew it was an AI |
-| 2026: at least 164 AI-made political ads, at least $80 million, most unlabelled | news report | H4. A later count of 220 ads and $137 million is only partly sourced. |
-| No study yet of their effect | not found | H4 |
-
-## Left out on purpose
-
-- A current figure for the electricity one web search uses. The only sourced one is Google's from
-  2009.
-- The split of data-centre electricity between AI and everything else today; it is only partly
-  sourced.
-- The Yale Budget Lab and CETaS findings; only summaries were seen.
-- Getty Images v. Stability AI; it concerns an image model and is under appeal.
-
-## Before publishing
-
-- Check every quotation in `chapter-8-research.md` against its live page.
-- Read the court orders, or cite a legal source that quotes them.
-- Look for an assessment of AI in the November 2026 election results, and for a ruling in New York
-  Times v. OpenAI.
-- These figures go out of date quickly. Print the date read, and recheck before publishing.
+| Shape decides function; Anfinsen 1961, Nobel 1972 | verified | Nobel popular information, 2024 |
+| Months to years per structure by experiment | verified | Jumper et al.: "months to years of painstaking effort" |
+| A 50-year-old problem | verified | Nobel press release |
+| Trained on PDB structures released up to 30 April 2018 | verified | Jumper et al. |
+| Built on attention | verified | Nobel scientific background |
+| CASP14: about two thirds at accuracy comparable to experiments | verified | CASP14 organizers' press release (the 92.4 figure is DeepMind's and is not used) |
+| 0.96 Å backbone error; carbon atom about 1.4 Å; an ångström is a ten-billionth of a meter | verified | Jumper et al.; EMBL-EBI |
+| Over 200 million predicted structures, 2022, free | verified | DeepMind 2022; AlphaFold DB |
+| Over 3 million researchers, 190+ countries, by Nov 2025 | verified (may count database users) | DeepMind 2025 |
+| Nuclear pore about 90% resolved; ~1,000 proteins; 74 candidate PET enzymes | verified | EMBL-EBI "How is AlphaFold 2 used" |
+| Nobel 2024: Hassabis and Jumper half "for protein structure prediction"; Baker half for protein design | verified | Nobel press release |
+| Confidence 0–100; static shapes; not sensitive to single mutations; predicts the end shape, not the path | verified | EMBL-EBI training pages |
+| AlphaGenome: up to 1 million letters; 25 of 26; "not designed or validated" for personal genomes | verified | DeepMind 2025; Nature 2026 |
+| ESM3: two rounds of 96 designs; brightest 58% identity; glows | verified (rounds from company blog; paper unreadable) | Science 2025; EvolutionaryScale |
+| ECMWF AIFS operational 25 Feb 2025 beside IFS; better on many measures by ECMWF's own measures; ~1,000 times less energy; struggles with small extreme events | verified | ECMWF news and Newsletter 183 |
+| RT-1: 97% success on 700+ practiced instructions; 76% on unseen | verified | RT-1 paper |
+| The folding drawing | illustration | labelled on the page as a drawing; AlphaFold predicts the end shape only |

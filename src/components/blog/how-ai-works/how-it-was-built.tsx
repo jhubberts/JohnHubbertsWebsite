@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 const LAST = BUILD_MOMENTS.length - 1
 
-/** Chapter 9's tap-through: eight moments from the day the series was made, one at a time. */
+/** Chapter 14's tap-through: eight moments from the day the series was made, one at a time. */
 export function HowItWasBuilt() {
   const [index, setIndex] = useState(0)
   const [announcement, setAnnouncement] = useState('')

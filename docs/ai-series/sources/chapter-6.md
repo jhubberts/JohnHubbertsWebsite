@@ -1,16 +1,39 @@
-# Sources for chapter 6, "Giving it hands"
+# Sources for chapter 3, "Guess the next word"
+
+This file was renamed when the series was renumbered on 2026-11-23; chapter numbers inside it are
+the old ones (old 1 is now 3, 2 is 4, 3 is 6, 4 is 7, 5 is 9, 6 is 11, 7 is 12, 8 is 13, 9 is 14,
+10 is 15).
 
 Checked on 2026-11-23 unless noted.
 
 | Claim in the chapter | Status | Source |
 |---|---|---|
-| The AI systems John uses at work read files, change them and run programs | John to confirm | From John's description of using a coding agent |
-| An AI model can only write text; a separate program carries out its requests | author's knowledge | How tool use works in these systems. No citation gathered. Add the provider's documentation on tool use before publishing. |
-| That program is called a harness | author's usage | The term is common but not universal ("agent harness"). Check a source that uses it. |
-| The five requests | written for the page | The page says so |
-| What each request does to the pretend computer | verified | `src/lib/ai-series/harness/harness.ts` and its tests |
-| The harness John uses has rules: always, ask first, never | not checked today | True of Claude Code's permission settings as Claude knows them (allow, ask and deny rules). Link the documentation before publishing. |
-| A flaw in the harness or surrounding software can let through what the rules forbid; this happened in the July 2026 incident | reported | See chapter 7's notes in `docs/ai-series/PLAN.md`. Chapter 7 must verify it against the original reports. |
+| Every word, likelihood and continuation shown | verified | Recorded from GPT-2 (`gpt2`, 124,439,808 numbers, MIT licence) by `tools/ai-series/record_language.py` into `src/lib/ai-series/language/`. Two runs gave identical files. |
+| A choice shown as one word may be several of the model's word pieces joined | verified | The script joins a piece to the next when the model rates the continuation above 0.5, and multiplies their likelihoods. Such choices are marked "built from n pieces". |
+| "Every other word put together" is often the biggest row | verified | At the first step it is 81, 90 and 86 in 100 for three of the five starting texts |
+| Always taking the top word makes the writing flat and repetitive | verified | The recorded continuations at the lowest setting repeat themselves, for example "It's a lot of fun ... It's a lot of fun" |
+| 65 continuations recorded, 56 shown, 9 left out, with reasons | verified | `dice.json`: `recorded`, `shown`, `leftOut`. The coordinator read all 65. The left-out text is in no file under `src/`. |
+| The same question can get two different answers because the choice is made fresh each time | author's knowledge | How sampling works. No citation gathered. |
+| The phone keyboard's next-word suggestions are a small language model | author's knowledge | No citation gathered. Add one or soften. |
+| A page of text is this step repeated hundreds of times | author's estimate | A page is several hundred words |
+| 768 numbers for each word | verified | `word-map.json`, `dimensions`; GPT-2's embedding size |
+| 248 words; nearest words; groups | verified | `word-map.json`. 239 of 248 words have a nearest word from the same group. |
+| Words used in similar ways end up with similar numbers | verified for this data | As above |
+| GPT-2 learned from eight million web pages | verified, secondary source | Wikipedia, "GPT-2": "a dataset of 8 million web pages" |
+| OpenAI released GPT-2 in 2019 | verified, secondary source | Wikipedia, "GPT-2": "first announced on 14 February 2019"; full release 5 November 2019 |
+| GPT-3 came a year later and had about 1,400 times as many numbers | verified, secondary source, plus arithmetic | Wikipedia, "GPT-3": released 2020, "GPT-3 has 175 billion parameters". 175,000,000,000 divided by 124,439,808 is about 1,406. |
 
-Not in the chapter yet: when tool use and the Model Context Protocol were introduced. Verify before
-adding the "Plug in a tool" extra.
+Notes:
+
+- The map's dots are spread to fill the square for display (`spreadToFill` in
+  `src/lib/ai-series/language/word-map.ts`). The list of nearest words is unaffected.
+- GPT-2's writing includes crude and offensive text. Only the continuations in `dice.json` and the
+  choices in `next-words.json` are shown. The coordinator read all 65 continuations before choosing
+  which to show, and all 702 distinct words that appear as choices. The word list for the final,
+  deeper tree was read after the chapter was first deployed, not before; nothing in it was judged to
+  need removing. Sentences a reader can build that deserve a second opinion: "my grandmother always
+  told me I could never get pregnant", "... I was going through puberty", "... I was going to die",
+  and "Once upon a time there was a war in Egypt between Israel".
+- The recording was run twice from a clean state and gave identical files both times.
+- One word piece still appears as a choice: "min", ten times in the recipe text. The model rates a
+  comma as more likely than "utes" after it, so it is using "min" as an abbreviation.

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { ChapterDigit } from '@/components/blog/handwritten-digit'
+import { GLOSSARY_PATH, GLOSSARY_SERIES } from '@/lib/ai-series/glossary'
 import { getSeriesPostsByPart, type BlogPost } from '@/lib/blog'
 import { formatPostDate } from '@/lib/format-date'
 import { getSeries, type PlannedChapter, type Series } from '@/lib/series'
@@ -160,13 +161,20 @@ function SeriesChapterEnd({
         ) : (
           <span />
         )}
-        <Link
-          viewTransition
-          to={`/series/${series.slug}`}
-          className={cn(rowLinkClass, 'shrink-0 whitespace-nowrap')}
-        >
-          All {series.chapters.length} chapters
-        </Link>
+        <div className="flex shrink-0 flex-col items-end">
+          <Link
+            viewTransition
+            to={`/series/${series.slug}`}
+            className={cn(rowLinkClass, 'whitespace-nowrap')}
+          >
+            All {series.chapters.length} chapters
+          </Link>
+          {series.slug === GLOSSARY_SERIES && (
+            <Link viewTransition to={GLOSSARY_PATH} className={rowLinkClass}>
+              Glossary
+            </Link>
+          )}
+        </div>
       </div>
       <PostDate date={post.date} className="mt-6" />
     </div>
@@ -187,7 +195,8 @@ function PlainPostEnd({ post }: { post: BlogPost }) {
 
 /**
  * The end of a post. For a chapter of a series: a note once the chapter is recorded as read, the
- * next chapter, and links to the previous chapter and the whole series. For other posts: the date
+ * next chapter, and links to the previous chapter, the whole series and, for the AI series, its
+ * glossary. For other posts: the date
  * and a link back to the blog.
  */
 export function ChapterEnd({ post }: { post: BlogPost }) {

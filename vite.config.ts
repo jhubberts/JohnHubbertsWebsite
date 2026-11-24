@@ -6,6 +6,7 @@ import remarkFrontmatter from 'remark-frontmatter'
 import remarkMdxFrontmatter from 'remark-mdx-frontmatter'
 import remarkGfm from 'remark-gfm'
 import path from 'path'
+import { rehypeFootnoteSources } from './src/lib/rehype-footnote-sources'
 
 /**
  * The MDX plugin compiles every module whose path ends in .mdx, including `post.mdx?raw`, which
@@ -30,6 +31,7 @@ export default defineConfig({
   plugins: [
     mdxExceptRaw({
       remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter, remarkGfm],
+      rehypePlugins: [rehypeFootnoteSources],
     }),
     react(),
     tailwindcss(),

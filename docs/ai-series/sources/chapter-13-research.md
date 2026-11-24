@@ -1,5 +1,9 @@
 # Chapter 8, "What it costs": sourced fact sheet
 
+This file was renamed when the series was renumbered on 2026-11-23; chapter numbers inside it are
+the old ones (old 1 is now 3, 2 is 4, 3 is 6, 4 is 7, 5 is 9, 6 is 11, 7 is 12, 8 is 13, 9 is 14,
+10 is 15).
+
 Compiled 23 November 2026. Not chapter prose.
 
 **How to read the marks.** VERIFIED means the supporting words were in the page text I fetched. PARTLY means I only saw a search-result summary or a news report of the source, or the page fetched did not contain the figure. NOT FOUND means no source located. Caveat on "verbatim": my fetch tool returns pages through a summarising step, so quotes are as relayed by it. Check each against the live page before print. Where I read a PDF directly (the two Berkeley Lab reports), I say so.

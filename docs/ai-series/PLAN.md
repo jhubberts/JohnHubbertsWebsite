@@ -565,14 +565,14 @@ Added after the third deployment (uncommitted as of this note):
 - `docs/ai-series/sources/chapter-0.md` added.
 
 Reader test, 2026-11-23. John asked for blind readers in the persona of the series' reader: no
-knowledge of technology, trained in scientific method, psychology and life sciences. Three readers
+knowledge of technology and a science background. Three readers
 (a careful one, a tired one who skims, and one operating the pages at phone width) read chapters 0
 to 8 with no other context and answered set questions after each chapter. All three could answer
 the three questions at the end. They found undefined terms, sentences in one chapter that
 contradicted another, chapters 2, 4 and 8 too long, and bugs in the interactive parts. In response:
 
 - Prose in all nine chapters was revised: terms defined where they first appear, the contradictions
-  removed, and comparisons added from biology, psychology and counseling, which John allowed on
+  removed, and comparisons added from science and everyday life, which John allowed on
   2026-11-23. Every claim added is listed with its status in
   `docs/ai-series/sources/reader-test-revisions.md`.
 - Interactive parts: chapter 2's arithmetic moved into a collapsed "Show how it got there"; chapter
@@ -619,3 +619,24 @@ Decisions:
 - **Live AI.** Settled in practice: no live AI calls. Chapters 3 and 4 replay output recorded from
   real open models; chapters 5 and 6 use examples written for the page and say so.
 - **Downloads.** Approved by John, 2026-11-23, as above.
+
+
+## Restructure, 2026-11-23 (later the same day)
+
+The series was rebuilt into 17 chapters (0 to 16) after John said the narrative had become
+scattered. The plan is in `docs/ai-series/RESTRUCTURE-PLAN.md`. What was built:
+
+- Chapter 0 renamed "Questions my mom asked", with five questions (two added: whether the AI is spread
+  across a bunch of computers, and what "training the AI" means).
+- New chapters: 1 "A machine that follows instructions" (Babbage, Lovelace; "Be the computer"),
+  2 "Switches that count" (Turing, ENIAC, the transistor, the chip; "Eight switches"), 5 "Where the
+  examples come from" (training, labels, AI-training jobs; "Wrong labels"), 8 "Beyond words"
+  (AlphaFold and others; "Watch a chain fold"), 10 "Where it runs" (split from chapter 9).
+- Every old chapter was renumbered, keeping numbered addresses (John's decision); old addresses
+  redirect (`src/lib/ai-series/old-addresses.ts`), and reading progress was mapped to the new numbers.
+- A glossary (`src/lib/ai-series/glossary.ts`, page at `/series/how-ai-works/glossary`) with
+  `<Term id>` links on first use in each chapter; citations as footnotes, folded into "Sources" until
+  a number is tapped; `<JohnsThoughts>` boxes for John's own opinions (none written yet).
+- An author guide, `docs/ai-series/AUTHOR-GUIDE.md`, from the Field Guide rules and the blind
+  readers' findings; every chapter was copy-edited against it.
+- Chapter 16, John's epilogue, is listed as coming.

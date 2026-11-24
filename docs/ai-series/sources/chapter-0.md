@@ -1,5 +1,9 @@
 # Sources for chapter 0, "Three questions my mom asked"
 
+This file was renamed when the series was renumbered on 2026-11-23; chapter numbers inside it are
+the old ones (old 1 is now 3, 2 is 4, 3 is 6, 4 is 7, 5 is 9, 6 is 11, 7 is 12, 8 is 13, 9 is 14,
+10 is 15).
+
 Checked on 2026-11-23 unless noted.
 
 | Claim in the chapter | Status | Source |
@@ -19,3 +23,12 @@ Notes:
   defined in chapter 6 and transformer in chapter 4. "Container" is never used again.
 - This chapter has no opening bold question and no closing "So ...?" answer. Its job is to ask the
   three questions.
+
+## Update, 2026-11-23 (restructure)
+
+The chapter is now "Questions my mom asked" with five questions. The two added: "Is it spread across
+a bunch of computers?" (John: "My mom asked me if the AI was a bunch of computers") and "What does
+'training the AI' mean? Is it like teaching?" (asked when somebody John knows saw a temporary job
+posting for AI training; John asked that the person not be identified). The example words are now
+"transformer", "inference" and "harness". The chapter points to chapter 14 (how it was built) and
+chapter 15 (the guesses again).
