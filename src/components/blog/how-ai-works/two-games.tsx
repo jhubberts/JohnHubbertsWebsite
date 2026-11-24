@@ -6,7 +6,9 @@ import { cn } from '@/lib/utils'
 
 const INTRO = 'One sentence, one hidden word, played two ways.'
 const UNDER_BOTH =
-  'The first game is how BERT was trained. The second is the game that chat systems play: they only ever see what came before, and add one more word.'
+  'The first game is how BERT practiced. The second is the game that chat systems play: they only ever see what came before, and add one more word.'
+const NO_RIGHT_ANSWER =
+  'Neither list is a right answer. Each model is listing the words it finds likely in that place, and the real word is only one of many that fit.'
 const FOOTER = 'Real outputs of BERT (2018) and GPT-2 (2019), recorded for this page.'
 const FAILED = 'This did not load. Check your connection and reload the page.'
 
@@ -83,7 +85,10 @@ function Interactive({ data }: { data: FillInData }) {
           </div>
         </GameCard>
       </div>
-      <p>{UNDER_BOTH}</p>
+      <div>
+        <p>{UNDER_BOTH}</p>
+        <p className="text-muted-foreground mt-1">{NO_RIGHT_ANSWER}</p>
+      </div>
       <p className="text-muted-foreground text-sm">{FOOTER}</p>
     </div>
   )

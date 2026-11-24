@@ -21,7 +21,7 @@ const series: Series[] = [
       { part: 2, title: 'A network that reads handwriting' },
       { part: 3, title: 'Guess the next word' },
       { part: 4, title: 'Paying attention' },
-      { part: 5, title: 'From a research paper to a chat window' },
+      { part: 5, title: 'Inside a chat window' },
       { part: 6, title: 'Giving it hands' },
       { part: 7, title: 'Can it get out?' },
       { part: 8, title: 'What it costs' },

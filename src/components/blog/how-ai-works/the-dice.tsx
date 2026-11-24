@@ -33,8 +33,8 @@ export function TheDice() {
   return (
     <TryIt title="The dice">
       <p className="mb-6 text-base">
-        The model does not always take its top word. One setting decides how often it takes a less
-        likely one. Move it and watch what happens to the writing.
+        The top word is not always the one taken. One setting decides how often a less likely word
+        is taken instead. Move it and watch what happens to the writing.
       </p>
       {load.status === 'loading' && <p className="text-muted-foreground text-base">Loading…</p>}
       {load.status === 'failed' && <p className="text-base">{LOAD_FAILED}</p>}

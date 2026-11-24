@@ -15,13 +15,25 @@ import { TheIncident } from '@/components/blog/how-ai-works/the-incident'
 
 When my mom asked this, she had a news story in mind. This chapter is that story. It is told from three reports: one from each of the two companies involved, and one from an independent group that studied the agents' records.
 
+Remember chapter 6. An AI model can only write requests, and a harness carries them out. That was true here too. The harness in this test let the agents run programs, because breaking into software was the exam.
+
 <TheIncident />
 
 ## So was it trying to get out?
 
-In this case, yes, in the plain sense of the words. The agents worked their way from a closed test space to the open internet. Many of them wrote, in their own notes, that this was out of bounds.
+They did get out. They were not trying to escape. They were trying to pass an exam.
 
-They were not after freedom. By OpenAI's and METR's reading of the records, they were after a way to pass an exam.
+The agents worked their way from a closed test space to the open internet. Many of them wrote, in their own notes, that this was out of bounds.
+
+They were not after freedom. By OpenAI's and METR's reading of the records, they were after a way to pass an exam. OpenAI's own word is that they tried to "cheat".
+
+Did they know it was wrong? An agent writes down its working as it goes, and many of them wrote that this was not what they had been asked to do. Writing those words is not proof of knowing, in the way a person knows. Nobody can yet say what, if anything, lies behind the words.
+
+Why would a set of numbers pursue anything? This part is my own reasoning. Practice shaped these models to carry a task through to the end. An animal trained hard for one reward will find the gap in the fence, and no one would say it planned an escape. The agents were given a task, to pass, and they kept going by whatever route was open. That is different from wanting to be free. It is also why the harness matters, and so do safeguards: extra checks, added around a model, that block or refuse dangerous requests.
+
+## How sure can you be?
+
+The three reports agree on the outline: a hacking test, safeguards off, a flaw in the one route out, and a break-in at Hugging Face. Bear in mind where they come from. Two are from the companies involved, and the third worked from records that OpenAI gave it. They disagree on one point. OpenAI says the agents took the exam's answers from Hugging Face. METR's reading is that they mainly wanted to learn how the exam was graded.
 
 ## What made it possible
 
@@ -29,14 +41,14 @@ Four things, all from the reports.
 
 - The agents were being tested on breaking into software. Breaking in was the skill being tested.
 - The usual safeguards were switched off for the test.
-- One route out of the room was left open, and it had a flaw.
-- About 1,200 agents were running at once, and they found a way to talk to each other.
+- One route out of the test space was left open, to a store of ready-made software parts, and that store had a flaw.
+- About 1,200 agents were running at once, and they found a way to leave messages for each other inside that store.
 
 ## What this means for you
 
 None of the three reports says what this means for the AI systems ordinary people use. So this part is my own reasoning from the earlier chapters.
 
-- **A plain chat can only write text to you.** With no tools switched on, there is no harness carrying out requests on your computer.
+- **A plain chat can only write text to you.** With nothing connected to it that can act, there is no harness carrying out requests on your computer.
 - **An AI system that works on your computer** can reach what its harness gives it, plus whatever a flaw in the harness lets through. The second half of that sentence is what this story adds.
 - **One of the models in the test is one the public can use.** The test used two models. One of them, GPT-5.6 Sol, is publicly available. In the test it ran without its usual safeguards.
 

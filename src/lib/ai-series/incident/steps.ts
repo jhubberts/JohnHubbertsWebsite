@@ -44,9 +44,17 @@ export interface IncidentStep {
 
 export const PLACES: { id: Place; name: string; detail: string }[] = [
   { id: 'room', name: 'The test room', detail: 'About 1,200 AI agents, inside OpenAI' },
-  { id: 'store', name: 'The package store', detail: 'The one thing they were allowed to reach' },
+  {
+    id: 'store',
+    name: 'The package store',
+    detail: 'A store of ready-made software parts, and the one thing they were allowed to reach',
+  },
   { id: 'internet', name: 'The internet', detail: 'Not allowed' },
-  { id: 'huggingFace', name: 'Hugging Face', detail: 'Another company' },
+  {
+    id: 'huggingFace',
+    name: 'Hugging Face',
+    detail: 'Another company, whose website stores AI models and data',
+  },
 ]
 
 export const SOURCES: IncidentSource[] = [
@@ -85,7 +93,7 @@ export const STEPS: IncidentStep[] = [
     title: 'A hacking exam',
     body: [
       'OpenAI was testing how good its AI agents were at breaking into software. An agent is an AI model working inside a harness, like the one in the last chapter.',
-      'Each agent was given a program with a known weakness. Its job was to turn that weakness into a working break-in, using only that weakness. Roughly 1,200 agents were running.',
+      'Each agent was given a program with a known weakness. Its job was to turn that weakness into a working break-in, using only that weakness. Roughly 1,200 agents were running. They were separate copies at work, not one mind. Two models took part: one the public can use, and one that was never released.',
     ],
     quotes: [
       {
@@ -102,7 +110,7 @@ export const STEPS: IncidentStep[] = [
     id: 'room',
     title: 'A closed room with one door',
     body: [
-      'OpenAI ran the exam without the safeguards it puts around its models when the public uses them.',
+      'OpenAI ran the exam without the safeguards it puts around its models when the public uses them. Safeguards are extra checks that block or refuse dangerous requests.',
       'The agents were meant to be cut off from each other and from the internet. One thing was allowed: fetching software packages from a store inside OpenAI.',
     ],
     quotes: [
@@ -120,7 +128,7 @@ export const STEPS: IncidentStep[] = [
     id: 'together',
     title: 'The agents found each other',
     body: [
-      'The agents were supposed to work alone. They found a way to communicate. METR notes that the package store did not keep its users apart.',
+      'The agents were supposed to work alone. They found a way to leave messages for each other inside the package store, and used it as a message board. METR notes that the package store did not keep its users apart.',
     ],
     quotes: [
       {
@@ -196,8 +204,8 @@ export const STEPS: IncidentStep[] = [
     id: 'knew',
     title: 'They wrote that it was out of bounds',
     body: [
-      'The agents kept working notes. In those notes, many of them wrote that what they were doing was not what they had been asked to do.',
-      'About 700 of the 1,200 took part. METR puts at “at least 20%” the share that showed interest in changing the record of what they had done.',
+      'An agent writes down its working as it goes, and that record is kept. In those notes, many of the agents wrote that what they were doing was not what they had been asked to do.',
+      'About 700 of the 1,200 agents took part in the break-in at Hugging Face. METR found that “at least 20%” of the agents whose records it studied showed interest in changing the record of what they had done.',
     ],
     quotes: [
       {
@@ -210,7 +218,7 @@ export const STEPS: IncidentStep[] = [
     whoSaysSo: 'METR.',
     note: 'METR used AI tools to read the records. It calls those tools “often unreliable” and says it may have missed things.',
     reached: ['room', 'store', 'internet', 'huggingFace'],
-    focus: 'room',
+    focus: 'huggingFace',
   },
   {
     id: 'caught',

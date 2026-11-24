@@ -165,7 +165,7 @@ against a primary source when the chapter is written; none of it has been checke
   2020, and each one's size. The source of the animal-and-street sentence.
 - Build phase: How the model works.
 
-### Chapter 5. From a research paper to a chat window
+### Chapter 5. Inside a chat window (was "From a research paper to a chat window")
 
 - Opens with: **"Is it in the AI?"** (the first of the three questions)
 - The one idea: the model is a file of numbers that does not change when it is used. A chat is one
@@ -509,7 +509,8 @@ push to GitHub and serves it at www.johnhubberts.com. There is no other Amplify 
 
 Added in the round after the first deployment (uncommitted as of this note):
 
-- Chapter 5, "From a research paper to a chat window": about 400 words and "What the model actually
+- Chapter 5, "Inside a chat window" (renamed after the reader test; first titled "From a research
+  paper to a chat window"): about 400 words and "What the model actually
   receives" (`what-the-model-receives.tsx`, script and word counts in
   `src/lib/ai-series/chat/`). Its extras ("Where does it live?", "No one big brain") are not built.
 - Chapter 6, "Giving it hands": about 280 words and "You are the harness"
@@ -562,6 +563,34 @@ Added after the third deployment (uncommitted as of this note):
   directive taken from this plan's rules. 35 prose lines changed. The editors' reports also raised
   claims the sources did not support; those were fixed and the sources files updated.
 - `docs/ai-series/sources/chapter-0.md` added.
+
+Reader test, 2026-11-23. John asked for blind readers in the persona of the series' reader: no
+knowledge of technology, trained in scientific method, psychology and life sciences. Three readers
+(a careful one, a tired one who skims, and one operating the pages at phone width) read chapters 0
+to 8 with no other context and answered set questions after each chapter. All three could answer
+the three questions at the end. They found undefined terms, sentences in one chapter that
+contradicted another, chapters 2, 4 and 8 too long, and bugs in the interactive parts. In response:
+
+- Prose in all nine chapters was revised: terms defined where they first appear, the contradictions
+  removed, and comparisons added from biology, psychology and counseling, which John allowed on
+  2026-11-23. Every claim added is listed with its status in
+  `docs/ai-series/sources/reader-test-revisions.md`.
+- Interactive parts: chapter 2's arithmetic moved into a collapsed "Show how it got there"; chapter
+  7's quotations collapsed per step; chapter 8 rebuilt without tabs, with four collapsed sections
+  and a fifth published figure; smaller fixes in chapters 1, 3, 4 and 5.
+- Chapter 5 renamed "Inside a chat window".
+- A second round of three readers was then run on the revised pages. "Too much" scores (1 easy, 5
+  would stop) fell from 4 to 3 for chapter 2, and from 4 to between 2 and 4 for chapters 7 and 8.
+  Chapter 4 stayed at 3 to 4 and is where two of the three said they would stop. All three again
+  answered the three questions. Fixes made after round 2 are listed in
+  `docs/ai-series/sources/reader-test-revisions.md`.
+- Chapter 4 was then cut down, by John's decision on 2026-11-23, after a re-read still scored it 4.
+  "What does it mean?" shows only the picked pattern for the word "it". "Two games" and the list of
+  model sizes are no longer on the page; `two-games.tsx` and its recorded data stay in the
+  repository, unused. The page went from about eight phone screens to about five.
+- Left open after round 2: chapter 0 promises ten chapters and the reader's guesses shown again,
+  which waits on chapter 9; chapter 8 says nothing about carbon emissions; the word map's dots are
+  about 8 pixels and hard to tap; chapter 4 has not been read by a blind reader since the cut.
 
 Chapters 0 to 8 are drafts. Chapter 9 (How I used AI to build this) is not started, by John's
 decision: it is written when everything else is finished. A record for it is kept in John's notes,

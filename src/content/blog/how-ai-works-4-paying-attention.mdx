@@ -8,7 +8,6 @@ draft: true
 ---
 
 import { WhatDoesItMean } from '@/components/blog/how-ai-works/what-does-it-mean'
-import { TwoGames } from '@/components/blog/how-ai-works/two-games'
 
 # Paying attention
 
@@ -24,37 +23,30 @@ In the first, "it" is the animal. In the second, "it" is the street. You worked 
 
 To write sensibly, a model has to do the same. In 2017, researchers at Google published a design that lets every word look at every other word in the text, all at once, and take what it needs from them. They called the design the transformer. The looking is called attention.
 
+The name is the researchers'. It is not attention in a psychologist's sense of selective focus. It is closer to context: how much each word leans on each of the others.
+
+Below is a real model doing this with the two sentences.
+
 <WhatDoesItMean />
 
 ## What that shows
 
-In one of the model's patterns, "it" switches from the animal to the street when the last word changes. The model has 144 patterns, and most of them do other work. Together they let each word take what it needs from the rest.
+In the first sentence "it" leaned most on the animal, and in the second on the street. One word at the end changed where the model looked. We picked this example because it is the clearest. The model looks at a sentence in many ways at once, and most of them show nothing this neat.
 
-Do not read too much into the picture. It shows where the model looked. It does not show what the model understood.
+Do not read too much into the picture. It shows where the model looked. It does not show what the model understood. A brain scan is the same: it shows what lit up, and not what the person was thinking.
 
-## Two ways to practice
+## From this to a chat system
 
-Researchers used the transformer to build two kinds of model. One practices by filling in a hidden word, with both sides of the gap in view. The other practices by guessing the next word, with only the earlier words in view, as in chapter 3.
+The model above can see the words on both sides of "it". The models behind chat systems use the same design with one difference. Each word may draw only on the words before it, because their job is to guess the next word, as in chapter 3.
 
-<TwoGames />
+That raises a puzzle. If a chat system sees only what came before, how can it tell what "it" means when the clue comes later? By the time it reads your message, your whole message is what came before. Only its own answer is written one word at a time.
 
-BERT, which Google introduced in October 2018, plays the first game. The GPT models from OpenAI play the second. A model that can guess the next word can write. Chat systems are built on that kind of model.
-
-## The same design, much bigger
-
-Because the transformer handles all the words at once and not one after another, researchers could run it on far more text and make it far larger.
-
-- The network in chapter 2 has 25,818 numbers.
-- BERT has about 110 million.
-- The GPT-2 used in chapter 3 has about 124 million.
-- GPT-3, from 2020, has 175 billion.
-
-The companies behind today's chat systems do not usually publish this number for their models.
+The design had one more advantage. A computer can take in all the words of a text together, and not one after another. That let researchers give it far more text to practice on and make it far larger. The network in chapter 2 has 25,818 numbers. GPT-3, built on this design in 2020, has 175 billion.
 
 **So what changed in 2017?** A design in which every word can draw on every other word at once. It could be grown far larger. Today's systems are that design, grown large.
 
 ## Sources
 
-- Everything the two models say on this page was recorded from BERT and GPT-2 by a script in this site's code. The models and their licenses are on their pages at Hugging Face: [BERT](https://huggingface.co/bert-base-uncased) and [GPT-2](https://huggingface.co/gpt2).
+- Every number in the example was recorded from a model called BERT by a script in this site's code. The model and its license are on its [page at Hugging Face](https://huggingface.co/bert-base-uncased).
 - The 2017 design: Wikipedia's article on [Attention Is All You Need](https://en.wikipedia.org/wiki/Attention_Is_All_You_Need), the paper that introduced it.
 - BERT: Wikipedia's article on [BERT](<https://en.wikipedia.org/wiki/BERT_(language_model)>). GPT-3: Wikipedia's article on [GPT-3](https://en.wikipedia.org/wiki/GPT-3).

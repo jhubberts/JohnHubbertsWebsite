@@ -10,11 +10,15 @@ import {
   WORLD_TOTALS,
 } from './figures'
 import {
+  addItUpSummary,
   answersFor,
   basisTag,
+  capitalizeFirst,
   partOfWorld,
+  totalsSummary,
   twoSignificant,
   waterSpread,
+  waterSummary,
   yearlyTerawattHours,
 } from './footprint'
 
@@ -37,6 +41,7 @@ describe('twoSignificant', () => {
     [1616.6, '1,600'],
     [0.3103, '0.31'],
     [2.7375, '2.7'],
+    [155, '160'],
   ])('writes %d as %s', (n, shown) => {
     expect(twoSignificant(n)).toBe(shown)
   })
@@ -49,6 +54,18 @@ describe('answersFor', () => {
     expect(answersFor(93, 3).wording).toBe('= about 31 answers')
   })
 
+  it.each([
+    ['led', '= about 15 answers'],
+    ['streaming', '= about 130 answers'],
+    ['kettle', '= about 160 answers'],
+  ])('compares %s with the figure that counts building the model', (id, wording) => {
+    const comparison = COMPARISONS.find((c) => c.id === id)
+    if (!comparison) throw new Error(`no comparison ${id}`)
+    expect(answersFor(comparison.wattHours, figure('epoch-with-building').wattHours).wording).toBe(
+      wording,
+    )
+  })
+
   it('says "1 answer" when the count is below 1.5', () => {
     expect(answersFor(1.4, 1).wording).toBe('= about 1 answer')
   })
@@ -59,6 +76,7 @@ describe('yearlyTerawattHours', () => {
     ['openai', '0.31'],
     ['google', '0.22'],
     ['epoch', '0.27'],
+    ['epoch-with-building', '0.55'],
     ['older', '2.7'],
   ])('gives %s as %s terawatt-hours', (id, shown) => {
     expect(twoSignificant(yearlyFor(id))).toBe(shown)
@@ -70,9 +88,53 @@ describe('partOfWorld', () => {
     ['openai', '1,600'],
     ['google', '2,200'],
     ['epoch', '1,800'],
+    ['epoch-with-building', '890'],
     ['older', '180'],
   ])('gives %s as 1 part in %s', (id, shown) => {
     expect(twoSignificant(partOfWorld(yearlyFor(id), 485))).toBe(shown)
+  })
+})
+
+describe('the section summaries', () => {
+  it('say how a year of questions at the chosen figure compares with all data centers', () => {
+    const world2025 = WORLD_TOTALS.find((t) => t.id === 'world-2025')?.terawattHours ?? 0
+    expect(addItUpSummary(QUESTIONS_PER_DAY.count, figure('google').wattHours, world2025)).toBe(
+      'A year of ChatGPT’s questions at this figure is about 1 part in 2,200 of what all data ' +
+        'centers used.',
+    )
+    expect(
+      addItUpSummary(QUESTIONS_PER_DAY.count, figure('epoch-with-building').wattHours, world2025),
+    ).toBe(
+      'A year of ChatGPT’s questions at this figure is about 1 part in 890 of what all data ' +
+        'centers used.',
+    )
+  })
+
+  it('give the world’s data centers’ share in 2024 and 2030', () => {
+    const share = (id: string) => WORLD_TOTALS.find((t) => t.id === id)?.share ?? ''
+    expect(totalsSummary(share('world-2024'), share('world-2030'))).toBe(
+      'About 1.5% of the world’s electricity in 2024. Expected by 2030: about 3% of the world’s ' +
+        'electricity.',
+    )
+  })
+
+  it('give the water figures from the smallest to Mistral’s', () => {
+    expect(waterSummary(WATER_FIGURES, 'mistral')).toBe(
+      'From about five drops to about three tablespoons, depending on what is counted.',
+    )
+  })
+
+  it('count the low end of a range when finding the smallest water figure', () => {
+    const [google, , mistral, ren] = WATER_FIGURES
+    const lowRange = { ...ren, millilitres: [0.1, 50] as [number, number], inKitchenTerms: 'x' }
+    expect(waterSummary([google, mistral, lowRange], 'mistral')).toBe(
+      'From x to about three tablespoons, depending on what is counted.',
+    )
+  })
+
+  it('capitalize only the first letter', () => {
+    expect(capitalizeFirst('about 1.5% of it')).toBe('About 1.5% of it')
+    expect(capitalizeFirst('')).toBe('')
   })
 })
 

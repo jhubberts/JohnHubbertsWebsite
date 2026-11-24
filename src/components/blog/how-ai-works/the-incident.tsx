@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef, useState } from 'react'
+import { Fragment, useEffect, useId, useRef, useState } from 'react'
 import type { KeyboardEvent } from 'react'
 import { Button } from '@/components/ui/button'
 import { TryIt } from '@/components/ai-series/try-it'
@@ -59,7 +59,7 @@ export function TheIncident() {
       <div className="space-y-5 text-base" onKeyDown={onKeyDown}>
         <p>Nine steps. Each one says whose account it is, in their own words.</p>
         <Picture step={step} number={index + 1} />
-        <StepText step={step} number={index + 1} headingRef={headingRef} />
+        <StepText key={step.id} step={step} number={index + 1} headingRef={headingRef} />
         <Controls index={index} onGo={goTo} />
         <Reports />
       </div>
@@ -137,6 +137,10 @@ function StepText({
   number: number
   headingRef: React.RefObject<HTMLHeadingElement | null>
 }) {
+  // The component is keyed by step, so this starts closed again on every new step.
+  const [quotesOpen, setQuotesOpen] = useState(false)
+  const quotesId = useId()
+
   return (
     <div className="space-y-3">
       <p className="text-muted-foreground text-sm font-medium">
@@ -152,8 +156,19 @@ function StepText({
       {step.body.map((paragraph) => (
         <p key={paragraph}>{paragraph}</p>
       ))}
-      <h5 className="pt-1 font-bold">In their words</h5>
-      <div className="space-y-3">
+      <h5 className="pt-1">
+        <Button
+          variant="outline"
+          className="h-auto min-h-11 px-4 text-base font-bold"
+          aria-expanded={quotesOpen}
+          aria-controls={quotesId}
+          onClick={() => setQuotesOpen(!quotesOpen)}
+        >
+          <span aria-hidden>{quotesOpen ? '▾' : '▸'}</span>
+          In their words ({step.quotes.length})
+        </Button>
+      </h5>
+      <div id={quotesId} hidden={!quotesOpen} className="space-y-3">
         {step.quotes.map((quote) => {
           const source = SOURCE_BY_ID[quote.source]
           return (
@@ -199,7 +214,8 @@ function Controls({ index, onGo }: { index: number; onGo: (next: number) => void
           {last ? 'Start again' : 'Next'}
         </Button>
       </div>
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="text-muted-foreground mr-1 text-sm">Jump to a step:</span>
         {STEPS.map((step, i) => {
           const current = i === index
           return (

@@ -20,6 +20,8 @@ import {
 
 const INTRO =
   'Inside the model, every word is a list of 768 numbers. Words that are used in similar ways end up with similar numbers. Here are 248 words, placed so that similar ones sit near each other.'
+const OPPOSITES_NOTE =
+  'Opposites often sit close together, because they are used in the same kinds of sentence.'
 const ROUGH_NOTE =
   'The map squashes 768 numbers down to two, so distances on it are only roughly right. The list above uses all 768.'
 const FOOTER =
@@ -125,6 +127,7 @@ function Explorer({ words }: { words: MapWord[] }) {
               ? '1 of its five nearest is in the same group.'
               : `${same} of its five nearest are in the same group.`}
         </p>
+        <p className="text-muted-foreground text-sm">{OPPOSITES_NOTE}</p>
       </div>
       <p className="text-muted-foreground text-sm">{ROUGH_NOTE}</p>
 
@@ -155,8 +158,10 @@ function Explorer({ words }: { words: MapWord[] }) {
         })}
         <button
           type="button"
+          disabled={onlyGroup === null}
+          aria-disabled={onlyGroup === null}
           onClick={() => setOnlyGroup(null)}
-          className="bg-background text-foreground hover:bg-muted focus-visible:ring-ring/50 focus-visible:border-ring border-input min-h-11 rounded-lg border px-3 text-base outline-none focus-visible:ring-3"
+          className="bg-background text-foreground hover:bg-muted focus-visible:ring-ring/50 focus-visible:border-ring border-input disabled:text-muted-foreground disabled:hover:bg-background min-h-11 rounded-lg border px-3 text-base outline-none focus-visible:ring-3 disabled:opacity-50"
         >
           Show all
         </button>

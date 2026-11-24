@@ -138,7 +138,7 @@ export function SortTheFlowers() {
             positive={positive}
             wrong={wrong}
             right={right}
-            marked={mode === 'machine' ? machine.marked : null}
+            marked={mode === 'machine' && !done ? machine.marked : null}
             ends={mode === 'you' ? ends : null}
             onEndsChange={setEnds}
           />
@@ -150,7 +150,13 @@ export function SortTheFlowers() {
                   ? 'Your line sorts all 100 flowers.'
                   : `Your line has ${right} of 100 flowers on the right side.`}
               </p>
-              {wrong.length > 0 && <p>{wrong.length} on the wrong side. They are ringed.</p>}
+              {wrong.length > 0 && (
+                <p>
+                  {wrong.length === 1
+                    ? '1 on the wrong side. It is ringed.'
+                    : `${wrong.length} on the wrong side. They are ringed.`}
+                </p>
+              )}
             </div>
           ) : (
             <>
@@ -183,7 +189,8 @@ export function SortTheFlowers() {
               <p>
                 The machine&rsquo;s line is three numbers: {twoDecimals(machine.state.line.a)},{' '}
                 {twoDecimals(machine.state.line.b)}, {twoDecimals(machine.state.line.c)}. Each
-                correction changes them a little.
+                correction changes them a little. Two of them set how the line tilts. The third sets
+                where it sits.
               </p>
             </>
           )}
@@ -362,7 +369,7 @@ function Plot({ line, positive, wrong, right, marked, ends, onEndsChange }: Plot
   const sideLabels = segment ? placeSideLabels(line, positive, px, py, width, height) : []
 
   return (
-    <div ref={wrapperRef} className="w-full">
+    <div ref={wrapperRef} className="w-full scroll-mt-20">
       <svg
         ref={svgRef}
         width={side}

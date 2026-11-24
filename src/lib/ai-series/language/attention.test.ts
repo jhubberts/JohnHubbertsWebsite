@@ -7,6 +7,7 @@ import {
   mostDrawnWord,
   positionOfIt,
   sentenceWords,
+  pickedNote,
   type AttentionData,
   type SentenceId,
   type ViewId,
@@ -86,6 +87,12 @@ describe('the recorded attention', () => {
   it('has "it" drawing most on "animal" in the first sentence and "street" in the second in the best view', () => {
     expect(mostDrawnWord(attentionList(real, 'A', 'best', IT))).toBe('animal')
     expect(mostDrawnWord(attentionList(real, 'B', 'best', IT))).toBe('street')
+  })
+
+  it('says the pattern shown was picked and how many do not show the switch', () => {
+    expect(pickedNote(real)).toBe(
+      'The model looks at a sentence in 144 different ways at once. This is one of them. We picked it because it shows the switch most clearly. 119 of the 144 do not show it.',
+    )
   })
 
   it('has "it" drawing more on "animal" than "street" in both sentences in the average view', () => {

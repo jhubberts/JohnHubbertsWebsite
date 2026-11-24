@@ -206,8 +206,8 @@ function ModelView({ script, done }: { script: readonly Exchange[]; done: number
         <p>Nothing has been sent in this chat yet.</p>
       ) : (
         <p>
-          Sent to the model this turn: {counts[done - 1]} words. All of it, not only your new
-          message.
+          Sent to the model this turn: {counts[done - 1]} words. That is everything above the
+          model&apos;s new reply, not only your new message.
         </p>
       )}
       {done > 0 && (

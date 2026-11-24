@@ -1,34 +1,30 @@
-import { useEffect, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
 import { TryIt } from '@/components/ai-series/try-it'
+import { Button } from '@/components/ui/button'
 import {
   attentionList,
   inHundredNumber,
   mostDrawnWord,
   positionOfIt,
   sentenceWords,
+  pickedNote,
   type AttentionData,
   type SentenceId,
-  type ViewId,
 } from '@/lib/ai-series/language/attention'
 import { inHundred } from '@/lib/ai-series/language/format'
 import { cn } from '@/lib/utils'
 
 const INTRO =
-  'Two sentences that differ by one word. In the first, “it” is the animal. In the second, “it” is the street. Tap a word to see which other words the model draws on to work out what it means.'
-const BEST_NOTE =
-  'BERT, the model used here, has 144 of these patterns. This is the one where the change from “animal” to “street” is clearest. We went looking for it.'
-const AVERAGE_NOTE =
-  'Averaged over all 144 patterns, “it” draws more on “animal” than on “street” in both sentences. Most of the patterns are doing some other job.'
+  'Two sentences that differ by one word. In the first, “it” is the animal. In the second, “it” is the street. Switch between them and watch which words “it” leans on.'
+const UNDER_WORDS =
+  'The number under each word is how much “it” leans on that word, out of 100. They do not add up to 100. The rest goes to two markers the model adds at the start and end of the sentence. “Show the full list” has every part.'
+const MARKERS = 'two invisible markers the model adds at the start and end of every sentence'
 const FOOTER = 'Real numbers from BERT, a language model from 2018, recorded for this page.'
 const FAILED = 'This did not load. Check your connection and reload the page.'
 
 const SENTENCES: { id: SentenceId; label: string }[] = [
   { id: 'A', label: '…too tired.' },
   { id: 'B', label: '…too wide.' },
-]
-const VIEWS: { id: ViewId; label: string }[] = [
-  { id: 'best', label: 'One pattern' },
-  { id: 'average', label: 'Average of all 144' },
 ]
 
 /** The strongest shade a word button gets; the number under the word carries the exact value. */
@@ -66,17 +62,14 @@ export function WhatDoesItMean() {
 
 function Interactive({ data }: { data: AttentionData }) {
   const [sentence, setSentence] = useState<SentenceId>('A')
-  const [view, setView] = useState<ViewId>('best')
-  // The pieces are in the same places in both sentences, so a selection carries across.
-  const [selected, setSelected] = useState(() => positionOfIt(data, 'A'))
+  const [listOpen, setListOpen] = useState(false)
+  const listId = useId()
 
   const words = sentenceWords(data, sentence)
-  const list = attentionList(data, sentence, view, selected)
-  const selectedWord = words[selected - 1]
-  const selectedLabel = selectedWord === '.' ? 'the period' : selectedWord
-  const asksAboutIt = selectedWord === 'it'
+  // "it" is in the same place in both sentences.
+  const itIndex = positionOfIt(data, 'A')
+  const list = attentionList(data, sentence, 'best', itIndex)
   const most = mostDrawnWord(list)
-  const switching = data.summary.switching
 
   return (
     <div className="space-y-4 text-base">
@@ -91,77 +84,72 @@ function Interactive({ data }: { data: AttentionData }) {
       <ul className="flex flex-wrap gap-2" aria-label="The sentence">
         {words.map((word, i) => {
           const index = i + 1
-          const isSelected = index === selected
+          const isIt = index === itIndex
           const row = list.rows.find((r) => r.index === index)
           const strength = row ? row.value / list.largest : 0
           return (
-            <li key={index}>
-              <button
-                type="button"
-                aria-pressed={isSelected}
-                onClick={() => setSelected(index)}
-                style={
-                  row
-                    ? {
-                        backgroundColor: `color-mix(in oklab, var(--primary) ${Math.round(strength * MAX_SHADE_PERCENT)}%, var(--background))`,
-                      }
-                    : undefined
-                }
-                className={cn(
-                  'text-foreground focus-visible:ring-ring/50 flex min-h-12 min-w-11 flex-col items-center justify-center rounded-lg border px-2.5 py-1 text-base outline-none focus-visible:ring-3',
-                  isSelected
-                    ? 'border-primary bg-background border-4 px-1.5 font-semibold'
-                    : 'border-input',
-                )}
-              >
-                <span>
-                  {word}
-                  {isSelected && <span className="sr-only"> selected</span>}
+            <li
+              key={index}
+              style={
+                row
+                  ? {
+                      backgroundColor: `color-mix(in oklab, var(--primary) ${Math.round(strength * MAX_SHADE_PERCENT)}%, var(--background))`,
+                    }
+                  : undefined
+              }
+              className={cn(
+                'text-foreground flex min-h-12 min-w-11 flex-col items-center justify-center rounded-lg border px-2.5 py-1 text-base',
+                isIt
+                  ? 'border-primary bg-background border-4 px-1.5 font-semibold'
+                  : 'border-input',
+              )}
+            >
+              <span>{word}</span>
+              {row && (
+                <span className="text-xs leading-tight">
+                  <span className="sr-only">“it” leans on this word: </span>
+                  {inHundredNumber(row.value)}
                 </span>
-                {row && (
-                  <span className="text-xs leading-tight">
-                    <span className="sr-only">draws on this word: </span>
-                    {inHundredNumber(row.value)}
-                  </span>
-                )}
-              </button>
+              )}
             </li>
           )
         })}
       </ul>
-      {asksAboutIt && most && <p className="font-semibold">Here “it” draws most on “{most}”.</p>}
-      <Tabs<ViewId>
-        idPrefix="what-does-it-mean-view"
-        label="Which view"
-        tabs={VIEWS}
-        value={view}
-        onChange={setView}
-      />
-      <div>
-        <h4 className="mb-2 font-semibold">“{selectedLabel}” draws on:</h4>
-        <ul className="space-y-1">
-          {list.rows.map((row) => (
-            <ListRow
-              key={row.index}
-              label={row.label}
-              value={row.value}
-              largest={list.largest}
-              most={row.isMost}
-            />
-          ))}
-          <ListRow
-            label="the markers at the start and end"
-            value={list.markers}
-            largest={list.largest}
-            muted
-          />
-        </ul>
+      <p className="text-muted-foreground text-sm">{UNDER_WORDS}</p>
+      {most && (
+        <p role="status" className="font-semibold">
+          Here “it” leans most on “{most}”.
+        </p>
+      )}
+      <p>{pickedNote(data)}</p>
+      <Button
+        variant="outline"
+        aria-expanded={listOpen}
+        aria-controls={listId}
+        onClick={() => setListOpen(!listOpen)}
+        className="h-auto min-h-12 w-full px-5 py-2 text-base whitespace-normal sm:w-auto"
+      >
+        {listOpen ? 'Hide the full list' : 'Show the full list'}
+      </Button>
+      <div id={listId}>
+        {listOpen && (
+          <>
+            <h4 className="mb-2 font-semibold">“it” leans on:</h4>
+            <ul className="space-y-1">
+              {list.rows.map((row) => (
+                <ListRow
+                  key={row.index}
+                  label={row.label}
+                  value={row.value}
+                  largest={list.largest}
+                  most={row.isMost}
+                />
+              ))}
+              <ListRow label={MARKERS} value={list.markers} largest={list.largest} muted />
+            </ul>
+          </>
+        )}
       </div>
-      <p>{view === 'best' ? BEST_NOTE : AVERAGE_NOTE}</p>
-      <p>
-        In {switching} of the {data.summary.heads} patterns, “it” draws more on “animal” in the
-        first sentence and more on “street” in the second.
-      </p>
       <p className="text-muted-foreground text-sm">{FOOTER}</p>
     </div>
   )

@@ -19,23 +19,21 @@ There is another way. Give the machine examples, and let it find the rule.
 
 Below are 100 real iris flowers of two species. Edgar Anderson collected the measurements, and Ronald Fisher published them in 1936. Each flower is placed on the chart by the length and width of its sepals. On an iris the sepals are the three outer parts that spread or droop, the ones called falls.
 
-First, separate the two species yourself.
+First, separate the two species yourself. Then choose "The machine tries" and press "Keep going".
 
 <SortTheFlowers />
 
 ## What the machine did
 
-Now choose "The machine tries" and press "Keep going".
+The machine knows nothing about flowers. It has three numbers, and those three numbers are its line. Two of them set how the line tilts, and the third sets where it sits. It looks at one flower at a time. Whenever a flower is on the wrong side, it changes its three numbers a little. After 27 corrections, no flower is on the wrong side.
 
-The machine knows nothing about flowers. It has three numbers, and those three numbers are its line. It looks at one flower at a time. Whenever a flower is on the wrong side, it changes its three numbers a little. After 27 corrections, no flower is on the wrong side.
-
-Nobody gave it the rule. It found one from the examples, by being wrong and adjusting its numbers.
+Nobody gave it the rule. It found one from the examples, by being wrong and adjusting its numbers. It is a little like learning by trial and error: it changed after every mistake, and never after getting one right. A child needs far fewer examples than this machine did.
 
 ## An old idea
 
 Frank Rosenblatt described this way of learning in 1958. A machine built on the idea, the Mark I Perceptron, was designed to recognize images.
 
-A single straight line cannot do much. It can only separate things that a line can separate, and a line only barely separates these two species. The next chapter puts many of them together to read handwriting.
+A single straight line cannot do much. It can only separate things that a line can separate. The two species here sit so close together that a line only just fits between them. The next chapter puts many lines like this one together to read handwriting.
 
 **So how can a machine learn?** It starts with numbers that are wrong, checks its answers against examples, and changes the numbers a little each time it is wrong. Every system in the rest of this series learns in the same basic way, with far more numbers.
 

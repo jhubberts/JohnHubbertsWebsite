@@ -1,4 +1,4 @@
-import { useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from 'react'
+import { useId, useState, type KeyboardEvent as ReactKeyboardEvent, type ReactNode } from 'react'
 import { TryIt } from '@/components/ai-series/try-it'
 import {
   ANSWER_FIGURES,
@@ -17,20 +17,16 @@ import {
   type Total,
 } from '@/lib/ai-series/costs/figures'
 import {
+  addItUpSummary,
   answersFor,
   basisTag,
   partOfWorld,
+  totalsSummary,
   twoSignificant,
+  waterSummary,
   yearlyTerawattHours,
 } from '@/lib/ai-series/costs/footprint'
 import { cn } from '@/lib/utils'
-
-type Tab = 'electricity' | 'water'
-
-const TABS: { tab: Tab; label: string }[] = [
-  { tab: 'electricity', label: 'Electricity' },
-  { tab: 'water', label: 'Water' },
-]
 
 function entry<T extends { id: string }>(list: readonly T[], id: string): T {
   const found = list.find((item) => item.id === id)
@@ -40,28 +36,70 @@ function entry<T extends { id: string }>(list: readonly T[], id: string): T {
 
 const LED = entry(COMPARISONS, 'led')
 const KETTLE = entry(COMPARISONS, 'kettle')
+const WORLD_2024 = entry(WORLD_TOTALS, 'world-2024')
 const WORLD_2025 = entry(WORLD_TOTALS, 'world-2025')
+const WORLD_2030 = entry(WORLD_TOTALS, 'world-2030')
 const ALL_TOTALS = [...WORLD_TOTALS, ...US_TOTALS]
 const LARGEST_TOTAL = Math.max(...ALL_TOTALS.map((total) => total.terawattHours))
+/** The one answer figure that counts a share of building the model. */
+const WITH_BUILDING = 'epoch-with-building'
+
+const TOTALS_SUMMARY = totalsSummary(WORLD_2024.share ?? '', WORLD_2030.share ?? '')
+const WATER_SUMMARY = waterSummary(WATER_FIGURES, 'mistral')
 
 const FOCUS = 'focus-visible:ring-ring/50 outline-none focus-visible:ring-3'
 const HEADING = 'mb-3 text-xl font-semibold'
 
-/** Published figures for the electricity and water one chat answer uses, and the totals behind them. */
+/**
+ * Published figures for the electricity and water one chat answer uses, and the totals behind them.
+ * The figure picker and its comparisons are always shown; the rest is in sections that start
+ * closed, each with a one-line summary visible while closed.
+ */
 export function OneQuestionsFootprint() {
-  const [tab, setTab] = useState<Tab>('electricity')
-  const ids = useId()
+  const [chosen, setChosen] = useState<AnswerFigure>(ANSWER_FIGURES[0])
+  const [announcement, setAnnouncement] = useState('')
+
+  function pick(figure: AnswerFigure) {
+    setChosen(figure)
+    setAnnouncement(`${KETTLE.label} ${answersFor(KETTLE.wattHours, figure.wattHours).wording}`)
+  }
 
   return (
     <TryIt title="One question’s footprint">
-      <div className="space-y-4 text-base">
+      <div className="space-y-6 text-base">
         <p>
           Published figures for what one answer from a chat system uses. Pick whose figure to
           believe, and see what it means.
         </p>
-        <Tabs tab={tab} onChange={setTab} ids={ids} />
-        <div role="tabpanel" id={`${ids}-panel`} aria-labelledby={`${ids}-tab-${tab}`}>
-          {tab === 'electricity' ? <Electricity /> : <Water />}
+        <WhoseFigure chosen={chosen} onPick={pick} />
+        <Comparisons chosen={chosen} />
+        <div role="status" className="sr-only">
+          {announcement}
+        </div>
+        <div className="space-y-3">
+          <Collapsible
+            title="Not every request is a plain question"
+            summary="A “thinking” mode, a picture or a video uses far more."
+          >
+            <HeavierRequests />
+          </Collapsible>
+          <Collapsible
+            title="Now add it all up"
+            summary={addItUpSummary(
+              QUESTIONS_PER_DAY.count,
+              chosen.wattHours,
+              WORLD_2025.terawattHours,
+            )}
+          >
+            <AddItUp chosen={chosen} />
+          </Collapsible>
+          <Collapsible title="How much all data centers use" summary={TOTALS_SUMMARY}>
+            <Totals heading="The world" totals={WORLD_TOTALS} />
+            <Totals heading="The United States" totals={US_TOTALS} />
+          </Collapsible>
+          <Collapsible title="Water for one answer" summary={WATER_SUMMARY}>
+            <Water />
+          </Collapsible>
         </div>
         <p className="text-muted-foreground text-sm">
           Every figure here is someone’s published number, read on {READ_ON}. None of the per-answer
@@ -72,75 +110,45 @@ export function OneQuestionsFootprint() {
   )
 }
 
-function Tabs({ tab, onChange, ids }: { tab: Tab; onChange(tab: Tab): void; ids: string }) {
-  const tabRefs = useRef<(HTMLButtonElement | null)[]>([])
-
-  function handleKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>, index: number) {
-    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return
-    event.preventDefault()
-    const next = (index + (event.key === 'ArrowRight' ? 1 : TABS.length - 1)) % TABS.length
-    onChange(TABS[next].tab)
-    tabRefs.current[next]?.focus()
-  }
-
-  return (
-    <div role="tablist" aria-label="What is used" className="flex flex-wrap gap-2 border-b">
-      {TABS.map((item, index) => {
-        const selected = item.tab === tab
-        return (
-          <button
-            key={item.tab}
-            ref={(element) => {
-              tabRefs.current[index] = element
-            }}
-            type="button"
-            role="tab"
-            id={`${ids}-tab-${item.tab}`}
-            aria-selected={selected}
-            aria-controls={`${ids}-panel`}
-            tabIndex={selected ? 0 : -1}
-            onClick={() => onChange(item.tab)}
-            onKeyDown={(event) => handleKeyDown(event, index)}
-            className={cn(
-              FOCUS,
-              '-mb-px min-h-11 rounded-t-lg border-b-2 px-3 text-base',
-              selected
-                ? 'border-foreground font-semibold'
-                : 'text-muted-foreground hover:text-foreground border-transparent',
-            )}
-          >
-            {selected && (
-              <span aria-hidden className="mr-1.5">
-                ●
-              </span>
-            )}
-            {item.label}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
-function Electricity() {
-  const [chosen, setChosen] = useState<AnswerFigure>(ANSWER_FIGURES[0])
-  const [announcement, setAnnouncement] = useState('')
-
-  function pick(figure: AnswerFigure) {
-    setChosen(figure)
-    setAnnouncement(`${KETTLE.label} ${answersFor(KETTLE.wattHours, figure.wattHours).wording}`)
-  }
+/** A section that starts closed. Its title and one-line summary stay visible while it is closed. */
+function Collapsible({
+  title,
+  summary,
+  children,
+}: {
+  title: string
+  summary: string
+  children: ReactNode
+}) {
+  const [open, setOpen] = useState(false)
+  const contentId = useId()
 
   return (
-    <div className="space-y-8 pt-4">
-      <WhoseFigure chosen={chosen} onPick={pick} />
-      <Comparisons chosen={chosen} />
-      <div role="status" className="sr-only">
-        {announcement}
+    <section className="border-border rounded-lg border">
+      <h4>
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={contentId}
+          onClick={() => setOpen(!open)}
+          className={cn(
+            FOCUS,
+            'hover:bg-muted flex min-h-12 w-full items-start gap-3 rounded-lg px-4 py-3 text-left',
+          )}
+        >
+          <span aria-hidden className="pt-0.5">
+            {open ? '▾' : '▸'}
+          </span>
+          <span className="min-w-0 break-words">
+            <span className="block font-bold">{title}</span>
+            <span className="text-muted-foreground mt-1 block">{summary}</span>
+          </span>
+        </button>
+      </h4>
+      <div id={contentId} hidden={!open} className="px-4 pt-1 pb-4">
+        {children}
       </div>
-      <HeavierRequests />
-      <AddItUp chosen={chosen} />
-    </div>
+    </section>
   )
 }
 
@@ -181,52 +189,47 @@ function WhoseFigure({
         role="radiogroup"
         aria-labelledby={headingId}
         onKeyDown={onKeyDown}
-        className="flex flex-col gap-3"
+        className="flex flex-col gap-2"
       >
         {ANSWER_FIGURES.map((figure) => {
           const checked = figure.id === chosen.id
           return (
-            <div
+            <button
               key={figure.id}
+              type="button"
+              role="radio"
+              aria-checked={checked}
+              tabIndex={checked ? 0 : -1}
+              onClick={() => onPick(figure)}
               className={cn(
-                'bg-background rounded-lg border',
-                checked ? 'border-primary border-4' : 'border-input',
+                FOCUS,
+                'hover:bg-muted text-foreground bg-background block min-h-12 w-full rounded-lg border px-4 py-2 text-left break-words',
+                checked
+                  ? 'border-primary border-4 px-[13px] py-[5px] font-semibold'
+                  : 'border-input',
               )}
             >
-              <button
-                type="button"
-                role="radio"
-                aria-checked={checked}
-                tabIndex={checked ? 0 : -1}
-                onClick={() => onPick(figure)}
-                className={cn(
-                  FOCUS,
-                  'hover:bg-muted text-foreground block min-h-12 w-full rounded-t-md px-4 pt-3 pb-2 text-left break-words',
-                  checked && 'font-semibold',
-                )}
-              >
-                <span className="block">
-                  {checked && <span aria-hidden="true">{'✓ '}</span>}
-                  {figure.label}
-                </span>
-                <span className="mt-1 block font-bold">{figure.shown} watt-hours</span>
-                <span className="text-muted-foreground mt-1 block font-normal">
-                  {figure.detail}
-                </span>
-                <BasisTag basis={figure.basis} />
-              </button>
-              <div className="px-4 pb-1">
-                <SourceLine source={figure.source} />
-              </div>
-            </div>
+              <span className="block">
+                {checked && <span aria-hidden="true">{'✓ '}</span>}
+                {figure.label}
+              </span>
+              <span className="block font-bold">{figure.shown} watt-hours</span>
+            </button>
           )
         })}
+      </div>
+      <div className="border-border bg-muted/40 mt-3 rounded-lg border p-4">
+        <p>{chosen.detail}</p>
+        <BasisTag basis={chosen.basis} />
+        <SourceLine source={chosen.source} />
       </div>
     </section>
   )
 }
 
 function Comparisons({ chosen }: { chosen: AnswerFigure }) {
+  const [sourcesOpen, setSourcesOpen] = useState(false)
+  const sourcesId = useId()
   const rows = COMPARISONS.map((comparison) => ({
     comparison,
     answers: answersFor(comparison.wattHours, chosen.wattHours),
@@ -243,7 +246,27 @@ function Comparisons({ chosen }: { chosen: AnswerFigure }) {
               {comparison.label} <span className="font-bold">{answers.wording}</span>
             </p>
             <Bar fraction={answers.count / largest} />
-            <p className="text-muted-foreground mt-2 text-sm">{comparison.detail}</p>
+          </li>
+        ))}
+      </ul>
+      <button
+        type="button"
+        aria-expanded={sourcesOpen}
+        aria-controls={sourcesId}
+        onClick={() => setSourcesOpen(!sourcesOpen)}
+        className={cn(
+          FOCUS,
+          'text-muted-foreground hover:text-foreground mt-3 inline-flex min-h-11 items-center gap-2 rounded-sm text-sm underline underline-offset-2',
+        )}
+      >
+        <span aria-hidden>{sourcesOpen ? '▾' : '▸'}</span>
+        Where these come from
+      </button>
+      <ul id={sourcesId} hidden={!sourcesOpen} className="mt-2 space-y-3">
+        {COMPARISONS.map((comparison) => (
+          <li key={comparison.id} className="text-muted-foreground text-sm">
+            <p className="text-foreground font-semibold">{comparison.label}</p>
+            <p>{comparison.detail}</p>
             {comparison.source && <SourceLine source={comparison.source} />}
           </li>
         ))}
@@ -254,8 +277,7 @@ function Comparisons({ chosen }: { chosen: AnswerFigure }) {
 
 function HeavierRequests() {
   return (
-    <section>
-      <h4 className={HEADING}>Not every request is a plain question</h4>
+    <div>
       <ul className="space-y-3">
         {HEAVIER_REQUESTS.map((request) => (
           <li key={request.id} className="border-border rounded-lg border p-4">
@@ -266,7 +288,7 @@ function HeavierRequests() {
         ))}
       </ul>
       <p className="text-muted-foreground mt-3">{HEAVIER_NOTE}</p>
-    </section>
+    </div>
   )
 }
 
@@ -275,8 +297,7 @@ function AddItUp({ chosen }: { chosen: AnswerFigure }) {
   const part = partOfWorld(yearly, WORLD_2025.terawattHours)
 
   return (
-    <section className="space-y-3">
-      <h4 className={HEADING}>Now add it all up</h4>
+    <div className="space-y-3">
       <div>
         <p>ChatGPT answered about {QUESTIONS_PER_DAY.shown} questions a day in July 2025.</p>
         <SourceLine source={QUESTIONS_PER_DAY.source} />
@@ -296,9 +317,10 @@ function AddItUp({ chosen }: { chosen: AnswerFigure }) {
         models, and they leave out pictures, video and “thinking” modes. The totals count everything
         data centers do, AI or not.
       </p>
-      <Totals heading="The world" totals={WORLD_TOTALS} />
-      <Totals heading="The United States" totals={US_TOTALS} />
-    </section>
+      {chosen.id === WITH_BUILDING && (
+        <p>This figure is the exception: it does count a share of building the model.</p>
+      )}
+    </div>
   )
 }
 
@@ -324,8 +346,7 @@ function Totals({ heading, totals }: { heading: string; totals: readonly Total[]
 
 function Water() {
   return (
-    <div className="space-y-4 pt-4">
-      <h4 className={HEADING}>Water for one answer</h4>
+    <div className="space-y-4">
       <p>
         How much depends on what is counted. These four figures count different things, for
         different systems, so they cannot be lined up fairly. They are shown together so you can see

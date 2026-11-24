@@ -58,3 +58,42 @@ export function waterSpread(figures: readonly WaterFigure[]): {
   )
   return { smallest: Math.min(...amounts), largest: Math.max(...amounts) }
 }
+
+/** `text` with its first letter capitalized: "about 3%" → "About 3%". */
+export function capitalizeFirst(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+/**
+ * The one-line summary of "Now add it all up" for a chosen figure: how a year of
+ * `questionsPerDay` answers at `answerWattHours` compares with `worldTWh`.
+ */
+export function addItUpSummary(
+  questionsPerDay: number,
+  answerWattHours: number,
+  worldTWh: number,
+): string {
+  const part = partOfWorld(yearlyTerawattHours(questionsPerDay, answerWattHours), worldTWh)
+  return (
+    `A year of ChatGPT’s questions at this figure is about 1 part in ${twoSignificant(part)} ` +
+    'of what all data centers used.'
+  )
+}
+
+/** The one-line summary of "How much all data centers use", from the 2024 and 2030 shares. */
+export function totalsSummary(share2024: string, share2030: string): string {
+  return `${capitalizeFirst(share2024)} in 2024. Expected by 2030: ${share2030}.`
+}
+
+/**
+ * The one-line summary of "Water for one answer": from the figure with the smallest amount (the
+ * low end of a range counts) to the figure with id `upperId`, in kitchen terms.
+ */
+export function waterSummary(figures: readonly WaterFigure[], upperId: string): string {
+  const low = (figure: WaterFigure) =>
+    Array.isArray(figure.millilitres) ? figure.millilitres[0] : figure.millilitres
+  const smallest = figures.reduce((least, figure) => (low(figure) < low(least) ? figure : least))
+  const upper = figures.find((figure) => figure.id === upperId)
+  if (!upper) throw new Error(`no water figure ${upperId}`)
+  return `From ${smallest.inKitchenTerms} to ${upper.inKitchenTerms}, depending on what is counted.`
+}

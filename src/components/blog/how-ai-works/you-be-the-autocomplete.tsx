@@ -200,7 +200,7 @@ function Game({ data }: { data: NextWordsData }) {
       </section>
 
       <p role="status" className="sr-only">
-        {round.stage === 'answer' && node ? `The model's top word is ${topWord}.` : ''}
+        {round.stage === 'answer' && node ? `The model's top word is “${topWord}”.` : ''}
       </p>
 
       {stopped && taken && (
@@ -271,7 +271,8 @@ function Game({ data }: { data: NextWordsData }) {
 
       <p className="text-muted-foreground text-sm">
         These are real outputs of GPT-2, a language model from 2019, recorded for this page. The
-        model works in pieces of words. Most everyday words are one piece.
+        model works in pieces of words. Most everyday words are one piece. A long or unusual word is
+        split into two or more.
       </p>
     </div>
   )

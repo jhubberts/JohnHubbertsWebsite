@@ -1,5 +1,5 @@
 ---
-title: 'From a research paper to a chat window'
+title: 'Inside a chat window'
 date: '2026-11-23'
 description: 'Is your conversation inside the AI? See what the model is actually given each time you send a message.'
 series: 'how-ai-works'
@@ -9,7 +9,7 @@ draft: true
 
 import { WhatTheModelReceives } from '@/components/blog/how-ai-works/what-the-model-receives'
 
-# From a research paper to a chat window
+# Inside a chat window
 
 **Is it in the AI?**
 
@@ -21,13 +21,15 @@ In chapter 3 you saw that a language model does one thing. Given some text, it r
 
 ## What that means
 
-The model is a file of numbers, like the 25,818 numbers in chapter 2, only far larger. Using the model does not change the file. Nothing you type is written into the file. When a reply is finished, the model holds nothing of your conversation.
+The model is a file of numbers. A file is a saved piece of information on a computer, like a photo or a document. This one is like the 25,818 numbers in chapter 2, only far larger. Using the model does not change the file. Nothing you type is written into the file. When a reply is finished, the model holds nothing of your conversation.
 
 What makes a chat feel like a conversation is the document you just saw. Each time you send a message, the whole conversation so far is sent again, and the model continues it. A new chat starts a new document.
 
+Picture a counselor with no memory at all, who reads the whole case file from the top before every session. The model is that counselor. The company that runs it is the records office that keeps the file.
+
 ## So where was my course?
 
-Not inside the AI.
+Not inside the model.
 
 - The course was a set of files on my laptop.
 - The conversation in which we built it was sent, turn by turn, to the company that runs the model, as a document like the one above.
@@ -35,13 +37,13 @@ Not inside the AI.
 
 So the model does not have my course. The company did have a record of our conversation, and that is the part worth knowing about.
 
-I used Claude, which is made by a company called Anthropic. These are its published rules as of November 2026. For its business products, conversations are not used to train its models (to adjust their numbers) unless the customer chooses to allow it. On its personal plans, you choose whether your chats can be used that way, except that conversations flagged for safety review can be used either way. When you delete a conversation, it is removed from the company's storage within 30 days, with some exceptions, such as conversations flagged for breaking the rules. Other companies have their own rules, and they are worth reading.
+I used Claude, which is made by a company called Anthropic. A caution first: an AI made by Anthropic wrote this paragraph about Anthropic, and the links at the bottom let you check it. These are its published rules as of November 2026. For its business products, conversations are not used to train its models (to adjust their numbers) unless the customer chooses to allow it. On its personal plans, you choose whether your chats can be used that way, except that conversations flagged for safety review can be used either way. It is like a counselor's confidentiality: it holds, with a stated exception. When you delete a conversation, it is removed from the company's storage within 30 days, with some exceptions, such as conversations flagged for breaking the rules. A conversation you do not delete is kept, and the rules I read give no fixed limit. Other companies have their own rules, and they are worth reading.
 
 ## How we got here
 
 OpenAI was founded in December 2015. Anthropic was founded in January 2021 by seven people who had worked at OpenAI. OpenAI released ChatGPT on November 30, 2022, and it reached 100 million monthly users two months later. Claude was released in March 2023.
 
-**So, is it in the AI?** No. The model is a fixed file, and nothing you send is written into it. What does exist is a record of the conversation, kept for a time by the company that runs the model.
+**So, is it in the AI?** Not in the model. The model is a fixed file, and nothing you send is written into it. What does exist is a record of the conversation, kept by the company that runs the model. Whether that record can be used later, when the company builds a new model, depends on its rules and your settings. So the plain answer is: not now, and possibly later, if the rules and settings allow it.
 
 ## Sources
 

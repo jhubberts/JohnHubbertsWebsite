@@ -37,7 +37,7 @@ export interface AnswerFigure {
 export const ANSWER_FIGURES: AnswerFigure[] = [
   {
     id: 'google',
-    label: 'Google, for its Gemini chatbot',
+    label: 'Google, for its Gemini chat system',
     wattHours: 0.24,
     shown: '0.24',
     detail:
@@ -75,6 +75,20 @@ export const ANSWER_FIGURES: AnswerFigure[] = [
       publisher: 'Epoch AI',
       date: 'February 2025',
       url: 'https://epoch.ai/gradient-updates/how-much-energy-does-chatgpt-use',
+    },
+  },
+  {
+    id: 'epoch-with-building',
+    label: 'Epoch AI again, counting a share of building the model',
+    wattHours: 0.6,
+    shown: 'about 0.6',
+    detail:
+      'A July 2026 estimate for a short question to a free chat system. Unlike the others, it includes a share of the electricity used to build the model.',
+    basis: 'independent',
+    source: {
+      publisher: 'Epoch AI',
+      date: 'July 2026',
+      url: 'https://epoch.ai/publications/ai-energy',
     },
   },
   {
@@ -149,7 +163,7 @@ export const HEAVIER_REQUESTS: HeavierRequest[] = [
     id: 'thinking',
     label: 'With a “thinking” mode switched on',
     finding:
-      'In one test of 40 freely available models, switching it on used about 30 times more electricity on average. For some models the difference was far larger, for others small.',
+      'A “thinking” mode has the system work through a problem in steps before it answers. In one test of 40 freely available models, switching it on used about 30 times more electricity on average. For some models the difference was far larger, for others small.',
     source: {
       publisher: 'AI Energy Score project, reported by Fortune',
       date: 'December 2025',
@@ -295,7 +309,7 @@ export interface WaterFigure {
 export const WATER_FIGURES: WaterFigure[] = [
   {
     id: 'google',
-    label: 'Google, for its Gemini chatbot',
+    label: 'Google, for its Gemini chat system',
     counts: 'Only water used for cooling at the data center',
     millilitres: 0.26,
     shown: '0.26 milliliters',

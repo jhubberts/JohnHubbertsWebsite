@@ -90,6 +90,12 @@ export function inHundredNumber(value: number): string {
   return n === 0 && value > 0 ? 'less than 1' : String(n)
 }
 
+/** The note under the sentence saying the pattern shown was picked, and how many do not agree. */
+export function pickedNote(data: AttentionData): string {
+  const { heads, switching } = data.summary
+  return `The model looks at a sentence in ${heads} different ways at once. This is one of them. We picked it because it shows the switch most clearly. ${heads - switching} of the ${heads} do not show it.`
+}
+
 /** The start and end markers are the first and last pieces. */
 export function markersAreFirstAndLast(data: AttentionData, id: SentenceId): boolean {
   const tokens = sentenceOf(data, id).tokens

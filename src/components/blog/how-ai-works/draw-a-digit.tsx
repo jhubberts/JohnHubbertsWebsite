@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useId, useMemo, useRef, useState } from 'react'
 import { TryIt } from '@/components/ai-series/try-it'
+import { Button } from '@/components/ui/button'
 import {
   cssColorToRgb,
   cssVar,
@@ -68,6 +69,9 @@ export function DrawADigit() {
 function DigitReader({ net, examples }: { net: DigitNet; examples: Example[] }) {
   const [input, setInput] = useState<Float32Array | null>(null)
   const reading = useReading(net, input)
+  // Once opened, the steps stay open while she draws, so she can watch the units change.
+  const [open, setOpen] = useState(false)
+  const stepsId = useId()
 
   return (
     <div className={cn('space-y-8 text-base', COLOUR_VARIABLES)}>
@@ -80,22 +84,41 @@ function DigitReader({ net, examples }: { net: DigitNet; examples: Example[] }) 
         </section>
       </div>
 
-      <h4 className="border-t pt-6 text-xl font-semibold">How it got there</h4>
+      <div className="border-t pt-6">
+        <Button
+          variant="outline"
+          aria-expanded={open}
+          aria-controls={stepsId}
+          onClick={() => setOpen(!open)}
+          className="h-auto min-h-12 w-full px-5 py-2 text-base whitespace-normal sm:w-auto"
+        >
+          {open ? 'Hide how it got there' : 'Show how it got there'}
+        </Button>
+      </div>
 
-      <section>
-        <h5 className="mb-3 text-lg font-semibold">1. Your drawing becomes 784 numbers</h5>
-        {reading ? <DrawingNumbers reading={reading} /> : <Empty />}
-      </section>
+      <div id={stepsId} className="space-y-8">
+        {open && (
+          <>
+            <section>
+              <h5 className="mb-3 text-lg font-semibold">1. Your drawing becomes 784 numbers</h5>
+              {reading ? <DrawingNumbers reading={reading} /> : <Empty />}
+            </section>
 
-      <section>
-        <h5 className="mb-3 text-lg font-semibold">2. Two layers of adding units</h5>
-        {reading ? <HiddenLayers net={net} reading={reading} /> : <Empty />}
-      </section>
+            <section>
+              <h5 className="mb-1 text-lg font-semibold">2. Two layers of adding units</h5>
+              <p className="text-muted-foreground mb-3">
+                Tap any square to see what that unit adds up.
+              </p>
+              {reading ? <HiddenLayers net={net} reading={reading} /> : <Empty />}
+            </section>
 
-      <section>
-        <h5 className="mb-3 text-lg font-semibold">3. Ten totals, one for each digit</h5>
-        {reading ? <DigitTotals net={net} reading={reading} /> : <Empty />}
-      </section>
+            <section>
+              <h5 className="mb-3 text-lg font-semibold">3. Ten totals, one for each digit</h5>
+              {reading ? <DigitTotals net={net} reading={reading} /> : <Empty />}
+            </section>
+          </>
+        )}
+      </div>
     </div>
   )
 }
@@ -254,6 +277,9 @@ function FirstLayerDetail({
         </div>
       </div>
       <Legend />
+      <p className="text-muted-foreground mt-1 text-sm">
+        Blue works like a signal that excites a nerve cell. Orange works like one that quiets it.
+      </p>
       <p className="mt-3">
         Your ink on the raising squares adds {formatNumber(shown.adds, 1)}. Your ink on the lowering
         squares takes away {formatNumber(shown.takesAway, 1)}. The unit starts from{' '}
