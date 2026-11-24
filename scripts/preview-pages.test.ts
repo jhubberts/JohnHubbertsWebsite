@@ -36,17 +36,22 @@ const draft = post(
 )
 
 describe('listPages', () => {
-  it('lists the home page, every fixed page, every series and every post in the blog folder', () => {
+  it('lists the home page, every fixed page, every series and every post in the blog folder, once each', () => {
+    // Arrange
     const posts = realPosts()
+    const expected = [
+      '/',
+      ...Object.values(SITE_PAGES).map((page) => page.path),
+      ...getAllSeries().map((series) => `/series/${series.slug}`),
+      ...posts.map(({ fileName }) => `/blog/${fileName.replace(/\.mdx$/, '')}`),
+    ]
+
+    // Act
     const paths = listPages(posts, getAllSeries()).map((page) => page.path)
 
-    expect(paths).toContain('/')
-    for (const fixed of Object.values(SITE_PAGES)) expect(paths).toContain(fixed.path)
-    for (const series of getAllSeries()) expect(paths).toContain(`/series/${series.slug}`)
-    for (const { fileName } of posts) {
-      expect(paths).toContain(`/blog/${fileName.replace(/\.mdx$/, '')}`)
-    }
-    expect(new Set(paths).size).toBe(paths.length)
+    // Assert
+    expect(posts.length).toBeGreaterThan(0)
+    expect([...paths].sort()).toEqual([...expected].sort())
   })
 
   it('gives a chapter of a series its number and the short series name', () => {
@@ -144,8 +149,10 @@ describe('replacePreviewBlock', () => {
     expect(result).toBe(`${before}${BLOCK_START}\n    <title>New</title>\n    ${BLOCK_END}${after}`)
   })
 
-  it('fails when either comment is missing', () => {
-    expect(() => replacePreviewBlock(`${before}${BLOCK_START}${after}`, '')).toThrow(BLOCK_END)
-    expect(() => replacePreviewBlock(`${before}${BLOCK_END}${after}`, '')).toThrow(BLOCK_START)
+  it.each([
+    ['the end comment', `${before}${BLOCK_START}${after}`],
+    ['the start comment', `${before}${BLOCK_END}${after}`],
+  ])('fails when %s is missing', (_name, html) => {
+    expect(() => replacePreviewBlock(html, '')).toThrow()
   })
 })

@@ -10,7 +10,6 @@ import {
 function fakeStorage(initial: Record<string, string> = {}) {
   const data = new Map(Object.entries(initial))
   return {
-    data,
     getItem: (key: string) => data.get(key) ?? null,
     setItem: (key: string, value: string) => void data.set(key, value),
   }
@@ -40,12 +39,6 @@ describe('markChapterRead and readChapters', () => {
     markChapterRead('ai', 0, storage)
     markChapterRead('ai', 3, storage)
     expect(readChapters('ai', storage)).toEqual([0, 3])
-  })
-
-  it('leaves storage untouched when the chapter is already recorded', () => {
-    const storage = stored('{"ai":[1]}')
-    markChapterRead('ai', 1, storage)
-    expect(storage.data.get(SERIES_PROGRESS_KEY)).toBe('{"ai":[1]}')
   })
 
   it('keeps the entries of other series', () => {

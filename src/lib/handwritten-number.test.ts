@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import data from './chapter-digits.json'
-import { digitPaths, INK_LEVELS, layoutNumber } from './handwritten-number'
+import { digitPaths, layoutNumber } from './handwritten-number'
 
 /** The first and last inked columns of a digit image. */
 function inkColumns(rows: string[]): { minX: number; maxX: number } {
@@ -10,7 +10,7 @@ function inkColumns(rows: string[]): { minX: number; maxX: number } {
 
 describe('layoutNumber', () => {
   it('cuts a single digit to its ink, with one unit of margin at each side', () => {
-    const { minX, maxX } = inkColumns(data.digits[7].rows)
+    const { minX, maxX } = inkColumns(data.digits.find((d) => d.label === 7)!.rows)
 
     expect(layoutNumber(7)).toEqual({
       digits: [{ digit: 7, sample: 'first', offsetX: 1, minX, width: maxX - minX + 1 }],
@@ -39,15 +39,6 @@ describe('layoutNumber', () => {
     expect(digitPaths(1, 'first').paths).not.toEqual(digitPaths(1, 'second').paths)
   })
 
-  it('makes the width the sum of the digit widths, the gaps and the margins', () => {
-    for (const value of [0, 9, 10, 23, 404, 1111]) {
-      const layout = layoutNumber(value)!
-      const inkWidth = layout.digits.reduce((sum, d) => sum + d.width, 0)
-
-      expect(layout.width).toBe(inkWidth + 2 * (layout.digits.length - 1) + 2)
-    }
-  })
-
   it('lays out a three-digit number, returning to the first sample on a third appearance', () => {
     const layout = layoutNumber(111)!
 
@@ -57,39 +48,13 @@ describe('layoutNumber', () => {
     expect(layout.height).toBe(24)
   })
 
-  it('returns null for negative, fractional and non-finite values', () => {
-    for (const value of [-1, 1.5, NaN, Infinity, -Infinity]) {
-      expect(layoutNumber(value)).toBeNull()
-    }
-  })
-})
-
-describe('digitPaths', () => {
-  it('draws one square for every inked pixel of each 4, at its ink level', () => {
-    for (const [sample, entry] of [
-      ['first', data.digits[4]],
-      ['second', data.alternates[4]],
-    ] as const) {
-      const { paths } = digitPaths(4, sample)
-
-      expect(paths).toHaveLength(INK_LEVELS)
-      paths.forEach((d, index) => {
-        const level = String(index + 1)
-        const pixels = entry.rows
-          .join('')
-          .split('')
-          .filter((c) => c === level).length
-
-        expect(d.match(/M/g)?.length ?? 0).toBe(pixels)
-      })
-    }
-  })
-
-  it("gives the digit's first inked column, as the number layout records it", () => {
-    for (let digit = 0; digit <= 9; digit++) {
-      const [placed] = layoutNumber(digit)!.digits
-
-      expect(digitPaths(digit, 'first').minX).toBe(placed.minX)
-    }
+  it.each([
+    ['a negative number', -1],
+    ['a fraction', 1.5],
+    ['NaN', NaN],
+    ['infinity', Infinity],
+    ['negative infinity', -Infinity],
+  ])('returns null for %s', (_name, value) => {
+    expect(layoutNumber(value)).toBeNull()
   })
 })

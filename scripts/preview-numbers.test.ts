@@ -5,6 +5,7 @@ import { arrangeNumberRows, fitNumber } from './preview-numbers'
 const layout = (value: number) => layoutNumber(value)!
 const chapters = (count: number) => Array.from({ length: count }, (_, n) => layout(n))
 
+// The values scripts/build-previews.ts uses for a series picture.
 const options = { maxWidth: 1040, height: 84, minHeight: 48, gapRatio: 0.3 }
 
 /** A row's width in pixels as drawn: its numbers at the shared height, plus the gaps. */
@@ -14,11 +15,12 @@ function rowWidth(layouts: NumberLayout[], row: number[], height: number, gap: n
 }
 
 describe('fitNumber', () => {
-  it('draws every one-digit number at the full height', () => {
-    for (let digit = 0; digit <= 9; digit++) {
+  it.each([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])(
+    'draws the one-digit number %i at the full height',
+    (digit) => {
       expect(fitNumber(layout(digit), 360, 360).height).toBe(360)
-    }
-  })
+    },
+  )
 
   it('keeps a two-digit number at the full height when it fits the width', () => {
     const size = fitNumber(layout(11), 360, 360)

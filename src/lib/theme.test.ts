@@ -36,6 +36,7 @@ describe('storedTheme and storeTheme', () => {
   it('reads back a stored choice', () => {
     const storage = fakeStorage()
     storeTheme('dark', storage)
+    // The script in index.html reads the choice from this key before the first paint.
     expect(storage.data.get('theme')).toBe('dark')
     expect(storedTheme(storage)).toBe('dark')
   })
