@@ -18,7 +18,7 @@ const series: Series[] = [
     title: 'I Used AI to Teach My 70-Something Mom How AI Works, From Scratch',
     shortTitle: 'How AI Works',
     description:
-      'Seventeen short chapters, from the first computers to today’s AI. Most have something to try with your finger.',
+      'Twenty short chapters, from the first computers to today’s AI. Most have something to try with your finger.',
     chapters: [
       { part: 0, title: 'Questions my mom asked' },
       { part: 1, title: 'A machine that follows instructions' },
@@ -34,12 +34,15 @@ const series: Series[] = [
       { part: 11, title: 'Giving it hands' },
       { part: 12, title: 'Can it get out?' },
       { part: 13, title: 'What it costs' },
-      { part: 14, title: 'How I used AI to build this' },
-      { part: 15, title: 'So is it worth it?' },
+      { part: 14, title: 'Models anyone can download' },
+      { part: 15, title: 'Who pays for it?' },
+      { part: 16, title: 'Use more, then less' },
+      { part: 17, title: 'How I used AI to build this' },
+      { part: 18, title: 'So is it worth it?' },
       // Not written yet. John will write this one himself; until its page exists the series
       // pages list it as "coming".
       {
-        part: 16,
+        part: 19,
         title: 'Epilogue: John Hubberts’ Very Human Thoughts About This Whole Thing',
       },
     ],

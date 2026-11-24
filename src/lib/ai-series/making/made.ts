@@ -1,8 +1,8 @@
 /**
- * Everything in the series that the reader can operate, for chapter 15's "What one day made".
+ * Everything in the series that the reader can operate, for chapter 18's "What one day made".
  *
  * `title` must match the heading the reader saw on that part. `did` says, in her terms, what she
- * did there. The counts below are checked in docs/ai-series/sources/chapter-10.md.
+ * did there. The counts below are checked in docs/ai-series/sources/chapter-16.md.
  */
 
 export interface MadeThing {
@@ -125,8 +125,8 @@ export const MADE_THINGS: MadeThing[] = [
     did: 'You chose whose figure to believe and saw what one answer uses.',
   },
   {
-    chapter: 14,
-    path: page('14-how-i-used-ai-to-build-this'),
+    chapter: 17,
+    path: page('17-how-i-used-ai-to-build-this'),
     title: 'How it was built',
     did: 'You went through eight moments from the day it was made.',
   },

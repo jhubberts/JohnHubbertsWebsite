@@ -16,7 +16,7 @@ const INTRO: Record<GuessWhen, string> = {
   before: 'Before you read anything, pick your guess for each one. There is no score.',
   after: 'Now that you have read it all, pick again.',
 }
-const SAVED_NOTE = 'Your guesses are saved on this device only. Chapter 15 shows them to you again.'
+const SAVED_NOTE = 'Your guesses are saved on this device only. Chapter 18 shows them to you again.'
 const NOT_SAVED_NOTE = 'Your guesses cannot be saved in this browser. You can still pick.'
 
 /** The reader's guess at each of the series' five opening questions, kept in her browser. */

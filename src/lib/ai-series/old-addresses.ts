@@ -1,7 +1,7 @@
 /**
- * Addresses the series' chapters had before chapters were added and renumbered on 2026-11-23,
- * mapped to the chapter's current address. A visit to an old address is sent on to the new one,
- * so links already shared keep working.
+ * Addresses the series' chapters had before chapters were added and renumbered on 2026-11-23 and
+ * again on 2026-11-24, mapped to the chapter's current address. A visit to an old address is sent
+ * on to the new one, so links already shared keep working.
  */
 export const OLD_CHAPTER_ADDRESSES: Record<string, string> = {
   'how-ai-works-0-three-questions-my-mom-asked': 'how-ai-works-0-questions-my-mom-asked',
@@ -15,12 +15,17 @@ export const OLD_CHAPTER_ADDRESSES: Record<string, string> = {
   'how-ai-works-6-giving-it-hands': 'how-ai-works-11-giving-it-hands',
   'how-ai-works-7-can-it-get-out': 'how-ai-works-12-can-it-get-out',
   'how-ai-works-8-what-it-costs': 'how-ai-works-13-what-it-costs',
-  'how-ai-works-9-how-i-used-ai-to-build-this': 'how-ai-works-14-how-i-used-ai-to-build-this',
-  'how-ai-works-10-so-is-it-worth-it': 'how-ai-works-15-so-is-it-worth-it',
+  'how-ai-works-9-how-i-used-ai-to-build-this': 'how-ai-works-17-how-i-used-ai-to-build-this',
+  'how-ai-works-10-so-is-it-worth-it': 'how-ai-works-18-so-is-it-worth-it',
+  'how-ai-works-14-how-i-used-ai-to-build-this': 'how-ai-works-17-how-i-used-ai-to-build-this',
+  'how-ai-works-15-so-is-it-worth-it': 'how-ai-works-18-so-is-it-worth-it',
 }
 
-/** Chapter numbers before 2026-11-23, mapped to the same chapter's number now. */
-export const OLD_CHAPTER_NUMBERS: Record<number, number> = {
+/**
+ * Chapter numbers used before 2026-11-23, mapped to the same chapter's number from 2026-11-23 to
+ * 2026-11-24. RENUMBERING_2026_11_24 maps those numbers to the current ones.
+ */
+export const RENUMBERING_2026_11_23: Record<number, number> = {
   0: 0,
   1: 3,
   2: 4,
@@ -34,7 +39,15 @@ export const OLD_CHAPTER_NUMBERS: Record<number, number> = {
   10: 15,
 }
 
-/** The current address of a chapter that was at `slug` before the renumbering, if it was one. */
+/** Chapter numbers used from 2026-11-23 to 2026-11-24, mapped to the same chapter's number now. */
+export const RENUMBERING_2026_11_24: Record<number, number> = {
+  // Chapters 0 to 13 kept their numbers.
+  ...Object.fromEntries(Array.from({ length: 14 }, (_, part) => [part, part])),
+  14: 17,
+  15: 18,
+}
+
+/** The current address of a chapter that was at `slug` before a renumbering, if it was one. */
 export function movedChapterSlug(slug: string): string | undefined {
   return Object.prototype.hasOwnProperty.call(OLD_CHAPTER_ADDRESSES, slug)
     ? OLD_CHAPTER_ADDRESSES[slug]

@@ -6,21 +6,52 @@
  * read".
  */
 
-import { OLD_CHAPTER_NUMBERS } from './ai-series/old-addresses'
+import { RENUMBERING_2026_11_23, RENUMBERING_2026_11_24 } from './ai-series/old-addresses'
 import { browserStorage, type ReadStorage } from './browser-storage'
 
-export const SERIES_PROGRESS_KEY = 'series-progress.v2'
+export const SERIES_PROGRESS_KEY = 'series-progress.v3'
 
 /**
  * Where progress was kept before the AI series was renumbered on 2026-11-23. Its chapter numbers
- * are the old ones. It is read only while nothing is stored under SERIES_PROGRESS_KEY.
+ * are the old ones.
  */
 export const SERIES_PROGRESS_V1_KEY = 'series-progress.v1'
 
-/** For each series that was renumbered, its old chapter numbers mapped to the new ones. */
-const RENUMBERED: Record<string, Record<number, number>> = {
-  'how-ai-works': OLD_CHAPTER_NUMBERS,
+/**
+ * Where progress was kept between the renumberings of 2026-11-23 and 2026-11-24. Its chapter
+ * numbers are the ones of that time.
+ */
+export const SERIES_PROGRESS_V2_KEY = 'series-progress.v2'
+
+/** The one series that was renumbered. Other series are kept as they are. */
+const RENUMBERED_SERIES = 'how-ai-works'
+
+type ChapterMap = Record<number, number>
+
+function hasEntry(numbers: ChapterMap, part: number): boolean {
+  return Object.prototype.hasOwnProperty.call(numbers, part)
 }
+
+/** `first` followed by `then`. A number that `first` maps to a number `then` lacks is dropped. */
+function chain(first: ChapterMap, then: ChapterMap): ChapterMap {
+  return Object.fromEntries(
+    Object.entries(first)
+      .filter(([, middle]) => hasEntry(then, middle))
+      .map(([part, middle]) => [part, then[middle]]),
+  )
+}
+
+/**
+ * The keys that held progress before SERIES_PROGRESS_KEY, newest first, each with the renumbered
+ * series' chapter numbers of its time mapped to today's numbers.
+ */
+const EARLIER_KEYS: { key: string; currentNumber: ChapterMap }[] = [
+  { key: SERIES_PROGRESS_V2_KEY, currentNumber: RENUMBERING_2026_11_24 },
+  {
+    key: SERIES_PROGRESS_V1_KEY,
+    currentNumber: chain(RENUMBERING_2026_11_23, RENUMBERING_2026_11_24),
+  },
+]
 
 type ReadWriteStorage = Pick<Storage, 'getItem' | 'setItem'>
 
@@ -50,17 +81,15 @@ export function partsInStored(raw: string | null, seriesSlug: string): number[] 
 }
 
 /**
- * The text stored under the old key, with the chapters of each renumbered series given their new
- * numbers. A chapter number the old series did not have is dropped. Other series are kept as they
- * are.
+ * The stored text with the renumbered series' chapters given today's numbers. A chapter number
+ * missing from `currentNumber` is dropped.
  */
-export function migrateV1(raw: string | null): string {
+function migrate(raw: string, currentNumber: ChapterMap): string {
   const store = parseStore(raw)
-  for (const [seriesSlug, newNumber] of Object.entries(RENUMBERED)) {
-    if (!(seriesSlug in store)) continue
-    store[seriesSlug] = cleanParts(store[seriesSlug])
-      .filter((part) => Object.prototype.hasOwnProperty.call(newNumber, part))
-      .map((part) => newNumber[part])
+  if (RENUMBERED_SERIES in store) {
+    store[RENUMBERED_SERIES] = cleanParts(store[RENUMBERED_SERIES])
+      .filter((part) => hasEntry(currentNumber, part))
+      .map((part) => currentNumber[part])
       .sort((a, b) => a - b)
   }
   return JSON.stringify(store)
@@ -69,9 +98,10 @@ export function migrateV1(raw: string | null): string {
 /**
  * The stored text, or null when nothing is stored or storage cannot be read. Never throws.
  *
- * When only the old key holds progress, its text is renumbered and, where the storage can be
- * written, saved under the current key, which from then on is read instead. The old key is never
- * changed, so progress is renumbered from the same old text every time and never twice.
+ * When only earlier keys hold progress, the text under the newest of them is renumbered and, where
+ * the storage can be written, saved under the current key, which from then on is read instead.
+ * The earlier keys are never changed, so progress is renumbered from the same old text every time
+ * and never twice.
  */
 export function rawStored(
   storage: (ReadStorage & Partial<Pick<Storage, 'setItem'>>) | null = browserStorage(),
@@ -80,15 +110,18 @@ export function rawStored(
   try {
     const current = storage.getItem(SERIES_PROGRESS_KEY)
     if (current !== null) return current
-    const old = storage.getItem(SERIES_PROGRESS_V1_KEY)
-    if (old === null) return null
-    const migrated = migrateV1(old)
-    try {
-      storage.setItem?.(SERIES_PROGRESS_KEY, migrated)
-    } catch {
-      // Storage cannot be written. The next read renumbers the old text again.
+    for (const { key, currentNumber } of EARLIER_KEYS) {
+      const old = storage.getItem(key)
+      if (old === null) continue
+      const migrated = migrate(old, currentNumber)
+      try {
+        storage.setItem?.(SERIES_PROGRESS_KEY, migrated)
+      } catch {
+        // Storage cannot be written. The next read renumbers the old text again.
+      }
+      return migrated
     }
-    return migrated
+    return null
   } catch {
     return null
   }

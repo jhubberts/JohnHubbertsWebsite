@@ -30,5 +30,5 @@ The chapter is now "Questions my mom asked" with five questions. The two added: 
 a bunch of computers?" (John: "My mom asked me if the AI was a bunch of computers") and "What does
 'training the AI' mean? Is it like teaching?" (asked when somebody John knows saw a temporary job
 posting for AI training; John asked that the person not be identified). The example words are now
-"transformer", "inference" and "harness". The chapter points to chapter 14 (how it was built) and
-chapter 15 (the guesses again).
+"transformer", "inference" and "harness". The chapter points to chapter 17 (how it was built) and
+chapter 18 (the guesses again).

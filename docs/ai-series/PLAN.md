@@ -640,3 +640,7 @@ scattered. The plan is in `docs/ai-series/RESTRUCTURE-PLAN.md`. What was built:
 - An author guide, `docs/ai-series/AUTHOR-GUIDE.md`, from the Field Guide rules and the blind
   readers' findings; every chapter was copy-edited against it.
 - Chapter 16, John's epilogue, is listed as coming.
+- 2026-11-24: three new chapters were inserted, 14 "Models anyone can download", 15 "Who pays for
+  it?" and 16 "Use more, then less". "How I used AI to build this" is now chapter 17, "So is it worth
+  it?" is chapter 18, and the epilogue is chapter 19. The numbers above are
+  as of 2026-11-23.

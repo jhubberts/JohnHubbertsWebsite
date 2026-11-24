@@ -1,0 +1,101 @@
+---
+title: 'Models anyone can download'
+date: '2026-11-24'
+description: 'By one survey, two companies take most of the money large businesses pay for AI models. Others publish their models for anyone to download, many at a fraction of the price.'
+series: 'how-ai-works'
+part: 14
+draft: false
+---
+
+# Models anyone can download
+
+**Does all of it come from a few big companies?**
+
+Most of the money does. By one survey, two companies, Anthropic and OpenAI, take most of what large businesses pay for AI <Term id="model">models</Term>. But other companies publish their models for anyone to download, and many of those cost far less to use.
+
+Open-weight models are models that anyone can download. A model is a <Term id="file">file</Term> of numbers, as chapter 9 explained, and "weights" is the field's word for those numbers. Anyone can download a published file and <Term id="run">run</Term> it on their own computers, and a published file cannot be taken back.[^safety-report] Anthropic, which makes Claude, keeps its files and sells the answers. So does OpenAI, which makes ChatGPT, for its main models. Models that you cannot download are called closed.
+
+Claude wrote this chapter, which is partly about Anthropic.
+
+## What they cost
+
+Businesses pay for a model by the amount of text, like an electric meter. The meter counts <Term id="word-piece">word pieces</Term>, the units that chapter 6 showed a model writing one at a time. These were the prices on November 24, 2026:
+
+| Model               | Made by            | Can you download it? | Price per million word pieces |
+| ------------------- | ------------------ | -------------------- | ----------------------------- |
+| Claude Fable 5.2    | Anthropic          | No                   | $40                           |
+| GPT-6.2 Astra       | OpenAI             | No                   | $40                           |
+| Claude Sonnet 5.5   | Anthropic          | No                   | $10                           |
+| Kimi K3.1 Pro       | Moonshot, in China | Yes                  | $10                           |
+| DeepSeek V4.1 Flash | DeepSeek, in China | Yes                  | $1.20                         |
+
+The $40 models are the ones the companies offer for their hardest work: Anthropic offers Claude Fable 5.2 for its most demanding work, and OpenAI calls GPT-6.2 Astra its flagship. Artificial Analysis, a company that tests models, combines its tests into one score, where higher is better. Fable 5.2 scored 65. Kimi K3.1 Pro scored 47, the highest of the downloadable models. Anyone may run a downloaded model, so other companies, such as Together AI, run them for customers and charge at the meter.[^prices]
+
+A low price for each word piece is not always a low price for the job, because models use different numbers of word pieces for the same task. In 2025, a test by the United States government found that one American model did work of similar quality to DeepSeek's best for about a third less, on average. A test in 2026 found DeepSeek's newer model cheaper than a small OpenAI model on 5 of 7 tests.[^caisi] Anthropic says that its newer models count about 30 in 100 more word pieces for the same text than its older ones did, so the same text costs more at the same price.[^anthropic-count]
+
+## How they caught up
+
+- **2023.** Meta, the company that owns Facebook, shared its model LLaMA with researchers in February. Within two weeks, the file had leaked onto the internet.[^llama][^llama-leak] In July, Meta let businesses use its next model, Llama 2, for free.[^llama2] Others followed, among them Mistral in France and Alibaba in China.[^mistral][^qwen]
+- **January 2025.** DeepSeek, a Chinese company, published a model that it said performed as well as OpenAI's o1, one of OpenAI's newest models at the time.[^r1] DeepSeek said that the final <Term id="training">training</Term> of an earlier model, DeepSeek-V3, had cost $5.6 million in rented <Term id="chip">chips</Term>, not counting earlier research.[^v3] A week later, the total value of the shares of Nvidia, a company that makes AI chips, fell by nearly $600 billion in one day, the largest one-day drop for any company in United States history.[^nvidia]
+- **August 2025.** OpenAI published two open-weight models, its first since 2019.[^gpt-oss]
+- **2026.** The best open-weight models were about four months behind the best closed ones, by one research group's measure, and 6 to 8 months by other measures, one of them of hacking skills.[^epoch-gap] Meta kept its new model, Muse Spark, closed in April, then published the weights of a model called Muse Spark Open in October.[^muse]
+
+## Most of the text, less of the money
+
+Open-weight models now handle most of the text on some services, but they get much less of the money. Two services, OpenRouter and Vercel, pass businesses' requests on to many companies' models. In September 2026, open-weight models handled about 72 in 100 word pieces on each. On Vercel's, they took about 23 in 100 of the dollars spent, and Anthropic's share of the dollars fell from 64 to 44 in 100 between August and September.[^vercel][^openrouter]
+
+A survey by Menlo Ventures, a company that invests in Anthropic, found that Anthropic and OpenAI together took 86 in 100 dollars of what large American businesses paid for models. Google took 9. Open-weight models made up 19 in 100 parts of those businesses' use and took 4 in 100 dollars.[^menlo] A smaller survey, by the research firm Futurum, found that 42 in 100 large businesses used open-weight models for real work.[^futurum]
+
+By the amount of text, though, Google is also a large maker of models. It says that its models handle nearly 32 billion word pieces a minute, more than four times as many as a year earlier.[^alphabet]
+
+## Why pay more, and why not?
+
+There are two main reasons to pay more. The closed models are months ahead. And the United States government has raised concerns about the models made in China, which make up most of what businesses spend on downloadable models.[^menlo] Its 2025 test found that DeepSeek's models repeated the Chinese government's misleading claims four times as often as American models did, and that DeepSeek's best model was far easier to trick into helping with harmful requests.[^caisi] In November 2026, two committee chairmen in the United States House of Representatives asked for Chinese open-weight models to be removed from government computers. Their report also proposed an American open-weight effort.[^house]
+
+There are two main reasons to choose open-weight models: many cost less, and because a business can run one on its own computers and keep its information private. The United States government's 2025 plan for AI supports open-weight models, and one reason it gives is that some businesses and governments hold private information that they cannot send to another company.[^action-plan]
+
+**So does all of it come from a few big companies?** Most of the money goes to two of them, by one survey of large American businesses. But in late 2026, models that anyone can download handle most of the text on some services, many at a fraction of the price, and are a few months behind the best.
+
+[^safety-report]: [International AI Safety Report 2026](https://arxiv.org/pdf/2602.21012), February 2026: "Once released, these weights cannot be recalled: anyone can download, study, modify, share, and use them on their own computers or cloud accounts."
+
+[^prices]: Prices for writing a million word pieces, read November 24, 2026, from [Anthropic](https://platform.claude.com/docs/en/about-claude/pricing), [OpenAI](https://developers.openai.com/api/docs/pricing) and, for the two downloadable models, [Together AI](https://www.together.ai/pricing), a company that runs them for customers. Reading text costs less than writing it. Anthropic's [models overview](https://platform.claude.com/docs/en/about-claude/models/overview): "Use Claude Fable 5.2 for demanding reasoning and long-horizon agentic work". OpenAI's [models page](https://developers.openai.com/api/docs/models): "use GPT-6.2 Astra, our flagship model". The test scores are [Artificial Analysis](https://artificialanalysis.ai/models)'s, read the same day: 47 for Kimi K3.1 Pro, the highest of the downloadable models, and 65 for Claude Fable 5.2.
+
+[^anthropic-count]: Anthropic, [pricing](https://platform.claude.com/docs/en/about-claude/pricing), read November 24, 2026: its newer models produce "approximately 30% more tokens for the same text".
+
+[^caisi]: National Institute of Standards and Technology, [evaluation of DeepSeek's models](https://www.nist.gov/news-events/news/2025/09/caisi-evaluation-deepseek-ai-models-finds-shortcomings-and-risks), September 30, 2025: "One U.S. reference model costs 35% less on average than the best DeepSeek model to perform at a similar level." It found that DeepSeek's models repeated misleading Chinese Communist Party narratives four times as often as American models, and that, under a common trick, its best model answered 94 in 100 openly harmful requests, against 8 in 100 for American models. A [May 2026 test](https://www.nist.gov/news-events/news/2026/05/caisi-evaluation-deepseek-v4-pro) found DeepSeek's newer model cheaper than a small OpenAI model on 5 of 7 tests.
+
+[^llama]: Meta, [Introducing LLaMA](https://ai.meta.com/blog/large-language-model-llama-meta-ai/), February 24, 2023: "Access to the model will be granted on a case-by-case basis to academic researchers".
+
+[^llama-leak]: The Register, [report on the LLaMA leak](https://www.theregister.com/2023/03/08/meta_llama_ai_leak), March 8, 2023. This is a news report.
+
+[^llama2]: Meta, [Meta and Microsoft Introduce the Next Generation of Llama](https://about.fb.com/news/2023/07/llama-2/), July 18, 2023: "Llama 2 is free for research and commercial use." Companies with more than 700 million monthly users had to ask Meta's permission.
+
+[^mistral]: Mistral AI, [Mistral 7B](https://mistral.ai/news/announcing-mistral-7b), September 27, 2023: "We're releasing Mistral 7B under the Apache 2.0 license, it can be used without restrictions."
+
+[^qwen]: TechNode, [report on Alibaba's Qwen models](https://technode.com/2023/08/04/alibaba-open-sources-two-large-models-with-7-billion-parameters/), August 4, 2023: Alibaba is "the first among Chinese tech giants to do so". This is a news report.
+
+[^r1]: DeepSeek, [DeepSeek-R1 release](https://api-docs.deepseek.com/news/news250120), January 20, 2025: "Performance on par with OpenAI-o1". o1 was one of OpenAI's most capable models at the time.
+
+[^v3]: DeepSeek-AI, [DeepSeek-V3 Technical Report](https://arxiv.org/html/2412.19437v1), December 2024: "our total training costs amount to only $5.576M", "excluding the costs associated with prior research and ablation experiments". The report reached the figure by pricing the chips' time at $2 an hour, the cost of renting them.
+
+[^nvidia]: CNBC, [report on Nvidia's one-day loss](https://www.cnbc.com/2025/01/27/nvidia-sheds-almost-600-billion-in-market-cap-biggest-drop-ever.html), January 27, 2025: "the biggest drop for any company on a single day in U.S. history." Reuters, from LSEG data, gave $592.7 billion. These are news reports.
+
+[^gpt-oss]: OpenAI, [Introducing gpt-oss](https://openai.com/index/introducing-gpt-oss/), August 5, 2025: "our first open-weight language models since GPT‑2".
+
+[^epoch-gap]: Epoch AI, [open and closed models](https://epoch.ai/data-insights/open-closed-eci-gap), May 29, 2026: "an average of four months". On hacking skills, Epoch AI [measured 6 to 7 months](https://epoch.ai/data-insights/open-closed-cyber-eci-gap), October 16, 2026, and the National Institute of Standards and Technology judged DeepSeek's newest model [about 8 months behind](https://www.nist.gov/news-events/news/2026/05/caisi-evaluation-deepseek-v4-pro), May 2026.
+
+[^muse]: Meta, [Introducing Muse Spark](https://about.fb.com/news/2026/04/introducing-muse-spark-meta-superintelligence-labs/), April 8, 2026, offered "to select partners"; PyTorch, [Muse Spark Open](https://pytorch.org/blog/muse-spark-open/), October 15, 2026: "Today, Meta is releasing the weights for Muse Spark Open".
+
+[^vercel]: Vercel, [AI Gateway production index](https://vercel.com/blog/ai-gateway-production-index-october-2026), October 15, 2026: in September 2026, open-weight models had 71.5% of word pieces and 22.6% of estimated spending, and Anthropic's share of spending fell from 63.7% in August to 43.9%. Spending is estimated at list prices.
+
+[^openrouter]: OpenRouter, [open-weight versus closed-weight models](https://openrouter.ai/blog/insights/open-weight-vs-closed-weight-models/), October 31, 2026: "open-weight models went from 27% of the top 50 models' tokens in October 2025 to 72% in late September 2026." OpenRouter does not publish spending.
+
+[^menlo]: Menlo Ventures, [2026: The State of Enterprise AI](https://menlovc.com/perspective/2026-the-state-of-enterprise-ai/), November 3, 2026: "Open-source remains 4% of spend despite 19% of usage", and Anthropic and OpenAI "capture 86% of enterprise LLM API spending", and "Google fell furthest, from 21% to 9%." Anthropic's share was 55 and OpenAI's 31. "Chinese models grew to 89% of open-source spend." It is a survey of nearly 400 businesses. Menlo Ventures invests in Anthropic.
+
+[^futurum]: Futurum Group, [Enterprises embrace open weights](https://futurumgroup.com/insights/enterprises-embrace-open-weights-but-infrastructure-sellers-profit-most/), October 26, 2026. In the same survey, open-weight models were about 5 in 100 of what businesses paid for metered AI. It is a smaller survey than Menlo's.
+
+[^alphabet]: Alphabet, [third-quarter 2026 results](https://s206.q4cdn.com/479360582/files/doc_news/2026/Oct/28/attachments/2026q3-alphabet-earnings-release.pdf), October 28, 2026: "nearly 32 billion tokens per minute, more than four times what we processed a year ago." This is the company's own figure.
+
+[^house]: House Committee on Homeland Security, [joint report of Chairmen Garbarino and Moolenaar](https://homeland.house.gov/2026/11/20/chairmen-garbarino-moolenaar-release-joint-investigative-report-urging-removal-of-prc-open-weight-models-from-federal-systems-high-risk-critical-infrastructure/), November 20, 2026. It is a report, not a law.
+
+[^action-plan]: The White House, [America's AI Action Plan](https://www.whitehouse.gov/wp-content/uploads/2025/07/Americas-AI-Action-Plan.pdf), July 2025: section "Encourage Open-Source and Open-Weight AI": "many businesses and governments have sensitive data that they cannot send to closed model vendors."

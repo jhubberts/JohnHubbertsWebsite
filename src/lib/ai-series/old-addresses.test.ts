@@ -21,4 +21,10 @@ describe('movedChapterSlug', () => {
       expect(existsSync(resolve(__dirname, `../../content/blog/${slug}.mdx`)), slug).toBe(true)
     }
   })
+
+  it('is never the address of a current post', () => {
+    for (const slug of Object.keys(OLD_CHAPTER_ADDRESSES)) {
+      expect(existsSync(resolve(__dirname, `../../content/blog/${slug}.mdx`)), slug).toBe(false)
+    }
+  })
 })

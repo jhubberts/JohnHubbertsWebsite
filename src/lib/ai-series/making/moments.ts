@@ -1,9 +1,9 @@
 /**
- * How the series was built, as eight moments, for chapter 14.
+ * How the series was built, as eight moments, for chapter 17.
  *
  * Each moment is something that happened while the series was made on November 23, 2026. What
  * John said is copied from his messages. Counts come from the record of the session and from the
- * repository's history. See docs/ai-series/sources/chapter-9.md before changing anything here.
+ * repository's history. See docs/ai-series/sources/chapter-15.md before changing anything here.
  */
 
 export type CaughtBy = 'john' | 'looking' | 'otherAi' | 'asked'

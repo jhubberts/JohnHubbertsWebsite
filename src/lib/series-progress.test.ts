@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import {
   SERIES_PROGRESS_KEY,
   SERIES_PROGRESS_V1_KEY,
+  SERIES_PROGRESS_V2_KEY,
   describeProgress,
   firstUnread,
   markChapterRead,
@@ -79,8 +80,9 @@ describe('progress saved before the AI series was renumbered', () => {
   const old = (value: string) => fakeStorage({ [SERIES_PROGRESS_V1_KEY]: value })
 
   it('gives the chapters of the AI series their new numbers', () => {
-    // Old chapters 0, 2 and 10 are now chapters 0, 4 and 15.
-    expect(readChapters('how-ai-works', old('{"how-ai-works":[0,2,10]}'))).toEqual([0, 4, 15])
+    // Old chapters 0, 2 and 10 are now chapters 0, 4 and 18. Chapter 10 became 15 on 2026-11-23
+    // and 18 on 2026-11-24, so this also checks that both renumberings are applied.
+    expect(readChapters('how-ai-works', old('{"how-ai-works":[0,2,10]}'))).toEqual([0, 4, 18])
   })
 
   it('renumbers once: later reads and writes use the saved result', () => {
@@ -132,6 +134,32 @@ describe('progress saved before the AI series was renumbered', () => {
 
   it('never throws when storage throws', () => {
     expect(readChapters('how-ai-works', throwing)).toEqual([])
+  })
+})
+
+describe('progress saved between the renumberings of 2026-11-23 and 2026-11-24', () => {
+  const v2 = (value: string) => fakeStorage({ [SERIES_PROGRESS_V2_KEY]: value })
+
+  it('moves chapters 14 and 15 to 17 and 18, keeps 0 to 13, and leaves the new 14 to 16 unread', () => {
+    expect(readChapters('how-ai-works', v2('{"how-ai-works":[0,13,14,15]}'))).toEqual([
+      0, 13, 17, 18,
+    ])
+  })
+
+  it('renumbers once, so the new chapter 14 can be marked read after the old one became 17', () => {
+    const storage = v2('{"how-ai-works":[14,15]}')
+    expect(readChapters('how-ai-works', storage)).toEqual([17, 18])
+    markChapterRead('how-ai-works', 14, storage)
+    // Renumbering again would turn the new chapter 14 into 17.
+    expect(readChapters('how-ai-works', storage)).toEqual([14, 17, 18])
+  })
+
+  it('reads the v2 key rather than v1 when both are present', () => {
+    const storage = fakeStorage({
+      [SERIES_PROGRESS_V1_KEY]: '{"how-ai-works":[1]}',
+      [SERIES_PROGRESS_V2_KEY]: '{"how-ai-works":[14]}',
+    })
+    expect(readChapters('how-ai-works', storage)).toEqual([17])
   })
 })
 

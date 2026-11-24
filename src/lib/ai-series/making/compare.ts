@@ -1,7 +1,7 @@
 import type { GuessChoiceId } from '@/lib/ai-series/guesses'
 
 /**
- * How the reader's answer in chapter 15 relates to her guess in chapter 0, which decides the
+ * How the reader's answer in chapter 18 relates to her guess in chapter 0, which decides the
  * comparison line under the question: none when she has not answered here yet, otherwise
  * whether she had no earlier guess, gave the same answer, or changed it.
  */

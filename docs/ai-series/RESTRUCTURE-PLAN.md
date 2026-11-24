@@ -64,6 +64,10 @@ MOVE (renumbered), SPLIT, NEW.
 | 16  | Epilogue                                       | (John writes it)                                                      | coming                              |                                                                                                                         |
 | —   | Glossary                                       |                                                                       | NEW                                 |                                                                                                                         |
 
+Update, 2026-11-24: three new chapters were inserted, 14 "Models anyone can download", 15 "Who
+pays for it?" and 16 "Use more, then less". Rows 14 to 16 above are now chapters 17 ("How I used AI
+to build this"), 18 ("So is it worth it?") and 19 (the epilogue).
+
 Chapter 0's five questions, each answered by one chapter:
 
 | Question                                                                                                                                     | Answered in |
