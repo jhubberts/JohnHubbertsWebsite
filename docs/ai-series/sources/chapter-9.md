@@ -47,3 +47,17 @@ read in the report itself on 2026-11-23. Readers found the section interesting b
 questions, and the page was too long, so it was cut. The plan lists ownership under "also covers";
 it can return if John wants it.
 
+
+## Confirmed by John
+
+On 2026-11-23, after reading the published chapter, John confirmed that its account of his harness
+setting and written instructions ("What it could touch") is accurate.
+
+## Added from John's answers (2026-11-23)
+
+| Claim | Status | Basis |
+|---|---|---|
+| John uses a personal plan with the model-training setting turned off | John's statement | He said the "Help improve our AI models" setting is turned off, on a personal plan |
+| So the description is not used for training unless flagged for safety review | follows from chapter 5 | `docs/ai-series/sources/chapter-5.md`, Anthropic's published rules as read there |
+| He keeps his conversations and does not delete them | John's statement | He archives every session; archiving is not deleting |
+| Why he chose the setting: coding agents since 2023, grown trust, partly overconfidence, not hurt yet, questions it often | John's statement, reworded | His words: "I'm running on auto somewhat hubristically, but it has not bit me... I question whether or not it's a good idea often" |
