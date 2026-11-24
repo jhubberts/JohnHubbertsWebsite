@@ -111,10 +111,12 @@ export const GlossarySection = memo(function GlossarySection({
             ))}
           </dl>
           <p className="text-muted-foreground">
-            Offense in navy with orange trim, moving up the screen. Defense in white. On the
-            coverage layer, blue boxes are deep zones, yellow boxes short zones, pink dashed lines
-            man-to-man matchups, and red arrows rushers. On the routes layer, the small yellow
-            numbers are the quarterback's reads in order, and C is the checkdown.
+            The offense moves up the screen. Each team wears its own colors as on a broadcast: the
+            home team in its jersey color, the visitors in white with their color as trim. Made-up
+            plays put the Bears at home. On the coverage layer, blue boxes are deep zones, yellow
+            boxes short zones, pink dashed lines man-to-man matchups, and red arrows rushers. On the
+            routes layer, the small yellow numbers are the quarterback's reads in order, and C is
+            the checkdown.
           </p>
         </Group>
       </div>

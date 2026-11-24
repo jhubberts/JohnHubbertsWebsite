@@ -16,6 +16,7 @@ import type { Play } from '@/lib/film-room/play'
 import type { Person } from '@/lib/film-room/real-snaps'
 import { ROUTES, readLabels, type RouteAssignment } from '@/lib/film-room/routes'
 import type { Timeline } from '@/lib/film-room/simulate'
+import { uniform } from '@/lib/film-room/teams'
 import { cn } from '@/lib/utils'
 import { ZONES } from '@/lib/film-room/zones'
 
@@ -41,10 +42,7 @@ const COLORS = {
   line: 'rgba(255,255,255,0.8)',
   scrimmage: '#3b82f6',
   firstDown: '#facc15',
-  offense: '#0b162a',
-  offenseTrim: '#e8662c',
-  defense: '#f8fafc',
-  defenseTrim: '#1e293b',
+  readInk: '#0b162a',
   route: '#fb923c',
   read: '#fde68a',
   man: '#f472b6',
@@ -242,8 +240,8 @@ function Arrowhead({ id, size, fill }: { id: string; size: number; fill: string 
 function ReadBadge({ at, label }: { at: Point; label: string }) {
   return (
     <g transform={`translate(${(at.x + 1.2).toFixed(2)} ${(sy(at.y) - 1.2).toFixed(2)})`}>
-      <circle r={0.75} fill={COLORS.read} stroke={COLORS.offense} strokeWidth={0.12} />
-      <text fontSize={0.9} textAnchor="middle" dy={0.32} fill={COLORS.offense} fontWeight={700}>
+      <circle r={0.75} fill={COLORS.read} stroke={COLORS.readInk} strokeWidth={0.12} />
+      <text fontSize={0.9} textAnchor="middle" dy={0.32} fill={COLORS.readInk} fontWeight={700}>
         {label}
       </text>
     </g>
@@ -502,6 +500,11 @@ function Players({
   names: (seat: Seat) => string
   events: SeatEvents
 }) {
+  const { offense: offenseTeam, defense: defenseTeam, offenseHome } = play.situation
+  const kits = {
+    offense: uniform(offenseTeam, offenseHome),
+    defense: uniform(defenseTeam, !offenseHome),
+  }
   return (
     <g>
       {play.formation.players.map((p) => (
@@ -513,12 +516,17 @@ function Players({
               width={1.2}
               height={1.2}
               rx={0.25}
-              fill={COLORS.offense}
-              stroke={COLORS.offenseTrim}
+              fill={kits.offense.fill}
+              stroke={kits.offense.trim}
               strokeWidth={0.15}
             />
           ) : (
-            <Disc label={p.id} fill={COLORS.offense} trim={COLORS.offenseTrim} ink="white" />
+            <Disc
+              label={p.id}
+              fill={kits.offense.fill}
+              trim={kits.offense.trim}
+              ink={kits.offense.ink}
+            />
           )}
         </SeatMark>
       ))}
@@ -526,9 +534,9 @@ function Players({
         <SeatMark key={d.id} seat={d.id} at={defense[d.id]} name={names(d.id)} events={events}>
           <Disc
             label={DEFENDERS[d.id].label}
-            fill={COLORS.defense}
-            trim={COLORS.defenseTrim}
-            ink={COLORS.defenseTrim}
+            fill={kits.defense.fill}
+            trim={kits.defense.trim}
+            ink={kits.defense.ink}
           />
         </SeatMark>
       ))}

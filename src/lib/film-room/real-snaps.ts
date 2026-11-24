@@ -29,6 +29,8 @@ export interface RealSnap {
   motion: boolean
   /** The offense's personnel, folded into the three groups the Film Room draws. */
   personnel: Personnel
+  /** True when the offense was the home team: it wears its colors and the visitors wear white. */
+  offenseHome: boolean
   /** The ball's spot: the left hash, the middle, or the right hash. */
   hash: -1 | 0 | 1
 }
@@ -62,6 +64,7 @@ export function decodeSnaps(file: SnapFile): RealSnap[] {
       motion: at('motion') === 1,
       personnel: String(at('personnel')) as Personnel,
       hash: Number(at('hash')) as RealSnap['hash'],
+      offenseHome: at('offenseHome') === 1,
     }
   })
 }

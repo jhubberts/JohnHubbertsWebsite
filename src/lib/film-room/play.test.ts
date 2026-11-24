@@ -102,6 +102,7 @@ describe('generatePlay from a real snap', () => {
     motion: true,
     personnel: '11',
     hash: -1,
+    offenseHome: false,
   }
 
   it('keeps the snap’s situation, call, personnel and motion', () => {
@@ -114,6 +115,7 @@ describe('generatePlay from a real snap', () => {
       distance: 6,
       yardLine: 66,
       offense: 'DET',
+      offenseHome: false,
       defense: 'CHI',
     })
     expect(play.defense.call).toMatchObject({ coverage: 'cover3', pressure: 'blitz' })

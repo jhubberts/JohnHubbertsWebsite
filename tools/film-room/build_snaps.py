@@ -65,7 +65,9 @@ PERSONNEL_GROUPS = {'11': '11', '10': '11', '01': '11', '00': '11', '12': '12', 
 HASH = {'L': -1, 'M': 0, 'R': 1}
 # The longest play description written, in characters.
 DESC_LIMIT = 140
-PBP_FIELDS = ('posteam', 'defteam', 'down', 'ydstogo', 'week', 'yardline_100', 'desc')
+PBP_FIELDS = (
+    'posteam', 'defteam', 'home_team', 'down', 'ydstogo', 'week', 'yardline_100', 'desc',
+)
 ATTRIBUTION = 'Charting by FTN Data via nflverse (CC BY-SA 4.0); play-by-play from nflverse.'
 LICENSE = 'CC BY-SA 4.0'
 # The tendencies' key for the whole league; tendencies.ts reads it as LEAGUE.
@@ -236,6 +238,8 @@ def main() -> None:
                 'season': season,
                 'week': int(play['week']),
                 'offense': play['posteam'],
+                # 1 when the offense is the home team, which wears its colors; visitors wear white.
+                'offenseHome': 1 if play['home_team'] == play['posteam'] else 0,
                 'defense': defense,
                 'down': down,
                 'distance': distance,

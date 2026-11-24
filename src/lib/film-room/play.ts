@@ -91,6 +91,8 @@ export interface Situation {
   yardLine: number
   /** The team on offense, such as "CHI", or null when the play names none. */
   offense: string | null
+  /** True when the offense is the home team, which wears its colors; the visitors wear white. */
+  offenseHome: boolean
   /** The team on defense, or null when the play names none. */
   defense: string | null
 }
@@ -165,6 +167,8 @@ function pickSituation(rng: Random, defense: string | null): Situation {
     distance,
     yardLine: rng.int(20, 78),
     offense: defense === HOME_TEAM ? null : HOME_TEAM,
+    // The Bears are at home, on whichever side they play.
+    offenseHome: defense !== HOME_TEAM,
     defense,
   }
 }
@@ -277,6 +281,7 @@ export function generatePlay(seed: number, request: PlayRequest): Play {
         distance: snap.distance,
         yardLine: 100 - snap.yardsToGoal,
         offense: snap.offense,
+        offenseHome: snap.offenseHome,
         defense: snap.defense,
       }
     : pickSituation(rng, request.team ?? null)
