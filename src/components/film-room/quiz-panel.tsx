@@ -1,3 +1,5 @@
+import * as React from 'react'
+import { Tooltip } from '@/components/ui/tooltip'
 import { Check, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { CallBreakdown } from '@/components/film-room/call-breakdown'
@@ -10,7 +12,9 @@ import {
   type CoverageId,
   type PressureId,
 } from '@/lib/film-room/defense'
-import { COVERAGE_GUIDE } from '@/lib/film-room/glossary'
+import { COVERAGE_GUIDE, PRESSURE_GUIDE } from '@/lib/film-room/glossary'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Label } from '@/components/ui/label'
 import type { Guess, Marks, Stats, Tally } from '@/lib/film-room/grading'
 import { LEVELS, type Level, type Play } from '@/lib/film-room/play'
 import { cn } from '@/lib/utils'
@@ -20,29 +24,38 @@ function Choice({
   onClick,
   children,
   disabled,
+  explanation,
 }: {
   selected: boolean
   onClick: () => void
   children: React.ReactNode
   disabled: boolean
+  /** Shown in a tooltip when the button is pointed at or focused. */
+  explanation?: string
 }) {
   return (
-    <button
-      type="button"
-      aria-pressed={selected}
-      data-answer
-      disabled={disabled}
-      onClick={onClick}
-      className={cn(
-        'min-h-11 rounded-lg border px-3 py-2 text-left text-sm font-medium transition-colors',
-        selected
-          ? 'border-primary bg-primary text-primary-foreground'
-          : 'bg-background hover:bg-muted',
-        disabled && !selected && 'opacity-60',
-      )}
+    <Tooltip
+      disabled={!explanation}
+      content={explanation}
+      trigger={
+        <button
+          type="button"
+          aria-pressed={selected}
+          data-answer
+          disabled={disabled}
+          onClick={onClick}
+          className={cn(
+            'min-h-11 rounded-lg border px-3 py-2 text-left text-sm font-medium transition-colors',
+            selected
+              ? 'border-primary bg-primary text-primary-foreground'
+              : 'bg-background hover:bg-muted',
+            disabled && !selected && 'opacity-60',
+          )}
+        />
+      }
     >
       {children}
-    </button>
+    </Tooltip>
   )
 }
 
@@ -53,6 +66,7 @@ function Question<T extends string>({
   chosen,
   locked,
   onChoose,
+  explain,
 }: {
   id: string
   title: string
@@ -60,7 +74,10 @@ function Question<T extends string>({
   chosen: T | undefined
   locked: boolean
   onChoose(value: T): void
+  /** Explains an answer, when explanations are on. */
+  explain?: (value: T) => string
 }) {
+  const chosenName = options.find(([value]) => value === chosen)?.[1]
   return (
     <section aria-labelledby={id}>
       <h2 id={id} className="text-sm font-semibold">
@@ -73,11 +90,19 @@ function Question<T extends string>({
             selected={chosen === value}
             disabled={locked}
             onClick={() => onChoose(value)}
+            explanation={explain?.(value)}
           >
             {name}
           </Choice>
         ))}
       </div>
+      {/* Touch screens have no hover, so the chosen answer's explanation also shows here. */}
+      {explain && chosen && (
+        <p className="text-muted-foreground mt-2 text-xs">
+          <span className="text-foreground font-medium">{chosenName}: </span>
+          {explain(chosen)}
+        </p>
+      )}
     </section>
   )
 }
@@ -124,9 +149,12 @@ interface QuizPanelProps {
   stats: Stats
   onSnap(): void
   onNext(): void
+  /** Whether each answer explains itself. */
+  explain: boolean
+  onExplainChange(explain: boolean): void
 }
 
-export function QuizPanel({
+export const QuizPanel = React.memo(function QuizPanel({
   play,
   level,
   guess,
@@ -137,11 +165,23 @@ export function QuizPanel({
   stats,
   onSnap,
   onNext,
+  explain,
+  onExplainChange,
 }: QuizPanelProps) {
   const { call } = play.defense
   const ready = !!guess.coverage && !!guess.pressure
   return (
     <div className="flex flex-col gap-5">
+      <div className="flex min-h-11 items-center gap-2">
+        <Checkbox
+          id="quiz-explain"
+          checked={explain}
+          onCheckedChange={(checked) => onExplainChange(!!checked)}
+        />
+        <Label htmlFor="quiz-explain" className="font-normal">
+          Explain the answers
+        </Label>
+      </div>
       <Question
         id="q-coverage"
         title="What coverage will they play?"
@@ -149,6 +189,7 @@ export function QuizPanel({
         chosen={guess.coverage}
         locked={revealed}
         onChoose={(coverage) => onGuess({ ...guess, coverage })}
+        explain={explain ? (c) => COVERAGE_GUIDE[c].short : undefined}
       />
       <Question
         id="q-pressure"
@@ -157,6 +198,7 @@ export function QuizPanel({
         chosen={guess.pressure}
         locked={revealed}
         onChoose={(pressure) => onGuess({ ...guess, pressure })}
+        explain={explain ? (p) => PRESSURE_GUIDE[p].short : undefined}
       />
 
       {!revealed ? (
@@ -217,7 +259,7 @@ export function QuizPanel({
       <YourRecord stats={stats} />
     </div>
   )
-}
+})
 
 function TallyRows<T extends string>({
   title,
@@ -256,7 +298,7 @@ function YourRecord({ stats }: { stats: Stats }) {
   if (stats.plays === 0) return null
   return (
     <details className="rounded-xl border p-4">
-      <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold">
+      <summary className="cursor-pointer py-3 text-sm font-semibold">
         Your record: {stats.plays} plays, streak {stats.streak}, best {stats.best}
       </summary>
       <table className="mt-1 w-full text-sm">

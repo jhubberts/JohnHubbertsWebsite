@@ -17,7 +17,7 @@ export function CallBreakdown({ play, heading }: { play: Play; heading: string }
           ))}
         </ul>
       </div>
-      {pressure !== 'four' && <p className="text-sm">{PRESSURE_GUIDE[pressure]}</p>}
+      {pressure !== 'four' && <p className="text-sm">{PRESSURE_GUIDE[pressure].long}</p>}
       <p className="text-sm">{conceptVerdict(play)}</p>
     </>
   )

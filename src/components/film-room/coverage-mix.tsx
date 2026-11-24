@@ -21,7 +21,7 @@ export const CoverageMix = memo(function CoverageMix({ team }: { team: string | 
   const seasons = `${TENDENCY_SEASONS[0]}–${TENDENCY_SEASONS[TENDENCY_SEASONS.length - 1]}`
   return (
     <details className="rounded-xl border p-4">
-      <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold">
+      <summary className="cursor-pointer py-3 text-sm font-semibold">
         {owner} coverage mix, {seasons}
       </summary>
       <p className="text-muted-foreground mt-2 text-xs">

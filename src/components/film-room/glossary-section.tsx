@@ -65,7 +65,7 @@ export const GlossarySection = memo(function GlossarySection({
           {PRESSURE_IDS.map((p) => (
             <div key={p}>
               <h3 className="font-semibold">{PRESSURES[p].name}</h3>
-              <p>{PRESSURE_GUIDE[p]}</p>
+              <p>{PRESSURE_GUIDE[p].long}</p>
             </div>
           ))}
           <div>
@@ -113,7 +113,8 @@ export const GlossarySection = memo(function GlossarySection({
           <p className="text-muted-foreground">
             Offense in navy with orange trim, moving up the screen. Defense in white. On the
             coverage layer, blue boxes are deep zones, yellow boxes short zones, pink dashed lines
-            man-to-man matchups, and red arrows rushers.
+            man-to-man matchups, and red arrows rushers. On the routes layer, the small yellow
+            numbers are the quarterback's reads in order, and C is the checkdown.
           </p>
         </Group>
       </div>

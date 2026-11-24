@@ -13,8 +13,9 @@ and writes the files the site uses:
                                           situation, and how it rushed behind each coverage
   public/film-room/real-snaps.json        every charted dropback with a coverage the Film Room
                                           knows, one row per snap
-  public/film-room/plays/<TEAM>.json      the play-by-play text of each of that defense's snaps,
-                                          by row number, fetched only after a reveal
+  public/film-room/plays/<TEAM>.json      for each of that defense's snaps, by row number: the
+                                          play-by-play text and the 22 players on the field (name,
+                                          number, roster position). Fetched when a snap is shown.
 
 Cover 9, combination coverages and blown coverages count as "other" in the tendencies and are
 left out of the snaps, as are rushes of three or fewer (also left out of the rush counts) and
@@ -135,6 +136,25 @@ def describe(text: str) -> str:
     return text if len(text) <= DESC_LIMIT else text[: DESC_LIMIT - 1].rstrip() + '…'
 
 
+def lineup(file: dict, row: dict[str, str], side: str) -> list[int]:
+    """One side's players on a snap, as rows of the file's player table, adding new players.
+
+    The participation data lists each side's players sorted by roster position, with matching
+    lists of names, numbers and positions; it does not say where each one lined up.
+    """
+    ids = row[f'{side}_players'].split(';')
+    names = row[f'{side}_names'].split(';')
+    numbers = row[f'{side}_numbers'].split(';')
+    positions = row[f'{side}_positions'].split(';')
+    rows = []
+    for player_id, name, number, position in zip(ids, names, numbers, positions):
+        if player_id not in file['index']:
+            file['index'][player_id] = len(file['players'])
+            file['players'].append([name, int(number) if number.isdigit() else None, position])
+        rows.append(file['index'][player_id])
+    return rows
+
+
 def format_json(paths: list[Path]) -> None:
     """Formats JSON with the repository's prettier, so a rerun leaves `npm run format` clean."""
     try:
@@ -163,7 +183,7 @@ def main() -> None:
     pressure_counts = defaultdict(lambda: defaultdict(lambda: defaultdict(int)))
     charted = defaultdict(int)
     snaps = []
-    descriptions = defaultdict(dict)
+    details = defaultdict(lambda: {'players': [], 'index': {}, 'snaps': {}})
     for season in seasons:
         log(f'{season}: reading play-by-play')
         plays = {
@@ -207,7 +227,11 @@ def main() -> None:
             if group is None:
                 continue
             # A snap's id is its row in real-snaps.json, which also keys its play description.
-            descriptions[defense][len(snaps)] = describe(play['desc'])
+            details[defense]['snaps'][len(snaps)] = [
+                describe(play['desc']),
+                lineup(details[defense], row, 'offense'),
+                lineup(details[defense], row, 'defense'),
+            ]
             snaps.append({
                 'season': season,
                 'week': int(play['week']),
@@ -251,14 +275,15 @@ def main() -> None:
         'fields': fields,
         'snaps': [[snap[f] for f in fields] for snap in snaps],
     }, separators=(',', ':')) + '\n')
-    for team, texts in descriptions.items():
+    for team, file in details.items():
+        out = {'license': LICENSE, 'players': file['players'], 'snaps': file['snaps']}
         (PLAYS_DIR / f'{team}.json').write_text(
-            json.dumps(texts, separators=(',', ':'), ensure_ascii=False) + '\n')
+            json.dumps(out, separators=(',', ':'), ensure_ascii=False) + '\n')
     format_json([TENDENCIES_OUT])
     log(f'wrote {TENDENCIES_OUT.relative_to(REPO)} ({TENDENCIES_OUT.stat().st_size} bytes)')
     snaps_size = SNAPS_OUT.stat().st_size
     log(f'wrote {SNAPS_OUT.relative_to(REPO)} ({snaps_size} bytes, {len(snaps)} snaps)')
-    log(f'wrote {len(descriptions)} files in {PLAYS_DIR.relative_to(REPO)}')
+    log(f'wrote {len(details)} files in {PLAYS_DIR.relative_to(REPO)}')
 
 
 if __name__ == '__main__':

@@ -209,3 +209,26 @@ export function record(stats: Stats, play: Play, marks: Marks): Stats {
     pressure: { ...stats.pressure, [pressure]: bump(stats.pressure[pressure], marks.pressure) },
   }
 }
+
+const EXPLAIN_KEY = 'filmRoom.explain'
+
+/** Whether this browser asked the quiz to explain its answers. Never throws. */
+export function loadExplain(storage: ReadStorage | null = browserStorage()): boolean {
+  try {
+    return storage?.getItem(EXPLAIN_KEY) === 'on'
+  } catch {
+    return false
+  }
+}
+
+/** Remembers whether to explain the answers. Never throws; without storage it lasts until reload. */
+export function saveExplain(
+  on: boolean,
+  storage: Pick<Storage, 'setItem'> | null = browserStorage(),
+): void {
+  try {
+    storage?.setItem(EXPLAIN_KEY, on ? 'on' : 'off')
+  } catch {
+    // Storage is unavailable, for example in a private window.
+  }
+}

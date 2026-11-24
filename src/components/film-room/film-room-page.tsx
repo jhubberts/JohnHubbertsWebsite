@@ -8,18 +8,21 @@ import { GlossarySection } from '@/components/film-room/glossary-section'
 import { Picker } from '@/components/film-room/picker'
 import { QuizPanel } from '@/components/film-room/quiz-panel'
 import { RealSnapCard } from '@/components/film-room/real-snap-card'
+import { Term } from '@/components/film-room/term'
+import { defenseTerms, offenseTerms, type CallTerm } from '@/lib/film-room/call-terms'
 import { StudyPanel, type StudyChoices } from '@/components/film-room/study-panel'
-import { PACKAGES, callName, type CoverageId } from '@/lib/film-room/defense'
+import type { CoverageId } from '@/lib/film-room/defense'
 import {
+  loadExplain,
   loadStats,
   mark,
   record,
+  saveExplain,
   saveStats,
   type Guess,
   type Marks,
   type Stats,
 } from '@/lib/film-room/grading'
-import { FORMATIONS, MOTION_NAMES, formationName } from '@/lib/film-room/offense'
 import {
   LEVELS,
   LEVEL_IDS,
@@ -29,8 +32,15 @@ import {
   type PlayRequest,
 } from '@/lib/film-room/play'
 import { newSeed } from '@/lib/film-room/random'
-import { loadRealSnaps, snapForSeed, snapsFor, type RealSnap } from '@/lib/film-room/real-snaps'
-import { CONCEPTS } from '@/lib/film-room/routes'
+import { seatPeople } from '@/lib/film-room/lineups'
+import {
+  loadRealSnaps,
+  loadSnapDetails,
+  snapForSeed,
+  snapsFor,
+  type RealSnap,
+  type SnapDetails,
+} from '@/lib/film-room/real-snaps'
 import { simulate } from '@/lib/film-room/simulate'
 import { ATTRIBUTION, DEFENSES, TENDENCY_SEASONS } from '@/lib/film-room/tendencies'
 import { teamName } from '@/lib/film-room/teams'
@@ -66,6 +76,16 @@ function parseTeam(value: string | null): string | undefined {
 function parseSeed(value: string | null): number | null {
   const n = Number(value)
   return value && Number.isInteger(n) && n >= 0 ? n : null
+}
+
+/** Play-call names separated by dots, each explaining itself when pointed at or tapped. */
+function CallTerms({ terms }: { terms: CallTerm[] }) {
+  return terms.map((term, i) => (
+    <span key={term.text}>
+      {i > 0 && ' · '}
+      <Term explanation={term.explanation}>{term.text}</Term>
+    </span>
+  ))
 }
 
 function Segmented<T extends string>({
@@ -122,6 +142,7 @@ export default function FilmRoomPage() {
   const [peeked, setPeeked] = useState(false)
   const [stats, setStats] = useState<Stats>(loadStats)
   const [slow, setSlow] = useState(false)
+  const [explain, setExplain] = useState(loadExplain)
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 
   const realSnapsWanted = mode === 'quiz' && source === 'real'
@@ -137,6 +158,20 @@ export default function FilmRoomPage() {
     [snaps, team, level],
   )
   const snap = realSnapsWanted ? snapForSeed(pool, seed) : undefined
+  // The snap's play text and players, stored with its id so a new snap never shows the last
+  // one's. Undefined while loading; null when there are none.
+  const [details, setDetails] = useState<{ id: number; data: SnapDetails | null } | null>(null)
+  useEffect(() => {
+    if (!snap) return
+    let current = true
+    loadSnapDetails(snap)
+      .catch(() => null)
+      .then((data) => current && setDetails({ id: snap.id, data }))
+    return () => {
+      current = false
+    }
+  }, [snap])
+  const snapDetails = snap && details?.id === snap.id ? details.data : undefined
   // Still loading, failed to load, or no snap fits the defense and level.
   const realSnapMissing = realSnapsWanted && !snap
   const play = useMemo(() => {
@@ -144,6 +179,10 @@ export default function FilmRoomPage() {
       mode === 'study' ? { level: 'pro', disguise: false, ...choices } : { level, team, snap }
     return generatePlay(seed, request)
   }, [seed, mode, level, choices, team, snap])
+  const people = useMemo(
+    () => (snapDetails ? seatPeople(play, snapDetails) : undefined),
+    [play, snapDetails],
+  )
   const timeline = useMemo(() => simulate(play), [play])
   const last = timeline.frames.length - 1
   // Before the reveal a quiz play stops at the snap; otherwise it runs to the end.
@@ -207,6 +246,10 @@ export default function FilmRoomPage() {
     run(last, timeline.snap)
   }, [guess, peeked, play, stats, run, last, timeline.snap])
 
+  const changeExplain = useCallback((on: boolean) => {
+    setExplain(on)
+    saveExplain(on)
+  }, [])
   const nextPlay = useCallback(() => setSeed(newSeed()), [])
   const replay = useCallback(() => run(end, 0), [run, end])
 
@@ -244,16 +287,10 @@ export default function FilmRoomPage() {
   )
 
   const t = timeline.frames[index].t
-  const { call } = play.defense
-  const offenseText = [
-    formationName(play.formation),
-    `${FORMATIONS[play.formation.id].personnel} personnel`,
-    play.motion ? MOTION_NAMES[play.motion.id] : null,
-    CONCEPTS[play.concept].name,
-  ]
-    .filter(Boolean)
-    .join(' · ')
-  const defenseText = `${PACKAGES[call.package].name} · ${callName(call)}`
+  const offense = offenseTerms(play)
+  const defense = defenseTerms(play)
+  const offenseText = offense.map((term) => term.text).join(' · ')
+  const defenseText = defense.map((term) => term.text).join(' · ')
   const fieldTitle = `${situationText(play.situation)}. ${overlays.offenseNames ? offenseText : 'Offense'} against ${overlays.defenseNames ? defenseText : 'the defense'}.`
 
   return (
@@ -331,7 +368,7 @@ export default function FilmRoomPage() {
             <p>
               <span className="text-muted-foreground">Offense: </span>
               {overlays.offenseNames ? (
-                offenseText
+                <CallTerms terms={offense} />
               ) : (
                 <span className="text-muted-foreground italic">hidden</span>
               )}
@@ -339,7 +376,7 @@ export default function FilmRoomPage() {
             <p>
               <span className="text-muted-foreground">Defense: </span>
               {overlays.defenseNames ? (
-                defenseText
+                <CallTerms terms={defense} />
               ) : (
                 <span className="text-muted-foreground italic">hidden</span>
               )}
@@ -355,6 +392,7 @@ export default function FilmRoomPage() {
               index={index}
               overlays={overlays}
               title={fieldTitle}
+              people={people}
             />
           )}
 
@@ -463,8 +501,17 @@ export default function FilmRoomPage() {
                 stats={stats}
                 onSnap={snapBall}
                 onNext={nextPlay}
+                explain={explain}
+                onExplainChange={changeExplain}
               />
-              {revealed && snap && <RealSnapCard snap={snap} />}
+              {revealed && snap && (
+                <RealSnapCard
+                  snap={snap}
+                  description={
+                    snapDetails === undefined ? undefined : (snapDetails?.description ?? '')
+                  }
+                />
+              )}
             </>
           )}
           {mode === 'quiz' && <CoverageMix team={team} />}

@@ -134,6 +134,8 @@ const SECONDARY: DefenseId[] = ['CB_S', 'CB_W', 'SS', 'FS']
 
 interface PackageDef {
   name: string
+  /** What the package is and when a defense uses it. */
+  about: string
   /** The three underneath defenders between the linemen and the secondary. */
   under: DefenseId[]
   /** The linebackers who walk up into the A-gaps in a mug look. */
@@ -141,9 +143,27 @@ interface PackageDef {
 }
 
 export const PACKAGES: Record<PackageId, PackageDef> = {
-  base: { name: 'Base 4-3', under: ['SAM', 'MIKE', 'WILL'], mug: ['MIKE', 'WILL'] },
-  nickel: { name: 'Nickel 4-2-5', under: ['NB', 'MIKE', 'WILL'], mug: ['MIKE', 'WILL'] },
-  dime: { name: 'Dime 4-1-6', under: ['NB', 'DB', 'MIKE'], mug: ['MIKE'] },
+  base: {
+    name: 'Base 4-3',
+    about:
+      'Four linemen, three linebackers and four defensive backs: the standard group against two tight ends or a fullback.',
+    under: ['SAM', 'MIKE', 'WILL'],
+    mug: ['MIKE', 'WILL'],
+  },
+  nickel: {
+    name: 'Nickel 4-2-5',
+    about:
+      'Four linemen, two linebackers and five defensive backs. The fifth, the nickel back, covers the slot. The most common defensive package in the NFL, used against three receivers.',
+    under: ['NB', 'MIKE', 'WILL'],
+    mug: ['MIKE', 'WILL'],
+  },
+  dime: {
+    name: 'Dime 4-1-6',
+    about:
+      'Four linemen, one linebacker and six defensive backs, for obvious passing downs such as third and long.',
+    under: ['NB', 'DB', 'MIKE'],
+    mug: ['MIKE'],
+  },
 }
 
 /**

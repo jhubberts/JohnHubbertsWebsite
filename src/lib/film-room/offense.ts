@@ -224,6 +224,27 @@ export const MOTION_NAMES: Record<MotionId, string> = {
   backToEmpty: 'The back motions out of the backfield: the formation becomes empty',
 }
 
+const SPOT_NAMES: Record<OffenseId, string> = {
+  QB: 'Quarterback',
+  RB: 'Running back',
+  FB: 'Fullback',
+  LT: 'Left tackle',
+  LG: 'Left guard',
+  C: 'Center',
+  RG: 'Right guard',
+  RT: 'Right tackle',
+  X: 'X receiver (split end, on the line)',
+  Z: 'Z receiver (flanker, off the line)',
+  Y: 'Y',
+  H: 'H',
+}
+
+/** What a spot is called, such as "Z receiver (flanker, off the line)" or "Y: tight end". */
+export function spotName(player: OffensivePlayer): string {
+  if (player.id !== 'Y' && player.id !== 'H') return SPOT_NAMES[player.id]
+  return `${player.id}: ${player.role === 'tightEnd' ? 'tight end' : 'slot receiver'}`
+}
+
 function roleOf(id: OffenseId, personnel: Personnel): OffenseRole {
   if (LINE.includes(id)) return 'line'
   if (id === 'QB') return 'qb'

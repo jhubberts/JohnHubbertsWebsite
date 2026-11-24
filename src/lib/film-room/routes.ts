@@ -189,10 +189,14 @@ export const ROUTES: Record<RouteId, RouteShape> = {
 }
 
 /** The route's path in field yards, starting at the receiver's spot. `side` is his "out" side. */
-export function routePath(route: RouteId, start: Point, side: Side): Point[] {
+export function routePath(route: RouteId, start: Point, side: Side, deepest: number): Point[] {
   return [
     start,
-    ...ROUTES[route].points.map(([out, down]) => ({ x: start.x + out * side, y: start.y + down })),
+    ...ROUTES[route].points.map(([out, down]) => ({
+      x: start.x + out * side,
+      // Near the goal line a deep route ends at the back of the end zone.
+      y: Math.min(start.y + down, deepest),
+    })),
   ]
 }
 
@@ -225,6 +229,11 @@ interface ConceptDef {
   beats: CoverageId[]
   /** The side the tailback releases to when he runs a route. */
   backSide: 'strong' | 'weak'
+  /**
+   * The quarterback's progression as the concept is usually taught: the routes he reads first,
+   * second and so on. Routes not listed are there to clear space.
+   */
+  reads: RouteId[]
   route(slot: RouteSlot): RouteId
 }
 
@@ -237,6 +246,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'Four receivers run deep at once. Against one deep safety, two seam routes put him in a bind: he can only take one.',
     beats: ['cover3', 'cover1'],
     backSide: 'weak',
+    reads: ['seam', 'fade'],
     route: (s) => (s.number === 0 ? 'checkFlat' : s.number === 1 ? 'fade' : 'seam'),
   },
   smash: {
@@ -244,6 +254,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'A hitch underneath and a corner route over the top. The cornerback in the flat cannot cover both: if he sits on the hitch, the corner route is open behind him.',
     beats: ['cover2', 'tampa2'],
     backSide: 'weak',
+    reads: ['corner', 'hitch', 'drag'],
     route: (s) =>
       s.number === 0 ? 'checkFlat' : s.number === 1 ? 'hitch' : s.number === 2 ? 'corner' : 'drag',
   },
@@ -252,6 +263,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'Two shallow crossers run past each other at five or six yards. Man defenders chasing them run into each other, and someone comes open.',
     beats: ['cover1', 'cover0', 'twoMan'],
     backSide: 'weak',
+    reads: ['corner', 'drag', 'shallow', 'stick'],
     route: (s) => {
       if (s.number === 0) return 'swing'
       if (innermost(s)) return s.strong ? 'drag' : 'shallow'
@@ -264,6 +276,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'Three receivers to one side at three depths: deep, medium and short. In Cover 3 only two defenders are on that side, so one level is open.',
     beats: ['cover3', 'cover1'],
     backSide: 'strong',
+    reads: ['go', 'sail', 'flat'],
     route: (s) => {
       if (s.number === 0) return 'flat'
       if (!s.strong) return s.number === 1 ? 'dig' : 'seam'
@@ -275,6 +288,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'The inside receiver runs a deep crossing route across the whole field, behind the linebackers and under the deep safety.',
     beats: ['cover3', 'cover1'],
     backSide: 'weak',
+    reads: ['post', 'cross', 'flat'],
     route: (s) => {
       if (s.number === 0) return 'checkFlat'
       if (!s.strong) return s.number === 1 ? 'post' : 'curl'
@@ -287,6 +301,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'The inside receiver runs a seam to pull the safety and the hook defender deep, and the outside receiver runs a dig into the space they leave.',
     beats: ['cover3', 'cover4'],
     backSide: 'weak',
+    reads: ['seam', 'dig', 'curl'],
     route: (s) => {
       if (s.number === 0) return 'checkFlat'
       if (!s.strong) return s.number === 1 ? 'curl' : 'hitch'
@@ -298,6 +313,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'A quick throw: one receiver sits at six yards and another runs to the flat right next to him. The one defender over them has to choose.',
     beats: ['cover3', 'cover4', 'cover6'],
     backSide: 'strong',
+    reads: ['flat', 'stick', 'slant'],
     route: (s) => {
       if (s.number === 0) return s.onSide >= 3 ? 'block' : 'flat'
       if (!s.strong) return s.number === 1 ? 'slant' : 'quickOut'
@@ -309,6 +325,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'The outside receiver runs a slant and the inside receiver runs to the flat. The flat defender is high-lowed: if he takes the flat, the slant is open behind him.',
     beats: ['cover2', 'cover3'],
     backSide: 'weak',
+    reads: ['slant', 'flat'],
     route: (s) =>
       s.number === 0 ? 'block' : s.number === 1 ? 'slant' : s.number === 2 ? 'flat' : 'seam',
   },
@@ -317,6 +334,7 @@ export const CONCEPTS: Record<ConceptId, ConceptDef> = {
     idea: 'A shallow crosser at about five yards with a dig at fourteen over it. The hook linebacker cannot take both.',
     beats: ['cover1', 'cover3'],
     backSide: 'weak',
+    reads: ['drag', 'dig', 'curl'],
     route: (s) => {
       if (s.number === 0) return 'checkFlat'
       if (!s.strong) return s.number === 1 ? 'go' : 'curl'
@@ -357,3 +375,32 @@ export function assignRoutes(
 }
 
 export const CONCEPT_IDS = Object.keys(CONCEPTS) as ConceptId[]
+
+/**
+ * The read number on each route, "1", "2" and so on in the concept's progression, and "C" on a
+ * back whose route is not one of the reads: he is the checkdown. Where two receivers run the same route, the strong side is read first.
+ */
+export function readLabels(
+  concept: ConceptId,
+  formation: Formation,
+  routes: Partial<Record<OffenseId, RouteAssignment>>,
+): Partial<Record<OffenseId, string>> {
+  const labels: Partial<Record<OffenseId, string>> = {}
+  const runners = (Object.entries(routes) as [OffenseId, RouteAssignment][]).filter(
+    ([, r]) => r.route !== 'block',
+  )
+  let next = 1
+  for (const route of CONCEPTS[concept].reads) {
+    const matching = runners
+      .filter(([id, r]) => r.route === route && !labels[id])
+      .sort(
+        ([, a], [, b]) =>
+          Number(b.side === formation.strength) - Number(a.side === formation.strength),
+      )
+    for (const [id] of matching) labels[id] = String(next++)
+  }
+  for (const [id] of runners) {
+    if (!labels[id] && formation.counts[id]?.number === 0) labels[id] = 'C'
+  }
+  return labels
+}

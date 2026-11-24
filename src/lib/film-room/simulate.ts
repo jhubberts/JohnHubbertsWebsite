@@ -5,7 +5,7 @@
  */
 
 import { alignDefense, type DefenseId, type DefensivePlayer } from './defense'
-import { alongPath, clamp, distance, lerp, stepToward, type Point } from './field'
+import { alongPath, clamp, deepestY, distance, lerp, stepToward, type Point } from './field'
 import { beforeMotion, type OffenseId, type OffensivePlayer } from './offense'
 import type { Play } from './play'
 import { ROUTES, routePath } from './routes'
@@ -24,6 +24,10 @@ export interface Timeline {
   snap: number
   /** Seconds between frames. */
   dt: number
+  /** Each route runner's path from his spot at the snap, kept inside the end line. */
+  routes: Partial<Record<OffenseId, Point[]>>
+  /** Where each zone defender drops to before he reacts, kept inside the end line. */
+  landmarks: Partial<Record<DefenseId, Point>>
 }
 
 const DT = 1 / 30
@@ -45,7 +49,12 @@ function travelled(t: number, speed: number): number {
 }
 
 /** Where offensive player `p` is `t` seconds after the snap. */
-function offenseAfterSnap(play: Play, p: OffensivePlayer, t: number): Point {
+function offenseAfterSnap(
+  play: Play,
+  p: OffensivePlayer,
+  t: number,
+  path: Point[] | undefined,
+): Point {
   const start = p.pos
   if (p.role === 'line') {
     // Linemen step back a yard into pass protection over 0.4 seconds; the tackles also slide
@@ -60,9 +69,8 @@ function offenseAfterSnap(play: Play, p: OffensivePlayer, t: number): Point {
     return lerp(start, { x: start.x, y: -7.5 }, smooth(Math.min(t / dropTime, 1)))
   }
   const assignment = play.routes[p.id]
-  if (!assignment) return start
+  if (!assignment || !path) return start
   const speed = p.role === 'receiver' ? 7.6 : p.role === 'tightEnd' ? 6.6 : 6.8
-  const path = routePath(assignment.route, start, assignment.side)
   return alongPath(path, travelled(t - (ROUTES[assignment.route].delay ?? 0.05), speed))
 }
 
@@ -82,6 +90,8 @@ function defenseStep(
   pos: Point,
   t: number,
   offense: Record<OffenseId, Point>,
+  mark: Point,
+  deepest: number,
 ): Point {
   const assignment = d.assignment
   const qb = offense.QB
@@ -109,7 +119,6 @@ function defenseStep(
   // Head for the zone's landmark, shifted toward the route runner in the zone who is nearest it:
   // a deep defender keeps 2 yards deeper than him, and a short one moves part of the way to him.
   const zone = ZONES[assignment.zone]
-  const mark = zone.landmark
   let want = mark
   let nearest: Point | null = null
   for (const [id, runner] of Object.entries(offense) as [OffenseId, Point][]) {
@@ -128,7 +137,7 @@ function defenseStep(
           y: mark.y + clamp((nearest.y - mark.y) * 0.45, -3, 3),
         }
   }
-  return stepToward(pos, want, defenderSpeed(d) * DT)
+  return stepToward(pos, { x: want.x, y: Math.min(want.y, deepest) }, defenderSpeed(d) * DT)
 }
 
 /**
@@ -137,8 +146,20 @@ function defenseStep(
  */
 export function simulate(play: Play): Timeline {
   const { formation, motion, defense } = play
+  // Near the goal line nobody lines up, runs or drops past the back of the end zone.
+  const deepest = deepestY(play.situation.yardLine)
+  const inside = (p: Point): Point => ({ x: p.x, y: Math.min(p.y, deepest) })
   const alignedBefore = alignDefense(defense, beforeMotion(formation, motion))
   const alignedAtSnap = alignDefense(defense, formation)
+  const routes: Timeline['routes'] = {}
+  for (const p of formation.players) {
+    const assignment = play.routes[p.id]
+    if (assignment) routes[p.id] = routePath(assignment.route, p.pos, assignment.side, deepest)
+  }
+  const landmarks: Timeline['landmarks'] = {}
+  for (const d of defense.players) {
+    if (d.assignment.kind === 'zone') landmarks[d.id] = inside(ZONES[d.assignment.zone].landmark)
+  }
   const start = motion ? -(HOLD + MOTION_TIME) : -HOLD
   const frames: Frame[] = []
 
@@ -161,19 +182,31 @@ export function simulate(play: Play): Timeline {
       defensePos = {} as Record<DefenseId, Point>
       for (const d of defense.players) {
         const { pos, follows } = alignedAtSnap[d.id]
-        defensePos[d.id] = follows
-          ? { x: offense[follows.target].x + follows.dx, y: pos.y }
-          : lerp(alignedBefore[d.id].pos, pos, progress)
+        defensePos[d.id] = inside(
+          follows
+            ? { x: offense[follows.target].x + follows.dx, y: pos.y }
+            : lerp(alignedBefore[d.id].pos, pos, progress),
+        )
       }
       frames.push({ t, offense, defense: defensePos })
       continue
     }
     const offense = {} as Record<OffenseId, Point>
-    for (const p of formation.players) offense[p.id] = offenseAfterSnap(play, p, t)
+    for (const p of formation.players) offense[p.id] = offenseAfterSnap(play, p, t, routes[p.id])
     const next = {} as Record<DefenseId, Point>
-    for (const d of defense.players) next[d.id] = defenseStep(play, d, defensePos[d.id], t, offense)
+    for (const d of defense.players) {
+      next[d.id] = defenseStep(
+        play,
+        d,
+        defensePos[d.id],
+        t,
+        offense,
+        landmarks[d.id] ?? defensePos[d.id],
+        deepest,
+      )
+    }
     defensePos = next
     frames.push({ t, offense, defense: next })
   }
-  return { frames, snap, dt: DT }
+  return { frames, snap, dt: DT, routes, landmarks }
 }

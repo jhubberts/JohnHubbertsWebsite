@@ -1,17 +1,22 @@
-import { memo, useId, type ReactNode } from 'react'
+import { memo, useId, useMemo, useState, type CSSProperties, type ReactNode } from 'react'
+import { TOOLTIP_CLASS } from '@/components/ui/tooltip'
 import { DEFENDERS, type DefenseId } from '@/lib/film-room/defense'
 import {
   FIELD_WIDTH,
+  endLine,
   LEFT_HASH,
   RIGHT_HASH,
   VIEW_AHEAD,
   VIEW_BEHIND,
   type Point,
 } from '@/lib/film-room/field'
+import { personLine, seatDetails, seatName, type Seat } from '@/lib/film-room/lineups'
 import type { OffenseId } from '@/lib/film-room/offense'
 import type { Play } from '@/lib/film-room/play'
-import { ROUTES, routePath, type RouteAssignment } from '@/lib/film-room/routes'
+import type { Person } from '@/lib/film-room/real-snaps'
+import { ROUTES, readLabels, type RouteAssignment } from '@/lib/film-room/routes'
 import type { Timeline } from '@/lib/film-room/simulate'
+import { cn } from '@/lib/utils'
 import { ZONES } from '@/lib/film-room/zones'
 
 export interface Overlays {
@@ -24,12 +29,15 @@ export interface Overlays {
 /** Screen units are yards; the offense moves up the screen. */
 const sy = (y: number) => VIEW_AHEAD - y
 const MARGIN = 1.5
-const VIEW_BOX = `${-MARGIN} ${-MARGIN} ${FIELD_WIDTH + 2 * MARGIN} ${VIEW_AHEAD + VIEW_BEHIND + 2 * MARGIN}`
+const VIEW_WIDTH = FIELD_WIDTH + 2 * MARGIN
+const VIEW_HEIGHT = VIEW_AHEAD + VIEW_BEHIND + 2 * MARGIN
+const VIEW_BOX = `${-MARGIN} ${-MARGIN} ${VIEW_WIDTH} ${VIEW_HEIGHT}`
 
 const COLORS = {
   grass: '#2e7a36',
   stripe: '#2a7032',
   endZone: '#255f2c',
+  outOfBounds: '#3d4a40',
   line: 'rgba(255,255,255,0.8)',
   scrimmage: '#3b82f6',
   firstDown: '#facc15',
@@ -38,6 +46,7 @@ const COLORS = {
   defense: '#f8fafc',
   defenseTrim: '#1e293b',
   route: '#fb923c',
+  read: '#fde68a',
   man: '#f472b6',
   rush: '#f87171',
   deep: '#60a5fa',
@@ -69,6 +78,8 @@ const FieldMarkings = memo(function FieldMarkings({
   const lines: number[] = []
   for (let y = -VIEW_BEHIND; y <= VIEW_AHEAD; y++) lines.push(y)
   const goal = 100 - yardLine
+  const back = endLine(yardLine)
+  const endZoneTop = Math.min(back, VIEW_AHEAD)
   const firstDown = yardLine + distance < 100 ? distance : null
   return (
     <g>
@@ -88,7 +99,26 @@ const FieldMarkings = memo(function FieldMarkings({
         )
       })}
       {goal < VIEW_AHEAD && (
-        <rect x={0} y={0} width={FIELD_WIDTH} height={sy(goal)} fill={COLORS.endZone} />
+        <rect
+          x={0}
+          y={sy(endZoneTop)}
+          width={FIELD_WIDTH}
+          height={endZoneTop - goal}
+          fill={COLORS.endZone}
+        />
+      )}
+      {back < VIEW_AHEAD && (
+        <>
+          <rect x={0} y={0} width={FIELD_WIDTH} height={sy(back)} fill={COLORS.outOfBounds} />
+          <line
+            x1={0}
+            x2={FIELD_WIDTH}
+            y1={sy(back)}
+            y2={sy(back)}
+            stroke={COLORS.line}
+            strokeWidth={0.4}
+          />
+        </>
       )}
       {lines.map((y) => {
         const abs = yardLine + y
@@ -205,56 +235,76 @@ function Arrowhead({ id, size, fill }: { id: string; size: number; fill: string 
 }
 
 /** Every route as drawn from the snap, with its name at the end when `names` is on. */
+/**
+ * The quarterback's read number on a route ("1", "2", ...) or "C" for the checkdown, drawn beside
+ * the route's first turning point.
+ */
+function ReadBadge({ at, label }: { at: Point; label: string }) {
+  return (
+    <g transform={`translate(${(at.x + 1.2).toFixed(2)} ${(sy(at.y) - 1.2).toFixed(2)})`}>
+      <circle r={0.75} fill={COLORS.read} stroke={COLORS.offense} strokeWidth={0.12} />
+      <text fontSize={0.9} textAnchor="middle" dy={0.32} fill={COLORS.offense} fontWeight={700}>
+        {label}
+      </text>
+    </g>
+  )
+}
+
 const Routes = memo(function Routes({
   play,
   snap,
+  paths,
   arrow,
   names,
 }: {
   play: Play
   snap: Record<OffenseId, Point>
+  /** Each route's path, as the simulation runs it. */
+  paths: Timeline['routes']
   arrow: string
   names: boolean
 }) {
+  const reads = readLabels(play.concept, play.formation, play.routes)
   return (
     <g>
-      {(Object.entries(play.routes) as [OffenseId, RouteAssignment][]).map(
-        ([id, { route, side }]) => {
-          const start = snap[id]
-          if (route === 'block') {
-            return (
-              <line
-                key={id}
-                x1={start.x - 0.8}
-                x2={start.x + 0.8}
-                y1={sy(start.y + 1.3)}
-                y2={sy(start.y + 1.3)}
-                stroke={COLORS.route}
-                strokeWidth={0.3}
-              />
-            )
-          }
-          const path = routePath(route, start, side)
-          const end = path[path.length - 1]
+      {(Object.entries(play.routes) as [OffenseId, RouteAssignment][]).map(([id, { route }]) => {
+        const start = snap[id]
+        if (route === 'block') {
           return (
-            <g key={id}>
-              <polyline
-                points={polyline(path)}
-                fill="none"
-                stroke={COLORS.route}
-                strokeWidth={0.3}
-                strokeLinejoin="round"
-                markerEnd={`url(#${arrow})`}
-              />
-              {names && (
-                <Label x={end.x} y={sy(end.y) - 0.8}>
-                  {ROUTES[route].name}
-                </Label>
-              )}
-            </g>
+            <line
+              key={id}
+              x1={start.x - 0.8}
+              x2={start.x + 0.8}
+              y1={sy(start.y + 1.3)}
+              y2={sy(start.y + 1.3)}
+              stroke={COLORS.route}
+              strokeWidth={0.3}
+            />
           )
-        },
-      )}
+        }
+        const path = paths[id]
+        if (!path) return null
+        const end = path[path.length - 1]
+        const read = reads[id]
+        return (
+          <g key={id}>
+            <polyline
+              points={polyline(path)}
+              fill="none"
+              stroke={COLORS.route}
+              strokeWidth={0.3}
+              strokeLinejoin="round"
+              markerEnd={`url(#${arrow})`}
+            />
+            {names && (
+              <Label x={end.x} y={sy(end.y) - 0.8}>
+                {ROUTES[route].name}
+              </Label>
+            )}
+            {read && <ReadBadge at={path[1] ?? end} label={read} />}
+          </g>
+        )
+      })}
     </g>
   )
 })
@@ -266,11 +316,14 @@ const Routes = memo(function Routes({
 const Zones = memo(function Zones({
   play,
   snap,
+  landmarks,
   qb,
   rushArrow,
 }: {
   play: Play
   snap: Record<DefenseId, Point>
+  /** Where each zone defender drops, as the simulation runs it. */
+  landmarks: Timeline['landmarks']
   qb: Point
   rushArrow: string
 }) {
@@ -300,14 +353,17 @@ const Zones = memo(function Zones({
         if (a.kind !== 'zone') return null
         const z = ZONES[a.zone]
         const color = z.deep ? COLORS.deep : COLORS.short
-        const top = Math.min(z.y[1], VIEW_AHEAD)
+        const mark = landmarks[d.id] ?? z.landmark
+        // Near the goal line a deep zone is squeezed between its drop point and the end line.
+        const top = Math.min(z.y[1], VIEW_AHEAD, endLine(play.situation.yardLine))
+        const bottom = Math.min(z.y[0], mark.y - 1, top - 2)
         return (
           <g key={d.id}>
             <rect
               x={z.x[0] + 0.25}
               y={sy(top) + 0.25}
               width={z.x[1] - z.x[0] - 0.5}
-              height={top - z.y[0] - 0.5}
+              height={top - bottom - 0.5}
               rx={1.2}
               fill={color}
               fillOpacity={0.16}
@@ -319,8 +375,8 @@ const Zones = memo(function Zones({
             <line
               x1={from.x}
               y1={sy(from.y)}
-              x2={z.landmark.x}
-              y2={sy(z.landmark.y)}
+              x2={mark.x}
+              y2={sy(mark.y)}
               stroke={color}
               strokeWidth={0.15}
               strokeDasharray="0.5 0.4"
@@ -367,21 +423,58 @@ function ManLines({
   )
 }
 
-function Token({
+/** Shows and hides a player's details as he is pointed at, tapped or focused. */
+interface SeatEvents {
+  onShow(seat: Seat): void
+  onHide(seat: Seat): void
+}
+
+/** A player's marker at his spot on the field, which shows his details when pointed at. */
+function SeatMark({
+  seat,
   at,
+  name,
+  events,
+  children,
+}: {
+  seat: Seat
+  at: Point
+  /** What screen readers and keyboard focus call him. */
+  name: string
+  events: SeatEvents
+  children: ReactNode
+}) {
+  return (
+    <g
+      transform={`translate(${at.x.toFixed(2)} ${sy(at.y).toFixed(2)})`}
+      tabIndex={0}
+      role="button"
+      aria-label={name}
+      className="cursor-pointer outline-none focus-visible:[&>*:first-child]:stroke-[0.35]"
+      onPointerEnter={() => events.onShow(seat)}
+      onPointerLeave={() => events.onHide(seat)}
+      onClick={() => events.onShow(seat)}
+      onFocus={() => events.onShow(seat)}
+      onBlur={() => events.onHide(seat)}
+    >
+      {children}
+    </g>
+  )
+}
+
+function Disc({
   label,
   fill,
   trim,
   ink,
 }: {
-  at: Point
   label: string
   fill: string
   trim: string
   ink: string
 }) {
   return (
-    <g transform={`translate(${at.x.toFixed(2)} ${sy(at.y).toFixed(2)})`}>
+    <>
       <circle r={1.05} fill={fill} stroke={trim} strokeWidth={0.18} />
       <text
         fontSize={label.length > 1 ? 0.75 : 0.95}
@@ -392,7 +485,7 @@ function Token({
       >
         {label}
       </text>
-    </g>
+    </>
   )
 }
 
@@ -400,21 +493,23 @@ function Players({
   play,
   offense,
   defense,
+  names,
+  events,
 }: {
   play: Play
   offense: Record<OffenseId, Point>
   defense: Record<DefenseId, Point>
+  names: (seat: Seat) => string
+  events: SeatEvents
 }) {
   return (
     <g>
-      {play.formation.players.map((p) => {
-        const at = offense[p.id]
-        if (p.role === 'line') {
-          return (
+      {play.formation.players.map((p) => (
+        <SeatMark key={p.id} seat={p.id} at={offense[p.id]} name={names(p.id)} events={events}>
+          {p.role === 'line' ? (
             <rect
-              key={p.id}
-              x={at.x - 0.6}
-              y={sy(at.y) - 0.6}
+              x={-0.6}
+              y={-0.6}
               width={1.2}
               height={1.2}
               rx={0.25}
@@ -422,31 +517,42 @@ function Players({
               stroke={COLORS.offenseTrim}
               strokeWidth={0.15}
             />
-          )
-        }
-        return (
-          <Token
-            key={p.id}
-            at={at}
-            label={p.id}
-            fill={COLORS.offense}
-            trim={COLORS.offenseTrim}
-            ink="white"
-          />
-        )
-      })}
+          ) : (
+            <Disc label={p.id} fill={COLORS.offense} trim={COLORS.offenseTrim} ink="white" />
+          )}
+        </SeatMark>
+      ))}
       {play.defense.players.map((d) => (
-        <Token
-          key={d.id}
-          at={defense[d.id]}
-          label={DEFENDERS[d.id].label}
-          fill={COLORS.defense}
-          trim={COLORS.defenseTrim}
-          ink={COLORS.defenseTrim}
-        />
+        <SeatMark key={d.id} seat={d.id} at={defense[d.id]} name={names(d.id)} events={events}>
+          <Disc
+            label={DEFENDERS[d.id].label}
+            fill={COLORS.defense}
+            trim={COLORS.defenseTrim}
+            ink={COLORS.defenseTrim}
+          />
+        </SeatMark>
       ))}
     </g>
   )
+}
+
+/**
+ * Where to put a player's details box, as a share of the picture: above him, or below him near
+ * the top, and pinned to a side near the sidelines so it stays on screen.
+ */
+function boxPlacement(at: Point): { style: CSSProperties; className: string } {
+  const left = (at.x + MARGIN) / VIEW_WIDTH
+  const top = (sy(at.y) + MARGIN) / VIEW_HEIGHT
+  const below = top < 0.2
+  const horizontal =
+    left < 0.2 ? 'translate-x-0' : left > 0.8 ? '-translate-x-full' : '-translate-x-1/2'
+  return {
+    style: {
+      left: `${left * 100}%`,
+      top: below ? `calc(${top * 100}% + 14px)` : `calc(${top * 100}% - 14px)`,
+    },
+    className: cn(horizontal, !below && '-translate-y-full'),
+  }
 }
 
 /** The field from behind the offense, like the end-zone camera on the All-22 film. */
@@ -456,41 +562,92 @@ export function FieldView({
   index,
   overlays,
   title,
+  people,
 }: {
   play: Play
   timeline: Timeline
   index: number
   overlays: Overlays
   title: string
+  /** The real players in each spot, for a real snap whose lineup has loaded. */
+  people?: Partial<Record<Seat, Person>>
 }) {
   const id = useId()
+  const [shown, setShown] = useState<Seat | null>(null)
   const frame = timeline.frames[index]
   const snap = timeline.frames[timeline.snap]
   const routeArrow = `${id}-route`
   const rushArrow = `${id}-rush`
+  const events = useMemo<SeatEvents>(
+    () => ({
+      onShow: setShown,
+      onHide: (seat) => setShown((current) => (current === seat ? null : current)),
+    }),
+    [],
+  )
+  const names = (seat: Seat) => {
+    const person = people?.[seat]
+    return person ? personLine(person) : seatName(play, seat)
+  }
+  const shownAt = shown && (frame.offense[shown as OffenseId] ?? frame.defense[shown as DefenseId])
+  const box = shown && shownAt ? boxPlacement(shownAt) : null
+
   return (
-    <svg
-      viewBox={VIEW_BOX}
-      className="block h-auto w-full rounded-lg select-none"
-      style={{ backgroundColor: COLORS.grass }}
-      role="img"
-      aria-label={title}
-    >
-      <defs>
-        <Arrowhead id={routeArrow} size={4} fill={COLORS.route} />
-        <Arrowhead id={rushArrow} size={3.5} fill={COLORS.rush} />
-      </defs>
-      <FieldMarkings yardLine={play.situation.yardLine} distance={play.situation.distance} />
-      {overlays.coverage && (
-        <>
-          <Zones play={play} snap={snap.defense} qb={snap.offense.QB} rushArrow={rushArrow} />
-          <ManLines play={play} defense={frame.defense} offense={frame.offense} />
-        </>
+    <div className="relative" onPointerLeave={() => setShown(null)}>
+      <svg
+        viewBox={VIEW_BOX}
+        className="block h-auto w-full rounded-lg select-none"
+        style={{ backgroundColor: COLORS.grass }}
+        role="group"
+        aria-label={title}
+      >
+        <defs>
+          <Arrowhead id={routeArrow} size={4} fill={COLORS.route} />
+          <Arrowhead id={rushArrow} size={3.5} fill={COLORS.rush} />
+        </defs>
+        <FieldMarkings yardLine={play.situation.yardLine} distance={play.situation.distance} />
+        {overlays.coverage && (
+          <>
+            <Zones
+              play={play}
+              snap={snap.defense}
+              landmarks={timeline.landmarks}
+              qb={snap.offense.QB}
+              rushArrow={rushArrow}
+            />
+            <ManLines play={play} defense={frame.defense} offense={frame.offense} />
+          </>
+        )}
+        {overlays.routes && (
+          <Routes
+            play={play}
+            snap={snap.offense}
+            paths={timeline.routes}
+            arrow={routeArrow}
+            names={overlays.offenseNames}
+          />
+        )}
+        <Players
+          play={play}
+          offense={frame.offense}
+          defense={frame.defense}
+          names={names}
+          events={events}
+        />
+      </svg>
+      {shown && box && (
+        <div
+          role="tooltip"
+          className={cn(TOOLTIP_CLASS, 'pointer-events-none absolute z-10 w-max', box.className)}
+          style={box.style}
+        >
+          {seatDetails(play, shown, people?.[shown], overlays).map((line, i) => (
+            <p key={line} className={i === 0 ? 'font-semibold' : 'text-muted-foreground'}>
+              {line}
+            </p>
+          ))}
+        </div>
       )}
-      {overlays.routes && (
-        <Routes play={play} snap={snap.offense} arrow={routeArrow} names={overlays.offenseNames} />
-      )}
-      <Players play={play} offense={frame.offense} defense={frame.defense} />
-    </svg>
+    </div>
   )
 }

@@ -81,13 +81,21 @@ describe('the snaps a quiz draws from', () => {
     expect(snapForSeed([], 42)).toBeUndefined()
   })
 
-  it('has a play description for every snap, in its defense’s file', () => {
+  // The charting lists 10 or 12 players on a side for a few snaps, such as a penalty for 12 men.
+  it('has the play text and both lineups for every snap, in its defense’s file', () => {
     const defenses = [...new Set(snaps.map((snap) => snap.defense))]
-    const missing = defenses.flatMap((team) => {
-      const texts = JSON.parse(readFileSync(`public/film-room/plays/${team}.json`, 'utf8'))
-      return snaps.filter((snap) => snap.defense === team && !texts[snap.id]).map((snap) => snap.id)
+    const incomplete = defenses.flatMap((team) => {
+      const file = JSON.parse(readFileSync(`public/film-room/plays/${team}.json`, 'utf8'))
+      return snaps
+        .filter((snap) => snap.defense === team)
+        .filter((snap) => {
+          const entry = file.snaps[snap.id]
+          const sizeOk = (lineup: number[]) => lineup.length >= 10 && lineup.length <= 12
+          return !entry?.[0] || !sizeOk(entry[1]) || !sizeOk(entry[2])
+        })
+        .map((snap) => snap.id)
     })
-    expect(missing).toEqual([])
+    expect(incomplete).toEqual([])
   })
 })
 

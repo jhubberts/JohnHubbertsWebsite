@@ -23,6 +23,19 @@ export const RIGHT_HASH = MIDDLE + HASH_HALF_GAP
 export const VIEW_BEHIND = 10
 export const VIEW_AHEAD = 30
 
+/**
+ * How far past the line of scrimmage the back of the end zone is, for a line at `yardLine`
+ * (yards from the offense's own goal line). An end zone is 10 yards deep.
+ */
+export function endLine(yardLine: number): number {
+  return 110 - yardLine
+}
+
+/** The deepest a player runs or drops: a yard inside the end line. */
+export function deepestY(yardLine: number): number {
+  return endLine(yardLine) - 1
+}
+
 export function distance(a: Point, b: Point): number {
   return Math.hypot(a.x - b.x, a.y - b.y)
 }

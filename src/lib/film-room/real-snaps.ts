@@ -81,16 +81,45 @@ function fetchOnce<T>(url: string, cache: Map<string, Promise<T>>): Promise<T> {
 }
 
 const snapFiles = new Map<string, Promise<SnapFile>>()
-const descriptionFiles = new Map<string, Promise<Record<string, string>>>()
+/** One defense's play text and lineups: players by table row, and each snap's [text, offense, defense]. */
+interface PlaysFile {
+  players: [name: string, number: number | null, position: string][]
+  snaps: Record<string, [description: string, offense: number[], defense: number[]]>
+}
+
+const playsFiles = new Map<string, Promise<PlaysFile>>()
 
 export async function loadRealSnaps(): Promise<RealSnap[]> {
   return decodeSnaps(await fetchOnce('/film-room/real-snaps.json', snapFiles))
 }
 
-/** The play-by-play text of a snap, such as "(Shotgun) 18-C.Williams pass short right…". */
-export async function loadDescription(snap: RealSnap): Promise<string> {
-  const texts = await fetchOnce(`/film-room/plays/${snap.defense}.json`, descriptionFiles)
-  return texts[snap.id] ?? ''
+/** A player on the field for a real snap. */
+export interface Person {
+  name: string
+  number: number | null
+  /** His roster position, such as WR, ILB or FS. */
+  position: string
+}
+
+export interface SnapDetails {
+  /** The play-by-play text, such as "(Shotgun) 18-C.Williams pass short right…". */
+  description: string
+  /** Each side's eleven players, in no particular order: the charting lists who, not where. */
+  offense: Person[]
+  defense: Person[]
+}
+
+/** The play text and the players on the field for a snap, or null when the file has none. */
+export async function loadSnapDetails(snap: RealSnap): Promise<SnapDetails | null> {
+  const file = await fetchOnce(`/film-room/plays/${snap.defense}.json`, playsFiles)
+  const entry = file.snaps[snap.id]
+  if (!entry) return null
+  const person = (row: number): Person => {
+    const [name, number, position] = file.players[row]
+    return { name, number, position }
+  }
+  const [description, offense, defense] = entry
+  return { description, offense: offense.map(person), defense: defense.map(person) }
 }
 
 /**

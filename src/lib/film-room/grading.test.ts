@@ -1,6 +1,14 @@
 import { describe, expect, it } from 'vitest'
 import { alignDefense } from './defense'
-import { EMPTY_STATS, loadStats, record, saveStats, tells } from './grading'
+import {
+  EMPTY_STATS,
+  loadExplain,
+  loadStats,
+  record,
+  saveExplain,
+  saveStats,
+  tells,
+} from './grading'
 import { LEVEL_IDS, generatePlay } from './play'
 
 function fakeStorage(initial: Record<string, string> = {}) {
@@ -69,5 +77,21 @@ describe('tells', () => {
       return followed !== saysFollowed
     })
     expect(wrong).toEqual([])
+  })
+})
+
+describe('loadExplain and saveExplain', () => {
+  it('remembers the setting both ways', () => {
+    const storage = fakeStorage()
+    expect(loadExplain(storage)).toBe(false)
+    saveExplain(true, storage)
+    expect(loadExplain(storage)).toBe(true)
+    saveExplain(false, storage)
+    expect(loadExplain(storage)).toBe(false)
+  })
+
+  it('treats blocked storage as off and does not throw', () => {
+    expect(loadExplain(throwing)).toBe(false)
+    expect(() => saveExplain(true, throwing)).not.toThrow()
   })
 })
