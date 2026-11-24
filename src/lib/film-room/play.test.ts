@@ -2,8 +2,9 @@ import { describe, expect, it } from 'vitest'
 import { COVERAGES, COVERAGE_IDS } from './defense'
 import { distance } from './field'
 import { EMPTY_STATS, mark, record, type Marks } from './grading'
-import { player } from './offense'
+import { FORMATIONS, player } from './offense'
 import { generatePlay, type Level } from './play'
+import type { RealSnap } from './real-snaps'
 import { simulate } from './simulate'
 
 const SEEDS = Array.from({ length: 300 }, (_, seed) => seed)
@@ -25,8 +26,10 @@ describe('generatePlay', () => {
       'cover1/four',
       'cover1/blitz',
       'cover2/four',
+      'cover2/blitz',
       'cover3/four',
       'cover4/four',
+      'cover4/blitz',
     ]
     expect(rookieCalls).toEqual(expect.arrayContaining(callsAt('rookie')))
   })
@@ -35,7 +38,7 @@ describe('generatePlay', () => {
     'pairs each coverage only with a pressure it can be played with at the %s level',
     (level) => {
       const playable = COVERAGE_IDS.flatMap((coverage) =>
-        Object.keys(COVERAGES[coverage].pressures).map((pressure) => `${coverage}/${pressure}`),
+        COVERAGES[coverage].pressures.map((pressure) => `${coverage}/${pressure}`),
       )
       expect(playable).toEqual(expect.arrayContaining(callsAt(level)))
     },
@@ -73,6 +76,62 @@ describe('generatePlay', () => {
       'smash',
       'bunch',
     ])
+  })
+
+  it('never puts the Bears on both sides of the ball', () => {
+    const play = generatePlay(3, { level: 'starter', team: 'CHI' })
+    expect(play.situation.defense).toBe('CHI')
+    expect(play.situation.offense).not.toBe('CHI')
+  })
+})
+
+describe('generatePlay from a real snap', () => {
+  const snap: RealSnap = {
+    id: 0,
+    season: 2025,
+    week: 7,
+    offense: 'DET',
+    defense: 'CHI',
+    down: 3,
+    distance: 6,
+    yardsToGoal: 34,
+    coverage: 'cover3',
+    pressure: 'blitz',
+    rushers: 5,
+    blitzers: 2,
+    motion: true,
+    personnel: '11',
+    hash: -1,
+  }
+
+  it('keeps the snap’s situation, call, personnel and motion', () => {
+    // Act
+    const play = generatePlay(3, { level: 'starter', snap })
+
+    // Assert
+    expect(play.situation).toEqual({
+      down: 3,
+      distance: 6,
+      yardLine: 66,
+      offense: 'DET',
+      defense: 'CHI',
+    })
+    expect(play.defense.call).toMatchObject({ coverage: 'cover3', pressure: 'blitz' })
+    expect(FORMATIONS[play.formation.id].personnel).toBe('11')
+    expect(play.motion).not.toBeNull()
+  })
+
+  it('leaves out motion at a level that does not teach it', () => {
+    // Arrange: Cover 3 with a blitz is a fire zone, which a rookie does not see.
+    const rookieSnap: RealSnap = { ...snap, pressure: 'four' }
+
+    // Act
+    const withMotion = SEEDS.filter(
+      (seed) => generatePlay(seed, { level: 'rookie', snap: rookieSnap }).motion,
+    )
+
+    // Assert
+    expect(withMotion).toEqual([])
   })
 })
 

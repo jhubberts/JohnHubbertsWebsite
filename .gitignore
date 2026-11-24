@@ -27,3 +27,7 @@ yarn-error.log*
 /tools/ai-series/data/
 /tools/ai-series/.venv/
 *.tsbuildinfo
+
+# Film Room: downloaded nflverse files
+/tools/film-room/data/
+__pycache__/

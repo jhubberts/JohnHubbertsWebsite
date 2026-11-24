@@ -256,7 +256,7 @@ function YourRecord({ stats }: { stats: Stats }) {
   if (stats.plays === 0) return null
   return (
     <details className="rounded-xl border p-4">
-      <summary className="cursor-pointer text-sm font-semibold">
+      <summary className="flex min-h-11 cursor-pointer items-center text-sm font-semibold">
         Your record: {stats.plays} plays, streak {stats.streak}, best {stats.best}
       </summary>
       <table className="mt-1 w-full text-sm">

@@ -1,5 +1,6 @@
 import { Shuffle } from 'lucide-react'
 import { CallBreakdown } from '@/components/film-room/call-breakdown'
+import { Picker } from '@/components/film-room/picker'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
@@ -18,36 +19,6 @@ import { pressuresWith, type Play, type PlayRequest } from '@/lib/film-room/play
 import { CONCEPTS, CONCEPT_IDS, type ConceptId } from '@/lib/film-room/routes'
 
 export type StudyChoices = Omit<PlayRequest, 'level'>
-
-function Picker<T extends string>({
-  label,
-  value,
-  options,
-  onChange,
-}: {
-  label: string
-  value: T | undefined
-  options: [T, string][]
-  onChange(value: T | undefined): void
-}) {
-  return (
-    <label className="flex flex-col gap-1 text-sm font-medium">
-      {label}
-      <select
-        className="bg-background min-h-11 rounded-lg border px-2 text-sm font-normal"
-        value={value ?? ''}
-        onChange={(e) => onChange((e.target.value || undefined) as T | undefined)}
-      >
-        <option value="">Any</option>
-        {options.map(([v, name]) => (
-          <option key={v} value={v}>
-            {name}
-          </option>
-        ))}
-      </select>
-    </label>
-  )
-}
 
 export function StudyPanel({
   play,

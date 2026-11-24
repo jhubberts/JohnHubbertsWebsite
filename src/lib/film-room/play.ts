@@ -1,6 +1,6 @@
 /**
  * Builds a random play from a seed: the situation, the offense's formation, motion and pass
- * concept, and the defense's call and pre-snap look. The same seed and level always give the
+ * concept, and the defense's call and pre-snap look. The same seed and request always give the
  * same play.
  */
 
@@ -20,6 +20,7 @@ import {
 } from './defense'
 import {
   FORMATIONS,
+  FORMATION_IDS,
   buildFormation,
   motionStart,
   type Formation,
@@ -29,7 +30,10 @@ import {
   type OffenseId,
 } from './offense'
 import { createRandom, type Random } from './random'
+import type { RealSnap } from './real-snaps'
 import { CONCEPT_IDS, assignRoutes, type ConceptId, type RouteAssignment } from './routes'
+import { HOME_TEAM } from './teams'
+import { bucketFor, coverageWeights, pressureWeights } from './tendencies'
 
 export type Level = 'rookie' | 'starter' | 'pro'
 
@@ -80,11 +84,15 @@ export const LEVELS: Record<Level, LevelDef> = {
 export const LEVEL_IDS = Object.keys(LEVELS) as Level[]
 
 export interface Situation {
-  down: 1 | 2 | 3
+  down: 1 | 2 | 3 | 4
   /** Yards to go for a first down. */
   distance: number
   /** Yards from the offense's own goal line. */
   yardLine: number
+  /** The team on offense, such as "CHI", or null when the play names none. */
+  offense: string | null
+  /** The team on defense, or null when the play names none. */
+  defense: string | null
 }
 
 export interface Play {
@@ -97,7 +105,10 @@ export interface Play {
   defense: Defense
 }
 
-/** Choices a study session can fix instead of leaving them to chance. */
+/**
+ * Choices that replace random ones: a study session fixes the call, concept or formation, and a
+ * quiz names the defense or the real snap to rebuild.
+ */
 export interface PlayRequest {
   level: Level
   coverage?: CoverageId
@@ -106,21 +117,13 @@ export interface PlayRequest {
   formation?: FormationId
   /** In study mode: whether the defense disguises its call. */
   disguise?: boolean
-}
-
-/**
- * Roughly how often NFL defenses played each coverage on passing downs in recent seasons, from
- * public charting summaries. These weights set how often each coverage comes up and nothing else.
- */
-const COVERAGE_WEIGHTS: Record<CoverageId, number> = {
-  cover3: 30,
-  cover1: 22,
-  cover4: 14,
-  cover2: 9,
-  cover6: 9,
-  twoMan: 5,
-  cover0: 4,
-  tampa2: 3,
+  /** The defense whose real tendencies set how often each call comes up; the league by default. */
+  team?: string
+  /**
+   * A real snap to rebuild: its situation, personnel, motion, hash and call. Its call should be
+   * one the level teaches, as `snapsFor` ensures; a rush the level does not teach is redrawn.
+   */
+  snap?: RealSnap
 }
 
 const FORMATION_WEIGHTS: Record<FormationId, number> = {
@@ -137,13 +140,13 @@ const FORMATION_WEIGHTS: Record<FormationId, number> = {
 /** Pressures a coverage can be played with at a level. */
 export function pressuresWith(coverage: CoverageId, level: Level): PressureId[] {
   const def = LEVELS[level]
-  return (Object.keys(COVERAGES[coverage].pressures) as PressureId[]).filter(
+  return COVERAGES[coverage].pressures.filter(
     (pressure) =>
       def.pressures.includes(pressure) && (def.fireZone || !isFireZone({ coverage, pressure })),
   )
 }
 
-function pickSituation(rng: Random): Situation {
+function pickSituation(rng: Random, defense: string | null): Situation {
   const down = rng.weighted<1 | 2 | 3>([
     [1, 40],
     [2, 33],
@@ -157,41 +160,37 @@ function pickSituation(rng: Random): Situation {
           [15, 0.5],
         ])
       : rng.int(1, 12)
-  return { down, distance, yardLine: rng.int(20, 78) }
+  return {
+    down,
+    distance,
+    yardLine: rng.int(20, 78),
+    offense: defense === HOME_TEAM ? null : HOME_TEAM,
+    defense,
+  }
 }
 
-/** Third down with 7 or more yards to go. */
+/** Third or fourth down with 7 or more yards to go. */
 function isThirdAndLong(situation: Situation): boolean {
-  return situation.down === 3 && situation.distance >= 7
+  return bucketFor(situation.down, situation.distance) === 'thirdLong'
 }
 
-/** A coverage for the situation; with `pressure`, only coverages that can be played with it. */
-function pickCoverage(
-  rng: Random,
-  level: Level,
-  situation: Situation,
-  pressure: PressureId | undefined,
-): CoverageId {
-  const thirdAndLong = isThirdAndLong(situation)
-  const thirdAndShort = situation.down === 3 && situation.distance <= 3
+/**
+ * A coverage for the situation, as often as `team` played it there; with `pressure`, only
+ * coverages that can be played with it.
+ */
+function pickCoverage(rng: Random, request: PlayRequest, situation: Situation): CoverageId {
+  const { level, pressure } = request
+  const weights = coverageWeights(request.team, bucketFor(situation.down, situation.distance))
   const candidates = LEVELS[level].coverages.filter(
     (c) => !pressure || pressuresWith(c, level).includes(pressure),
   )
-  return rng.weighted(
-    candidates.map((c) => {
-      let w = COVERAGE_WEIGHTS[c]
-      if (thirdAndLong && c === 'twoMan') w *= 3
-      if (thirdAndLong && c === 'cover0') w *= 0.6
-      if (thirdAndShort && c === 'cover0') w *= 2.5
-      if (thirdAndShort && c === 'cover1') w *= 1.5
-      return [c, w] as const
-    }),
-  )
+  return rng.weighted(candidates.map((c) => [c, weights[c]] as const))
 }
 
-function pickPressure(rng: Random, coverage: CoverageId, level: Level): PressureId {
-  const weights = COVERAGES[coverage].pressures
-  return rng.weighted(pressuresWith(coverage, level).map((p) => [p, weights[p] ?? 1] as const))
+function pickPressure(rng: Random, coverage: CoverageId, request: PlayRequest): PressureId {
+  // A real snap's rush, if the level cannot draw it, is redrawn from that snap's defense.
+  const weights = pressureWeights(request.team ?? request.snap?.defense, coverage)
+  return rng.weighted(pressuresWith(coverage, request.level).map((p) => [p, weights[p]] as const))
 }
 
 function pickPackage(rng: Random, formation: FormationId, situation: Situation): PackageId {
@@ -225,12 +224,45 @@ function pickLook(
   }
 }
 
-function pickMotion(rng: Random, formation: FormationId, level: Level): MotionId | null {
-  if (!LEVELS[level].motion) return null
-  if (formation === 'trips' && rng.chance(0.55)) return 'acrossToTrips'
-  if (formation === 'empty' && rng.chance(0.55)) return 'backToEmpty'
-  return null
+/** The formations an offense can motion into, and the motion that builds each one. */
+const MOTION_INTO: Partial<Record<FormationId, MotionId>> = {
+  trips: 'acrossToTrips',
+  empty: 'backToEmpty',
 }
+
+/**
+ * At a level that shows motion, a play in a formation the offense can motion into motions 55% of
+ * the time, or always when it rebuilds a real snap that FTN charted with motion.
+ */
+function pickMotion(
+  rng: Random,
+  formation: FormationId,
+  level: Level,
+  snap: RealSnap | undefined,
+): MotionId | null {
+  if (!LEVELS[level].motion || (snap && !snap.motion)) return null
+  const motion = MOTION_INTO[formation]
+  return motion && rng.chance(snap ? 1 : 0.55) ? motion : null
+}
+
+/**
+ * A real snap gets a formation of its personnel. An 11-personnel snap with motion gets one the
+ * offense can motion into, at a level that shows motion.
+ */
+function pickFormation(rng: Random, request: PlayRequest): FormationId {
+  if (request.formation) return request.formation
+  const { snap } = request
+  if (snap?.personnel === '11' && snap.motion && LEVELS[request.level].motion) {
+    return rng.pick(Object.keys(MOTION_INTO) as FormationId[])
+  }
+  const allowed = snap
+    ? FORMATION_IDS.filter((f) => FORMATIONS[f].personnel === snap.personnel)
+    : FORMATION_IDS
+  return rng.weighted(allowed.map((f) => [f, FORMATION_WEIGHTS[f]] as const))
+}
+
+/** The ball's x position for each of a real snap's hash values. */
+const HASH_X = { [-1]: LEFT_HASH, 0: MIDDLE, 1: RIGHT_HASH } as const
 
 /**
  * Builds the play for a seed. Fixed choices in `request` replace the random ones; fixing a choice
@@ -238,26 +270,34 @@ function pickMotion(rng: Random, formation: FormationId, level: Level): MotionId
  */
 export function generatePlay(seed: number, request: PlayRequest): Play {
   const rng = createRandom(seed)
-  const { level } = request
-  const situation = pickSituation(rng)
-  const formationId =
-    request.formation ?? rng.weighted(Object.entries(FORMATION_WEIGHTS) as [FormationId, number][])
+  const { level, snap } = request
+  const situation: Situation = snap
+    ? {
+        down: snap.down,
+        distance: snap.distance,
+        yardLine: 100 - snap.yardsToGoal,
+        offense: snap.offense,
+        defense: snap.defense,
+      }
+    : pickSituation(rng, request.team ?? null)
+  const formationId = pickFormation(rng, request)
   const strength: Side = rng.chance(0.5) ? 1 : -1
-  const ballX = rng.weighted([
-    [LEFT_HASH, 4],
-    [MIDDLE, 2],
-    [RIGHT_HASH, 4],
-  ])
+  const ballX = snap
+    ? HASH_X[snap.hash]
+    : rng.weighted([
+        [LEFT_HASH, 4],
+        [MIDDLE, 2],
+        [RIGHT_HASH, 4],
+      ])
   const formation = buildFormation(formationId, ballX, strength)
-  const motionId = pickMotion(rng, formationId, level)
+  const motionId = pickMotion(rng, formationId, level, snap)
   const motion = motionId ? motionStart(motionId, formation) : null
 
-  const coverage = request.coverage ?? pickCoverage(rng, level, situation, request.pressure)
+  const coverage = snap?.coverage ?? request.coverage ?? pickCoverage(rng, request, situation)
   const allowed = pressuresWith(coverage, level)
+  const wanted = snap?.pressure ?? request.pressure
   const pressure =
-    request.pressure && allowed.includes(request.pressure)
-      ? request.pressure
-      : pickPressure(rng, coverage, level)
+    wanted && allowed.includes(wanted) ? wanted : pickPressure(rng, coverage, request)
   const call: DefensiveCall = {
     package: pickPackage(rng, formationId, situation),
     coverage,
@@ -276,18 +316,23 @@ export function generatePlay(seed: number, request: PlayRequest): Play {
 }
 
 /**
- * The situation as a broadcast writes it, such as "3rd & 7 at the CHI 38". The offense is CHI, so
- * a yard line in its own half reads "the CHI 38" and one in the other half "the opponent's 38".
+ * The situation as a broadcast writes it, such as "3rd & 7 at the CHI 38": a yard line in the
+ * offense's half is named for the offense, one in the other half for the defense. A team the play
+ * does not name reads "their own 38" or "the opponent's 38".
  */
 export function situationText(situation: Situation): string {
-  const ordinal = ['1st', '2nd', '3rd'][situation.down - 1]
-  const { yardLine } = situation
+  const ordinal = ['1st', '2nd', '3rd', '4th'][situation.down - 1]
+  const { yardLine, offense, defense } = situation
   const spot =
     yardLine === 50
       ? 'the 50'
       : yardLine < 50
-        ? `the CHI ${yardLine}`
-        : `the opponent's ${100 - yardLine}`
+        ? offense
+          ? `the ${offense} ${yardLine}`
+          : `their own ${yardLine}`
+        : defense
+          ? `the ${defense} ${100 - yardLine}`
+          : `the opponent's ${100 - yardLine}`
   const togo = yardLine + situation.distance >= 100 ? 'Goal' : String(situation.distance)
   return `${ordinal} & ${togo} at ${spot}`
 }

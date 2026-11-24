@@ -113,8 +113,8 @@ export const PRESSURE_GUIDE: Record<PressureId, string> = {
   four: 'The four down linemen rush and seven defenders drop into coverage.',
   sim: 'Simulated pressure, or a "creeper": still four rushers, but not the four you expect. A linebacker or nickel rushes and a lineman drops into a short zone. The quarterback sees a blitz coming while seven defenders are still in coverage.',
   blitz:
-    'Five rushers. Behind it is either Cover 1 (man with one free safety) or a fire zone: three deep, three short, with a lineman often dropping into one of the short zones.',
-  zero: 'Six or more rushers with pure man coverage behind them (Cover 0). The ball has to come out fast.',
+    'Five or more rushers with a safety still deep. Behind it is usually Cover 1 (man with one free safety) or a fire zone: three deep, three short, with a lineman often dropping into one of the short zones. Two-high defenses blitz too, leaving a short zone empty.',
+  zero: 'Cover 0: pure man coverage with nobody deep, and everyone else rushing, usually six. The ball has to come out fast.',
 }
 
 export const MUG_NOTE =

@@ -3,8 +3,11 @@ import { useSearchParams } from 'react-router-dom'
 import { Eye, EyeOff, Pause, Play as PlayIcon, RotateCcw, SkipForward } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { FieldView, type Overlays } from '@/components/film-room/field-view'
+import { CoverageMix } from '@/components/film-room/coverage-mix'
 import { GlossarySection } from '@/components/film-room/glossary-section'
+import { Picker } from '@/components/film-room/picker'
 import { QuizPanel } from '@/components/film-room/quiz-panel'
+import { RealSnapCard } from '@/components/film-room/real-snap-card'
 import { StudyPanel, type StudyChoices } from '@/components/film-room/study-panel'
 import { PACKAGES, callName, type CoverageId } from '@/lib/film-room/defense'
 import {
@@ -26,8 +29,11 @@ import {
   type PlayRequest,
 } from '@/lib/film-room/play'
 import { newSeed } from '@/lib/film-room/random'
+import { loadRealSnaps, snapForSeed, snapsFor, type RealSnap } from '@/lib/film-room/real-snaps'
 import { CONCEPTS } from '@/lib/film-room/routes'
 import { simulate } from '@/lib/film-room/simulate'
+import { ATTRIBUTION, DEFENSES, TENDENCY_SEASONS } from '@/lib/film-room/tendencies'
+import { teamName } from '@/lib/film-room/teams'
 import { SITE_PAGES } from '@/lib/site-pages'
 import { useDocumentTitle } from '@/lib/use-document-title'
 import { useMediaQuery } from '@/lib/use-media-query'
@@ -35,6 +41,8 @@ import { usePlayback } from '@/lib/use-playback'
 import { cn } from '@/lib/utils'
 
 type Mode = 'quiz' | 'study'
+/** Where quiz plays come from: made up from tendencies, or rebuilt from real charted snaps. */
+type Source = 'made' | 'real'
 
 const OVERLAY_NAMES: [keyof Overlays, string][] = [
   ['routes', 'Routes'],
@@ -48,6 +56,11 @@ const ANSWER_LAYERS: (keyof Overlays)[] = ['coverage', 'defenseNames']
 
 function parseLevel(value: string | null): Level {
   return LEVEL_IDS.includes(value as Level) ? (value as Level) : 'starter'
+}
+
+/** A defense from the address, or undefined for the whole league. */
+function parseTeam(value: string | null): string | undefined {
+  return value && DEFENSES.includes(value) ? value : undefined
 }
 
 function parseSeed(value: string | null): number | null {
@@ -93,6 +106,11 @@ export default function FilmRoomPage() {
   const [level, setLevel] = useState<Level>(() => parseLevel(params.get('level')))
   const [seed, setSeed] = useState(() => parseSeed(params.get('play')) ?? newSeed())
   const [choices, setChoices] = useState<StudyChoices>({})
+  const [source, setSource] = useState<Source>(params.get('source') === 'made' ? 'made' : 'real')
+  const [team, setTeam] = useState(() => parseTeam(params.get('team')))
+  // The real snaps once loaded; null before then, or 'failed' if the load failed. "Try again"
+  // sets it back to null, which loads them again.
+  const [snaps, setSnaps] = useState<RealSnap[] | 'failed' | null>(null)
   const [overlays, setOverlays] = useState<Overlays>({
     routes: false,
     coverage: false,
@@ -106,11 +124,26 @@ export default function FilmRoomPage() {
   const [slow, setSlow] = useState(false)
   const reducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
 
+  const realSnapsWanted = mode === 'quiz' && source === 'real'
+  useEffect(() => {
+    if (!realSnapsWanted || snaps) return
+    loadRealSnaps()
+      .then(setSnaps)
+      .catch(() => setSnaps('failed'))
+  }, [realSnapsWanted, snaps])
+
+  const pool = useMemo(
+    () => (Array.isArray(snaps) ? snapsFor(snaps, team, level) : []),
+    [snaps, team, level],
+  )
+  const snap = realSnapsWanted ? snapForSeed(pool, seed) : undefined
+  // Still loading, failed to load, or no snap fits the defense and level.
+  const realSnapMissing = realSnapsWanted && !snap
   const play = useMemo(() => {
     const request: PlayRequest =
-      mode === 'study' ? { level: 'pro', disguise: false, ...choices } : { level }
+      mode === 'study' ? { level: 'pro', disguise: false, ...choices } : { level, team, snap }
     return generatePlay(seed, request)
-  }, [seed, mode, level, choices])
+  }, [seed, mode, level, choices, team, snap])
   const timeline = useMemo(() => simulate(play), [play])
   const last = timeline.frames.length - 1
   // Before the reveal a quiz play stops at the snap; otherwise it runs to the end.
@@ -136,8 +169,11 @@ export default function FilmRoomPage() {
     url.searchParams.set('level', level)
     if (mode === 'study') url.searchParams.set('mode', 'study')
     else url.searchParams.delete('mode')
+    url.searchParams.set('source', source)
+    if (team) url.searchParams.set('team', team)
+    else url.searchParams.delete('team')
     window.history.replaceState(window.history.state, '', url)
-  }, [seed, level, mode])
+  }, [seed, level, mode, source, team])
 
   // A new play starts with no guess. A quiz plays the motion and stops at the snap; a study
   // example plays all the way through with every layer showing.
@@ -225,8 +261,9 @@ export default function FilmRoomPage() {
       <h1 className="page-title">Film Room</h1>
       <p className="text-muted-foreground mt-3 max-w-2xl text-lg">
         Read the defense before the snap: call the coverage and who is coming. Then snap it and
-        watch what they really played. The plays are made up, drawn to NFL coverage rules, with each
-        coverage coming up about as often as it does in the league.
+        watch what they really played. Real snaps rebuild charted NFL dropbacks from the{' '}
+        {TENDENCY_SEASONS.join(' and ')} seasons; made-up plays come up as often as each defense
+        really called them.
       </p>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -254,6 +291,33 @@ export default function FilmRoomPage() {
           />
         )}
       </div>
+      {mode === 'quiz' && (
+        <div className="mt-3 flex flex-wrap items-center gap-3">
+          <Segmented<Source>
+            label="Plays"
+            value={source}
+            options={[
+              ['real', 'Real snaps'],
+              ['made', 'Made-up plays'],
+            ]}
+            onChange={(s) => {
+              setSource(s)
+              setSeed(newSeed())
+            }}
+          />
+          <Picker
+            label="Defense"
+            anyLabel="Any team"
+            inline
+            value={team}
+            options={DEFENSES.map((d) => [d, teamName(d)])}
+            onChange={(d) => {
+              setTeam(d)
+              setSeed(newSeed())
+            }}
+          />
+        </div>
+      )}
       <p className="text-muted-foreground mt-2 text-sm">
         {mode === 'quiz'
           ? LEVELS[level].about
@@ -281,13 +345,18 @@ export default function FilmRoomPage() {
               )}
             </p>
           </div>
-          <FieldView
-            play={play}
-            timeline={timeline}
-            index={index}
-            overlays={overlays}
-            title={fieldTitle}
-          />
+          {realSnapMissing ? (
+            // Keeps the field's shape so the page does not jump when the snap arrives.
+            <div className="bg-muted aspect-[56/43] w-full rounded-lg" aria-hidden="true" />
+          ) : (
+            <FieldView
+              play={play}
+              timeline={timeline}
+              index={index}
+              overlays={overlays}
+              title={fieldTitle}
+            />
+          )}
 
           <div className="mt-3 flex flex-wrap items-center gap-2">
             <Button variant="outline" className="min-h-11" onClick={replay}>
@@ -351,21 +420,8 @@ export default function FilmRoomPage() {
           </div>
         </div>
 
-        <aside>
-          {mode === 'quiz' ? (
-            <QuizPanel
-              play={play}
-              level={level}
-              guess={guess}
-              onGuess={setGuess}
-              revealed={revealed}
-              peeked={peeked}
-              marks={marks}
-              stats={stats}
-              onSnap={snapBall}
-              onNext={nextPlay}
-            />
-          ) : (
+        <aside className="flex flex-col gap-4">
+          {mode === 'study' ? (
             <StudyPanel
               play={play}
               choices={choices}
@@ -375,11 +431,50 @@ export default function FilmRoomPage() {
               }}
               onShuffle={nextPlay}
             />
+          ) : realSnapMissing ? (
+            <div className="rounded-xl border p-4 text-sm">
+              {snaps === 'failed' ? (
+                <>
+                  <p>The real snaps did not load.</p>
+                  <Button
+                    variant="outline"
+                    className="mt-3 min-h-11"
+                    onClick={() => setSnaps(null)}
+                  >
+                    Try again
+                  </Button>
+                </>
+              ) : snaps ? (
+                <p>No real snaps fit this defense at this level. Try another team or level.</p>
+              ) : (
+                <p className="text-muted-foreground">Loading about 38,000 real snaps…</p>
+              )}
+            </div>
+          ) : (
+            <>
+              <QuizPanel
+                play={play}
+                level={level}
+                guess={guess}
+                onGuess={setGuess}
+                revealed={revealed}
+                peeked={peeked}
+                marks={marks}
+                stats={stats}
+                onSnap={snapBall}
+                onNext={nextPlay}
+              />
+              {revealed && snap && <RealSnapCard snap={snap} />}
+            </>
           )}
+          {mode === 'quiz' && <CoverageMix team={team} />}
         </aside>
       </div>
 
       <GlossarySection onStudy={studyCoverage} />
+      <p className="text-muted-foreground mt-8 text-xs">
+        Real snaps and tendencies: {ATTRIBUTION} Derived data is shared under the same license.
+      </p>
     </div>
   )
 }

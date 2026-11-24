@@ -1,0 +1,1755 @@
+{
+  "attribution": "Charting by FTN Data via nflverse (CC BY-SA 4.0); play-by-play from nflverse.",
+  "license": "CC BY-SA 4.0",
+  "seasons": [2024, 2025],
+  "teams": {
+    "NFL": {
+      "charted": 41754,
+      "coverage": {
+        "early": {
+          "cover2": 6775,
+          "twoMan": 1570,
+          "cover6": 1459,
+          "cover1": 7939,
+          "cover4": 2535,
+          "cover3": 7107,
+          "other": 1025,
+          "cover0": 902
+        },
+        "thirdLong": {
+          "twoMan": 578,
+          "cover2": 1287,
+          "cover6": 273,
+          "cover1": 1682,
+          "other": 231,
+          "cover3": 1376,
+          "cover4": 638,
+          "cover0": 245
+        },
+        "thirdShort": {
+          "twoMan": 107,
+          "other": 67,
+          "cover1": 1187,
+          "cover0": 282,
+          "cover3": 467,
+          "cover2": 403,
+          "cover6": 47,
+          "cover4": 80
+        },
+        "thirdMedium": {
+          "cover1": 1530,
+          "cover3": 450,
+          "other": 75,
+          "cover0": 250,
+          "cover2": 657,
+          "twoMan": 281,
+          "cover6": 99,
+          "cover4": 150
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 6956, "blitz": 1062, "sim": 612 },
+        "twoMan": { "sim": 82, "four": 1949, "blitz": 307 },
+        "cover1": { "four": 6306, "blitz": 5138, "sim": 537 },
+        "cover6": { "four": 1504, "blitz": 231, "sim": 82 },
+        "cover4": { "four": 2583, "blitz": 566, "sim": 111 },
+        "cover3": { "blitz": 2321, "four": 6109, "sim": 587 },
+        "cover0": { "zero": 1679 }
+      }
+    },
+    "ARI": {
+      "charted": 1237,
+      "coverage": {
+        "early": {
+          "cover3": 232,
+          "cover2": 218,
+          "cover1": 193,
+          "other": 20,
+          "cover0": 26,
+          "twoMan": 66,
+          "cover4": 79,
+          "cover6": 53
+        },
+        "thirdLong": {
+          "other": 12,
+          "cover1": 26,
+          "cover0": 8,
+          "cover3": 44,
+          "cover2": 34,
+          "cover6": 12,
+          "cover4": 17,
+          "twoMan": 10
+        },
+        "thirdMedium": {
+          "cover3": 23,
+          "cover1": 36,
+          "twoMan": 7,
+          "cover2": 23,
+          "cover0": 16,
+          "cover4": 6,
+          "other": 3,
+          "cover6": 4
+        },
+        "thirdShort": {
+          "cover1": 25,
+          "cover0": 9,
+          "cover4": 6,
+          "cover3": 15,
+          "cover2": 9,
+          "cover6": 2,
+          "twoMan": 1,
+          "other": 2
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 212, "blitz": 51, "sim": 23 },
+        "cover2": { "four": 193, "blitz": 47, "sim": 16 },
+        "cover1": { "four": 145, "blitz": 110, "sim": 9 },
+        "cover0": { "zero": 59 },
+        "twoMan": { "blitz": 9, "four": 60, "sim": 6 },
+        "cover4": { "four": 69, "blitz": 31, "sim": 4 },
+        "cover6": { "four": 55, "blitz": 12, "sim": 3 }
+      }
+    },
+    "ATL": {
+      "charted": 1275,
+      "coverage": {
+        "early": {
+          "cover3": 210,
+          "cover1": 280,
+          "cover0": 23,
+          "cover2": 176,
+          "cover6": 47,
+          "cover4": 99,
+          "other": 38,
+          "twoMan": 34
+        },
+        "thirdLong": {
+          "cover1": 64,
+          "cover4": 19,
+          "twoMan": 15,
+          "other": 6,
+          "cover2": 26,
+          "cover0": 7,
+          "cover6": 12,
+          "cover3": 30
+        },
+        "thirdShort": {
+          "cover1": 35,
+          "cover0": 12,
+          "cover3": 16,
+          "cover2": 13,
+          "twoMan": 2,
+          "cover6": 1,
+          "other": 1,
+          "cover4": 5
+        },
+        "thirdMedium": {
+          "cover6": 3,
+          "cover1": 54,
+          "twoMan": 3,
+          "cover0": 8,
+          "cover3": 12,
+          "cover4": 7,
+          "cover2": 14,
+          "other": 3
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 146, "blitz": 76, "sim": 21 },
+        "cover1": { "four": 193, "blitz": 175, "sim": 38 },
+        "cover0": { "zero": 50 },
+        "cover2": { "four": 158, "blitz": 32, "sim": 8 },
+        "cover6": { "four": 45, "blitz": 10, "sim": 1 },
+        "twoMan": { "blitz": 3, "four": 33, "sim": 2 },
+        "cover4": { "four": 85, "sim": 8, "blitz": 25 }
+      }
+    },
+    "BAL": {
+      "charted": 1454,
+      "coverage": {
+        "early": {
+          "cover3": 296,
+          "twoMan": 49,
+          "cover2": 205,
+          "cover1": 285,
+          "cover6": 45,
+          "other": 38,
+          "cover0": 33,
+          "cover4": 58
+        },
+        "thirdMedium": {
+          "other": 6,
+          "cover1": 64,
+          "cover0": 14,
+          "cover2": 30,
+          "twoMan": 6,
+          "cover6": 5,
+          "cover4": 3,
+          "cover3": 13
+        },
+        "thirdLong": {
+          "cover2": 40,
+          "twoMan": 17,
+          "cover1": 53,
+          "other": 5,
+          "cover3": 51,
+          "cover0": 6,
+          "cover4": 18,
+          "cover6": 10
+        },
+        "thirdShort": {
+          "cover2": 11,
+          "cover1": 55,
+          "cover0": 21,
+          "cover3": 11,
+          "other": 2,
+          "cover4": 2,
+          "cover6": 1,
+          "twoMan": 1
+        }
+      },
+      "pressure": {
+        "cover3": { "blitz": 98, "four": 226, "sim": 28 },
+        "twoMan": { "four": 65, "blitz": 3, "sim": 2 },
+        "cover2": { "four": 215, "sim": 28, "blitz": 16 },
+        "cover1": { "blitz": 107, "four": 289, "sim": 21 },
+        "cover0": { "zero": 74 },
+        "cover6": { "four": 52, "blitz": 4, "sim": 5 },
+        "cover4": { "four": 59, "blitz": 9, "sim": 7 }
+      }
+    },
+    "BUF": {
+      "charted": 1340,
+      "coverage": {
+        "early": {
+          "cover3": 214,
+          "cover2": 245,
+          "cover0": 34,
+          "cover1": 202,
+          "twoMan": 68,
+          "cover6": 50,
+          "cover4": 100,
+          "other": 35
+        },
+        "thirdMedium": {
+          "cover1": 40,
+          "cover3": 18,
+          "cover2": 16,
+          "cover0": 3,
+          "twoMan": 17,
+          "cover4": 1,
+          "cover6": 2,
+          "other": 1
+        },
+        "thirdLong": {
+          "cover2": 52,
+          "twoMan": 34,
+          "cover1": 42,
+          "cover6": 13,
+          "cover3": 51,
+          "other": 11,
+          "cover4": 19,
+          "cover0": 4
+        },
+        "thirdShort": {
+          "cover1": 27,
+          "cover2": 11,
+          "other": 2,
+          "cover0": 2,
+          "cover3": 16,
+          "twoMan": 4,
+          "cover6": 2,
+          "cover4": 4
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 204, "blitz": 70, "sim": 13 },
+        "cover1": { "four": 137, "blitz": 153, "sim": 13 },
+        "cover2": { "four": 267, "blitz": 20, "sim": 18 },
+        "cover0": { "zero": 43 },
+        "twoMan": { "four": 94, "blitz": 17, "sim": 5 },
+        "cover6": { "four": 50, "blitz": 7, "sim": 4 },
+        "cover4": { "four": 104, "blitz": 14, "sim": 4 }
+      }
+    },
+    "CAR": {
+      "charted": 1194,
+      "coverage": {
+        "early": {
+          "cover2": 182,
+          "cover4": 97,
+          "cover1": 240,
+          "other": 32,
+          "cover3": 220,
+          "cover6": 47,
+          "twoMan": 15,
+          "cover0": 18
+        },
+        "thirdMedium": {
+          "cover3": 30,
+          "cover1": 57,
+          "cover2": 11,
+          "cover4": 8,
+          "cover0": 10,
+          "cover6": 2,
+          "twoMan": 3,
+          "other": 2
+        },
+        "thirdLong": {
+          "cover1": 59,
+          "cover2": 25,
+          "cover3": 35,
+          "cover0": 7,
+          "cover4": 23,
+          "cover6": 8,
+          "twoMan": 7,
+          "other": 7
+        },
+        "thirdShort": {
+          "cover3": 14,
+          "cover1": 20,
+          "cover2": 8,
+          "cover0": 2,
+          "other": 1,
+          "cover6": 2,
+          "cover4": 2
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 167, "blitz": 41, "sim": 11 },
+        "cover4": { "four": 99, "blitz": 22, "sim": 5 },
+        "cover3": { "four": 195, "blitz": 81, "sim": 15 },
+        "cover1": { "sim": 19, "four": 211, "blitz": 143 },
+        "cover6": { "four": 54, "blitz": 4 },
+        "twoMan": { "four": 21, "blitz": 4 },
+        "cover0": { "zero": 37 }
+      }
+    },
+    "CHI": {
+      "charted": 1252,
+      "coverage": {
+        "early": {
+          "cover2": 197,
+          "cover6": 32,
+          "cover1": 287,
+          "twoMan": 45,
+          "cover4": 52,
+          "cover3": 204,
+          "other": 32,
+          "cover0": 22
+        },
+        "thirdLong": {
+          "twoMan": 12,
+          "cover2": 63,
+          "cover1": 38,
+          "cover3": 37,
+          "cover4": 19,
+          "cover6": 3,
+          "other": 4,
+          "cover0": 11
+        },
+        "thirdShort": {
+          "cover1": 55,
+          "cover3": 22,
+          "cover2": 11,
+          "twoMan": 2,
+          "other": 2,
+          "cover0": 3
+        },
+        "thirdMedium": {
+          "cover1": 33,
+          "cover0": 8,
+          "cover4": 10,
+          "cover2": 30,
+          "cover3": 9,
+          "other": 2,
+          "twoMan": 5,
+          "cover6": 2
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 247, "blitz": 31, "sim": 18 },
+        "twoMan": { "sim": 1, "blitz": 10, "four": 51 },
+        "cover6": { "four": 26, "blitz": 10 },
+        "cover1": { "four": 226, "blitz": 177, "sim": 6 },
+        "cover4": { "four": 65, "blitz": 9, "sim": 2 },
+        "cover3": { "four": 206, "blitz": 49, "sim": 7 },
+        "cover0": { "zero": 44 }
+      }
+    },
+    "CIN": {
+      "charted": 1251,
+      "coverage": {
+        "early": {
+          "cover3": 230,
+          "cover1": 234,
+          "twoMan": 56,
+          "cover2": 213,
+          "cover0": 41,
+          "other": 37,
+          "cover4": 59,
+          "cover6": 37
+        },
+        "thirdLong": {
+          "cover1": 50,
+          "cover2": 21,
+          "other": 8,
+          "cover3": 37,
+          "twoMan": 24,
+          "cover4": 17,
+          "cover0": 10,
+          "cover6": 2
+        },
+        "thirdMedium": {
+          "cover1": 53,
+          "twoMan": 4,
+          "cover2": 15,
+          "cover0": 10,
+          "cover3": 17,
+          "cover4": 2,
+          "cover6": 2,
+          "other": 1
+        },
+        "thirdShort": {
+          "other": 1,
+          "cover1": 33,
+          "cover2": 7,
+          "cover3": 10,
+          "twoMan": 3,
+          "cover4": 3,
+          "cover0": 12,
+          "cover6": 2
+        }
+      },
+      "pressure": {
+        "cover3": { "sim": 16, "four": 219, "blitz": 42 },
+        "cover1": { "blitz": 109, "four": 232, "sim": 14 },
+        "twoMan": { "four": 73, "blitz": 6, "sim": 2 },
+        "cover2": { "blitz": 31, "four": 182, "sim": 25 },
+        "cover0": { "zero": 73 },
+        "cover4": { "four": 54, "blitz": 18, "sim": 3 },
+        "cover6": { "four": 41, "blitz": 1 }
+      }
+    },
+    "CLE": {
+      "charted": 1139,
+      "coverage": {
+        "early": {
+          "cover1": 308,
+          "cover6": 25,
+          "cover3": 204,
+          "cover2": 126,
+          "cover4": 45,
+          "other": 21,
+          "cover0": 27,
+          "twoMan": 7
+        },
+        "thirdMedium": {
+          "cover1": 54,
+          "twoMan": 6,
+          "cover2": 11,
+          "cover0": 9,
+          "other": 3,
+          "cover3": 8,
+          "cover4": 3,
+          "cover6": 3
+        },
+        "thirdLong": {
+          "cover6": 7,
+          "cover3": 40,
+          "cover1": 66,
+          "cover4": 13,
+          "twoMan": 9,
+          "cover2": 50,
+          "other": 8,
+          "cover0": 7
+        },
+        "thirdShort": {
+          "cover1": 49,
+          "cover3": 6,
+          "twoMan": 1,
+          "cover2": 6,
+          "other": 1,
+          "cover0": 15,
+          "cover6": 1
+        }
+      },
+      "pressure": {
+        "cover1": { "four": 277, "blitz": 193, "sim": 4 },
+        "cover6": { "four": 31, "sim": 4, "blitz": 1 },
+        "cover3": { "four": 169, "blitz": 72, "sim": 14 },
+        "cover2": { "four": 180, "blitz": 8, "sim": 3 },
+        "cover4": { "four": 50, "blitz": 11 },
+        "twoMan": { "four": 17, "blitz": 6 },
+        "cover0": { "zero": 58 }
+      }
+    },
+    "DAL": {
+      "charted": 1218,
+      "coverage": {
+        "early": {
+          "cover2": 209,
+          "cover1": 259,
+          "twoMan": 22,
+          "cover6": 53,
+          "cover4": 97,
+          "cover3": 173,
+          "other": 39,
+          "cover0": 24
+        },
+        "thirdLong": {
+          "cover1": 55,
+          "cover2": 50,
+          "cover3": 29,
+          "cover4": 19,
+          "cover0": 7,
+          "twoMan": 8,
+          "other": 3,
+          "cover6": 5
+        },
+        "thirdMedium": {
+          "cover6": 2,
+          "cover3": 19,
+          "cover1": 53,
+          "twoMan": 4,
+          "cover2": 9,
+          "other": 1,
+          "cover0": 4,
+          "cover4": 4
+        },
+        "thirdShort": {
+          "cover1": 29,
+          "other": 5,
+          "cover2": 7,
+          "twoMan": 1,
+          "cover3": 17,
+          "cover4": 5,
+          "cover0": 6
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 246, "sim": 6, "blitz": 17 },
+        "cover1": { "blitz": 173, "four": 205, "sim": 14 },
+        "twoMan": { "four": 29, "sim": 2, "blitz": 1 },
+        "cover3": { "four": 134, "blitz": 91, "sim": 6 },
+        "cover6": { "four": 54, "blitz": 6 },
+        "cover4": { "blitz": 25, "four": 95, "sim": 2 },
+        "cover0": { "zero": 41 }
+      }
+    },
+    "DEN": {
+      "charted": 1502,
+      "coverage": {
+        "early": {
+          "cover2": 142,
+          "twoMan": 72,
+          "cover1": 391,
+          "cover3": 196,
+          "other": 50,
+          "cover6": 37,
+          "cover0": 62,
+          "cover4": 82
+        },
+        "thirdMedium": {
+          "twoMan": 12,
+          "cover1": 55,
+          "cover2": 18,
+          "other": 6,
+          "cover0": 10,
+          "cover3": 11,
+          "cover4": 6,
+          "cover6": 2
+        },
+        "thirdLong": {
+          "cover3": 52,
+          "cover1": 72,
+          "twoMan": 38,
+          "cover4": 14,
+          "cover6": 15,
+          "cover2": 49,
+          "other": 6,
+          "cover0": 15
+        },
+        "thirdShort": {
+          "cover1": 50,
+          "twoMan": 3,
+          "cover2": 10,
+          "cover0": 6,
+          "other": 5,
+          "cover3": 13,
+          "cover6": 2
+        }
+      },
+      "pressure": {
+        "cover2": { "blitz": 24, "four": 158, "sim": 17 },
+        "twoMan": { "blitz": 5, "four": 105, "sim": 5 },
+        "cover3": { "four": 167, "blitz": 74, "sim": 18 },
+        "cover1": { "blitz": 276, "four": 252, "sim": 30 },
+        "cover6": { "four": 45, "sim": 2, "blitz": 9 },
+        "cover0": { "zero": 93 },
+        "cover4": { "blitz": 21, "four": 70, "sim": 4 }
+      }
+    },
+    "DET": {
+      "charted": 1355,
+      "coverage": {
+        "early": {
+          "cover6": 50,
+          "twoMan": 109,
+          "cover2": 175,
+          "cover3": 215,
+          "cover0": 26,
+          "cover1": 305,
+          "cover4": 64,
+          "other": 23
+        },
+        "thirdLong": {
+          "twoMan": 30,
+          "cover1": 84,
+          "cover4": 13,
+          "cover3": 39,
+          "cover6": 3,
+          "cover2": 19,
+          "cover0": 9,
+          "other": 2
+        },
+        "thirdMedium": {
+          "cover1": 54,
+          "twoMan": 16,
+          "cover2": 15,
+          "other": 3,
+          "cover3": 7,
+          "cover0": 5,
+          "cover4": 4,
+          "cover6": 1
+        },
+        "thirdShort": {
+          "cover1": 44,
+          "cover2": 10,
+          "other": 3,
+          "cover0": 11,
+          "cover3": 14,
+          "cover4": 1,
+          "twoMan": 1
+        }
+      },
+      "pressure": {
+        "cover6": { "four": 43, "blitz": 7, "sim": 2 },
+        "twoMan": { "four": 106, "blitz": 20, "sim": 10 },
+        "cover2": { "four": 137, "blitz": 50, "sim": 17 },
+        "cover3": { "blitz": 77, "four": 166, "sim": 19 },
+        "cover0": { "zero": 51 },
+        "cover1": { "four": 218, "sim": 17, "blitz": 230 },
+        "cover4": { "four": 59, "blitz": 15, "sim": 2 }
+      }
+    },
+    "GB": {
+      "charted": 1322,
+      "coverage": {
+        "early": {
+          "cover2": 276,
+          "cover1": 167,
+          "cover3": 297,
+          "other": 26,
+          "twoMan": 19,
+          "cover6": 59,
+          "cover4": 71,
+          "cover0": 13
+        },
+        "thirdLong": {
+          "cover2": 73,
+          "cover4": 13,
+          "cover1": 40,
+          "cover3": 39,
+          "other": 11,
+          "twoMan": 6,
+          "cover0": 3,
+          "cover6": 4
+        },
+        "thirdShort": {
+          "twoMan": 1,
+          "cover1": 48,
+          "cover0": 7,
+          "cover3": 24,
+          "cover2": 10,
+          "cover4": 1,
+          "other": 1
+        },
+        "thirdMedium": {
+          "cover1": 34,
+          "cover4": 5,
+          "cover2": 29,
+          "cover3": 33,
+          "cover0": 3,
+          "twoMan": 3,
+          "cover6": 5,
+          "other": 1
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 330, "blitz": 21, "sim": 27 },
+        "cover1": { "four": 116, "blitz": 164, "sim": 5 },
+        "cover3": { "four": 310, "sim": 28, "blitz": 39 },
+        "twoMan": { "four": 24, "blitz": 2, "sim": 1 },
+        "cover4": { "blitz": 5, "four": 76, "sim": 4 },
+        "cover6": { "four": 64, "blitz": 3, "sim": 1 },
+        "cover0": { "zero": 26 }
+      }
+    },
+    "HOU": {
+      "charted": 1387,
+      "coverage": {
+        "early": {
+          "cover2": 204,
+          "cover1": 292,
+          "cover4": 119,
+          "twoMan": 22,
+          "cover3": 193,
+          "cover0": 18,
+          "cover6": 48,
+          "other": 36
+        },
+        "thirdShort": {
+          "cover1": 38,
+          "cover6": 3,
+          "cover2": 16,
+          "cover0": 6,
+          "other": 2,
+          "twoMan": 3,
+          "cover4": 3,
+          "cover3": 6
+        },
+        "thirdMedium": {
+          "cover4": 8,
+          "cover1": 59,
+          "cover6": 12,
+          "twoMan": 4,
+          "cover2": 18,
+          "cover3": 9,
+          "cover0": 1,
+          "other": 4
+        },
+        "thirdLong": {
+          "cover6": 19,
+          "cover2": 41,
+          "cover1": 91,
+          "other": 4,
+          "twoMan": 10,
+          "cover0": 11,
+          "cover4": 34,
+          "cover3": 53
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 258, "blitz": 17, "sim": 2 },
+        "cover1": { "blitz": 237, "four": 236, "sim": 2 },
+        "cover4": { "four": 144, "blitz": 12 },
+        "twoMan": { "four": 34, "blitz": 4 },
+        "cover3": { "four": 216, "sim": 5, "blitz": 34 },
+        "cover6": { "four": 76, "sim": 1, "blitz": 4 },
+        "cover0": { "zero": 36 }
+      }
+    },
+    "IND": {
+      "charted": 1301,
+      "coverage": {
+        "early": {
+          "cover2": 269,
+          "cover3": 241,
+          "cover4": 57,
+          "cover6": 32,
+          "twoMan": 51,
+          "cover1": 217,
+          "other": 29,
+          "cover0": 36
+        },
+        "thirdLong": {
+          "cover1": 66,
+          "other": 4,
+          "cover3": 36,
+          "twoMan": 21,
+          "cover2": 43,
+          "cover0": 10,
+          "cover4": 11,
+          "cover6": 1
+        },
+        "thirdShort": {
+          "cover3": 18,
+          "cover1": 30,
+          "cover0": 5,
+          "cover2": 12,
+          "other": 5,
+          "twoMan": 4,
+          "cover6": 1,
+          "cover4": 2
+        },
+        "thirdMedium": {
+          "cover1": 52,
+          "cover4": 7,
+          "cover2": 15,
+          "cover3": 11,
+          "cover6": 1,
+          "twoMan": 11,
+          "cover0": 3
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 270, "blitz": 20, "sim": 24 },
+        "cover1": { "four": 208, "blitz": 149, "sim": 5 },
+        "cover3": { "blitz": 68, "four": 214, "sim": 9 },
+        "cover4": { "four": 55, "blitz": 15 },
+        "cover6": { "four": 27, "blitz": 7 },
+        "twoMan": { "four": 70, "blitz": 3, "sim": 1 },
+        "cover0": { "zero": 54 }
+      }
+    },
+    "JAX": {
+      "charted": 1394,
+      "coverage": {
+        "thirdLong": {
+          "cover3": 30,
+          "cover1": 49,
+          "twoMan": 14,
+          "cover2": 63,
+          "other": 6,
+          "cover4": 24,
+          "cover6": 10,
+          "cover0": 3
+        },
+        "early": {
+          "twoMan": 89,
+          "cover1": 257,
+          "other": 32,
+          "cover2": 262,
+          "cover3": 198,
+          "cover6": 54,
+          "cover0": 22,
+          "cover4": 61
+        },
+        "thirdShort": {
+          "cover1": 49,
+          "cover2": 18,
+          "cover0": 5,
+          "twoMan": 2,
+          "cover3": 21,
+          "cover4": 1
+        },
+        "thirdMedium": {
+          "twoMan": 11,
+          "cover2": 39,
+          "cover3": 15,
+          "cover1": 46,
+          "other": 2,
+          "cover0": 10,
+          "cover4": 1
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 188, "blitz": 41, "sim": 15 },
+        "twoMan": { "four": 101, "blitz": 9 },
+        "cover1": { "blitz": 151, "four": 232, "sim": 10 },
+        "cover2": { "four": 310, "blitz": 30, "sim": 16 },
+        "cover6": { "four": 53, "blitz": 7, "sim": 1 },
+        "cover0": { "zero": 40 },
+        "cover4": { "blitz": 21, "four": 53, "sim": 5 }
+      }
+    },
+    "KC": {
+      "charted": 1344,
+      "coverage": {
+        "early": {
+          "twoMan": 90,
+          "cover2": 227,
+          "cover1": 268,
+          "cover3": 115,
+          "other": 34,
+          "cover4": 117,
+          "cover0": 53,
+          "cover6": 32
+        },
+        "thirdLong": {
+          "cover6": 10,
+          "cover1": 52,
+          "cover2": 45,
+          "cover3": 20,
+          "cover0": 18,
+          "cover4": 20,
+          "twoMan": 38,
+          "other": 5
+        },
+        "thirdMedium": {
+          "cover0": 9,
+          "cover2": 17,
+          "cover1": 39,
+          "twoMan": 13,
+          "other": 2,
+          "cover4": 12,
+          "cover6": 4,
+          "cover3": 2
+        },
+        "thirdShort": {
+          "cover3": 22,
+          "cover0": 15,
+          "cover2": 12,
+          "cover1": 45,
+          "twoMan": 6,
+          "cover4": 1,
+          "cover6": 1
+        }
+      },
+      "pressure": {
+        "twoMan": { "four": 91, "blitz": 36, "sim": 2 },
+        "cover6": { "blitz": 18, "four": 25, "sim": 3 },
+        "cover2": { "blitz": 66, "four": 200, "sim": 21 },
+        "cover1": { "four": 208, "blitz": 166, "sim": 16 },
+        "cover0": { "zero": 95 },
+        "cover3": { "four": 106, "sim": 7, "blitz": 37 },
+        "cover4": { "four": 91, "blitz": 42, "sim": 10 }
+      }
+    },
+    "LA": {
+      "charted": 1478,
+      "coverage": {
+        "early": {
+          "cover3": 231,
+          "cover1": 264,
+          "twoMan": 64,
+          "cover6": 88,
+          "cover0": 27,
+          "cover2": 251,
+          "cover4": 86,
+          "other": 38
+        },
+        "thirdMedium": {
+          "cover1": 46,
+          "cover2": 30,
+          "cover3": 19,
+          "cover4": 5,
+          "twoMan": 7,
+          "other": 4,
+          "cover6": 6,
+          "cover0": 7
+        },
+        "thirdShort": {
+          "cover2": 13,
+          "cover1": 42,
+          "cover0": 4,
+          "cover3": 10,
+          "cover6": 5,
+          "other": 1,
+          "cover4": 7,
+          "twoMan": 3
+        },
+        "thirdLong": {
+          "cover1": 56,
+          "cover6": 19,
+          "twoMan": 20,
+          "cover2": 43,
+          "cover3": 48,
+          "cover4": 22,
+          "other": 12
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 190, "blitz": 74, "sim": 32 },
+        "cover1": { "four": 234, "sim": 31, "blitz": 135 },
+        "cover2": { "four": 229, "blitz": 37, "sim": 36 },
+        "twoMan": { "four": 75, "blitz": 14, "sim": 3 },
+        "cover0": { "zero": 38 },
+        "cover4": { "blitz": 16, "four": 92, "sim": 3 },
+        "cover6": { "four": 92, "sim": 7, "blitz": 14 }
+      }
+    },
+    "LAC": {
+      "charted": 1313,
+      "coverage": {
+        "early": {
+          "cover4": 105,
+          "cover1": 136,
+          "cover2": 222,
+          "cover3": 262,
+          "twoMan": 59,
+          "cover6": 69,
+          "other": 34,
+          "cover0": 21
+        },
+        "thirdLong": {
+          "cover3": 63,
+          "cover1": 40,
+          "other": 9,
+          "cover0": 13,
+          "cover4": 14,
+          "cover2": 46,
+          "twoMan": 24,
+          "cover6": 5
+        },
+        "thirdMedium": {
+          "cover2": 32,
+          "cover1": 45,
+          "cover3": 8,
+          "twoMan": 11,
+          "cover0": 13,
+          "other": 1,
+          "cover6": 3,
+          "cover4": 4
+        },
+        "thirdShort": {
+          "cover2": 21,
+          "cover1": 28,
+          "cover4": 3,
+          "cover0": 5,
+          "twoMan": 9,
+          "cover3": 7,
+          "other": 1
+        }
+      },
+      "pressure": {
+        "cover4": { "four": 107, "blitz": 12, "sim": 1 },
+        "cover1": { "blitz": 76, "four": 133, "sim": 21 },
+        "cover2": { "four": 236, "blitz": 34, "sim": 21 },
+        "cover3": { "blitz": 103, "four": 186, "sim": 21 },
+        "twoMan": { "four": 74, "blitz": 9, "sim": 2 },
+        "cover6": { "four": 59, "blitz": 6 },
+        "cover0": { "zero": 52 }
+      }
+    },
+    "LV": {
+      "charted": 1209,
+      "coverage": {
+        "early": {
+          "cover3": 288,
+          "twoMan": 21,
+          "cover2": 205,
+          "cover4": 74,
+          "cover0": 38,
+          "cover1": 156,
+          "other": 23,
+          "cover6": 42
+        },
+        "thirdMedium": {
+          "cover0": 14,
+          "cover1": 34,
+          "cover2": 31,
+          "cover3": 17,
+          "cover4": 4,
+          "cover6": 4,
+          "twoMan": 2
+        },
+        "thirdLong": {
+          "other": 8,
+          "cover3": 50,
+          "cover4": 20,
+          "cover0": 10,
+          "cover1": 39,
+          "cover2": 31,
+          "twoMan": 15,
+          "cover6": 5
+        },
+        "thirdShort": {
+          "cover1": 26,
+          "cover0": 13,
+          "twoMan": 1,
+          "other": 5,
+          "cover2": 9,
+          "cover6": 3,
+          "cover3": 19,
+          "cover4": 2
+        }
+      },
+      "pressure": {
+        "cover3": { "blitz": 81, "four": 264, "sim": 14 },
+        "cover0": { "zero": 75 },
+        "cover1": { "blitz": 107, "four": 129, "sim": 9 },
+        "twoMan": { "four": 30, "blitz": 6 },
+        "cover2": { "four": 230, "blitz": 20, "sim": 9 },
+        "cover4": { "four": 82, "blitz": 14 },
+        "cover6": { "sim": 4, "four": 45, "blitz": 4 }
+      }
+    },
+    "MIA": {
+      "charted": 1213,
+      "coverage": {
+        "early": {
+          "cover6": 23,
+          "cover3": 200,
+          "cover2": 307,
+          "cover4": 76,
+          "cover1": 191,
+          "cover0": 19,
+          "twoMan": 31,
+          "other": 11
+        },
+        "thirdLong": {
+          "other": 7,
+          "cover3": 31,
+          "twoMan": 19,
+          "cover4": 23,
+          "cover2": 37,
+          "cover1": 40,
+          "cover0": 6,
+          "cover6": 4
+        },
+        "thirdMedium": {
+          "cover1": 48,
+          "cover0": 7,
+          "twoMan": 6,
+          "cover3": 9,
+          "cover2": 21,
+          "cover4": 3,
+          "cover6": 3,
+          "other": 1
+        },
+        "thirdShort": {
+          "cover2": 18,
+          "cover1": 30,
+          "cover4": 5,
+          "cover0": 13,
+          "cover3": 18,
+          "twoMan": 3,
+          "cover6": 1,
+          "other": 2
+        }
+      },
+      "pressure": {
+        "cover6": { "four": 22, "sim": 2, "blitz": 7 },
+        "cover3": { "blitz": 84, "four": 149, "sim": 23 },
+        "cover2": { "four": 239, "sim": 45, "blitz": 89 },
+        "twoMan": { "four": 42, "sim": 5, "blitz": 8 },
+        "cover4": { "four": 84, "blitz": 16, "sim": 4 },
+        "cover1": { "blitz": 104, "four": 165, "sim": 24 },
+        "cover0": { "zero": 45 }
+      }
+    },
+    "MIN": {
+      "charted": 1262,
+      "coverage": {
+        "early": {
+          "cover2": 328,
+          "other": 39,
+          "cover3": 211,
+          "cover4": 78,
+          "cover1": 75,
+          "twoMan": 46,
+          "cover6": 53,
+          "cover0": 51
+        },
+        "thirdLong": {
+          "cover3": 49,
+          "twoMan": 34,
+          "cover2": 36,
+          "cover1": 34,
+          "cover0": 16,
+          "other": 11,
+          "cover4": 24,
+          "cover6": 4
+        },
+        "thirdMedium": {
+          "cover2": 22,
+          "twoMan": 16,
+          "cover1": 29,
+          "cover6": 4,
+          "cover3": 12,
+          "cover0": 6,
+          "other": 3,
+          "cover4": 3
+        },
+        "thirdShort": {
+          "cover1": 21,
+          "cover2": 26,
+          "twoMan": 6,
+          "cover0": 5,
+          "other": 7,
+          "cover3": 12,
+          "cover6": 1
+        }
+      },
+      "pressure": {
+        "cover2": { "blitz": 113, "sim": 62, "four": 210 },
+        "cover3": { "four": 109, "sim": 21, "blitz": 140 },
+        "twoMan": { "four": 58, "blitz": 32, "sim": 3 },
+        "cover1": { "four": 54, "sim": 20, "blitz": 77 },
+        "cover4": { "four": 40, "blitz": 60, "sim": 3 },
+        "cover0": { "zero": 78 },
+        "cover6": { "blitz": 26, "four": 27, "sim": 6 }
+      }
+    },
+    "NE": {
+      "charted": 1348,
+      "coverage": {
+        "early": {
+          "cover1": 291,
+          "cover2": 208,
+          "cover0": 33,
+          "cover3": 263,
+          "twoMan": 24,
+          "cover4": 74,
+          "cover6": 19,
+          "other": 20
+        },
+        "thirdLong": {
+          "cover2": 50,
+          "twoMan": 19,
+          "cover3": 45,
+          "cover1": 61,
+          "cover4": 23,
+          "cover0": 6,
+          "other": 3,
+          "cover6": 3
+        },
+        "thirdMedium": {
+          "other": 3,
+          "cover2": 27,
+          "cover0": 8,
+          "cover1": 69,
+          "cover3": 8,
+          "twoMan": 4,
+          "cover4": 2,
+          "cover6": 5
+        },
+        "thirdShort": {
+          "cover1": 32,
+          "cover3": 12,
+          "cover0": 12,
+          "cover4": 5,
+          "cover2": 16,
+          "cover6": 3
+        }
+      },
+      "pressure": {
+        "cover1": { "four": 230, "blitz": 196, "sim": 14 },
+        "cover2": { "four": 221, "sim": 17, "blitz": 43 },
+        "cover0": { "zero": 59 },
+        "twoMan": { "four": 34, "sim": 3, "blitz": 7 },
+        "cover3": { "sim": 18, "four": 187, "blitz": 113 },
+        "cover4": { "four": 87, "blitz": 13, "sim": 3 },
+        "cover6": { "four": 20, "blitz": 7, "sim": 1 }
+      }
+    },
+    "NO": {
+      "charted": 1237,
+      "coverage": {
+        "early": {
+          "cover1": 265,
+          "cover3": 190,
+          "cover2": 186,
+          "twoMan": 49,
+          "cover0": 24,
+          "other": 36,
+          "cover6": 42,
+          "cover4": 60
+        },
+        "thirdMedium": {
+          "cover1": 52,
+          "twoMan": 13,
+          "cover0": 2,
+          "cover2": 21,
+          "cover6": 2,
+          "cover4": 4,
+          "other": 3,
+          "cover3": 15
+        },
+        "thirdLong": {
+          "cover3": 50,
+          "cover2": 38,
+          "other": 10,
+          "cover1": 58,
+          "twoMan": 13,
+          "cover4": 19,
+          "cover0": 4,
+          "cover6": 15
+        },
+        "thirdShort": {
+          "cover1": 23,
+          "cover2": 11,
+          "cover3": 19,
+          "cover0": 10,
+          "cover6": 1,
+          "other": 1,
+          "twoMan": 1
+        }
+      },
+      "pressure": {
+        "cover1": { "blitz": 136, "four": 237, "sim": 13 },
+        "cover3": { "four": 171, "blitz": 69, "sim": 29 },
+        "cover2": { "blitz": 27, "four": 193, "sim": 18 },
+        "twoMan": { "four": 59, "sim": 1, "blitz": 7 },
+        "cover0": { "zero": 40 },
+        "cover6": { "four": 53, "sim": 1, "blitz": 5 },
+        "cover4": { "blitz": 17, "four": 62, "sim": 3 }
+      }
+    },
+    "NYG": {
+      "charted": 1197,
+      "coverage": {
+        "early": {
+          "cover1": 281,
+          "cover3": 251,
+          "cover2": 132,
+          "cover4": 94,
+          "cover0": 25,
+          "other": 19,
+          "cover6": 23,
+          "twoMan": 31
+        },
+        "thirdLong": {
+          "cover3": 36,
+          "twoMan": 19,
+          "cover2": 17,
+          "cover1": 66,
+          "cover4": 27,
+          "cover6": 4,
+          "cover0": 3,
+          "other": 3
+        },
+        "thirdShort": {
+          "cover0": 5,
+          "cover1": 37,
+          "cover2": 16,
+          "cover3": 7,
+          "cover4": 4,
+          "twoMan": 3,
+          "cover6": 1
+        },
+        "thirdMedium": {
+          "cover1": 53,
+          "cover2": 13,
+          "cover3": 8,
+          "twoMan": 5,
+          "cover4": 7,
+          "cover0": 4,
+          "other": 3
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 188, "sim": 15, "blitz": 92 },
+        "cover2": { "four": 160, "blitz": 9, "sim": 6 },
+        "cover1": { "four": 206, "blitz": 203, "sim": 18 },
+        "twoMan": { "four": 47, "blitz": 8, "sim": 2 },
+        "cover0": { "zero": 37 },
+        "cover4": { "four": 104, "blitz": 23, "sim": 2 },
+        "cover6": { "four": 21, "sim": 3, "blitz": 2 }
+      }
+    },
+    "NYJ": {
+      "charted": 1172,
+      "coverage": {
+        "early": {
+          "twoMan": 60,
+          "cover2": 186,
+          "cover1": 257,
+          "cover3": 182,
+          "cover6": 28,
+          "cover0": 30,
+          "other": 28,
+          "cover4": 43
+        },
+        "thirdShort": { "cover1": 31, "cover3": 8, "twoMan": 4, "cover0": 9, "cover2": 13 },
+        "thirdLong": {
+          "cover3": 34,
+          "other": 8,
+          "twoMan": 15,
+          "cover1": 65,
+          "cover6": 13,
+          "cover4": 20,
+          "cover2": 24,
+          "cover0": 14
+        },
+        "thirdMedium": {
+          "cover1": 55,
+          "cover2": 17,
+          "other": 1,
+          "cover0": 8,
+          "cover3": 10,
+          "cover4": 3,
+          "twoMan": 5,
+          "cover6": 1
+        }
+      },
+      "pressure": {
+        "twoMan": { "four": 74, "blitz": 7 },
+        "cover1": { "four": 195, "blitz": 195, "sim": 8 },
+        "cover2": { "four": 208, "blitz": 11, "sim": 11 },
+        "cover3": { "blitz": 60, "four": 162, "sim": 5 },
+        "cover6": { "four": 40, "blitz": 2 },
+        "cover0": { "zero": 61 },
+        "cover4": { "four": 57, "blitz": 7 }
+      }
+    },
+    "PHI": {
+      "charted": 1463,
+      "coverage": {
+        "early": {
+          "cover3": 208,
+          "cover1": 384,
+          "cover2": 153,
+          "cover0": 32,
+          "twoMan": 74,
+          "other": 36,
+          "cover4": 70,
+          "cover6": 58
+        },
+        "thirdMedium": {
+          "cover1": 58,
+          "cover0": 6,
+          "other": 3,
+          "twoMan": 21,
+          "cover2": 9,
+          "cover3": 8,
+          "cover6": 7,
+          "cover4": 7
+        },
+        "thirdLong": {
+          "cover3": 40,
+          "cover2": 36,
+          "cover1": 75,
+          "cover0": 2,
+          "twoMan": 14,
+          "cover4": 34,
+          "cover6": 13,
+          "other": 10
+        },
+        "thirdShort": {
+          "cover1": 59,
+          "twoMan": 10,
+          "cover3": 8,
+          "cover6": 5,
+          "cover2": 12,
+          "cover0": 6,
+          "cover4": 4,
+          "other": 1
+        }
+      },
+      "pressure": {
+        "cover3": { "four": 204, "blitz": 36, "sim": 16 },
+        "cover1": { "four": 325, "blitz": 178, "sim": 61 },
+        "cover2": { "four": 188, "blitz": 13, "sim": 6 },
+        "cover0": { "zero": 46 },
+        "twoMan": { "sim": 13, "four": 93, "blitz": 8 },
+        "cover4": { "four": 96, "blitz": 6, "sim": 8 },
+        "cover6": { "four": 75, "blitz": 3, "sim": 4 }
+      }
+    },
+    "PIT": {
+      "charted": 1376,
+      "coverage": {
+        "early": {
+          "cover1": 304,
+          "cover3": 264,
+          "cover2": 186,
+          "twoMan": 49,
+          "cover4": 73,
+          "cover6": 40,
+          "cover0": 26,
+          "other": 34
+        },
+        "thirdMedium": {
+          "twoMan": 19,
+          "cover3": 24,
+          "cover1": 42,
+          "cover2": 27,
+          "cover0": 5,
+          "cover4": 2,
+          "other": 1,
+          "cover6": 3
+        },
+        "thirdLong": {
+          "cover1": 51,
+          "cover4": 21,
+          "cover3": 59,
+          "other": 8,
+          "cover2": 35,
+          "twoMan": 19,
+          "cover0": 1,
+          "cover6": 1
+        },
+        "thirdShort": {
+          "other": 3,
+          "cover1": 24,
+          "cover3": 16,
+          "cover0": 10,
+          "cover2": 20,
+          "twoMan": 4,
+          "cover6": 2,
+          "cover4": 3
+        }
+      },
+      "pressure": {
+        "cover1": { "blitz": 255, "four": 149, "sim": 13 },
+        "twoMan": { "four": 65, "blitz": 21, "sim": 4 },
+        "cover3": { "blitz": 60, "four": 264, "sim": 36 },
+        "cover2": { "four": 211, "blitz": 23, "sim": 26 },
+        "cover4": { "four": 76, "blitz": 12, "sim": 8 },
+        "cover6": { "four": 38, "blitz": 3, "sim": 4 },
+        "cover0": { "zero": 42 }
+      }
+    },
+    "SEA": {
+      "charted": 1462,
+      "coverage": {
+        "thirdShort": {
+          "cover2": 14,
+          "twoMan": 10,
+          "cover1": 54,
+          "cover3": 17,
+          "cover0": 12,
+          "other": 5,
+          "cover6": 3,
+          "cover4": 3
+        },
+        "early": {
+          "twoMan": 79,
+          "cover2": 310,
+          "cover6": 77,
+          "cover4": 50,
+          "cover3": 192,
+          "other": 40,
+          "cover1": 234,
+          "cover0": 25
+        },
+        "thirdLong": {
+          "cover6": 14,
+          "cover4": 17,
+          "twoMan": 25,
+          "cover3": 51,
+          "other": 11,
+          "cover1": 33,
+          "cover2": 50,
+          "cover0": 9
+        },
+        "thirdMedium": {
+          "cover1": 46,
+          "cover6": 3,
+          "cover2": 26,
+          "twoMan": 19,
+          "cover0": 11,
+          "cover4": 6,
+          "cover3": 15,
+          "other": 1
+        }
+      },
+      "pressure": {
+        "cover2": { "blitz": 71, "four": 300, "sim": 10 },
+        "twoMan": { "four": 112, "sim": 3, "blitz": 13 },
+        "cover6": { "four": 77, "blitz": 14, "sim": 1 },
+        "cover1": { "sim": 27, "blitz": 88, "four": 231 },
+        "cover4": { "four": 60, "sim": 1, "blitz": 10 },
+        "cover3": { "blitz": 70, "four": 161, "sim": 27 },
+        "cover0": { "zero": 57 }
+      }
+    },
+    "SF": {
+      "charted": 1254,
+      "coverage": {
+        "thirdShort": {
+          "twoMan": 4,
+          "cover1": 45,
+          "other": 4,
+          "cover3": 12,
+          "cover4": 2,
+          "cover2": 6,
+          "cover0": 6,
+          "cover6": 1
+        },
+        "early": {
+          "cover1": 191,
+          "cover3": 278,
+          "cover2": 176,
+          "twoMan": 20,
+          "cover6": 57,
+          "cover4": 126,
+          "other": 32,
+          "cover0": 14
+        },
+        "thirdLong": {
+          "cover1": 45,
+          "cover2": 28,
+          "cover6": 18,
+          "cover3": 44,
+          "other": 9,
+          "cover4": 20,
+          "cover0": 4,
+          "twoMan": 6
+        },
+        "thirdMedium": {
+          "cover2": 18,
+          "cover6": 4,
+          "other": 1,
+          "cover1": 57,
+          "cover3": 13,
+          "cover4": 5,
+          "twoMan": 3,
+          "cover0": 5
+        }
+      },
+      "pressure": {
+        "twoMan": { "four": 30, "blitz": 2 },
+        "cover1": { "four": 166, "blitz": 162, "sim": 6 },
+        "cover3": { "four": 281, "blitz": 53, "sim": 7 },
+        "cover2": { "four": 209, "blitz": 8, "sim": 6 },
+        "cover6": { "four": 74, "sim": 3, "blitz": 3 },
+        "cover4": { "four": 144, "blitz": 4, "sim": 2 },
+        "cover0": { "zero": 29 }
+      }
+    },
+    "TB": {
+      "charted": 1385,
+      "coverage": {
+        "early": {
+          "twoMan": 54,
+          "cover2": 214,
+          "cover1": 214,
+          "cover3": 316,
+          "cover4": 104,
+          "other": 30,
+          "cover0": 18,
+          "cover6": 44
+        },
+        "thirdLong": {
+          "cover3": 76,
+          "other": 9,
+          "cover6": 6,
+          "cover1": 20,
+          "twoMan": 14,
+          "cover0": 9,
+          "cover2": 39,
+          "cover4": 16
+        },
+        "thirdMedium": {
+          "cover0": 13,
+          "twoMan": 16,
+          "cover3": 26,
+          "cover1": 41,
+          "cover2": 15,
+          "cover4": 3,
+          "cover6": 1,
+          "other": 3
+        },
+        "thirdShort": {
+          "cover3": 27,
+          "cover2": 11,
+          "cover4": 4,
+          "cover1": 27,
+          "cover0": 9,
+          "cover6": 2,
+          "twoMan": 3,
+          "other": 1
+        }
+      },
+      "pressure": {
+        "twoMan": { "four": 62, "blitz": 15, "sim": 4 },
+        "cover3": { "four": 231, "blitz": 145, "sim": 49 },
+        "cover2": { "blitz": 40, "four": 189, "sim": 35 },
+        "cover0": { "zero": 49 },
+        "cover1": { "blitz": 189, "four": 85, "sim": 17 },
+        "cover4": { "blitz": 31, "four": 81, "sim": 10 },
+        "cover6": { "four": 27, "sim": 13, "blitz": 12 }
+      }
+    },
+    "TEN": {
+      "charted": 1138,
+      "coverage": {
+        "early": {
+          "cover2": 196,
+          "twoMan": 61,
+          "cover1": 207,
+          "cover3": 174,
+          "other": 44,
+          "cover0": 17,
+          "cover6": 57,
+          "cover4": 57
+        },
+        "thirdShort": {
+          "twoMan": 6,
+          "other": 2,
+          "cover1": 31,
+          "cover0": 14,
+          "cover3": 21,
+          "cover4": 2,
+          "cover2": 7
+        },
+        "thirdLong": {
+          "cover6": 6,
+          "cover2": 41,
+          "cover1": 37,
+          "twoMan": 11,
+          "cover3": 36,
+          "other": 8,
+          "cover4": 19,
+          "cover0": 7
+        },
+        "thirdMedium": {
+          "cover1": 24,
+          "cover3": 15,
+          "cover0": 11,
+          "cover2": 19,
+          "twoMan": 4,
+          "other": 3,
+          "cover6": 1
+        }
+      },
+      "pressure": {
+        "cover2": { "four": 227, "blitz": 27, "sim": 7 },
+        "cover1": { "four": 185, "sim": 19, "blitz": 91 },
+        "twoMan": { "four": 71, "blitz": 8 },
+        "cover6": { "four": 51, "blitz": 7, "sim": 4 },
+        "cover3": { "blitz": 87, "four": 135, "sim": 23 },
+        "cover0": { "zero": 49 },
+        "cover4": { "four": 69, "blitz": 5, "sim": 3 }
+      }
+    },
+    "WAS": {
+      "charted": 1282,
+      "coverage": {
+        "early": {
+          "cover3": 159,
+          "cover1": 304,
+          "cover2": 189,
+          "cover0": 24,
+          "other": 39,
+          "twoMan": 34,
+          "cover6": 38,
+          "cover4": 108
+        },
+        "thirdShort": {
+          "cover1": 45,
+          "twoMan": 5,
+          "cover0": 12,
+          "cover2": 19,
+          "cover3": 9,
+          "other": 1,
+          "cover6": 1
+        },
+        "thirdMedium": {
+          "cover1": 48,
+          "cover2": 19,
+          "twoMan": 5,
+          "cover0": 7,
+          "cover3": 6,
+          "cover4": 5,
+          "other": 4,
+          "cover6": 2
+        },
+        "thirdLong": {
+          "cover3": 41,
+          "cover2": 42,
+          "cover0": 5,
+          "cover1": 55,
+          "other": 3,
+          "twoMan": 18,
+          "cover4": 26,
+          "cover6": 9
+        }
+      },
+      "pressure": {
+        "cover3": { "blitz": 54, "four": 149, "sim": 7 },
+        "cover1": { "blitz": 233, "four": 197, "sim": 13 },
+        "cover2": { "four": 188, "blitz": 26, "sim": 40 },
+        "cover0": { "zero": 48 },
+        "twoMan": { "four": 49, "blitz": 4 },
+        "cover6": { "four": 42, "blitz": 6, "sim": 2 },
+        "cover4": { "four": 114, "blitz": 25 }
+      }
+    }
+  }
+}

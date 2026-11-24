@@ -37,7 +37,7 @@ function defenseFor(coverage: CoverageId, pressure: PressureId, formationId: For
 
 /** Every pressure each coverage can be played with, against every formation. */
 const cases = (Object.keys(COVERAGES) as CoverageId[]).flatMap((coverage) =>
-  (Object.keys(COVERAGES[coverage].pressures) as PressureId[]).flatMap((pressure) =>
+  COVERAGES[coverage].pressures.flatMap((pressure) =>
     FORMATION_IDS.map((formation) => ({ coverage, pressure, formation })),
   ),
 )

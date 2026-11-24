@@ -157,8 +157,11 @@ interface CoverageDef {
   family: 'man' | 'zone'
   /** How many safeties play deep after the snap. */
   shell: Shell
-  /** The pressures this coverage can be played with, weighted by how often. */
-  pressures: Partial<Record<PressureId, number>>
+  /**
+   * The pressures the Film Room can draw behind this coverage. How often each comes up is in
+   * data/tendencies.json.
+   */
+  pressures: PressureId[]
   /** The corners' technique, strong side then weak side. */
   corners: [CornerTechnique, CornerTechnique]
   /** How far off the ball a man defender lines up over an inside receiver, in yards. */
@@ -170,7 +173,7 @@ export const COVERAGES: Record<CoverageId, CoverageDef> = {
     name: 'Cover 0',
     family: 'man',
     shell: 0,
-    pressures: { zero: 1 },
+    pressures: ['zero'],
     corners: ['press', 'press'],
     manDepth: 2,
   },
@@ -178,7 +181,7 @@ export const COVERAGES: Record<CoverageId, CoverageDef> = {
     name: 'Cover 1',
     family: 'man',
     shell: 1,
-    pressures: { four: 0.65, blitz: 0.35 },
+    pressures: ['four', 'blitz'],
     corners: ['man', 'man'],
     manDepth: 3.5,
   },
@@ -186,21 +189,21 @@ export const COVERAGES: Record<CoverageId, CoverageDef> = {
     name: 'Cover 2',
     family: 'zone',
     shell: 2,
-    pressures: { four: 0.82, sim: 0.18 },
+    pressures: ['four', 'sim', 'blitz'],
     corners: ['squat', 'squat'],
   },
   tampa2: {
     name: 'Tampa 2',
     family: 'zone',
     shell: 2,
-    pressures: { four: 1 },
+    pressures: ['four'],
     corners: ['squat', 'squat'],
   },
   twoMan: {
     name: '2-Man',
     family: 'man',
     shell: 2,
-    pressures: { four: 1 },
+    pressures: ['four'],
     corners: ['press', 'press'],
     manDepth: 2,
   },
@@ -208,21 +211,21 @@ export const COVERAGES: Record<CoverageId, CoverageDef> = {
     name: 'Cover 3',
     family: 'zone',
     shell: 1,
-    pressures: { four: 0.7, sim: 0.15, blitz: 0.15 },
+    pressures: ['four', 'sim', 'blitz'],
     corners: ['off', 'off'],
   },
   cover4: {
     name: 'Cover 4 (Quarters)',
     family: 'zone',
     shell: 2,
-    pressures: { four: 0.82, sim: 0.18 },
+    pressures: ['four', 'sim', 'blitz'],
     corners: ['level', 'level'],
   },
   cover6: {
     name: 'Cover 6',
     family: 'zone',
     shell: 2,
-    pressures: { four: 0.82, sim: 0.18 },
+    pressures: ['four', 'sim', 'blitz'],
     corners: ['off', 'squat'],
   },
 }
@@ -232,8 +235,8 @@ export const COVERAGE_IDS = Object.keys(COVERAGES) as CoverageId[]
 export const PRESSURES: Record<PressureId, { name: string }> = {
   four: { name: 'Four-man rush' },
   sim: { name: 'Simulated pressure' },
-  blitz: { name: 'Five-man blitz' },
-  zero: { name: 'All-out blitz (6+)' },
+  blitz: { name: 'Blitz (5 or more)' },
+  zero: { name: 'All-out, nobody deep' },
 }
 
 export const PRESSURE_IDS = Object.keys(PRESSURES) as PressureId[]
@@ -251,6 +254,8 @@ export function callName(call: DefensiveCall): string {
   const coverage = COVERAGES[call.coverage].name
   if (call.pressure === 'four') return coverage
   if (isFireZone(call)) return `${coverage} fire zone`
+  if (call.pressure === 'zero') return `${coverage}, all-out blitz`
+  if (call.pressure === 'blitz') return `${coverage} blitz`
   return `${coverage}, ${PRESSURES[call.pressure].name.toLowerCase()}`
 }
 
@@ -533,6 +538,11 @@ export function buildDefense(call: DefensiveCall, formation: Formation, rng: Ran
       (id) => id !== first && id !== second,
     )
     zonesAcross(out, droppers, ['curlFlatL', 'hookM', 'curlFlatR'], homes)
+  }
+  if (call.pressure === 'blitz' && COVERAGES[call.coverage].shell === 2) {
+    // A five-man blitz behind two deep safeties: one underneath defender rushes, the others keep
+    // their zones, and nobody covers the zone he leaves.
+    out[rng.pick(under.filter(shortZone))] = { kind: 'rush' }
   }
 
   const players = [...LINEMEN, ...under, ...SECONDARY].map((id) => {
