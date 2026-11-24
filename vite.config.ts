@@ -39,4 +39,9 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  // The development server loads Agentation through a lazy import, which it would otherwise find
+  // only after the page loads, and then bundle against a second copy of React.
+  optimizeDeps: {
+    include: ['agentation'],
+  },
 })
